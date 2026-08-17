@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:local="clr-namespace:CS.ERP_MOB.Views.POS"
+             x:Class="CS.ERP_MOB.Views.POS.FrmPosSaleInvoiceSet"
+             Title="Sale Invoice Detail">
+
+    
+    
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="10">
+            <Label Text="Invoice Code" FontAttributes="Bold" />
+            <Label Text="{Binding InvoiceCode_0_50}" />
+
+            <Label Text="Invoice Date" FontAttributes="Bold" />
+            <Label Text="{Binding InvoiceDate}" />
+
+            <Label Text="Grand Total" FontAttributes="Bold" />
+            <Label Text="{Binding GrandTotal}" />
+
+            <!-- Add more fields as needed -->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

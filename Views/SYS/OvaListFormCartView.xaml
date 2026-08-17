@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CS.ERP_MOB.Views.SYS.OvaListFormCartView">
+  <ContentView.Content>
+        <StackLayout
+          VerticalOptions="FillAndExpand"
+          HorizontalOptions="FillAndExpand">
+            <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+                <!--content area-->
+                <StackLayout
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                    <Frame
+                            Padding="{StaticResource padding}"
+                            VerticalOptions="Start"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="150"
+                            WidthRequest="150">
+                        <StackLayout
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Orientation="Vertical">
+                            <Label
+                                x:Name="Code"
+                                 FontSize="Medium"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+                            <Label
+                                x:Name="Name"
+                                FontSize="Large"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+                            <Label
+                                x:Name="Description"
+                                FontSize="Small"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+                            <Label
+                                x:Name="Remark"
+                                FontSize="Small"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+
+                            <Label
+                                x:Name="Des"
+                                FontSize="Small"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+
+                            <Label
+                                x:Name="Desc"
+                                FontSize="Small"
+                                LineBreakMode="TailTruncation"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Start"/>
+
+
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

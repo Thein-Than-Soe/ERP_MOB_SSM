@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CS.ERP_MOB.Services.SYS"
+             x:Class="CS.ERP_MOB.Views.Frame.HomePage">
+  <ContentView.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Padding="{StaticResource padding}">
+                <!--Ad area-->
+                <StackLayout
+                    x:Name="LayoutAD"
+                    Orientation="Vertical"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand">
+                    <Frame
+                    CornerRadius="3"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Padding="0">
+                        <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                            <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                                <ContentView
+                                    x:Name="CvAd"
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <!--Promotion area-->
+                <StackLayout
+                    x:Name="LayoutPromotion"
+                    Orientation="Vertical"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    Padding="{StaticResource paddingTop}">
+                    <Frame
+                    CornerRadius="3"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Padding="0">
+                        <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                         Padding="{StaticResource paddingLeftRight}">
+                            <StackLayout Orientation="Horizontal">
+                                <Label 
+                                Text="Promotion" 
+                                HorizontalOptions="StartAndExpand"
+                                FontSize="{StaticResource HomeTitleFontSize}"/>
+                                <Label 
+                                Text="See more.."
+                                TextColor="{StaticResource OvaClickableColor}"
+                                HorizontalOptions="End"
+                                FontSize="{StaticResource HomeTitleFontSize}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TgrPromotionSeeMore_Tapped"  NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                            <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                                <ContentView 
+                            x:Name="CvPromotion" 
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <!--Seasonal area-->
+                <StackLayout
+                    x:Name="LayoutSeasonal"
+                    Orientation="Vertical"
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    Padding="{StaticResource paddingTop}">
+                    <Frame
+                    Padding="0"
+                    CornerRadius="3"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Padding="{StaticResource paddingLeftRight}">
+                            <StackLayout Orientation="Horizontal">
+                                <Label 
+                                Text="Seasonal" 
+                                HorizontalOptions="StartAndExpand"
+                                FontSize="{StaticResource HomeTitleFontSize}"/>
+                                <Label 
+                                Text="See more.." 
+                                TextColor="{StaticResource OvaClickableColor}"
+                                HorizontalOptions="End"
+                                FontSize="{StaticResource HomeTitleFontSize}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer  Tapped="TgrSeasonalSeeMore_Tapped"  NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                            <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                                <ContentView 
+                            x:Name="CvSeasonal" 
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <!--Stock area-->
+                <StackLayout 
+                    x:Name="LayoutStock"
+                    Orientation="Vertical" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="Start"
+                    Padding="{StaticResource paddingTop}">
+                    <Frame
+                    Padding="0"
+                    CornerRadius="3"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+                        <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                         Padding="{StaticResource paddingLeftRight}">
+                            <StackLayout Orientation="Horizontal">
+                                <Label 
+                            Text="Stock" 
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="{StaticResource HomeTitleFontSize}"/>
+                                <Label 
+                            Text="See more.."
+                            TextColor="{StaticResource OvaClickableColor}"
+                            HorizontalOptions="End"
+                            FontSize="{StaticResource HomeTitleFontSize}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TgrStcokSeeMore_Tapped"  NumberOfTapsRequired="1" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                            <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                                <ContentView 
+                            x:Name="CvStock" 
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        
+  </ContentView.Content>
+</ContentView>

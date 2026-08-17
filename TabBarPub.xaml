@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.TabBarPub"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CS.ERP_MOB"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions">
+    <ContentView.Content>
+        <Grid
+            Padding="0"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Tab Items  -->
+            <Grid
+                Grid.Row="0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:TabItem
+                    x:Name="home"
+                    Grid.Column="0"
+                    BadgeCount="0"
+                    Caption="{Binding Source={ext:LanguageExtension Key=frame.Banner.tooltip.Home}, Path=Value}"
+                    HorizontalOptions="FillAndExpand"
+                    IconSource="company_logo.png"
+                    Selected="{Binding HomeSelected}"
+                    TapCommand="{Binding HomeCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <!--<controls:TabItem
+                    x:Name="setting"
+                    Caption="Setting"
+                    IconSource="more.png"
+                    BadgeCount="0"
+                    Selected="{Binding Settingselected}"
+                    TapCommand="{Binding SettingCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Grid.Column="1" />-->
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

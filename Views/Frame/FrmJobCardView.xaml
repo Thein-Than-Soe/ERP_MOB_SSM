@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.Views.Frame.FrmJobCardView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    x:Name="Root">
+
+    <!--  IMPORTANT: Do NOT set BindingContext here  -->
+    <Frame
+        x:Name="frmCard"
+        Margin="6"
+        Padding="8"
+        BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+        CornerRadius="10"
+        WidthRequest="165">
+
+        <VerticalStackLayout Spacing="5">
+
+            <!--  Header  -->
+            <Grid BackgroundColor="{Binding ThemeSettingCardViewHeader.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                    LineBreakMode="TailTruncation"
+                    Text="{Binding Title, Source={x:Reference Root}}"
+                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                <Label
+                    Grid.Column="1"
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    FontSize="20"
+                    Text="&#xF02E;"
+                    TextColor="{Binding IsSaved, Source={x:Reference Root}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SaveCommand, Source={x:Reference Root}}" CommandParameter="{Binding .}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <!--  Body  -->
+            <StackLayout Padding="0,5,0,5" BackgroundColor="{Binding ThemeSettingCardViewBody.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
+                <Label
+                    LineBreakMode="TailTruncation"
+                    Text="{Binding BodyLabel1, Source={x:Reference Root}}"
+                    TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <Label
+                    LineBreakMode="TailTruncation"
+                    Text="{Binding BodyLabel2, Source={x:Reference Root}}"
+                    TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                <!--<HorizontalStackLayout Spacing="5">
+                     <Label
+                        FontSize="12"
+                        Text="{Binding CountryName_0_255}"
+                        TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </HorizontalStackLayout>-->
+                <Label
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    Text="{Binding BodyLabel3, Source={x:Reference Root}}"
+                    TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <!--  Dates  -->
+                <VerticalStackLayout Spacing="0">
+                    <HorizontalStackLayout Spacing="6">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            Text="&#xf251;"
+                            TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding BodyLabel4, Source={x:Reference Root}}"
+                            TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="6">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            Text="&#xf253;"
+                            TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding BodyLabel5, Source={x:Reference Root}}"
+                            TextColor="{Binding ThemeSettingCardViewBody.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </StackLayout>
+            <!--  Footer  -->
+            <StackLayout BackgroundColor="{Binding ThemeSettingCardViewFooter.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
+                <Label
+                    FontSize="12"
+                    HorizontalOptions="End"
+                    Text="{Binding Status, Source={x:Reference Root}}"
+                    TextColor="{Binding ThemeSettingCardViewFooter.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+            </StackLayout>
+        </VerticalStackLayout>
+    </Frame>
+</ContentView>

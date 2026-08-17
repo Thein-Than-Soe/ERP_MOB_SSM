@@ -1,0 +1,900 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.Views.Frame.FrmSignUp"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2021/maui/communitytoolkit"
+    Visual="Material">
+    <ContentView.Content>
+        <StackLayout
+            x:Name="stlSignUp"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                Padding="{StaticResource paddingLeftRight}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <!--  initial signup page  -->
+                <Frame
+                    x:Name="SignupLayout"
+                    Margin="10,10,10,60"
+                    Padding="20"
+                    CornerRadius="12"
+                    HasShadow="True"
+                    IsVisible="{Binding IsSignupPage}"
+                    VerticalOptions="Center">
+                    <ScrollView>
+                        <VerticalStackLayout Spacing="10">
+                            <!--  Title  -->
+                            <Label
+                                FontSize="Large"
+                                HorizontalOptions="Center"
+                                Text="Create Account" />
+                            <!--  Name  -->
+                            <Frame
+                                Padding="5"
+                                BorderColor="#E0E0E0"
+                                CornerRadius="8">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Grid.Column="0"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                Glyph="&#xf007;"
+                                                Size="10"
+                                                Color="{StaticResource OvaBackgroundColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Entry
+                                        x:Name="entName"
+                                        Grid.Column="1"
+                                        Focused="Input_Focused"
+                                        Placeholder="Full Name"
+                                        Unfocused="Input_Unfocused" />
+
+                                </Grid>
+
+                            </Frame>
+                            <!--  Email  -->
+                            <Frame
+                                Padding="5"
+                                BorderColor="#E0E0E0"
+                                CornerRadius="8">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Grid.Column="0"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                Glyph="&#xf0e0;"
+                                                Size="10"
+                                                Color="{StaticResource OvaBackgroundColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Entry
+                                        x:Name="entEmail"
+                                        Grid.Column="1"
+                                        Focused="Input_Focused"
+                                        Keyboard="Email"
+                                        Placeholder="Email Address"
+                                        Unfocused="Input_Unfocused" />
+                                </Grid>
+                            </Frame>
+                            <!--  Phone  -->
+                            <Frame
+                                Padding="5"
+                                BorderColor="#E0E0E0"
+                                CornerRadius="8">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                Glyph="&#xf095;"
+                                                Size="10"
+                                                Color="{StaticResource OvaBackgroundColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Picker
+                                        x:Name="pikCountry"
+                                        Title="Code"
+                                        Grid.Column="1"
+                                        ItemDisplayBinding="{Binding CountryMobileCode_0_50}"
+                                        ItemsSource="{Binding CountryList, Source={x:Static general:Common.mCommon}}" />
+                                    <Entry
+                                        x:Name="entPhone"
+                                        Grid.Column="2"
+                                        Focused="Input_Focused"
+                                        Keyboard="Numeric"
+                                        Placeholder="Phone Number"
+                                        Unfocused="Input_Unfocused" />
+                                </Grid>
+                            </Frame>
+                            <!--  Password  -->
+                            <Frame
+                                Padding="5"
+                                BorderColor="#E0E0E0"
+                                CornerRadius="8">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" WidthRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                Glyph="&#xf023;"
+                                                Size="10"
+                                                Color="{StaticResource OvaBackgroundColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Entry
+                                        x:Name="entPassword"
+                                        Grid.Column="1"
+                                        Focused="Input_Focused"
+                                        IsPassword="True"
+                                        Placeholder="Password"
+                                        Unfocused="Input_Unfocused" />
+                                </Grid>
+                            </Frame>
+                            <!--  Confirm Password  -->
+                            <Frame
+                                Padding="5"
+                                BorderColor="#E0E0E0"
+                                CornerRadius="8">
+
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" WidthRequest="20">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                Glyph="&#xf023;"
+                                                Size="10"
+                                                Color="{StaticResource OvaBackgroundColor}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Entry
+                                        x:Name="entConfirmPassword"
+                                        Grid.Column="1"
+                                        Focused="Input_Focused"
+                                        IsPassword="True"
+                                        Placeholder="Confirm Password"
+                                        Unfocused="Input_Unfocused" />
+
+                                </Grid>
+
+                            </Frame>
+                            <!--  Footer Buttons  -->
+                            <Grid Padding="5" ColumnSpacing="15">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    x:Name="btnCancel"
+                                    Grid.Column="0"
+                                    Padding="0"
+                                    BackgroundColor="#EEEEEE"
+                                    Clicked="btnCancel_onClicked"
+                                    Text="Cancel"
+                                    TextColor="Black">
+
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            Glyph="&#xf00d;"
+                                            Size="13"
+                                            Color="Black" />
+                                    </Button.ImageSource>
+
+                                </Button>
+
+                                <Button
+                                    x:Name="btnSignUp"
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    BackgroundColor="{StaticResource OvaBackgroundColor}"
+                                    Clicked="btnSignUp_onClicked"
+                                    Text="Sign Up"
+                                    TextColor="White">
+
+                                    <Button.ImageSource>
+                                        <FontImageSource
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            Glyph="&#xf234;"
+                                            Size="13"
+                                            Color="White" />
+                                    </Button.ImageSource>
+
+                                </Button>
+
+                            </Grid>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Frame>
+                <!--  email activation page  -->
+                <Frame
+                    x:Name="ActivatePage"
+                    Margin="20"
+                    Padding="25"
+                    CornerRadius="12"
+                    HasShadow="True"
+                    IsVisible="{Binding IsActivatePage}"
+                    VerticalOptions="Center">
+
+                    <VerticalStackLayout Spacing="25">
+
+                        <!--  Title  -->
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="100"
+                            HorizontalTextAlignment="Center"
+                            Text="&#xf2b6;"
+                            TextColor="{StaticResource OvaBackgroundColor}" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.EmailVerification}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Instruction  -->
+                        <Label
+                            x:Name="lblEmailOTPInstruction"
+                            FontSize="14"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.ActivationCode}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Email  -->
+                        <Label
+                            x:Name="lblEmailPrefix"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  OTP Boxes  -->
+                        <Grid ColumnSpacing="8" HorizontalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Entry
+                                x:Name="otp1"
+                                Grid.Column="0"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="otp2"
+                                Grid.Column="1"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="otp3"
+                                Grid.Column="2"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="otp4"
+                                Grid.Column="3"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="otp5"
+                                Grid.Column="4"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="otp6"
+                                Grid.Column="5"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+
+                        </Grid>
+                        <!--  Resend  -->
+                        <Button
+                            x:Name="btnEmailResend"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnResend_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Resend"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf2f1;"
+                                    Size="10" />
+                            </Button.ImageSource>
+
+                        </Button>
+
+                        <!--  Verify Button  -->
+                        <Button
+                            x:Name="btnActivate"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnEmailVerify_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Verify"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf058;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+
+                    </VerticalStackLayout>
+
+                </Frame>
+                <!--  phone activation page  -->
+                <Frame
+                    x:Name="PhoneActivatePage"
+                    Margin="20"
+                    Padding="25"
+                    CornerRadius="12"
+                    HasShadow="True"
+                    IsVisible="{Binding IsPhoneActivatePage}"
+                    VerticalOptions="Center">
+
+                    <VerticalStackLayout Spacing="25">
+
+                        <!--  Title  -->
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="100"
+                            HorizontalTextAlignment="Center"
+                            Text="&#xf095;"
+                            TextColor="{StaticResource OvaBackgroundColor}" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.PhoneVerification}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Instruction  -->
+                        <Label
+                            x:Name="lblPhoneOTPInstruction"
+                            FontSize="14"
+                            HorizontalTextAlignment="Center"
+                            Text=""
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Phone  -->
+                        <Label
+                            x:Name="lblPhonePrefix"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  OTP Boxes  -->
+                        <Grid ColumnSpacing="8" HorizontalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Entry
+                                x:Name="phoneOTP1"
+                                Grid.Column="0"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="phoneOTP2"
+                                Grid.Column="1"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="phoneOTP3"
+                                Grid.Column="2"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="phoneOTP4"
+                                Grid.Column="3"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="phoneOTP5"
+                                Grid.Column="4"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+                            <Entry
+                                x:Name="phoneOTP6"
+                                Grid.Column="5"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="1" />
+
+                        </Grid>
+
+                        <!--  Resend  -->
+                        <Button
+                            x:Name="btnPhoneResend"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnResend_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Resend"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf2f1;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+
+                        <!--  Verify Button  -->
+                        <Button
+                            x:Name="btnPhoneActivate"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnPhoneVerify_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Verify"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf058;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+
+                    </VerticalStackLayout>
+
+                </Frame>
+
+                <!--  ask user to use service or not  -->
+                <Frame
+                    x:Name="OtherServices"
+                    Margin="20"
+                    Padding="25"
+                    CornerRadius="12"
+                    HasShadow="True"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsOtherServicePage}"
+                    VerticalOptions="CenterAndExpand">
+
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
+
+                        <!--  Success Icon  -->
+                        <Image HeightRequest="60" WidthRequest="60">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf058;"
+                                    Size="60"
+                                    Color="Green" />
+                            </Image.Source>
+                        </Image>
+
+                        <!--  Title  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.RegistrationSuccessful}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Message  -->
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.RegistrationSuccess}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.OtherService}, Path=Value}"
+                            TextColor="{StaticResource OvaSignupTextColor}" />
+
+                        <!--  Buttons  -->
+                        <Grid Margin="0,10,0,0" ColumnSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                x:Name="btnUnSubscribeService"
+                                Grid.Column="0"
+                                BackgroundColor="#EEEEEE"
+                                Clicked="btnUnSubscribeService_onClicked"
+                                CornerRadius="8"
+                                HeightRequest="45"
+                                Text="No"
+                                TextColor="Black">
+
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        Glyph="&#xf00d;"
+                                        Size="10"
+                                        Color="Black" />
+                                </Button.ImageSource>
+
+                            </Button>
+
+                            <Button
+                                x:Name="btnSubscribeService"
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource OvaBackgroundColor}"
+                                Clicked="btnSubscribeService_onClicked"
+                                CornerRadius="8"
+                                HeightRequest="45"
+                                Text="Yes"
+                                TextColor="White">
+                                <Button.ImageSource>
+                                    <FontImageSource
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        Glyph="&#xf00c;"
+                                        Size="10"
+                                        Color="White" />
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+                <!--  choose service type page  -->
+                <Frame
+                    x:Name="ChooseServiceType"
+                    Padding="{StaticResource FramePaddingLeftRightTop}"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsChooseTypePage}"
+                    VerticalOptions="FillAndExpand">
+                    <StackLayout
+                        HorizontalOptions="FillAndExpand"
+                        Orientation="Vertical"
+                        VerticalOptions="FillAndExpand">
+                        <!--  title view  -->
+                        <StackLayout
+                            Padding="{StaticResource padding}"
+                            BackgroundColor="{StaticResource OvaSignupTitleColor}"
+                            HeightRequest="30"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal"
+                            VerticalOptions="Start">
+                            <Label HorizontalOptions="CenterAndExpand" Text="Choose service type!" />
+                        </StackLayout>
+                        <!--  content area  -->
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <ListView x:Name="lstSubscriberType" ItemSelected="lstSubscriberType_onItemSelected">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout
+                                                Padding="{StaticResource FramePaddingLeftRight}"
+                                                Orientation="Vertical"
+                                                VerticalOptions="CenterAndExpand">
+                                                <Label
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Text="{Binding SubscriberTypeName}"
+                                                    TextColor="Gray"
+                                                    VerticalOptions="Center" />
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TgrSubscriptionType_Tapped" />
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <!--  choose service plan  -->
+
+                <Frame
+                    x:Name="ChooseServicePlan"
+                    Padding="{StaticResource FramePaddingLeftRightTop}"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsChoosePlanPage}"
+                    VerticalOptions="FillAndExpand">
+                    <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <StackLayout
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Vertical"
+                            VerticalOptions="FillAndExpand">
+
+                            <!--  title view  -->
+
+                            <StackLayout
+                                Padding="{StaticResource padding}"
+                                BackgroundColor="{StaticResource OvaSignupTitleColor}"
+                                HeightRequest="30"
+                                HorizontalOptions="Fill"
+                                Orientation="Horizontal"
+                                VerticalOptions="Start">
+                                <Label HorizontalOptions="CenterAndExpand" Text="{Binding Source={ext:LanguageExtension Key=frame.Register.lbl.ChooseServicePlan}, Path=Value}" />
+                            </StackLayout>
+
+                            <!--  content area  -->
+                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <ListView
+                                    x:Name="lstSubscriptionPlan"
+                                    HasUnevenRows="True"
+                                    ItemSelected="lstSubscriptionPlan_onItemSelected">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Frame
+                                                    Margin="3,5,5,3"
+                                                    Padding="10"
+                                                    BackgroundColor="White"
+                                                    CornerRadius="16"
+                                                    HasShadow="True"
+                                                    VerticalOptions="FillAndExpand">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout
+                                                            Grid.Row="0"
+                                                            Grid.Column="0"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            VerticalOptions="FillAndExpand">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Label
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    FontAttributes="Bold"
+                                                                    FontSize="14"
+                                                                    LineBreakMode="TailTruncation"
+                                                                    Text="{Binding SubscriberPlanName_0_255}"
+                                                                    VerticalOptions="Center" />
+                                                                <Label
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    HorizontalTextAlignment="End"
+                                                                    Text="" />
+                                                                <Label
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    FontSize="12"
+                                                                    Text="{Binding DurationName_0_255}" />
+                                                                <Label
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    FontSize="12"
+                                                                    HorizontalTextAlignment="End"
+                                                                    Text="{Binding PriceName_0_255}"
+                                                                    TextColor="Green" />
+                                                            </Grid>
+                                                        </StackLayout>
+                                                        <VerticalStackLayout
+                                                            Grid.Row="1"
+                                                            Grid.Column="0"
+                                                            BindableLayout.ItemsSource="{Binding RES_SUB_PLAN_DETAIL}">
+                                                            <BindableLayout.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Label Text="{Binding Detail}" />
+                                                                </DataTemplate>
+                                                            </BindableLayout.ItemTemplate>
+                                                        </VerticalStackLayout>
+                                                    </Grid>
+                                                </Frame>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </StackLayout>
+                    </ScrollView>
+                </Frame>
+            </StackLayout>
+
+            <!--  Footer area  -->
+            <StackLayout
+                x:Name="FooterLayout"
+                Padding="{StaticResource paddingLeftRightBottom}"
+                Orientation="Horizontal"
+                VerticalOptions="End">
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Vertical"
+                    VerticalOptions="FillAndExpand">
+
+                    <!--  initial signup page  -->
+                    <!--<StackLayout IsVisible="{Binding IsSignupPage}" Orientation="Horizontal">
+                        <Button
+                            x:Name="btnCancel"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnCancel_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Cancel"
+                            TextTransform="None" />
+                        <Button
+                            x:Name="btnSignUp"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnSignUp_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Sign up"
+                            TextTransform="None" />
+                    </StackLayout>-->
+
+                    <!--  phone activation page  -->
+                    <!--<StackLayout IsVisible="{Binding IsPhoneActivatePage}" Orientation="Horizontal">
+                        <Button
+                            x:Name="btnPhoneResend"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnResend_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Resend"
+                            TextTransform="None" />
+                        <Button
+                            x:Name="btnPhoneActivate"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnPhoneVerify_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Verify"
+                            TextTransform="None" />
+                    </StackLayout>-->
+
+                    <!--  ask user to use service or not  -->
+                    <!--<StackLayout IsVisible="{Binding IsOtherServicePage}" Orientation="Horizontal">
+                        <Button
+                            x:Name="btnUnSubscribeService"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnUnSubscribeService_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="No"
+                            TextTransform="None" />
+                        <Button
+                            x:Name="btnSubscribeService"
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnSubscribeService_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Yes"
+                            TextTransform="None" />
+                    </StackLayout>-->
+
+                    <!--  choose service type page  -->
+                    <StackLayout IsVisible="{Binding IsChooseTypePage}" Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnCancelSubscribeType_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Cancel"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf00d;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+                        <Button
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnNextSubscribeType_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Next"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf061;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+                    </StackLayout>
+
+                    <!--  choose service plan  -->
+                    <StackLayout IsVisible="{Binding IsChoosePlanPage}" Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnCancel_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Cancel"
+                            TextTransform="None">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf00d;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+                        <Button
+                            BackgroundColor="{StaticResource OvaBackgroundColor}"
+                            Clicked="btnNextSubscriptionPlan_onClicked"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Next"
+                            TextTransform="None">
+
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    Glyph="&#xf061;"
+                                    Size="10"
+                                    Color="White" />
+                            </Button.ImageSource>
+
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

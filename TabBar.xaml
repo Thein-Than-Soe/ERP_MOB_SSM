@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.TabBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CS.ERP_MOB"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General">
+    <ContentView.Content>
+        <Grid
+            Padding="0"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Tab Items  -->
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<controls:TabItem
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    x:Name="home"
+                    Caption="{Binding Source={ext:LanguageExtension Key=SYS.Common.loading}, Path=Value}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    IconSource="company_logo.png"
+                    BadgeCount="0"
+                    Selected="{Binding HomeSelected}"
+                    TapCommand="{Binding HomeCommand}" />-->
+                <!--<controls:TabItem
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="product"
+                    Caption="{Binding SelectedProduct.ProductCode_0_50,
+                    Source={x:Static general:Common.mCommon}}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    IconSource="{Binding SelectedProduct.logoImg, Source={x:Static general:Common.mCommon}}"
+                    TapCommand="{Binding ProductCommand}"
+                    Selected="{Binding ProductSelected}"
+                    BadgeCount="0"/>-->
+
+
+
+                <controls:TabItem
+                    x:Name="Job"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    BadgeCount="0"
+                    Caption="Evershine"
+                    FontAwesomeIcon="&#xf51a;"
+                    HorizontalOptions="FillAndExpand"
+                    IsFontAwesome="True"
+                    Selected="{Binding EvershineSelected}"
+                    TapCommand="{Binding EvershineCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <controls:TabItem
+                    x:Name="Schedule"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Caption="Schedule"
+                    FontAwesomeIcon="&#xf073;"
+                    HorizontalOptions="FillAndExpand"
+                    IsFontAwesome="True"
+                    Selected="{Binding ScheduleSelected}"
+                    TapCommand="{Binding ScheduleCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <controls:TabItem
+                    x:Name="Book"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Caption="Book"
+                    FontAwesomeIcon="&#xf274;"
+                    HorizontalOptions="FillAndExpand"
+                    IsFontAwesome="True"
+                    Selected="{Binding BookSelected}"
+                    TapCommand="{Binding BookCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <controls:TabItem
+                    x:Name="Noti"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    BadgeCount="{Binding NotiList.Count, Source={x:Static general:Common.mCommon}}"
+                    Caption="Noti"
+                    FontAwesomeIcon="&#xf0f3;"
+                    HorizontalOptions="FillAndExpand"
+                    IsFontAwesome="True"
+                    Selected="{Binding NotiSelected}"
+                    TapCommand="{Binding NotiCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <controls:TabItem
+                    x:Name="Message"
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    BadgeCount="{Binding DiscussionList.Count, Source={x:Static general:Common.mCommon}}"
+                    Caption="Messages"
+                    FontAwesomeIcon="&#xf0e0;"
+                    HorizontalOptions="FillAndExpand"
+                    IsFontAwesome="True"
+                    Selected="{Binding DiscussionSelected}"
+                    TapCommand="{Binding DiscussionCommand}"
+                    VerticalOptions="FillAndExpand" />
+
+                <!--<controls:TabItem
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    x:Name="setting"
+                    Caption="Setting"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    IconSource="more"
+                    TapCommand="{Binding SettingCommand}"
+                    Selected="{Binding Settingselected}"
+                    BadgeCount="0"/>-->
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

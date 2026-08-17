@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2021/maui/communitytoolkit"
+             x:Class="CS.ERP_MOB.TabItem">
+    <ContentView.Content>
+        <StackLayout
+            x:Name="Home"
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="Handle_Tapped"
+                    NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+
+            <StackLayout
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand">
+                <!-- Icon with Badge -->
+                <StackLayout
+                 Orientation="Horizontal"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand"
+                 Spacing="0">
+
+                    <Frame 
+                    x:Name="IconFrame"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Padding="0"
+                    BackgroundColor="transparent"
+                    BorderColor="#CCCCCC" 
+                    CornerRadius="5" 
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                        <Image 
+                        x:Name="IconImage"
+                        Source="iconvehicles"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                Tapped="Handle_Tapped"
+                                NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+
+
+                    <Label
+                     x:Name="FontAwesomeIconLabel"
+                     Text=""
+                     FontFamily="{StaticResource FontAwesomeSolid}"
+                     FontSize="20"
+                     TextColor="{StaticResource ToolbarItemTextColor}"
+                     VerticalOptions="Center" />
+
+                    <Frame
+                     x:Name="BadgeFrame"
+                     IsVisible="False"
+                     BackgroundColor="Red"
+                     Padding="0"
+                     CornerRadius="10"
+                     HeightRequest="15"
+                     WidthRequest="15"
+                     HorizontalOptions="End"
+                     VerticalOptions="Start"
+                     Margin="-5, -5, 0, 0">
+                        <Label
+                         x:Name="BadgeCountName"
+                         Text="0"
+                         FontSize="10"
+                         TextColor="White"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" />
+                    </Frame>
+                </StackLayout>
+                <Label
+                 x:Name="CaptionLabel"
+                 Text="Home"
+                 HorizontalTextAlignment="Center"
+                 LineBreakMode="TailTruncation"
+                 FontSize="Micro"
+                 TextColor="{StaticResource ToolbarItemTextColor}"
+                 VerticalOptions="End" />
+            </StackLayout>
+
+
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
