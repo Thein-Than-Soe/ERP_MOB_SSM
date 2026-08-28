@@ -1,14 +1,14 @@
 ﻿using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.Data;
 using CS.ERP_MOB.General;
-using CS.ERP_MOB.Services.SYS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Maui.Controls;
+using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP_MOB.Views.POS;
+using CS.ERP_MOB.Views.Frame;
+using CS.ERP.PL.POS.DAT;
+using CommunityToolkit.Maui.Views;
+using System.Windows.Input;
 
 
 namespace CS.ERP_MOB.Views.SYS
@@ -22,15 +22,22 @@ namespace CS.ERP_MOB.Views.SYS
         }
 
         public OvaListFormCartView(
+            bool isChecked,
+            string header,
             string itemAsk,
             string codeLabel,
             string nameLabel,
             string descriptionLabel,
             string desLabel,
             string descLabel,
-            string remarkLabel)
+            string body4Label,
+            string remarkLabel,
+            string footerLabel)
         {
             InitializeComponent();
+            //LongPressCommand = new Command(OnLongPressed);
+            chkSelectItem.IsChecked = isChecked;
+            Header.Text = header;
             ItemAsk = itemAsk;
             Code.Text =codeLabel;
             Name.Text =nameLabel;
@@ -38,7 +45,76 @@ namespace CS.ERP_MOB.Views.SYS
             Remark.Text =remarkLabel;
             Des.Text =desLabel;
             Desc.Text =descLabel;
+            Footer.Text =footerLabel;
         }
+
+        #region chkSelectItem
+        public static readonly BindableProperty IsCheckedProperty = BindableProperty.Create(propertyName: nameof(IsChecked),
+                                                                        returnType: typeof(bool),
+                                                                        declaringType: typeof(OvaListFormCartView),
+                                                                        defaultValue: false,
+                                                                        defaultBindingMode: BindingMode.TwoWay,
+                                                                        propertyChanged: IsCheckedChanged);
+
+        public bool IsChecked
+        {
+            get => (bool)GetValue(IsCheckedProperty);
+            set => SetValue(IsCheckedProperty, value);
+        }
+        private static void IsCheckedChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            OvaListFormCartView ThisControl = (OvaListFormCartView)bindable;
+            bool NewValue = (bool)newValue;
+            ThisControl.chkSelectItem.IsChecked = NewValue;
+        }
+        #endregion chkSelectItem
+
+
+        #region HeaderLabel
+        public static readonly BindableProperty HeaderLabelProperty =
+            BindableProperty.Create(propertyName: nameof(HeaderLabel),
+                                    returnType: typeof(string),
+                                    declaringType: typeof(OvaListFormCartView),
+                                    defaultValue: "",
+                                    defaultBindingMode: BindingMode.OneWay,
+                                    propertyChanged: HeaderLabelChanged);
+
+        public string HeaderLabel
+        {
+            get; set;
+        }
+
+        private static void HeaderLabelChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            OvaListFormCartView ThisControl = (OvaListFormCartView)bindable;
+            string NewValue = (string)newValue;
+            ThisControl.Header.Text = NewValue;
+        }
+
+        #endregion HeaderLabel
+
+        #region FooterLabel
+        public static readonly BindableProperty FooterLabelProperty =
+            BindableProperty.Create(propertyName: nameof(FooterLabel),
+                                    returnType: typeof(string),
+                                    declaringType: typeof(OvaListFormCartView),
+                                    defaultValue: "",
+                                    defaultBindingMode: BindingMode.OneWay,
+                                    propertyChanged: FooterLabelChanged);
+
+        public string FooterLabel
+        {
+            get; set;
+        }
+
+        private static void FooterLabelChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            OvaListFormCartView ThisControl = (OvaListFormCartView)bindable;
+            string NewValue = (string)newValue;
+            ThisControl.Footer.Text = NewValue;
+        }
+
+        #endregion FooterLabel
 
         #region ItemAsk
         public static readonly BindableProperty ItemAskProperty =
@@ -204,38 +280,57 @@ namespace CS.ERP_MOB.Views.SYS
         }
 
         #endregion DescLabel
-
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private void chkSelectItem_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            if (!Common.bindMenu("signin"))
+            if (BindingContext is RES_SALE_INVOICE item)
             {
-                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "FrmAdmin", MenuUrl = "FrmAdmin", logoImg = "" };
-                MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                item.IsChecked = e.Value ? "1" : "0";
             }
-            Common.routeMenu(Common.mCommon.SelectedMenu);
-
-
-            //if (Common.bindMenu("signin"))
-            //{
-            //    Common.routeMenu(Route.Sys_Route.DicRouteList, Common.mCommon.SelectedMenu);
-            //}
-            //else
-            //{
-            //    //remove it after add in menu access for sign in and sign up
-            //    Common.mCommon.SelectedMenu = new RES_MENU();
-            //    Common.mCommon.SelectedMenu.MenuUrl = "signin";
-            //    Common.mCommon.SelectedMenu.Text ="Sign In";
-            //    Common.mCommon.SelectedMenu.logoImg = "";
-            //    //Common.routeMenu("signin", "Sign In");
-            //    Common.routeMenu(Route.Sys_Route.DicRouteList, Common.mCommon.SelectedMenu);
-            //}
-
-            //bool isMenuExit = IntercomService.BindMenuUrl("profile");
-            //if (isMenuExit)
-            //{
-            //    IntercomService.RouteMenu("profile", "Access Entry", ItemAsk);
-            //}
         }
+
+        public event EventHandler<object> ItemDoubleTapped;
+        public event EventHandler<object> ItemSingleTapped;
+        private void OnDoubleTap(object sender, TappedEventArgs e)
+        {
+            chkSelectItem.IsChecked = true;
+            ItemDoubleTapped?.Invoke(this, BindingContext);
+        }
+        private void OnSingleTap(object sender, TappedEventArgs e)
+        {
+            ItemSingleTapped?.Invoke(this, BindingContext);
+        }
+
+        private void OnLongPress(object sender, EventArgs e)
+        {
+            chkSelectItem.IsChecked = true;
+            ItemDoubleTapped?.Invoke(this, BindingContext);
+        }
+        public Command OnLongPressCommand => new Command(async () =>
+        {
+            var popup = new OptionsPopup();
+            await App.Current.MainPage.ShowPopupAsync(popup);
+        });
+
+        public static readonly BindableProperty LongPressCommandProperty =
+            BindableProperty.Create(
+                nameof(LongPressCommand),
+                typeof(ICommand),
+                typeof(OvaListFormCartView),
+                null);
+
+        public ICommand LongPressCommand
+        {
+            get => (ICommand)GetValue(LongPressCommandProperty);
+            set => SetValue(LongPressCommandProperty, value);
+        }
+
+        private void OnLongPressed()
+        {
+            // 🔥 Your logic here — for example:
+            Console.WriteLine("Long press detected!");
+            // or call a method like:
+            // HandleLongPress();
+        }
+
     }
 }

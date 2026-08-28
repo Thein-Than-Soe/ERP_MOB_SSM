@@ -1,17 +1,19 @@
-﻿using CS.ERP.PL.POS.DAT;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
-
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Services.POS;
 using CS.ERP_MOB.ViewsModel.Frame;
+using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
+using RGPopup.Maui.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 using static CS.ERP_MOB.General.Utility;
 
 namespace CS.ERP_MOB.ViewsModel.SYS
@@ -21,7 +23,15 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         #region "Declaring"
         public JSN_REQ_SALE_LOAD mJSN_REQ_SALE_LOAD = new JSN_REQ_SALE_LOAD();
         public JSN_LOAD_SALE_BROWSE mJSN_LOAD_SALE_BROWSE = new JSN_LOAD_SALE_BROWSE();
-        public JSN_LOAD_SALE_ORDER mJSN_LOAD_SALE_ORDER = new JSN_LOAD_SALE_ORDER();
+
+        public ObservableCollection<SortingItem> sortingList { get; set; }
+        SortingItem[] labelTexts = [
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Code"), value = "Code_0_50", ShowIcon = true },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Date"), value = "OrderDate", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("WMS.PickList.lbl.SalesPerson"), value = "SalePersonName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Total"), value = "GrandTotal", ShowIcon = false}
+            ];
         string mRequest = "";
         string mResponse = "";
         #endregion
@@ -31,9 +41,12 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             this.switchDisplayView(DisplayView.Card);
             OrderLoad = new JSN_LOAD_SALE_ORDER();
-            MyOrderClosedList = new List<RES_SALE_BROWSE>();
-            MyOrderActiveList = new List<RES_SALE_BROWSE>();
-            MyOrderPartialList = new List<RES_SALE_BROWSE>();
+            SaleOrderLst = new List<RES_SALE_BROWSE>();
+
+            LoadMoreCommand = new Command(async () => await LoadMoreItems());
+            sortingList = new ObservableCollection<SortingItem>(labelTexts);
+            IsAscending = true;
+            IsDescending = false;
         }
         #endregion
 
@@ -93,6 +106,43 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 NotifyPropertyChanged("IsRefreshing");
             }
         }
+        private bool mIsAscending;
+        public bool IsAscending
+        {
+            get
+            {
+                return mIsAscending;
+            }
+            set
+            {
+                mIsAscending = value;
+                NotifyPropertyChanged("IsAscending");
+            }
+        }
+        private bool mIsDescending;
+        public bool IsDescending
+        {
+            get
+            {
+                return mIsDescending;
+            }
+            set
+            {
+                mIsDescending = value;
+                NotifyPropertyChanged("IsDescending");
+            }
+        }
+
+        private bool isLoadingMore = false;
+        public bool IsLoadingMore
+        {
+            get => isLoadingMore;
+            set
+            {
+                isLoadingMore = value;
+                NotifyPropertyChanged(nameof(IsLoadingMore));
+            }
+        }
         #endregion
 
         #region "Data Tab"
@@ -119,32 +169,36 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             set { rES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
         }
 
-        public RES_STATUS RES_STATUS
+        public List<RES_SALE_BROWSE> mSaleOrderLst;
+        public List<RES_SALE_BROWSE> SaleOrderLst
         {
-            get { return mRES_STATUS; }
-            set { mRES_STATUS = value; NotifyPropertyChanged("RES_STATUS"); }
+            get { return mSaleOrderLst; }
+            set { mSaleOrderLst = value; NotifyPropertyChanged("SaleOrderLst"); }
         }
 
-        public List<RES_SALE_BROWSE> mMyOrderClosedList;
-        public List<RES_SALE_BROWSE> MyOrderClosedList
+        public List<RES_SALE_BROWSE_DETAIL> mSaleOrderDetailLst;
+        public List<RES_SALE_BROWSE_DETAIL> SaleOrderDetailLst
         {
-            get { return mMyOrderClosedList; }
-            set { mMyOrderClosedList = value; NotifyPropertyChanged("MyOrderClosedList"); }
+            get { return mSaleOrderDetailLst; }
+            set { mSaleOrderDetailLst = value; NotifyPropertyChanged("SaleOrderDetailLst"); }
         }
 
-        public List<RES_SALE_BROWSE> mMyOrderActiveList;
-        public List<RES_SALE_BROWSE> MyOrderActiveList
-        {
-            get { return mMyOrderActiveList; }
-            set { mMyOrderActiveList = value; NotifyPropertyChanged("MyOrderActiveList"); }
-        }
 
-        public List<RES_SALE_BROWSE> mMyOrderPartialList;
-        public List<RES_SALE_BROWSE> MyOrderPartialList
+        #endregion
+
+        #region "Task"
+        private async Task LoadMoreItems()
         {
-            get { return mMyOrderPartialList; }
-            set { mMyOrderPartialList = value; NotifyPropertyChanged("MyOrderPartialList"); }
+            if (IsLoadingMore) return;
+            IsLoadingMore = true;
+            loadSaleTransHis();
+            IsLoadingMore = false;
         }
+        //private Task ExecuteActiveItem()
+        //{
+        //    saveMyOrder();
+        //    return Task.CompletedTask;
+        //}
 
         #endregion
 
@@ -195,11 +249,120 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             {
                 if (mRefreshCommand == null)
                 {
-                    mRefreshCommand = new Command(() => this.getMyOrder());
+                    mRefreshCommand = new Command(() => this.loadSaleTransHis());
                 }
                 return mRefreshCommand;
             }
         }
+
+        private ICommand mEditItemCommand;
+        public ICommand EditItemCommand
+        {
+            get
+            {
+                if (mEditItemCommand == null)
+                {
+                    mEditItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Edit"))
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                                //route to detail page
+                            }
+                        }
+                    });
+                    //mEditItemCommand = new Command(() => this.switchDisplayView(DisplayView.Grid));
+                    //mRefreshCommand = new Command(() => this.getInvoice());
+                }
+                return mEditItemCommand;
+            }
+        }
+        private ICommand mSelectItemCommand;
+        public ICommand SelectItemCommand
+        {
+            get
+            {
+                if (mSelectItemCommand == null)
+                {
+                    //mRefreshCommand = new Command(() => this.getInvoice());
+                }
+                return mSelectItemCommand;
+            }
+        }
+        private ICommand mSendItemCommand;
+        public ICommand SendItemCommand
+        {
+            get
+            {
+                if (mSendItemCommand == null)
+                {
+                    mSendItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Send"))
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                                $"{item.InvoiceCode_0_50}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                            }
+                        }
+                    });
+                }
+                return mSendItemCommand;
+            }
+        }
+       
+        public ICommand LongPressItemCommand { get; }
+
+        private ICommand mCardItemTappedCommand;
+        public ICommand CardItemTappedCommand
+        {
+            get
+            {
+                if (mCardItemTappedCommand == null)
+                {
+                    mCardItemTappedCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}?",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Active")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                        if (answer)
+                        {
+                            //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
+
+                        }
+                    });
+                }
+                return mCardItemTappedCommand;
+            }
+        }
+        private ICommand mMoreSearchCommand;
+        public ICommand MoreSearchCommand
+        {
+            get
+            {
+                if (mMoreSearchCommand == null)
+                {
+                    mMoreSearchCommand = new Command(() => this.selectMoreSearch());
+                }
+                return mMoreSearchCommand;
+            }
+        }
+        public ICommand LoadMoreCommand { get; }
         #endregion
 
         #region "Method"
@@ -220,43 +383,52 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_ACTIVE = new List<RES_SALE_BROWSE>();
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_PARTIAL = new List<RES_SALE_BROWSE>();
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_CLOSED = new List<RES_SALE_BROWSE>();
-
                 if (argRES_SALE_BROWSE_LST != null && argRES_SALE_BROWSE_LST.Count > 0)
                 {
-
-                    foreach (RES_SALE_BROWSE l_RES_SALE_BROWSE in argRES_SALE_BROWSE_LST)
-                    {                      
-
-                        l_RES_SALE_BROWSE.Date = Utility.getDateTimeString(l_RES_SALE_BROWSE.Date);
-
-                        if (l_RES_SALE_BROWSE.StatusAsk.Equals("1"))
-                        {
-                            l_RES_SALE_BROWSE_ACTIVE.Add(l_RES_SALE_BROWSE);
-                        }
-                        else if (l_RES_SALE_BROWSE.StatusAsk.Equals("2"))
-                        {
-                            l_RES_SALE_BROWSE_PARTIAL.Add(l_RES_SALE_BROWSE);
-                        }
-                        else if (l_RES_SALE_BROWSE.StatusAsk.Equals("3"))
-                        {
-                            l_RES_SALE_BROWSE_CLOSED.Add(l_RES_SALE_BROWSE);
-                        }
-                    }
-
-                    RES_SALE_BROWSE = argRES_SALE_BROWSE_LST[0];
-                    MyOrderClosedList = l_RES_SALE_BROWSE_CLOSED;
-                    MyOrderActiveList = l_RES_SALE_BROWSE_ACTIVE;
-                    MyOrderPartialList = l_RES_SALE_BROWSE_PARTIAL;
+                    SaleOrderLst = argRES_SALE_BROWSE_LST;
                 }
-                else
-                {
-                    MyOrderClosedList = new List<RES_SALE_BROWSE>();
-                    MyOrderActiveList = new List<RES_SALE_BROWSE>();
-                    MyOrderPartialList = new List<RES_SALE_BROWSE>();
-                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+        public void searchDataApi(string argKeyword)
+        {
+            try
+            {
+                //mJSN_REQ_SALE_LOAD.RES = new RES_SALE_ORDER();
+                //mJSN_REQ_SALE_LOAD.RES_SALE_ORDER.Remark = argKeyword;
+                loadSaleTransHis();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+        }
+        private async void callSearchMorePopup()
+        {
+            try
+            {
+                //var popup = new FrmWishlistPop(this.SalesInvoiceLoad);
+                //await PopupNavigation.Instance.PushAsync(popup);
+
+                //var result = await popup.PopupClosedTask;
+                //if (result is RES_SALE_ORDER selectedData)
+                //{
+                //    mJSN_REQ_SALE_LOAD.RES_SALE_ORDER = selectedData;
+                //    if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+                //    {
+                //        SaleOrderLst = new ObservableCollection<RES_SALE_ORDER>(mRES_SALE_ORDER_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+                //                                                               || (data.OrderCode_0_50 == selectedData.OrderCode_0_50)).ToList());
+                //    }
+                //    else
+                //    {
+                //        getMyOrder();
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -274,9 +446,9 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                     {
                         argKeyword = argKeyword.ToLower();
                         if (l_RES_SALE_BROWSE.Code_0_50.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BROWSE.CustomerName_0_255.ToLower().Contains(argKeyword)
-                              || l_RES_SALE_BROWSE.GrandTotal.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BROWSE.Date.ToLower().Contains(argKeyword))
+                            || l_RES_SALE_BROWSE.SD.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_BROWSE.ED.ToLower().Contains(argKeyword)
+                            )
                         {
                             l_RES_SALE_BROWSE_lst.Add(l_RES_SALE_BROWSE);
                         }
@@ -293,13 +465,30 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
-        #endregion
-
-        #region "Web Service Api"
-        public async void getMyOrder()
+        private void selectMoreSearch()
         {
             try
             {
+                loadSaleTransHis();
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+        #endregion
+
+        #region "Web Service Api"
+        public async void loadSaleTransHis()
+        {
+            try
+            {
+                mJSN_REQ_SALE_LOAD.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.TranTypeAsk = "3";
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.SD = Utility.getTLFormLoadSD();
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.ED = Utility.getTLFormLoadED();
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
                 mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSaleTransHis);
                 if (mResponse != null || mResponse != "")
@@ -309,7 +498,8 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                     {
                         if (this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE.Count > 0)
                         {
-                            bindDataTab(this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE);
+                            SaleOrderLst = this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE;
+                            SaleOrderDetailLst = this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE_DETAIL;
                             MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
                         }
                         else
@@ -332,86 +522,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
-
-        public async void saveMyOrder()
-        {
-            try
-            {
-                mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleBillJun);
-                if (mResponse != null || mResponse != "")
-                {
-                    this.mJSN_LOAD_SALE_BROWSE = JsonConvert.DeserializeObject<JSN_LOAD_SALE_BROWSE>(mResponse);
-                    if (mJSN_LOAD_SALE_BROWSE.Message.Code == "7")
-                    {
-                        if (this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE.Count > 0)
-                        {
-                            RES_PARENT_TYPE = this.mJSN_LOAD_SALE_BROWSE.RES_PARENT_TYPE[0];
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.SaveSuccess);
-                            //route parent list form after save
-                            Common.routeMenu(Common.mCommon.SelectedMenu);
-                        }
-                        else
-                        {
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.NoData);
-                        }
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_LOAD_SALE_BROWSE.Message.Message);
-                    }
-                }
-                else
-                {
-                    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.WebServiceErr);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
-        public async void loadMyOrder()
-        {
-            try
-            {
-                mRequest = JsonConvert.SerializeObject(Common.mCommon.REQ_AUTHORIZATION);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsLoadSaleOrder);
-                if (mResponse != null || mResponse != "")
-                {
-                    this.mJSN_LOAD_SALE_ORDER = JsonConvert.DeserializeObject<JSN_LOAD_SALE_ORDER>(mResponse);
-                    if (mJSN_LOAD_SALE_ORDER.Message.Code == "7")
-                    {
-                        this.OrderLoad = mJSN_LOAD_SALE_ORDER;
-
-                        //if (this.mJSN_LOAD_APPLICANT.RES_SUPPLIER.Count > 0)
-                        //{
-                        //   this.JSN_LOAD_SUPPLIER= bindDataTab(this.mJSN_SUPPLIERNCONTACT.RES_SUPPLIER);
-                        //    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
-                        //}
-                        //else
-                        //{
-                        //    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.NoData);
-                        //}
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_LOAD_SALE_ORDER.Message.Message);
-                    }
-                }
-                else
-                {
-                    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.WebServiceErr);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
-
+        
         #endregion
 
 

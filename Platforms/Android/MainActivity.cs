@@ -4,8 +4,17 @@ using Android.OS;
 
 namespace CS.ERP_MOB
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
-
+    [Activity(
+        Theme = "@style/Maui.SplashTheme",
+        MainLauncher = true,
+        LaunchMode = LaunchMode.SingleTop,
+        ConfigurationChanges = ConfigChanges.ScreenSize |
+                               ConfigChanges.Orientation |
+                               ConfigChanges.UiMode |
+                               ConfigChanges.ScreenLayout |
+                               ConfigChanges.SmallestScreenSize |
+                               ConfigChanges.Density
+    )]
     // 🔥 Add this IntentFilter block
     [IntentFilter(
         new[] { Android.Content.Intent.ActionView },
@@ -14,7 +23,7 @@ namespace CS.ERP_MOB
             Android.Content.Intent.CategoryBrowsable
         },
         DataScheme = "ova",
-        DataHost = "job"
+        DataHost = "ssm"
     )]
     public class MainActivity : MauiAppCompatActivity
     {

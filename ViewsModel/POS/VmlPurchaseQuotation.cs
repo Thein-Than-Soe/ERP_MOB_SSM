@@ -267,8 +267,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_QUOTATION l_RES_PURCHASE_QUOTATION in mJSN_PURCHASE_QUOTATION_JUN.RES_PURCHASE_QUOTATION)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_QUOTATION.SupplierName.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_QUOTATION.QuotationCode.ToLower().Contains(argKeyword)
+                        if (l_RES_PURCHASE_QUOTATION.SupplierName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_QUOTATION.QuotationCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_PURCHASE_QUOTATION.QuotationDate.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_QUOTATION_lst.Add(l_RES_PURCHASE_QUOTATION);

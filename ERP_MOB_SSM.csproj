@@ -22,7 +22,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>ERP_MOB_SSM</ApplicationTitle>
+		<ApplicationTitle>OVA SSM</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.ovaerp.cs.erp_mob_ssm</ApplicationId>
@@ -64,7 +64,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\jobsplash.png" Color="#FFFFFF" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\ssmsplash.png" Color="#FFFFFF" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -120,10 +120,12 @@
 		<PackageReference Include="RGPopup.Maui" Version="1.1.2" />
 		<PackageReference Include="SQLite" Version="3.13.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
-		<PackageReference Include="Syncfusion.Maui.Core" Version="27.1.58" />
-		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="27.1.58" />
-		<PackageReference Include="Syncfusion.Maui.Popup" Version="27.1.58" />
-		<PackageReference Include="Syncfusion.Maui.TabView" Version="27.1.58" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="30.2.6" />
+  		<PackageReference Include="Syncfusion.Maui.Scheduler" Version="30.2.6" />
+  		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="30.2.6" />
+		<PackageReference Include="Syncfusion.Maui.Popup" Version="30.2.6" />
+		<PackageReference Include="Syncfusion.Maui.TabView" Version="30.2.6" />
+		<PackageReference Include="Syncfusion.Maui.Picker" Version="30.2.6" />
 		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
 		<PackageReference Include="TouchEffect.Maui" Version="7.0.0" />
 		<PackageReference Include="UraniumUI" Version="2.12.1" />
@@ -137,79 +139,79 @@
 	  <AndroidResource Remove="ViewsModel\CRM\**" />
 	  <AndroidResource Remove="ViewsModel\HCM\**" />
 	  <AndroidResource Remove="ViewsModel\PAY\**" />
-	  <AndroidResource Remove="ViewsModel\POS\**" />
+	  <!-- <AndroidResource Remove="ViewsModel\POS\**" /> -->
 	  <AndroidResource Remove="Views\ATT\**" />
 	  <AndroidResource Remove="Views\CRM\**" />
 	  <AndroidResource Remove="Views\HCM\**" />
 	  <AndroidResource Remove="Views\NewFolder1\**" />
 	  <AndroidResource Remove="Views\NewFolder2\**" />
 	  <AndroidResource Remove="Views\PAY\**" />
-	  <AndroidResource Remove="Views\POS\**" />
+	  <!-- <AndroidResource Remove="Views\POS\**" /> -->
 	  <Compile Remove="Services\WMS\**" />
 	  <Compile Remove="ViewsModel\ATT\**" />
 	  <Compile Remove="ViewsModel\CRM\**" />
 	  <Compile Remove="ViewsModel\HCM\**" />
 	  <Compile Remove="ViewsModel\PAY\**" />
-	  <Compile Remove="ViewsModel\POS\**" />
+	  <!-- <Compile Remove="ViewsModel\POS\**" /> -->
 	  <Compile Remove="Views\ATT\**" />
 	  <Compile Remove="Views\CRM\**" />
 	  <Compile Remove="Views\HCM\**" />
 	  <Compile Remove="Views\NewFolder1\**" />
 	  <Compile Remove="Views\NewFolder2\**" />
 	  <Compile Remove="Views\PAY\**" />
-	  <Compile Remove="Views\POS\**" />
+	  <!-- <Compile Remove="Views\POS\**" /> -->
 	  <EmbeddedResource Remove="Services\WMS\**" />
 	  <EmbeddedResource Remove="ViewsModel\ATT\**" />
 	  <EmbeddedResource Remove="ViewsModel\CRM\**" />
 	  <EmbeddedResource Remove="ViewsModel\HCM\**" />
 	  <EmbeddedResource Remove="ViewsModel\PAY\**" />
-	  <EmbeddedResource Remove="ViewsModel\POS\**" />
+	  <!-- <EmbeddedResource Remove="ViewsModel\POS\**" /> -->
 	  <EmbeddedResource Remove="Views\ATT\**" />
 	  <EmbeddedResource Remove="Views\CRM\**" />
 	  <EmbeddedResource Remove="Views\HCM\**" />
 	  <EmbeddedResource Remove="Views\NewFolder1\**" />
 	  <EmbeddedResource Remove="Views\NewFolder2\**" />
 	  <EmbeddedResource Remove="Views\PAY\**" />
-	  <EmbeddedResource Remove="Views\POS\**" />
+	  <!-- <EmbeddedResource Remove="Views\POS\**" /> -->
 	  <MauiCss Remove="Services\WMS\**" />
 	  <MauiCss Remove="ViewsModel\ATT\**" />
 	  <MauiCss Remove="ViewsModel\CRM\**" />
 	  <MauiCss Remove="ViewsModel\HCM\**" />
 	  <MauiCss Remove="ViewsModel\PAY\**" />
-	  <MauiCss Remove="ViewsModel\POS\**" />
+	  <!-- <MauiCss Remove="ViewsModel\POS\**" /> -->
 	  <MauiCss Remove="Views\ATT\**" />
 	  <MauiCss Remove="Views\CRM\**" />
 	  <MauiCss Remove="Views\HCM\**" />
 	  <MauiCss Remove="Views\NewFolder1\**" />
 	  <MauiCss Remove="Views\NewFolder2\**" />
 	  <MauiCss Remove="Views\PAY\**" />
-	  <MauiCss Remove="Views\POS\**" />
+	  <!-- <MauiCss Remove="Views\POS\**" /> -->
 	  <MauiXaml Remove="Services\WMS\**" />
 	  <MauiXaml Remove="ViewsModel\ATT\**" />
 	  <MauiXaml Remove="ViewsModel\CRM\**" />
 	  <MauiXaml Remove="ViewsModel\HCM\**" />
 	  <MauiXaml Remove="ViewsModel\PAY\**" />
-	  <MauiXaml Remove="ViewsModel\POS\**" />
+	  <!-- <MauiXaml Remove="ViewsModel\POS\**" /> -->
 	  <MauiXaml Remove="Views\ATT\**" />
 	  <MauiXaml Remove="Views\CRM\**" />
 	  <MauiXaml Remove="Views\HCM\**" />
 	  <MauiXaml Remove="Views\NewFolder1\**" />
 	  <MauiXaml Remove="Views\NewFolder2\**" />
 	  <MauiXaml Remove="Views\PAY\**" />
-	  <MauiXaml Remove="Views\POS\**" />
+	  <!-- <MauiXaml Remove="Views\POS\**" /> -->
 	  <None Remove="Services\WMS\**" />
 	  <None Remove="ViewsModel\ATT\**" />
 	  <None Remove="ViewsModel\CRM\**" />
 	  <None Remove="ViewsModel\HCM\**" />
 	  <None Remove="ViewsModel\PAY\**" />
-	  <None Remove="ViewsModel\POS\**" />
+	  <!-- <None Remove="ViewsModel\POS\**" /> -->
 	  <None Remove="Views\ATT\**" />
 	  <None Remove="Views\CRM\**" />
 	  <None Remove="Views\HCM\**" />
 	  <None Remove="Views\NewFolder1\**" />
 	  <None Remove="Views\NewFolder2\**" />
 	  <None Remove="Views\PAY\**" />
-	  <None Remove="Views\POS\**" />
+	  <!-- <None Remove="Views\POS\**" /> -->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -236,24 +238,32 @@
 		<Folder Include="Services\ACC\" />
 		<Folder Include="DB\" />
 		<Folder Include="ViewsModel\POS\" />
-		<Folder Include="Views\POS\" />
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Compile Update="Views\SSM\FrmSsmProfile.xaml.cs">
-	    <DependentUpon>FrmSsmProfile.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmFrontDeskLst.xaml.cs">
-	    <DependentUpon>FrmSsmFrontDeskLst.xaml</DependentUpon>
+	  <Compile Update="Views\Frame\FrmSsmItemCard.xaml.cs">
+	    <DependentUpon>FrmSsmItemCard.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmScheduleSet.xaml.cs">
 	    <DependentUpon>FrmSsmScheduleSet.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmBookLst.xaml.cs">
-	    <DependentUpon>FrmSsmBookLst.xaml</DependentUpon>
+	  <Compile Update="Views\SSM\FrmSsmSchedulePop.xaml.cs">
+	    <DependentUpon>FrmSsmSchedulePop.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmServiceSet.xaml.cs">
+	    <DependentUpon>FrmSsmStockDtl.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmProfile.xaml.cs">
+	    <DependentUpon>FrmSsmProfile.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmBookNowLst.xaml.cs">
+	    <DependentUpon>FrmSsmBookNowLst.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmScheduleLst.xaml.cs">
 	    <DependentUpon>FrmSsmScheduleLst.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmOrderSet.xaml.cs">
+	    <DependentUpon>FrmSsmOrderSet.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	
@@ -513,6 +523,9 @@
 	  <MauiXaml Update="Views\Frame\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Frame\FrmSsmItemCard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Frame\OptionsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -669,6 +682,15 @@
 	  <MauiXaml Update="Views\JOB\FrmJobApplicantCertificateSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmScheduleSet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmSchedulePop.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmServiceSet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmJobApplicantContactSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -783,9 +805,6 @@
 	  <MauiXaml Update="Views\POS\FrmPosSaleBiilingLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSaleEnquiryLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\POS\FrmPosSaleInvoiceLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -831,16 +850,13 @@
 	  <MauiXaml Update="Views\POS\FrmPosSupplierLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmFrontDeskLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmScheduleSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmBookLst.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmBookNowLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmScheduleLst.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmOrderSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmAccessLst.xaml">
@@ -862,9 +878,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmSysApiConfigLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SYS\FrmSysMyBillingLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmSysMyOrderLst.xaml">

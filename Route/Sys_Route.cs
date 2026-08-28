@@ -31,31 +31,29 @@ namespace CS.ERP_MOB.Route
             //DicRouteList.Add("user-access", typeof(UserAccessPage));
 
             DicRouteList.Add("sys-myorder-lst", typeof(FrmSysMyOrderLst));
-            DicRouteList.Add("sys-mybilling-lst", typeof(FrmSysMyBillingLst));
             DicRouteList.Add("sys-mypayment-lst", typeof(FrmSysMyPaymentLst));
             DicRouteList.Add("sys-mytransaction-lst", typeof(FrmSysMyTransactionLst));
-            DicRouteList.Add("sys-apiconfig-lst", typeof(FrmSysApiConfigLst));
-            DicRouteList.Add("sys-apiconfig-set", typeof(FrmApiConfigSet));
+            //DicRouteList.Add("sys-apiconfig-lst", typeof(FrmSysApiConfigLst));
+            //DicRouteList.Add("sys-apiconfig-set", typeof(FrmApiConfigSet));
 
 
             //test temporary
             //DicRouteList.Add("profile", typeof(AccessSetPage));
             
-            DicRouteList.Add("access-lst", typeof(FrmAccessLst));
-            DicRouteList.Add("sys-country-lst", typeof(FrmCountryLst));
-            DicRouteList.Add("sys-country-set", typeof(FrmCountrySet));
+            //DicRouteList.Add("access-lst", typeof(FrmAccessLst));
+            //DicRouteList.Add("sys-country-lst", typeof(FrmCountryLst));
+            //DicRouteList.Add("sys-country-set", typeof(FrmCountrySet));
            
 
 
             DicRouteList.Add("sys-myorder-mm-lst", typeof(FrmSysMyOrderLst));
-            DicRouteList.Add("sys-mybilling-mm-lst", typeof(FrmSysMyBillingLst));
             DicRouteList.Add("sys-mypayment-mm-lst", typeof(FrmSysMyPaymentLst));
             DicRouteList.Add("sys-mytransaction-mm-lst", typeof(FrmSysMyTransactionLst));
-            DicRouteList.Add("sys-apiconfig-mm-lst", typeof(FrmApiConfigLst));
+            //DicRouteList.Add("sys-apiconfig-mm-lst", typeof(FrmApiConfigLst));
             //  DicRouteList.Add("sys-apiconfig-set", typeof(FrmApiConfigSet));
             //test temporary
             //DicRouteList.Add("profile", typeof(AccessSetPage));
-            DicRouteList.Add("sys-apiconfig-mm-set", typeof(FrmAccessSet));
+            //DicRouteList.Add("sys-apiconfig-mm-set", typeof(FrmAccessSet));
         }
     }
 }

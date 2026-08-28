@@ -258,8 +258,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_STOCK l_RES_STOCK in mJSN_INVENTORY_STOCK.RES_STOCK)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_STOCK.StockCode.ToLower().Contains(argKeyword)
-                            || l_RES_STOCK.StockName.ToLower().Contains(argKeyword)
+                        if (l_RES_STOCK.StockCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_STOCK.StockName_0_255.ToLower().Contains(argKeyword)
                            
                             || l_RES_STOCK.StockOnhandQty.ToLower().Contains(argKeyword))
                         {

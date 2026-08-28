@@ -248,8 +248,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_CUSTOMER l_RES_CUSTOMER in mJSN_CUSTOMERNCONTACT.RES_CUSTOMER)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_CUSTOMER.CustomerCode.ToLower().Contains(argKeyword)
-                            || l_RES_CUSTOMER.CustomerName.ToLower().Contains(argKeyword)
+                        if (l_RES_CUSTOMER.CustomerCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_CUSTOMER.CustomerName_0_255.ToLower().Contains(argKeyword)
                             || l_RES_CUSTOMER.CustomerMobilePhone.ToLower().Contains(argKeyword)
                             || l_RES_CUSTOMER.CustomerEmail.ToLower().Contains(argKeyword))
                         {

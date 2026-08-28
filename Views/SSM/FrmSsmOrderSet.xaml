@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmOrderSet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CS.ERP_MOB.Views.Frame"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    Title="Order Set">
+
+    <ScrollView>
+
+        <VerticalStackLayout Padding="15" Spacing="15">
+
+            <!--  =====================================================  -->
+            <!--  SECTION 1 : HEADER  -->
+            <!--  =====================================================  -->
+
+            <Frame
+                Padding="15"
+                BackgroundColor="White"
+                BorderColor="Transparent"
+                CornerRadius="12"
+                HasShadow="False">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Create Order"
+                        TextColor="Black" />
+
+                    <!--  Browse Number  -->
+
+                    <HorizontalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Order Number"
+                            TextColor="Gray" />
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="ENQ-190393"
+                            TextColor="Black" />
+
+                    </HorizontalStackLayout>
+
+
+                    <!--  Customer  -->
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Customer"
+                            TextColor="Gray" />
+
+                        <Picker
+                            Title="Select item"
+                            FontSize="15"
+                            ItemDisplayBinding="{Binding CustomerName_0_255}"
+                            ItemsSource="{Binding CustomerList}"
+                            SelectedItem="{Binding SelectedCustomer}" />
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Customer Contact  -->
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Customer Contact"
+                            TextColor="Gray" />
+
+                        <Picker
+                            x:Name="CustomerContactPicker"
+                            Title="Select customer contact"
+                            ItemsSource="{Binding CustomerContactList}" />
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+
+            <!--  =====================================================  -->
+            <!--  SECTION 2 : ITEM LIST  -->
+            <!--  =====================================================  -->
+
+            <Frame
+                Padding="15"
+                BackgroundColor="White"
+                BorderColor="Transparent"
+                CornerRadius="12"
+                HasShadow="False">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <!--  Section Header  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="Item List"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <!--  PLUS BUTTON  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            CornerRadius="22"
+                            HeightRequest="44"
+                            WidthRequest="44">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="btn_addService" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="btn_addService" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                    <BoxView
+                        Margin="0,4"
+                        HeightRequest="1"
+                        Color="Gray" />
+
+                    <!--  Empty Item Message  -->
+
+                    <Label
+                        x:Name="EmptyItemLabel"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        IsVisible="True"
+                        Text="No items added yet."
+                        TextColor="Gray" />
+
+
+                    <!--  Item Collection  -->
+
+                    <!--  Service Cards  -->
+                    <CollectionView ItemsSource="{Binding SelectedStockList}" SelectionMode="None">
+
+                        <CollectionView.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <controls:FrmSsmItemCard
+                                    CommandParameter="{Binding .}"
+                                    DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteItemCommand}"
+                                    Discount="{Binding Discount}"
+                                    ItemName="{Binding StockName_0_255}"
+                                    ItemNumber="{Binding StockCode_0_50}"
+                                    Price="{Binding StockRetailPrice}"
+                                    Qty="{Binding vm.Quantity}"
+                                    TapCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ItemTappedCommand}"
+                                    UOM="{Binding UOMName_0_255}" />
+
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+
+            <!--  =====================================================  -->
+            <!--  SECTION 3 : SUMMARY  -->
+            <!--  =====================================================  -->
+
+            <Frame
+                Padding="15"
+                BackgroundColor="White"
+                BorderColor="Transparent"
+                CornerRadius="12"
+                HasShadow="False">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Summary"
+                        TextColor="Black" />
+
+
+                    <!--  SUBTOTAL  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label Text="Subtotal" TextColor="Gray" />
+
+                        <Label
+                            x:Name="SubtotalLabel"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="0.000"
+                            TextColor="Black" />
+
+                    </Grid>
+
+
+                    <!--  DISCOUNT  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label Text="Discount" TextColor="Gray" />
+
+                        <Label
+                            x:Name="DiscountLabel"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="0.000"
+                            TextColor="Black" />
+
+                    </Grid>
+
+
+                    <!--  GST  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                            <!--  GST ON/OFF  -->
+                            <CheckBox
+                                x:Name="GstSwitch"
+                                CheckedChanged="btn_GSTchanged"
+                                IsChecked="False"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Text="GST"
+                                TextColor="Gray"
+                                VerticalOptions="Center" />
+
+
+
+                        </HorizontalStackLayout>
+
+
+                        <Label
+                            x:Name="GstLabel"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="0.000"
+                            TextColor="Black" />
+
+                    </Grid>
+
+
+                    <!--  ROUND OFF  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                            <!--  ROUND OFF ON/OFF  -->
+                            <CheckBox
+                                x:Name="RoundOffSwitch"
+                                CheckedChanged="btn_RoundOffChanged"
+                                IsChecked="False"
+                                VerticalOptions="Center" />
+                            <Label
+                                Text="Round Off"
+                                TextColor="Gray"
+                                VerticalOptions="Center" />
+
+
+
+                        </HorizontalStackLayout>
+
+
+                        <Label
+                            x:Name="RoundOffLabel"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="0.000"
+                            TextColor="Black" />
+
+                    </Grid>
+
+
+                    <!--  Divider  -->
+
+                    <BoxView HeightRequest="1" Color="#DDDDDD" />
+
+
+                    <!--  GRAND TOTAL  -->
+
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Grand Total"
+                            TextColor="Black" />
+
+                        <Label
+                            x:Name="GrandTotalLabel"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding TotalPrice}"
+                            TextColor="DarkOrange" />
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

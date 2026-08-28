@@ -266,9 +266,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_INVENTORY_DAMAGE l_RES_INVENTORY_DAMAGE in mJSN_INVENTORY_DAMAGE.RES_INVENTRY_DAMAGE)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_INVENTORY_DAMAGE.DamageTypeName.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_DAMAGE.DamageCode.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_DAMAGE.LocationName.ToLower().Contains(argKeyword))
+                        if (l_RES_INVENTORY_DAMAGE.DamageTypeName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_DAMAGE.DamageCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_DAMAGE.LocationName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_INVENTORY_DAMAGE_lst.Add(l_RES_INVENTORY_DAMAGE);
                         }

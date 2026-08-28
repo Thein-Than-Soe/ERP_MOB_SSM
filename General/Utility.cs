@@ -29,7 +29,8 @@ namespace CS.ERP_MOB.General
         {
             Card,
             List,
-            Grid
+            Grid,
+            Schedule
         }
         public enum SignInState
         {
@@ -142,8 +143,10 @@ namespace CS.ERP_MOB.General
                 }
                 else
                 {
-                    //return getStartPeriod(Common.mCommon.UserSetting.TLPeriodTypeAsk, (int)double.Parse(Common.mCommon.UserSetting.TLDiplayPeriod));
-                    return getStartPeriod("4", 6);
+                    //int displayPeriod = (int)double.Parse(Common.mCommon.UserSetting.TLDiplayPeriod, CultureInfo.InvariantCulture);
+                    //return getStartPeriod(Common.mCommon.UserSetting.TLPeriodTypeAsk, displayPeriod);
+                    return getStartPeriod(Common.mCommon.UserSetting.TLPeriodTypeAsk, (int)double.Parse(Common.mCommon.UserSetting.TLDiplayPeriod));
+                    //return getStartPeriod("4", 6);
                 }
             }
             catch (Exception ex)
@@ -164,7 +167,8 @@ namespace CS.ERP_MOB.General
                 }
                 else
                 {
-                    return DateTime.UtcNow.ToString("o");
+                    //return DateTime.UtcNow.ToString("o");
+                    return DateTime.UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'");
                 }
             }
             catch (Exception ex)
@@ -196,7 +200,8 @@ namespace CS.ERP_MOB.General
                     break;
             }
 
-            return date.ToString("o"); // ISO 8601 format (e.g., 2025-07-10T11:35:00.0000000Z)
+            //return date.ToString("o"); // ISO 8601 format (e.g., 2025-07-10T11:35:00.0000000Z)
+            return date.ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'");
         }
 
         public static string getDateTimeString(string argUTCDate)
@@ -218,24 +223,42 @@ namespace CS.ERP_MOB.General
             }
         }
 
+        //public static DateTime getDateTime(string argUTCDate)
+        //{
+        //    try
+        //    {
+        //        if (argUTCDate != null && argUTCDate != "")
+        //        {
+        //            return DateTime.ParseExact(DateTime.Parse(argUTCDate).ToLocalTime().ToString(), Common.mCommon.UserSetting.DateTimeFormatName_0_255, CultureInfo.InvariantCulture);
+        //        }
+        //        else
+        //        {
+        //            return DateTime.ParseExact((DateTime.Now).ToString(), Common.mCommon.UserSetting.DateTimeFormatName_0_255, CultureInfo.InvariantCulture);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.InnerException;
+        //    }
+        //}
         public static DateTime getDateTime(string argUTCDate)
         {
-            try
+            if (string.IsNullOrWhiteSpace(argUTCDate))
+                return DateTime.Now;
+
+            if (DateTime.TryParse(
+                argUTCDate,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AdjustToUniversal,
+                out DateTime utcDateTime))
             {
-                if (argUTCDate != null && argUTCDate != "")
-                {
-                    return DateTime.ParseExact(DateTime.Parse(argUTCDate).ToLocalTime().ToString(), Common.mCommon.UserSetting.DateTimeFormatName_0_255, CultureInfo.InvariantCulture);
-                }
-                else
-                {
-                    return DateTime.ParseExact((DateTime.Now).ToString(), Common.mCommon.UserSetting.DateTimeFormatName_0_255, CultureInfo.InvariantCulture);
-                }
+                return utcDateTime.ToLocalTime();
             }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
+
+            return DateTime.Now;
         }
+
+
         #endregion
         public static Boolean checkButtonAccess(string menuName)
         {

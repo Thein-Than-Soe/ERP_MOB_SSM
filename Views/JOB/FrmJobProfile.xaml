@@ -1,0 +1,1723 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobProfile"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:footer="clr-namespace:CS.ERP_MOB.Views.SYS"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            BackgroundColor="{StaticResource Key=OvaListBackgroundColor}"
+            Spacing="15">
+
+            <!--  Profile information  -->
+            <VerticalStackLayout Spacing="8">
+                <Border
+                    Margin="0,3"
+                    Padding="10"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="10">
+                        <!--  Profile Image  -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+
+                            <Frame
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="10"
+                                HeightRequest="130"
+                                HorizontalOptions="Center"
+                                WidthRequest="130">
+                                <Image
+                                    x:Name="ProfileImage"
+                                    Aspect="AspectFill"
+                                    Source="{Binding ProfileImagePath}" />
+                            </Frame>
+
+
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <!--  Update Button  -->
+                                <Frame
+                                    Margin="0,0,0,5"
+                                    Padding="0"
+                                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                    BorderColor="Gray"
+                                    HeightRequest="40"
+                                    HorizontalOptions="End"
+                                    WidthRequest="40">
+                                    <Label
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf303;"
+                                        TextColor="{StaticResource OvaTextColor}"
+                                        VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnUpdateClicked" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnUpdateClicked" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+
+                                <!--  Applicant Name  -->
+                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+                                    <Grid
+                                        Padding="5,0"
+                                        ColumnDefinitions="Auto,*"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            Margin="10"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf007;"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="14"
+                                            HeightRequest="40"
+                                            LineBreakMode="WordWrap"
+                                            MaxLines="2"
+                                            Text="{Binding Applicant[0].ApplicantName_0_255}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+
+
+                                <!--  User Phone  -->
+                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+                                    <Grid
+                                        Padding="5,0"
+                                        ColumnDefinitions="Auto,Auto,*"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            Margin="10"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf095;"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="14"
+                                            HeightRequest="40"
+                                            Text="{Binding Applicant[0].CountryMobileCode_0_50}"
+                                            VerticalTextAlignment="Center"
+                                            WidthRequest="60" />
+                                        <Label
+                                            Grid.Column="2"
+                                            FontSize="14"
+                                            HeightRequest="40"
+                                            Text="{Binding Applicant[0].Phone}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </Border>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                        <!--  Email  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf0e0;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="14"
+                                    HeightRequest="40"
+                                    Text="{Binding Applicant[0].Email}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Website  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf0ac;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    Text="{Binding Applicant[0].Website}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Gender  -->
+                        <Border
+                            Grid.Column="0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf228;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    Text="{Binding Applicant[0].GenderName_0_255}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Date of Birth  -->
+                        <Border
+                            Grid.Column="1"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    Text="{Binding Applicant[0].DOB, StringFormat='{0:dd/MM/yyyy}'}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Nationality  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf500;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    Text="{Binding Applicant[0].NationalityName_0_255}"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <ScrollView Padding="10" Orientation="Horizontal">
+                    <HorizontalStackLayout Spacing="15">
+
+                        <!--
+                            Professional Summary
+                            IsVisible="{Binding Applicant[0].ProfessionalSummary, Converter={StaticResource StringExistsConverter}}"
+                        -->
+                        <Border
+                            Margin="0,3"
+                            Padding="10"
+                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="120"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1"
+                            WidthRequest="150">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSummaryCardTapped" />
+                            </Border.GestureRecognizers>
+
+                            <VerticalStackLayout>
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    HeightRequest="20"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,10,0"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="20"
+                                        Text="&#xf27a;"
+                                        TextColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        Text="{Binding Source={ext:LanguageExtension Key=HCM.Applicant.lbl.ProfessionalSummary}, Path=Value}"
+                                        TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                                <BoxView
+                                    Margin="0,4"
+                                    HeightRequest="1"
+                                    Color="Gray" />
+                                <Label
+                                    FontSize="12"
+                                    IsVisible="{Binding Applicant[0].ProfessionalSummary, Converter={StaticResource StringExistsConverter}}"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="4"
+                                    Text="{Binding Applicant[0].ProfessionalSummary}"
+                                    TextType="Text"
+                                    VerticalOptions="Center" />
+
+                                <!--  Add more Icon  -->
+                                <Frame
+                                    Grid.Column="1"
+                                    Margin="0,10"
+                                    Padding="7"
+                                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding Applicant[0].ProfessionalSummary, Converter={StaticResource StringExistsConverter}, ConverterParameter=Inverse}">
+
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf067;"
+                                            TextColor="{StaticResource OvaTextColor}"
+                                            VerticalOptions="Center" />
+                                        <Label Grid.Column="1" VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="12" Text="  " />
+                                                    <Span
+                                                        FontSize="12"
+                                                        Text="{Binding Source={ext:LanguageExtension Key=JOB.Applicant.lbl.Add}, Path=Value}"
+                                                        TextColor="White" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSummaryCardTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+
+                        <!--
+                            Availability Card
+                            IsVisible="{Binding Applicant[0].ApplicantAvailabilityName_0_255, Converter={StaticResource StringExistsConverter}}"
+                        -->
+                        <Border
+                            Margin="0,3"
+                            Padding="10"
+                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="120"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1"
+                            WidthRequest="150">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAvailabilityCardTapped" />
+                            </Border.GestureRecognizers>
+
+                            <VerticalStackLayout>
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    HeightRequest="20"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,10,0"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="20"
+                                        Text="&#xf274;"
+                                        TextColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        Text="{Binding Source={ext:LanguageExtension Key=HCM.Applicant.lbl.Availability}, Path=Value}"
+                                        TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                                <BoxView
+                                    Margin="0,4"
+                                    HeightRequest="1"
+                                    Color="Gray" />
+
+                                <!--  Body  -->
+                                <Label
+                                    Margin="0,20"
+                                    FontSize="16"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding Applicant[0].ApplicantAvailabilityName_0_255, Converter={StaticResource StringExistsConverter}}"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="3"
+                                    Text="{Binding Applicant[0].ApplicantAvailabilityName_0_255}"
+                                    TextType="Text"
+                                    VerticalOptions="Center" />
+
+                                <!--  Add more Icon  -->
+                                <Frame
+                                    Margin="0,10"
+                                    Padding="7"
+                                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding Applicant[0].ApplicantAvailabilityName_0_255, Converter={StaticResource StringExistsConverter}, ConverterParameter=Inverse}">
+
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf067;"
+                                            TextColor="White"
+                                            VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnAvailabilityCardTapped" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <Label Grid.Column="1" VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="12" Text="  " />
+                                                    <Span
+                                                        FontSize="12"
+                                                        Text="{Binding Source={ext:LanguageExtension Key=JOB.Applicant.lbl.Add}, Path=Value}"
+                                                        TextColor="White" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+
+
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnAvailabilityCardTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                        <!--  Expected Salary Card  -->
+                        <Border
+                            Margin="0,3"
+                            Padding="10"
+                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="120"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1"
+                            WidthRequest="150">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSalaryCardTapped" />
+                            </Border.GestureRecognizers>
+
+                            <VerticalStackLayout>
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    HeightRequest="20"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,10,0"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="20"
+                                        Text="&#xf53d;"
+                                        TextColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        Text="Salary"
+                                        TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                                <BoxView
+                                    Margin="0,4"
+                                    HeightRequest="1"
+                                    Color="Gray" />
+                                <HorizontalStackLayout
+                                    Margin="0,20"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding Applicant[0].ExpectedSalary, Converter={StaticResource StringExistsConverter}}">
+
+                                    <Label VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontSize="16" Text="{Binding Applicant[0].CurrencyCode_0_50}" />
+                                                <Span FontSize="16" Text=" ~ " />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="3"
+                                        Text="{Binding Applicant[0].ExpectedSalary}"
+                                        TextType="Text"
+                                        VerticalOptions="Center" />
+
+                                </HorizontalStackLayout>
+
+                                <!--  Add more Icon  -->
+                                <Frame
+                                    Margin="0,10"
+                                    Padding="7"
+                                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding Applicant[0].ExpectedSalary, Converter={StaticResource StringExistsConverter}, ConverterParameter=Inverse}">
+
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf067;"
+                                            TextColor="White"
+                                            VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSalaryCardTapped" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <Label Grid.Column="1" VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="12" Text="  " />
+                                                    <Span
+                                                        FontSize="12"
+                                                        Text="{Binding Source={ext:LanguageExtension Key=JOB.Applicant.lbl.Add}, Path=Value}"
+                                                        TextColor="White" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSalaryCardTapped" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+            </VerticalStackLayout>
+
+            <!--  Buttons  -->
+            <VerticalStackLayout Margin="0,0,0,0" Spacing="8">
+
+                <!--  Experience Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.Experience}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Experience_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddExperience_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddExperience_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Exp_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnExpDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnExpDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                </Border>
+
+                <!--  Experience Dropdown  -->
+                <Frame
+                    x:Name="Exp_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="exp_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="exp_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantExperience}"
+                        RowHeight="90"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout Background="Transparent" Spacing="2">
+                                            <!--  Text Blocks  -->
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding DesignationName_0_255}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                <Label
+                                                    FontSize="12"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding EmploymentTypeName_0_255}" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="12"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding SD}"
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="   ~   "
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="12"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding ED}"
+                                                    TextColor="Gray" />
+                                            </HorizontalStackLayout>
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding Company}"
+                                                TextColor="Black" />
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+
+                <!--  Education Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.Education}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Education_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddEducation_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddEducation_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Edu_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnEduDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEduDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                </Border>
+
+                <!--  Education Dropdown  -->
+                <Frame
+                    x:Name="Edu_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="edu_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="edu_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantEducation}"
+                        RowHeight="90"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalOptions="CenterAndExpand">
+                                            <!--  Text Blocks  -->
+                                            <HorizontalStackLayout Background="Transparent" Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding Major}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text=" - " />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding EducationLevelName_0_255}" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout>
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding SD}"
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="   ~   "
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding ED}"
+                                                    TextColor="Gray" />
+                                            </HorizontalStackLayout>
+
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding ReferenceDetail}" />
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+                <!--  Skill Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.Skill}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Skill_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddSkill_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddSkill_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Skill_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnSkillDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSkillDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                </Border>
+
+                <!--  Skill Dropdown  -->
+                <Frame
+                    x:Name="Skill_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="skill_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="skill_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantSkill}"
+                        RowHeight="50"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite"
+                                        VerticalOptions="Center">
+                                        <VerticalStackLayout Background="Transparent" Spacing="2">
+                                            <!--  Text Blocks  -->
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding SkillSet}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text=" - " />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding SkillLevelName_0_255}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+                <!--  Language Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.LanguageSkill}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Language_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddLanguage_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddLanguage_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Lang_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnLangDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnLangDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Optional: whole grid tap (not just dropdown)  -->
+                        <!--
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnExperienceTapped" />
+                        </Grid.GestureRecognizers>
+                        -->
+                    </Grid>
+                </Border>
+
+                <!--  Language Dropdown  -->
+                <Frame
+                    x:Name="Lang_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="lang_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="lang_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantLanguage}"
+                        RowHeight="50"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout
+                                            Background="Transparent"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+                                            <!--  Text Blocks  -->
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding Language}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text=" - " />
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding LanguageLevelName_0_255}" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+                <!--  Certificate Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.Certificate}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Certificate_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddCertificate_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddCertificate_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Cert_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCertDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCertDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </Grid>
+                </Border>
+
+                <!--  Certificate Dropdown  -->
+                <Frame
+                    x:Name="Cert_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="cert_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="cert_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantCertificate}"
+                        RowHeight="110"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalOptions="CenterAndExpand">
+                                            <!--  Text Blocks  -->
+                                            <Label
+                                                FontSize="14"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding CertificateName_0_255}"
+                                                TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                            <Label
+                                                FontSize="14"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding CertificateTypeName_0_255}" />
+                                            <HorizontalStackLayout>
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding SD}"
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="   ~   "
+                                                    TextColor="Gray" />
+                                                <Label
+                                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding ED}"
+                                                    TextColor="Gray" />
+                                            </HorizontalStackLayout>
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding InstituteName_0_255}" />
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+                <!--  Social Affairs Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.SocialAffairs}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Social_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddSocial_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddSocial_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Social_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnSocialDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnSocialDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                </Border>
+
+                <!--  Social Affairs Dropdown  -->
+                <Frame
+                    x:Name="Social_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="social_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="social_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantSocialAffairs}"
+                        RowHeight="90"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalOptions="CenterAndExpand">
+                                            <!--  Text Blocks  -->
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label
+                                                    FontSize="14"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding NameofEvent}"
+                                                    TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                <Label
+                                                    FontSize="12"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding Role}" />
+                                            </HorizontalStackLayout>
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding CountryName_0_255}"
+                                                TextColor="Gray" />
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+
+                <!--  Contact Button  -->
+                <Border
+                    Padding="8"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        ColumnSpacing="5"
+                        VerticalOptions="Center">
+
+                        <!--  Left Text  -->
+                        <HorizontalStackLayout>
+                            <Label
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{Binding Source={ext:LanguageExtension Key=JOB.JobProfile.lbl.Contact}, Path=Value}"
+                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontSize="14"
+                                            Text="    -   "
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                        <Span
+                                            FontSize="14"
+                                            Text="{Binding Contact_count}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </HorizontalStackLayout>
+
+
+                        <!--  Plus Icon  -->
+                        <Frame
+                            Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddContact_Clicked" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddContact_Clicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <!--  Dropdown Toggle Icon  -->
+                        <Frame
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BorderColor="Gray"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                x:Name="Contact_DropdownToggleIcon"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Text="&#xf078;"
+                                TextColor="White"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnContactDropdownToggleTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnContactDropdownToggleTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                    </Grid>
+                </Border>
+                <!--  Contact Dropdown  -->
+                <Frame
+                    x:Name="Contact_DropdownContent"
+                    Margin="10,0,10,0"
+                    Padding="10"
+                    BackgroundColor="#F9F9F9"
+                    BorderColor="#CCCCCC"
+                    CornerRadius="8"
+                    IsVisible="False">
+
+                    <ListView
+                        x:Name="contact_lstView"
+                        HorizontalOptions="Fill"
+                        IsPullToRefreshEnabled="True"
+                        ItemSelected="contact_lstView_ItemSelected"
+                        ItemsSource="{Binding ApplicantContact}"
+                        RowHeight="90"
+                        SeparatorVisibility="None"
+                        VerticalOptions="Center">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <SwipeView
+                                        Margin="0,3"
+                                        Padding="10"
+                                        BackgroundColor="AntiqueWhite">
+                                        <VerticalStackLayout
+                                            Grid.Column="0"
+                                            Spacing="2"
+                                            VerticalOptions="CenterAndExpand">
+                                            <!--  Text Blocks  -->
+                                            <Label
+                                                FontSize="14"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding ContactTypeName_0_255}"
+                                                TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+
+                                            <Label FontSize="14" LineBreakMode="TailTruncation">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding CountryMobileCode_0_50}" />
+                                                        <Span Text=" - " />
+                                                        <Span FontSize="12" Text="{Binding Mobile}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label FontSize="14" LineBreakMode="TailTruncation">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span FontSize="12" Text="{Binding CityName_0_255}" />
+                                                        <Span Text=", " />
+                                                        <Span FontSize="12" Text="{Binding StateName_0_255}" />
+                                                        <Span Text=", " />
+                                                        <Span FontSize="12" Text="{Binding CountryName_0_255}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                        </VerticalStackLayout>
+                                    </SwipeView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Frame>
+
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentView>

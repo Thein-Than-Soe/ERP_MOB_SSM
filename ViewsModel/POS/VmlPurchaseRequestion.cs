@@ -267,9 +267,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_REQUESTION l_RES_PURCHASE_REQUESTION in mJSN_PURCHASE_REQUESTION.RES_PURCHASE_REQUESTION)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_REQUESTION.RequestionCode.ToLower().Contains(argKeyword)
+                        if (l_RES_PURCHASE_REQUESTION.RequestionCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_PURCHASE_REQUESTION.RequestionDate.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_REQUESTION.RequesterName.ToLower().Contains(argKeyword))
+                            || l_RES_PURCHASE_REQUESTION.RequesterName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_REQUESTION_lst.Add(l_RES_PURCHASE_REQUESTION);
                         }

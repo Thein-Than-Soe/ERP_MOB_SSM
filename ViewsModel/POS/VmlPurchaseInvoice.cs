@@ -277,8 +277,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_INVOICE l_RES_PURCHASE_INVOICE in mJSN_PURCHASE_INVOICE_JUN.RES_PURCHASE_INVOICE)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_INVOICE.SupplierName.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_INVOICE.InvoiceCode.ToLower().Contains(argKeyword)
+                        if (l_RES_PURCHASE_INVOICE.SupplierName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_INVOICE.InvoiceCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_PURCHASE_INVOICE.InvoiceDate.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_INVOICE_lst.Add(l_RES_PURCHASE_INVOICE);

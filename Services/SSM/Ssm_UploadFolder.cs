@@ -12,14 +12,18 @@ namespace CS.ERP_MOB.Services.SSM
         {
         }
         #region "Upload"
-        public static string job_User = "/job/user";
-        public static string job_Applicant = "/job/applicant";
-        public static string job_Product = "/job/product";
-        public static string job_Ad = "/job/ad";
-        public static string job_Promotion = "/job/promotion";
-        public static string job_Brief = "/job/brief";
-        public static string job_Company = "/job/company";
-        public static string job_ImgUploadServiceName = "/api/uploadImage";
+        public static string ssm_User = "/ssm/user";
+        //public static string ssm_Applicant = "/ssm/applicant";
+        //public static string ssm_Product = "/ssm/product";
+        //public static string ssm_Ad = "/ssm/ad";
+        //public static string ssm_Promotion = "/ssm/promotion";
+        //public static string ssm_Brief = "/ssm/brief";
+        //public static string ssm_Company = "/ssm/company";
+        //public static string ssm_ImgUploadServiceName = "/api/uploadImage";
+        public static string ssm_service = "/SSM/service";
+        public static string ssm_order = "/SSM/order";
+        public static string ssm_payment = "/SSM/payment";
+        public static string ssm_invoice = "/SSM/invoice";
         #endregion
     }
 }

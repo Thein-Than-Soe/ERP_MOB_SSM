@@ -520,14 +520,14 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 byte[] imageBytes = memoryStream.ToArray();
 
-                var uploadFolderName = Ssm_UploadFolder.job_Applicant;
+                var uploadFolderName = Ssm_UploadFolder.ssm_User;
 
                 string response = await Ssm_Service.UploadImageToServer(uploadFolderName, "photo", result.FileName, imageBytes);
 
                 if (response != null)
                 {
 
-                    mUploadFilePath = "/uploads" + Ssm_UploadFolder.job_Applicant + "/" + response;
+                    mUploadFilePath = "/uploads" + Ssm_UploadFolder.ssm_User + "/" + response;
                     ProfileImagePath = Ssm_Service.getUploadURL() + mUploadFilePath;
 
                 }

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobApplicantCertificateSet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect"
+    Title="Certificate Edit">
+
+
+    <Grid RowDefinitions="*,Auto">
+        <!--  Form area  -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="25">
+
+                <!--  CertificateName  -->
+                <VerticalStackLayout Spacing="0">
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.lbl.CertificateName}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryCertificateName" Placeholder="Enter Name">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="MajorValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.ifo.CertificateName}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  CertificateType  -->
+                <VerticalStackLayout>
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.lbl.CertificateType}, Path=Value}" />
+                    <Picker
+                        x:Name="PickerCertificateType"
+                        Title="{Binding Source={ext:LanguageExtension Key=JOB.Common.plh.Select}, Path=Value}"
+                        ItemDisplayBinding="{Binding CertificateTypeName_0_255}"
+                        ItemsSource="{Binding CertificateTypeList}" />
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.ifo.CertificateType}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  InstituteName_0_255  -->
+                <VerticalStackLayout>
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.lbl.InstituteName}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryInstituteName" Placeholder="Enter Institute Name">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="InstituteNameValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Certificate.ifo.InstituteName}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!--  Effective year  -->
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="50" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            Text="Start Date"
+                            VerticalOptions="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            Text="End Date"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                        <!--  pickers  -->
+                        <Border
+                            Grid.Column="1"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <DatePicker
+                                    x:Name="StartDatePicker"
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40" />
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <DatePicker
+                                    x:Name="EndDatePicker"
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40" />
+                            </Grid>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+                <!--  Reference  -->
+                <VerticalStackLayout>
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.ReferenceNo}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryReference" Placeholder="Enter reference">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="ReferenceValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.ReferenceNo}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Remark  -->
+                <VerticalStackLayout Spacing="2">
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Setup.lbl.Remark}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryRemark" Placeholder="{Binding Source={ext:LanguageExtension Key=HCM.Setup.plh.Remark}, Path=Value}">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="RemarkValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <!--  Fixed Bottom Box  -->
+        <Grid
+            Grid.Row="1"
+            Padding="20,0"
+            BackgroundColor="AntiqueWhite"
+            ColumnDefinitions="*"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            VerticalOptions="End">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <!--  Save button  -->
+                <Frame
+                    Padding="10,7"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnSaveBtn_Clicked" />
+                    </Frame.GestureRecognizers>
+
+
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf0c7;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Save"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+                <!--  Apply button  -->
+                <Frame
+                    Padding="10,7"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnDeleteBtn_Clicked" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf1f8;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Delete"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+            </HorizontalStackLayout>
+
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

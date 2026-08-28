@@ -283,8 +283,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SALE_RETURN l_RES_SALE_RETURN in mJSN_SALE_RETURN_JUN.RES_SALE_RETURN)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_RETURN.ReturnCode.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_RETURN.CustomerName.ToLower().Contains(argKeyword)
+                        if (l_RES_SALE_RETURN.ReturnCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_RETURN.CustomerName_0_255.ToLower().Contains(argKeyword)
                             || l_RES_SALE_RETURN.GrandTotal.ToLower().Contains(argKeyword))
                         {
                             l_RES_SALE_RETURN_lst.Add(l_RES_SALE_RETURN);

@@ -264,7 +264,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SALE_ORDER l_RES_SALE_ORDER in mJSN_SALE_ORDER.RES_SALE_ORDER)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_ORDER.OrderCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SALE_ORDER.OrderCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SALE_ORDER.OrderDate.ToLower().Contains(argKeyword)
                             || l_RES_SALE_ORDER.GrandTotal.ToLower().Contains(argKeyword))
                         {

@@ -61,16 +61,16 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     BadgeCount="0"
-                    Caption="Evershine"
+                    Caption="Home"
                     FontAwesomeIcon="&#xf51a;"
                     HorizontalOptions="FillAndExpand"
                     IsFontAwesome="True"
-                    Selected="{Binding EvershineSelected}"
-                    TapCommand="{Binding EvershineCommand}"
+                    Selected="{Binding HomeSelected}"
+                    TapCommand="{Binding HomeCommand}"
                     VerticalOptions="FillAndExpand" />
 
                 <controls:TabItem
-                    x:Name="Schedule"
+                    x:Name="FrontDesk"
                     Grid.Row="0"
                     Grid.Column="1"
                     Caption="Schedule"

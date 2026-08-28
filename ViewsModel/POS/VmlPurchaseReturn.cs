@@ -279,9 +279,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_RETURN l_RES_PURCHASE_RETURN in mJSN_PURCHASE_RETURN_JUN.RES_PURCHASE_RETURN)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_RETURN.ReturnCode.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_RETURN.SupplierName.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_RETURN.ParentCode.ToLower().Contains(argKeyword))
+                        if (l_RES_PURCHASE_RETURN.ReturnCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_RETURN.SupplierName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_RETURN.ParentCode_0_50.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_RETURN_lst.Add(l_RES_PURCHASE_RETURN);
                         }

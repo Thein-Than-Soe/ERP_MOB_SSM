@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rg:PopupPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobCommunityPop"
+    HasSystemPadding="true"
+    SystemPaddingSides="All"
+    CloseWhenBackgroundIsClicked="true">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation
+        PositionIn="Bottom"
+        PositionOut="Bottom"
+        DurationIn ="400"
+        DurationOut="300"
+        EasingIn="SinOut"
+        EasingOut="SinIn"
+        HasBackgroundAnimation="true" />
+    </rg:PopupPage.Animation>
+    <Grid
+        x:Name="SearchGrid"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="End"
+        ColumnSpacing="0"
+        Padding="0,0,0,50">
+        <Frame 
+            x:Name="PopupFrame"
+            Grid.Row="0"
+            Grid.Column="0"
+            Padding="0" 
+            CornerRadius="3"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnBackgroundTapped" />
+            </Frame.GestureRecognizers>
+            <StackLayout BackgroundColor="White" Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer    NumberOfTapsRequired="1"
+                    Tapped="SearchTappedAsync" />
+                </StackLayout.GestureRecognizers>
+                <!-- Title -->
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="Start"
+                    HeightRequest="30"
+                    Padding="{StaticResource padding}"
+                    BackgroundColor="{Binding ThemeSettingContent.ThemeBgColor, Source={Static Member=general:Common.mCommon}}">
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                        <Label 
+                            TextColor="{Binding ThemeSettingContent.ThemeFontColor, Source={Static Member=general:Common.mCommon}}"
+                            Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCommunity.lbl.SearchMoreTitle}, Path=Value}"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"
+                            AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"/>
+                    </AbsoluteLayout>
+                </StackLayout>
+
+                <!-- Main Grid with Scrollable content and fixed footer -->
+                <Grid RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <!-- Content -->
+                        <RowDefinition Height="Auto" />
+                        <!-- Footer -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Scrollable Content -->
+                    <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
+                        <StackLayout Padding="20" Spacing="10">
+                            <Label Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCommunity.lbl.AdviceName}, Path=Value}" FontAttributes="Bold" />
+                            <Entry 
+                                x:Name="entCommunityName"
+                                Placeholder="Enter Advice name"/>
+                            <Label Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCommunity.lbl.AdviceType}, Path=Value}" FontAttributes="Bold" />
+                            <Picker 
+                                x:Name="pkrCommunityType"
+                                Title="{Binding Source={ext:LanguageExtension Key=JOB.Common.plh.Select}, Path=Value}"
+                                ItemsSource="{Binding JobCommunityTypeList}"
+                                ItemDisplayBinding="{Binding CommunityTypeName_0_255}" />
+                        </StackLayout>
+                    </ScrollView>
+
+                    <!-- Fixed Footer Buttons -->
+                    <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="20,10" Spacing="15">
+                        <Button 
+                            Text="{Binding Source={ext:LanguageExtension Key=JOB.Common.btnName.Cancel}, Path=Value}"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="CancelButton_Clicked" />
+                        <Button 
+                            Text="{Binding Source={ext:LanguageExtension Key=JOB.Common.btnName.OK}, Path=Value}"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="OkButton_Clicked" />
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</rg:PopupPage>

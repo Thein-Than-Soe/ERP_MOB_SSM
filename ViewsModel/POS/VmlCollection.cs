@@ -255,8 +255,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     {
                         argKeyword = argKeyword.ToLower();
                         if (l_DAT_COLLECTION_DETAIL.CollectionDate.ToLower().Contains(argKeyword)
-                            || l_DAT_COLLECTION_DETAIL.CollectionCode.ToLower().Contains(argKeyword)
-                            || l_DAT_COLLECTION_DETAIL.CustomerName.ToLower().Contains(argKeyword)
+                            || l_DAT_COLLECTION_DETAIL.CollectionCode_0_50.ToLower().Contains(argKeyword)
+                            || l_DAT_COLLECTION_DETAIL.CustomerName_0_255.ToLower().Contains(argKeyword)
                             
                             || l_DAT_COLLECTION_DETAIL.OutstandingAmount.ToLower().Contains(argKeyword))
                         {

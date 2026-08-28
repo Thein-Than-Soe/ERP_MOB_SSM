@@ -1,34 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.ECO.DAT;
+using CS.ERP.PL.NTF.DAT;
 using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP.PL.SYS.REQ;
 using CS.ERP.PL.SYS.RES;
+using CS.ERP.PL.WSS.DAT;
 using CS.ERP_MOB.Data;
 using CS.ERP_MOB.DB;
+using CS.ERP_MOB.Extensions;
 using CS.ERP_MOB.Models;
 using CS.ERP_MOB.Models.Frame;
 using CS.ERP_MOB.Route;
-using CS.ERP_MOB.Services.POS;
-using CS.ERP_MOB.Services.SYS;
-using Newtonsoft.Json;
-//using Plugin.Connectivity;
-using Microsoft.Maui.Networking;
-using Microsoft.Maui.Controls;
-using CommunityToolkit.Mvvm.Messaging;
-using static SQLite.SQLite3;
-using CS.ERP_MOB.Extensions;
-using System.Text.Json.Nodes;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CS.ERP.PL.ECO.DAT;
-using CS.ERP.PL.NTF.DAT;
-using CS.ERP.PL.WSS.DAT;
 using CS.ERP_MOB.Services.CHT;
 using CS.ERP_MOB.Services.NTF;
+using CS.ERP_MOB.Services.POS;
+using CS.ERP_MOB.Services.SYS;
+using Microsoft.Maui.Controls;
+//using Plugin.Connectivity;
+using Microsoft.Maui.Networking;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Text.Json.Nodes;
+using static SQLite.SQLite3;
 namespace CS.ERP_MOB.General
 {
     public class Common : ObservableProperty, INotifyPropertyChanged
@@ -1538,7 +1539,7 @@ namespace CS.ERP_MOB.General
                         saveDbUser();
                         if (mCommon.JSN_RES_MOBILE_LOGIN.menu.Count>0 && !Common.bindMenu(mCommon.JSN_RES_MOBILE_LOGIN.menu[0].MenuUrl))
                         {
-                            //Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "Home", MenuUrl = "home", logoImg = "" };
+                            Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "Home", MenuUrl = "home", logoImg = "" };
                             //mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "Sign In", MenuUrl = "signin", logoImg = "" };
                             WeakReferenceMessenger.Default.Send(mCommon.GetMessageValueByKey("MsgAccess"));
                         }
@@ -2265,7 +2266,8 @@ namespace CS.ERP_MOB.General
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
+                //throw ex.InnerException;
+                Debug.WriteLine(ex.ToString());
             }
         }
 
@@ -2362,6 +2364,24 @@ namespace CS.ERP_MOB.General
                     mRES_NOTI_LST_DATA.ControlAsk = argRES_CONTROL.ID;
                     mRES_NOTI_LST_DATA.MenuAsk = Common.mCommon.SelectedMenu.Id;
                     mRES_NOTI_LST_DATA.LinkAsk1 = argRES_CONTROL.link;
+                    await ntfSocketService.saveNoti(mRES_NOTI_LST_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public async void saveNoti(RES_CONTROL argRES_CONTROL, string argLink = "")
+        {
+            try
+            {
+                if (argRES_CONTROL.btncode == "0") return;
+                if (argRES_CONTROL.btncode == "1")
+                {
+                    mRES_NOTI_LST_DATA = new RES_NOTI_LST();
+                    mRES_NOTI_LST_DATA.ControlAsk = argRES_CONTROL.ID;
+                    mRES_NOTI_LST_DATA.MenuAsk = Common.mCommon.SelectedMenu.Id;
+                    mRES_NOTI_LST_DATA.LinkAsk1 = argLink;
                     await ntfSocketService.saveNoti(mRES_NOTI_LST_DATA);
                 }
             }

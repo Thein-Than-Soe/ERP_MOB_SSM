@@ -270,9 +270,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_INVENTORY_ISSUE l_RES_INVENTORY_ISSUE in mJSN_INVENTORY_ISSUE_JUN.RES_INVENTORY_ISSUE)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_INVENTORY_ISSUE.IssueCode.ToLower().Contains(argKeyword)
+                        if (l_RES_INVENTORY_ISSUE.IssueCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_INVENTORY_ISSUE.IssueDate.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_ISSUE.IssueTypeName.ToLower().Contains(argKeyword))
+                            || l_RES_INVENTORY_ISSUE.IssueTypeName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_INVENTORY_ISSUE_lst.Add(l_RES_INVENTORY_ISSUE);
                         }

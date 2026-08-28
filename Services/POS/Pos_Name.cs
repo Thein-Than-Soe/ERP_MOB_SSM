@@ -45,6 +45,12 @@ namespace CS.ERP_MOB.Services.POS
         public static string wsloadSalePayHis = "loadSalePayHis";
         public static string wsloadSalePayment = "loadSalePayment";
 
+        public static string wsgetMyTransactionHistory = "getMyTransactionHistory";
+        public static string wsgetInventryStockDetail = "getInventryStockDetail";
+        public static string wssaveSaleOrderJunOva = "saveSaleOrderJunOva";
+        public static string wsgetBookNow = "getBookNow";
+        public static string wsgetAvailableUser = "getAvailableUser";
+
         #endregion
         #region "Save"
         public static string wssaveCollection = "saveCollection";
@@ -90,6 +96,9 @@ namespace CS.ERP_MOB.Services.POS
         public static string wsbrowseInventryIssueJun = "browseInventoryIssueJun";
         public static string wssaveInventryTransfer = "saveInventryTransfer";
         public static string wssaveInventryDamage = "saveInventryDamage";
+
+        public static string wsupdateServiceStatus = "updateServiceStatus";
+        public static string wssaveBookNow = "saveBookNow";
        
 
         #endregion
@@ -118,6 +127,12 @@ namespace CS.ERP_MOB.Services.POS
         public static string wsLoadInventryDamage = "loadInventryDamage";
         public static string wsLoadInventryStock = "loadInventryStock";
         public static string wsLoadInventryIssue = "loadInventryIssue";
+
+
+
+        public static string wsloadSaleOrder = "loadSaleOrder";
+        public static string wsloadBookNow = "loadBookNow";
+        public static string wsloadService = "loadService";
         #endregion
 
     }

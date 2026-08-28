@@ -278,9 +278,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SETTLEMENT l_RES_SETTLEMENT in mJSN_RES_PURCHASE_SETTLEMENT.RES_SETTLEMENT)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SETTLEMENT.SettlementCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SETTLEMENT.SettlementCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SETTLEMENT.TotalAmount.ToLower().Contains(argKeyword)
-                            || l_RES_SETTLEMENT.SaleManName.ToLower().Contains(argKeyword))
+                            || l_RES_SETTLEMENT.SaleManName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_SETTLEMENT_lst.Add(l_RES_SETTLEMENT);
                         }

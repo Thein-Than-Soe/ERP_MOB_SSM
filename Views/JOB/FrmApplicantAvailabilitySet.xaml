@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CS.ERP_MOB.Views.JOB.FrmApplicantAvailabilitySet"
+             xmlns:general="clr-namespace:CS.ERP_MOB.General"
+             xmlns:touch="http://axemasta.com/schemas/2023/toucheffect"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+             xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+             Title="Professional summary edit">
+
+    <Grid RowDefinitions="*,Auto">
+        <!-- Form area -->
+        <!-- Description -->
+        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto,*" Padding="5,0" VerticalOptions="Center">
+                <Label 
+                                    Text="&#xf0ac;"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    TextColor="Black"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Margin="10"/>
+                <Picker
+                                    x:Name="PickerAvailability"
+                                    Grid.Column="1"
+                                    Title="Select Availability"
+                                    ItemsSource="{Binding AvailabilityList}"
+                                    ItemDisplayBinding="{Binding ApplicantAvailabilityName_0_255}"
+                                    FontSize="12"
+                                    HeightRequest="40"/>
+
+            </Grid>
+        </Border>
+
+        <!-- Fixed Bottom Box -->
+        <Grid HeightRequest="50"
+              Grid.Row="1"
+                BackgroundColor="AntiqueWhite"
+                VerticalOptions="End"
+                HorizontalOptions="Fill"
+                ColumnDefinitions="*"
+                Padding="20,0">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <!-- Save button -->
+                <Frame
+                Padding="10,7"
+                CornerRadius="5"
+                HasShadow="True"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+
+                    <!-- Tap Gesture -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Tapped="OnSaveBtn_Clicked" 
+                            NumberOfTapsRequired="1" />
+                    </Frame.GestureRecognizers>
+
+
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="&#xf0c7;" 
+                           Grid.Column="0"
+                           FontFamily="{StaticResource FontAwesomeSolid}"
+                           FontSize="18"
+                           TextColor="White"
+                           VerticalOptions="Center" />
+
+                        <!-- Text -->
+                        <Label 
+                        Grid.Column="1"
+                        Text="Save"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+            </HorizontalStackLayout>
+
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

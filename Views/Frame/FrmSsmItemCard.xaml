@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Class="CS.ERP_MOB.Views.Frame.FrmSsmItemCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.Frame"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="SsmItemCard">
+
+    <!--
+        ============================================================
+        SwipeView
+        RightItems = actions shown when user swipes LEFT
+        ============================================================
+    -->
+
+    <SwipeView>
+
+        <SwipeView.RightItems>
+
+            <SwipeItems Mode="Execute">
+
+                <SwipeItem
+                    BackgroundColor="#D32F2F"
+                    Command="{Binding DeleteCommand, Source={x:Reference SsmItemCard}}"
+                    CommandParameter="{Binding CommandParameter, Source={x:Reference SsmItemCard}}"
+                    Text="Delete" />
+
+            </SwipeItems>
+
+        </SwipeView.RightItems>
+
+
+        <!--
+            ========================================================
+            Card
+            ========================================================
+        -->
+
+        <Border
+            Margin="0,5"
+            Padding="12"
+            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+            Stroke="#E0E0E0"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1">
+
+
+            <Border.GestureRecognizers>
+
+                <TapGestureRecognizer Command="{Binding TapCommand, Source={x:Reference SsmItemCard}}" CommandParameter="{Binding CommandParameter, Source={x:Reference SsmItemCard}}" />
+
+            </Border.GestureRecognizers>
+
+
+            <Grid
+                ColumnDefinitions="*,Auto"
+                RowDefinitions="Auto,Auto"
+                RowSpacing="8">
+
+
+                <!--
+                    ================================================
+                    Row 1 : Item Name / Number
+                    ================================================
+                -->
+
+                <HorizontalStackLayout
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Spacing="5">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        LineBreakMode="TailTruncation"
+                        Text="{Binding ItemName, Source={x:Reference SsmItemCard}}"
+                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        LineBreakMode="TailTruncation"
+                        Text="{Binding ItemNumber}"
+                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+
+
+                <!--
+                    ================================================
+                    Row 2 : Left Details
+                    ================================================
+                -->
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Spacing="4">
+
+
+                    <!--  Qty  -->
+
+                    <HorizontalStackLayout Spacing="5">
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="Qty:"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                            WidthRequest="60" />
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="{Binding Qty, Source={x:Reference SsmItemCard}}"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    </HorizontalStackLayout>
+
+
+                    <!--  UOM  -->
+
+                    <HorizontalStackLayout Spacing="5">
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="UOM:"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                            WidthRequest="60" />
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="{Binding UOM, Source={x:Reference SsmItemCard}}"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    </HorizontalStackLayout>
+
+
+                    <!--  Price  -->
+
+                    <HorizontalStackLayout Spacing="5">
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="Price:"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                            WidthRequest="60" />
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="{Binding Price, Source={x:Reference SsmItemCard}}"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    </HorizontalStackLayout>
+
+
+                    <!--  Discount  -->
+
+                    <HorizontalStackLayout IsVisible="{Binding HasDiscount, Source={x:Reference SsmItemCard}}" Spacing="5">
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="Discount:"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                            WidthRequest="60" />
+
+                        <Label
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="{Binding Discount, Source={x:Reference SsmItemCard}}"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+
+                <!--
+                    ================================================
+                    Row 2 : Amount
+                    ================================================
+                -->
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Spacing="2"
+                    VerticalOptions="Center">
+
+                    <Label
+                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        HorizontalTextAlignment="End"
+                        Text="Amount"
+                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding Amount, Source={x:Reference SsmItemCard}}"
+                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                </VerticalStackLayout>
+
+            </Grid>
+
+        </Border>
+
+    </SwipeView>
+
+</ContentView>

@@ -14,41 +14,47 @@ using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP_MOB.Views.POS;
 using System.Diagnostics;
 using RGPopup.Maui.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace CS.ERP_MOB.ViewsModel.POS
 {
     public class VmlSalesInvoice : BaseViewModel
     {
         #region "Declaring"
+        string mRequest = "";
+        string mResponse = "";
+
         public JSN_REQ_SALE_INVOICE_JUN mJSN_REQ_SALE_INVOICE_JUN = new JSN_REQ_SALE_INVOICE_JUN();
         public JSN_SALE_INVOICE_JUN mJSN_SALE_INVOICE_JUN = new JSN_SALE_INVOICE_JUN();
         public JSN_LOAD_SALE_INVOICE mJSN_LOAD_SALE_INVOICE = new JSN_LOAD_SALE_INVOICE();
-        string mRequest = "";
-        string mResponse = "";
-        public ICommand LoadMoreCommand { get; }
-        private bool isLoadingMore = false;
-        public bool IsLoadingMore
-        {
-            get => isLoadingMore;
-            set
-            {
-                isLoadingMore = value;
-                NotifyPropertyChanged(nameof(IsLoadingMore));
-            }
-        }
+        public List<RES_SALE_INVOICE> mRES_SALE_INVOICE_LST = new List<RES_SALE_INVOICE>();
+        public ObservableCollection<RES_SALE_INVOICE> SalesInvoiceList { get; set; }
+        public ObservableCollection<SortingItem> sortingList { get; set; }
+        SortingItem[] labelTexts = [
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesInvoiceJunOva.lbl.InvoiceDate"), value = "InvoiceDate", ShowIcon = true },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesInvoiceJunOva.lbl.InvoiceNo"), value = "InvoiceCode_0_50", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesInvoiceJunOva.lbl.Customer"), value = "CustomerName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesInvoiceJunOva.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesInvoiceJunOva.lbl.Price"), value = "GrandTotal", ShowIcon = false} 
+            ];
+
         #endregion
 
         #region "Contructor"
         public VmlSalesInvoice()
         {
             this.switchDisplayView(DisplayView.Card);
-            InvoiceLoad = new JSN_LOAD_SALE_INVOICE();
-            SalesInvoiceList = new List<RES_SALE_INVOICE>();
+            SalesInvoiceLoad = new JSN_LOAD_SALE_INVOICE();
+            SalesInvoiceList = new ObservableCollection<RES_SALE_INVOICE>();
             LoadMoreCommand = new Command(async () => await LoadMoreItems());
+            sortingList = new ObservableCollection<SortingItem>(labelTexts);
+            IsAscending = true;
+            IsDescending = false;
         }
         #endregion
 
-        #region "Display View"
+        #region "Boolean Declaring"
         private bool mIsCardView;
         public bool IsCardView
         {
@@ -109,54 +115,80 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 }
             }
         }
+        private bool mIsAscending;
+        public bool IsAscending{
+            get
+            {
+                return mIsAscending;
+            }
+            set
+            {
+                mIsAscending = value;
+                NotifyPropertyChanged("IsAscending");
+            }
+        }
+        private bool mIsDescending;
+        public bool IsDescending
+        {
+            get
+            {
+                return mIsDescending;
+            }
+            set
+            {
+                mIsDescending = value;
+                NotifyPropertyChanged("IsDescending");
+            }
+        }
+
+        private bool isLoadingMore = false;
+        public bool IsLoadingMore
+        {
+            get => isLoadingMore;
+            set
+            {
+                isLoadingMore = value;
+                NotifyPropertyChanged(nameof(IsLoadingMore));
+            }
+        }
         #endregion
 
-        #region "Data Tab"
+        #region "Get Set"
         public JSN_LOAD_SALE_INVOICE JSN_LOAD_SALE_INVOICE = new JSN_LOAD_SALE_INVOICE();
-        public JSN_LOAD_SALE_INVOICE InvoiceLoad
+        public JSN_LOAD_SALE_INVOICE SalesInvoiceLoad
         {
             get { return JSN_LOAD_SALE_INVOICE; }
-            set { JSN_LOAD_SALE_INVOICE = value; NotifyPropertyChanged("InvoiceLoad"); }
-        }
-
-        public RES_SALE_INVOICE mRES_SALE_INVOICE = new RES_SALE_INVOICE();
-        public RES_SALE_INVOICE_DETAIL mRES_SALE_INVOICE_DETAIL = new RES_SALE_INVOICE_DETAIL();
-        public RES_COMPANY mRES_COMPANY = new RES_COMPANY();
-        public RES_SALE_BROWSE mRES_SALE_BROWSE = new RES_SALE_BROWSE();
-
-        public List<RES_SALE_INVOICE> mRES_SALE_INVOICE_LST = new List<RES_SALE_INVOICE>();
-
-        public RES_SALE_BROWSE RES_SALE_BROWSE
-        {
-            get { return mRES_SALE_BROWSE; }
-            set { mRES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
-        }
-
-        public RES_SALE_INVOICE RES_SALE_INVOICE
-        {
-            get { return mRES_SALE_INVOICE; }
-            set { mRES_SALE_INVOICE = value; NotifyPropertyChanged("RES_SALE_INVOICE"); }
-        }
-
-        public RES_SALE_INVOICE_DETAIL RES_SALE_INVOICE_DETAIL
-        {
-            get { return mRES_SALE_INVOICE_DETAIL; }
-            set { mRES_SALE_INVOICE_DETAIL = value; NotifyPropertyChanged("RES_SALE_INVOICE_DETAIL"); }
-        }
-
-        public RES_COMPANY RES_COMPANY
-        {
-            get { return mRES_COMPANY; }
-            set { mRES_COMPANY = value; NotifyPropertyChanged("RES_SALE_INVOICE"); }
+            set { JSN_LOAD_SALE_INVOICE = value; NotifyPropertyChanged("SalesInvoiceLoad"); }
         }
 
 
-        public List<RES_SALE_INVOICE> mSalesInvoiceList;
-        public List<RES_SALE_INVOICE> SalesInvoiceList
-        {
-            get { return mSalesInvoiceList; }
-            set { mSalesInvoiceList = value; NotifyPropertyChanged("SalesInvoiceList"); }
-        }
+        //public RES_SALE_BROWSE mRES_SALE_BROWSE = new RES_SALE_BROWSE();
+        //public RES_SALE_BROWSE RES_SALE_BROWSE
+        //{
+        //    get { return mRES_SALE_BROWSE; }
+        //    set { mRES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
+        //}
+
+        //public RES_SALE_INVOICE mRES_SALE_INVOICE = new RES_SALE_INVOICE();
+        //public RES_SALE_INVOICE RES_SALE_INVOICE
+        //{
+        //    get { return mRES_SALE_INVOICE; }
+        //    set { mRES_SALE_INVOICE = value; NotifyPropertyChanged("RES_SALE_INVOICE"); }
+        //}
+
+        //public RES_SALE_INVOICE_DETAIL mRES_SALE_INVOICE_DETAIL = new RES_SALE_INVOICE_DETAIL();
+        //public RES_SALE_INVOICE_DETAIL RES_SALE_INVOICE_DETAIL
+        //{
+        //    get { return mRES_SALE_INVOICE_DETAIL; }
+        //    set { mRES_SALE_INVOICE_DETAIL = value; NotifyPropertyChanged("RES_SALE_INVOICE_DETAIL"); }
+        //}
+
+        //public RES_COMPANY mRES_COMPANY = new RES_COMPANY();
+        //public RES_COMPANY RES_COMPANY
+        //{
+        //    get { return mRES_COMPANY; }
+        //    set { mRES_COMPANY = value; NotifyPropertyChanged("RES_COMPANY"); }
+        //}
 
         public List<RES_CUSTOMER_DTL> mCustomerDtlList;
         public List<RES_CUSTOMER_DTL> CustomerDtlList
@@ -164,7 +196,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
             get { return mCustomerDtlList; }
             set { mCustomerDtlList = value; NotifyPropertyChanged("CustomerDtlList"); }
         }
-
+        
         #endregion
 
         #region "Commands"
@@ -238,7 +270,22 @@ namespace CS.ERP_MOB.ViewsModel.POS
             {
                 if (mEditItemCommand == null)
                 {
-                    mEditItemCommand = new Command(() => this.switchDisplayView(DisplayView.Grid));
+                    mEditItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Edit"))
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                            } 
+                        }
+                    });
+                        //mEditItemCommand = new Command(() => this.switchDisplayView(DisplayView.Grid));
                     //mRefreshCommand = new Command(() => this.getInvoice());
                 }
                 return mEditItemCommand;
@@ -251,7 +298,28 @@ namespace CS.ERP_MOB.ViewsModel.POS
             {
                 if (mDeleteItemCommand == null)
                 {
-                    //mRefreshCommand = new Command(() => this.getInvoice());
+                    mDeleteItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Delete") && item.PostingStatusAsk != "1" && item.StatusAsk != "9")
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Delete")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = item;
+                                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE.StatusAsk = "6";
+                                saveInvoice();
+                            }
+                        }
+                        else
+                        {
+                            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgDelete"));
+                        }
+                    });
                 }
                 return mDeleteItemCommand;
             }
@@ -294,9 +362,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 return mSendItemCommand;
             }
         }
-
         private ICommand mActiveItemCommand;
-
         public ICommand ActiveItemCommand
         {
             get
@@ -347,16 +413,25 @@ namespace CS.ERP_MOB.ViewsModel.POS
         public ICommand LongPressItemCommand { get; }
 
         private ICommand mCardItemTappedCommand;
-
-        public ICommand CardItemTappedCommand
+        public  ICommand CardItemTappedCommand
         {
             get
             {
                 if (mCardItemTappedCommand == null)
                 {
-                    mCardItemTappedCommand = new Command(() =>
+                    mCardItemTappedCommand = new Command<RES_SALE_INVOICE>(async (item) =>
                     {
-                       
+                        bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}?",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Active")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                        if (answer)
+                        {
+                            //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
+
+                        }
                     });
                 }
                 return mCardItemTappedCommand;
@@ -374,10 +449,25 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 return mMoreSearchCommand;
             }
         }
+        public ICommand LoadMoreCommand { get; }
+        #endregion
+
+        #region "Task"
+        private async Task LoadMoreItems()
+        {
+            if (IsLoadingMore) return;
+            IsLoadingMore = true;
+            getInvoice();
+            IsLoadingMore = false;
+        }
+        private Task ExecuteActiveItem()
+        {
+            saveInvoice();
+            return Task.CompletedTask;
+        }
         #endregion
 
         #region "Method"
-       
         private void switchDisplayView(DisplayView argDisplayView)
         {
             try
@@ -385,6 +475,13 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 IsCardView = argDisplayView == DisplayView.Card;
                 IsListView = argDisplayView == DisplayView.List;
                 IsGridView = argDisplayView == DisplayView.Grid;
+    
+                var tmp = SalesInvoiceList;
+                SalesInvoiceList = null;
+                NotifyPropertyChanged(nameof(SalesInvoiceList));
+
+                SalesInvoiceList = tmp;
+                NotifyPropertyChanged(nameof(SalesInvoiceList));
             }
             catch (Exception ex)
             {
@@ -397,12 +494,14 @@ namespace CS.ERP_MOB.ViewsModel.POS
             {
                 if (argRES_SALE_INVOICE_LST != null && argRES_SALE_INVOICE_LST.Count > 0)
                 {
-                    RES_SALE_INVOICE = argRES_SALE_INVOICE_LST[0];
-                    SalesInvoiceList = argRES_SALE_INVOICE_LST;
+                    foreach (RES_SALE_INVOICE l_RES_SALE_INVOICE in argRES_SALE_INVOICE_LST)
+                    {
+                        SalesInvoiceList.Add(l_RES_SALE_INVOICE);
+                    }
                 }
                 else
                 {
-                    SalesInvoiceList = new List<RES_SALE_INVOICE>();
+                    SalesInvoiceList = new ObservableCollection<RES_SALE_INVOICE>();
                 }
             }
             catch (Exception ex)
@@ -410,7 +509,6 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 throw ex.InnerException;
             }
         }
-
         public void searchDataApi(string argKeyword)
         {
             try
@@ -446,7 +544,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 }
                 else
                 {
-                    l_RES_SALE_INVOICE_Lst = mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE;// OriginalInvoiceClosedList.GetRange(0, OriginalInvoiceClosedList.Count);
+                    l_RES_SALE_INVOICE_Lst = new List<RES_SALE_INVOICE>(mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE);// OriginalInvoiceClosedList.GetRange(0, OriginalInvoiceClosedList.Count);
                 }
                 bindDataTab(l_RES_SALE_INVOICE_Lst);
             }
@@ -454,38 +552,6 @@ namespace CS.ERP_MOB.ViewsModel.POS
             {
                 throw ex.InnerException;
             }
-        }
-        private void formatUserSettingData(List<RES_SALE_INVOICE> argRES_SALE_INVOICE_LST)
-        {
-            try
-            {
-                if (argRES_SALE_INVOICE_LST != null && argRES_SALE_INVOICE_LST.Count > 0)
-                {
-                    foreach (RES_SALE_INVOICE l_RES_SALE_INVOICE in argRES_SALE_INVOICE_LST)
-                    {
-                        l_RES_SALE_INVOICE.InvoiceDate = Utility.getDateTimeString(l_RES_SALE_INVOICE.InvoiceDate).ToString();
-                        l_RES_SALE_INVOICE.GrandTotal = Utility.getGrandTotalDecimal(l_RES_SALE_INVOICE.GrandTotal).ToString();
-                        if(l_RES_SALE_INVOICE.StatusAsk == "1")
-                        {
-                            l_RES_SALE_INVOICE.StatusName_0_255 = "Inactive";
-                        }
-                        else
-                        {
-                            l_RES_SALE_INVOICE.StatusName_0_255 = "Active";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
-        private Task ExecuteActiveItem()
-        {
-            saveInvoice();
-            return Task.CompletedTask;
         }
         private void selectMoreSearch()
         {
@@ -498,35 +564,34 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 throw ex.InnerException;
             }
         }
+        //private async void callSearchMorePopup()
+        //{
+        //    try
+        //    {
+        //        var popup = new FrmPosSaleInvoicePop(this.SalesInvoiceLoad);
+        //        await PopupNavigation.Instance.PushAsync(popup);
 
-        private async void callSearchMorePopup()
-        {
-            try
-            {
-                var popup = new FrmPosSaleInvoicePop(this.InvoiceLoad);
-                await PopupNavigation.Instance.PushAsync(popup);
-
-                var result = await popup.PopupClosedTask;
-                if (result is RES_SALE_INVOICE selectedData)
-                {
-                    mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = selectedData;
-                    if(Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-                    {
-                        SalesInvoiceList = mRES_SALE_INVOICE_LST.Where(data =>(data.CustomerAsk == selectedData.CustomerAsk)
-                                                                               || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList();
-                    }
-                    else
-                    {
-                        getInvoice();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
+        //        var result = await popup.PopupClosedTask;
+        //        if (result is RES_SALE_INVOICE selectedData)
+        //        {
+        //            mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = selectedData;
+        //            if(Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+        //            {
+        //                SalesInvoiceList = new ObservableCollection<RES_SALE_INVOICE>(mRES_SALE_INVOICE_LST.Where(data =>(data.CustomerAsk == selectedData.CustomerAsk)
+        //                                                                       || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+        //            }
+        //            else
+        //            {
+        //                getInvoice();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.InnerException;
+        //    }
+        //}
+        
         public void bindCustomer(List<RES_CUSTOMER_DTL> argRES_CUSTOMER_DTL_LST)
         {
             try
@@ -562,7 +627,6 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     {
                         if (this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE.Count > 0)
                         {
-                            formatUserSettingData(this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE);
                             mRES_SALE_INVOICE_LST = this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE;
                             bindDataTab(this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE);
                             WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
@@ -596,25 +660,15 @@ namespace CS.ERP_MOB.ViewsModel.POS
         {
             try
             {
-                mRequest = JsonConvert.SerializeObject(mRES_SALE_INVOICE);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleInvoice);
+                mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_INVOICE_JUN);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wssaveSaleInvoice);
                 if (mResponse != null && mResponse != "")
                 {
                     this.mJSN_SALE_INVOICE_JUN = JsonConvert.DeserializeObject<JSN_SALE_INVOICE_JUN>(mResponse);
                     if (mJSN_SALE_INVOICE_JUN.Message.Code == "7")
                     {
-                        if (this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE.Count > 0)
-                        {
-                            RES_SALE_INVOICE = this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE[0];
-                            WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
-                            
-                            //route parent list form after save
-                            Common.routeMenu(Common.mCommon.SelectedMenu);
-                        }
-                        else
-                        {
-                            WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
-                        }
+                        mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = new RES_SALE_INVOICE();
+                        getInvoice();
                     }
                     else
                     {
@@ -645,8 +699,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     if (mJSN_LOAD_SALE_INVOICE.Message.Code == "7")
                     {
                         Utility.closeLoader();
-                        this.InvoiceLoad = mJSN_LOAD_SALE_INVOICE;
-                        callSearchMorePopup();
+                        this.SalesInvoiceLoad = mJSN_LOAD_SALE_INVOICE;
+                        //callSearchMorePopup();
                     }
                     else
                     {
@@ -665,16 +719,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
             }
         }
 
-        private async Task LoadMoreItems()
-        {
-            if (IsLoadingMore) return;
-            IsLoadingMore = true;
-
-            getInvoice(); // Your data fetch
-
-
-            IsLoadingMore = false;
-        }
         #endregion
     }
+
 }

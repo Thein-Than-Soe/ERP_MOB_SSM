@@ -15,9 +15,9 @@ namespace CS.ERP_MOB.Services.POS
                                             {
                                                 Ask = 1,
                                                 ProductCode = "POS",
-                                                UploadURL = "https://upddevsrv.kumudr.com",
-                                                APIURL = "https://posdevapi.kumudr.com/Service.svc",
-                                                APIProtocol = "https://",
+                                                UploadURL = "http://upddevsrv.kumudr.com",
+                                                APIURL = "http://posdevapi.kumudr.com/Service.svc",
+                                                APIProtocol = "http://",
                                                 APIServer = "posdevapi.kumudr.com/",
                                                 APIPort = "",
                                                 APIServiceName = "Service.svc/",

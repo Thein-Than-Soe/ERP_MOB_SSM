@@ -267,11 +267,11 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_INVENTORY_TRANSFER l_RES_INVENTORY_TRANSFER in mJSN_INVENTRY_TRANSFER.RES_INVENTRY_TRANSFER)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_INVENTORY_TRANSFER.TransferCode.ToLower().Contains(argKeyword)
+                        if (l_RES_INVENTORY_TRANSFER.TransferCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_INVENTORY_TRANSFER.TransferDate.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_TRANSFER.ToLocationName.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_TRANSFER.TransferTypeName.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_TRANSFER.FromLocationName.ToLower().Contains(argKeyword))
+                            || l_RES_INVENTORY_TRANSFER.ToLocationName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_TRANSFER.TransferTypeName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_TRANSFER.FromLocationName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_INVENTORY_TRANSFER_lst.Add(l_RES_INVENTORY_TRANSFER);
                         }

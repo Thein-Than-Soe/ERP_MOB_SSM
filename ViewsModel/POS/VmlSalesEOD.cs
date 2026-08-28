@@ -279,7 +279,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SETTLEMENT l_RES_SETTLEMENT in mJSN_SETTLEMENT.RES_SETTLEMENT)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SETTLEMENT.SettlementCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SETTLEMENT.SettlementCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SETTLEMENT.TotalAmount.ToLower().Contains(argKeyword)
                             || l_RES_SETTLEMENT.SettlementDate.ToLower().Contains(argKeyword))
                         {

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobApplicantEducationSet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect"
+    Title="Applicant Education Edit">
+
+
+    <Grid RowDefinitions="*,Auto">
+        <!--  Form area  -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="25">
+
+                <!--  Major  -->
+                <VerticalStackLayout Spacing="0">
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.Major}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryMajor" Placeholder="Enter major">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="MajorValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="1" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.Major}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Education level  -->
+                <VerticalStackLayout>
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.EducationLevel}, Path=Value}" />
+                    <Picker
+                        x:Name="PickerEducationLevel"
+                        Title="{Binding Source={ext:LanguageExtension Key=JOB.Common.plh.Select}, Path=Value}"
+                        ItemDisplayBinding="{Binding EducationLevelName_0_255}"
+                        ItemsSource="{Binding EducationLevelList}" />
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.EducationLevel}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  School  -->
+                <VerticalStackLayout>
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.School}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntrySchool" Placeholder="Enter school">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="SchoolValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.School}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Country  -->
+                <VerticalStackLayout>
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.Country}, Path=Value}" />
+                    <Picker
+                        x:Name="PickerCountry"
+                        Title="{Binding Source={ext:LanguageExtension Key=JOB.Common.plh.Select}, Path=Value}"
+                        ItemDisplayBinding="{Binding CountryName_0_255}"
+                        ItemsSource="{Binding CountryList}" />
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.Country}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+
+                <!--  Effective year  -->
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="50" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            Text="Start Date"
+                            VerticalOptions="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            Text="End Date"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                        <!--  pickers  -->
+                        <Border
+                            Grid.Column="1"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <DatePicker
+                                    x:Name="StartDatePicker"
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40" />
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*"
+                                VerticalOptions="Center">
+                                <Label
+                                    Margin="10"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                                <DatePicker
+                                    x:Name="EndDatePicker"
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    HeightRequest="40" />
+                            </Grid>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+                <!--  GPA  -->
+                <VerticalStackLayout>
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.GPA}, Path=Value}"
+                        VerticalOptions="Center" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry
+                        x:Name="EntryGPA"
+                        Grid.Column="1"
+                        Placeholder="Enter GPA"
+                        VerticalOptions="Center">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="GPAValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="10"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.GPA}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Reference  -->
+                <VerticalStackLayout>
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.lbl.ReferenceNo}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryReference" Placeholder="Enter reference">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="ReferenceValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                    <!--  ℹ️ Static Hint Info  -->
+                    <HorizontalStackLayout Margin="5,0,0,0" Spacing="4">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="12"
+                            Text="&#xf05a;" />
+                        <Label
+                            FontSize="12"
+                            Text="{Binding Source={ext:LanguageExtension Key=HCM.Education.ifo.ReferenceNo}, Path=Value}"
+                            TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!--  Remark  -->
+                <VerticalStackLayout Spacing="2">
+                    <!--  🔹 Field Label (Localized)  -->
+                    <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=HCM.Setup.lbl.Remark}, Path=Value}" />
+
+                    <!--  🔹 Entry with Validation Behavior  -->
+                    <Entry x:Name="EntryRemark" Placeholder="{Binding Source={ext:LanguageExtension Key=HCM.Setup.plh.Remark}, Path=Value}">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="RemarkValidator"
+                                Flags="ValidateOnValueChanged"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MaximumLength="255"
+                                MinimumLength="0" />
+                        </Entry.Behaviors>
+                    </Entry>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <!--  Fixed Bottom Box  -->
+        <Grid
+            Grid.Row="1"
+            Padding="20,0"
+            BackgroundColor="AntiqueWhite"
+            ColumnDefinitions="*"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            VerticalOptions="End">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <!--  Save button  -->
+                <Frame
+                    Padding="10,7"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnSaveBtn_Clicked" />
+                    </Frame.GestureRecognizers>
+
+
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf0c7;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Save"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+                <!--  Apply button  -->
+                <Frame
+                    Padding="10,7"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnDeleteBtn_Clicked" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf1f8;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Delete"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+            </HorizontalStackLayout>
+
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

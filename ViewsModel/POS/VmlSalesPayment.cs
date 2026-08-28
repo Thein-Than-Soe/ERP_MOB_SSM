@@ -272,11 +272,11 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SALE_PAYMENT l_RES_SALE_PAYMENT in mJSN_SALE_PAYMENT_JUN.RES_SALE_PAYMENT)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_PAYMENT.PaymentCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SALE_PAYMENT.PaymentCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SALE_PAYMENT.PaymentDate.ToLower().Contains(argKeyword)
-                             || l_RES_SALE_PAYMENT.PaymentTypeName.ToLower().Contains(argKeyword)
+                             || l_RES_SALE_PAYMENT.PaymentTypeName_0_255.ToLower().Contains(argKeyword)
                               || l_RES_SALE_PAYMENT.OutstandingAmount.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_PAYMENT.ParentCode.ToLower().Contains(argKeyword))
+                            || l_RES_SALE_PAYMENT.ParentCode_0_50.ToLower().Contains(argKeyword))
                         {
                             l_RES_SALE_PAYMENT_lst.Add(l_RES_SALE_PAYMENT);
                         }

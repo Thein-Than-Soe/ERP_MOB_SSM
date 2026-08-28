@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobCompanyLst"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Effects="clr-namespace:RGPopup.Maui.Effects;assembly=RGPopup.Maui"
+    xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:footer="clr-namespace:CS.ERP_MOB.Views.SYS"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect">
+    <AbsoluteLayout>
+        <StackLayout
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="{StaticResource Key=OvaListBackgroundColor}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <!--  Top search bar area  -->
+            <StackLayout
+                Padding="{StaticResource Key=paddingLeftRight}"
+                BackgroundColor="{StaticResource Key=OvaListTitleColor}"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                VerticalOptions="Start">
+
+                <!--  Search Input Box  -->
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Entry
+                        x:Name="entSearch"
+                        Completed="OnEntryCompleted"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Search"
+                        PlaceholderColor="{StaticResource Key=OvaSearchInputColor}"
+                        TextColor="{StaticResource Key=OvaSearchInputColor}" />
+                </StackLayout>
+                <!--  Three Dot Icon  -->
+                <Frame
+                    Margin="0"
+                    Padding="0"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="8"
+                    HasShadow="True"
+                    HeightRequest="35"
+                    HorizontalOptions="End"
+                    WidthRequest="35">
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <StackLayout
+                            HorizontalOptions="FillAndExpand"
+                            TouchEffect.PressedOpacity="0.4"
+                            TouchEffect.PressedScale="0.9"
+                            VerticalOptions="FillAndExpand">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnMenuTapped" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                Padding="0"
+                                FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                HorizontalOptions="CenterAndExpand"
+                                Text="&#xF142;"
+                                TextColor="White"
+                                VerticalOptions="CenterAndExpand" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <!--  Display Data  -->
+            <StackLayout
+                Padding="{StaticResource Key=paddingLeftRight}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <!--  Card View  -->
+                    <RefreshView
+                        Command="{Binding RefreshCommand}"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        IsVisible="{Binding IsCardView}">
+                        <CollectionView
+                            x:Name="collectionView"
+                            ItemsSource="{Binding JobCompanyList}"
+                            SelectionChanged="cardView_ItemSelected"
+                            SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <SwipeView>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItems>
+                                                <SwipeItem
+                                                    BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                    Command="{Binding BindingContext.SaveItemCommand, Source={RelativeSource AncestorType={Type local:FrmJobCompanyLst}}}"
+                                                    CommandParameter="{Binding .}"
+                                                    Text="{Binding Source={ext:LanguageExtension Key=JOB.Common.btnName.Save}, Path=Value}" />
+                                            </SwipeItems>
+                                        </SwipeView.LeftItems>
+                                        <Frame
+                                            Margin="6"
+                                            Padding="8"
+                                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                            CornerRadius="10"
+                                            WidthRequest="165">
+
+                                            <Grid
+                                                ColumnDefinitions="Auto,*"
+                                                RowDefinitions="Auto,Auto"
+                                                RowSpacing="8">
+
+                                                <!--  Placeholder Image  -->
+                                                <!--  Profile Image  -->
+                                                <Frame
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,10,0"
+                                                    Padding="0"
+                                                    CornerRadius="10"
+                                                    HeightRequest="70"
+                                                    IsClippedToBounds="True"
+                                                    WidthRequest="70">
+
+                                                    <Image
+                                                        x:Name="CompanyImage"
+                                                        Aspect="AspectFill"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        Source="{Binding CompanyLogo, Converter={StaticResource CompanyImageURLConverter}}"
+                                                        VerticalOptions="FillAndExpand" />
+
+                                                </Frame>
+
+                                                <!--  Row 1 / Column 2  -->
+                                                <VerticalStackLayout
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Spacing="4">
+                                                    <!--  Job count + Save toggle  -->
+                                                    <HorizontalStackLayout
+                                                        HeightRequest="30"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Spacing="2">
+
+                                                        <Border
+                                                            BackgroundColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            Stroke="Transparent"
+                                                            StrokeShape="RoundRectangle 10"
+                                                            VerticalOptions="CenterAndExpand">
+                                                            <HorizontalStackLayout
+                                                                Padding="5"
+                                                                HorizontalOptions="End"
+                                                                Spacing="2">
+                                                                <Label
+                                                                    FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                                    FontSize="13"
+                                                                    Text="{Binding JobCount}" />
+                                                                <Label
+                                                                    FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                                    FontSize="13"
+                                                                    Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.jobs}, Path=Value}" />
+                                                            </HorizontalStackLayout>
+                                                        </Border>
+                                                        <Label
+                                                            FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                            FontSize="20"
+                                                            HorizontalOptions="Center"
+                                                            InputTransparent="False"
+                                                            Text="&#xF02E;"
+                                                            TextColor="{Binding IsSaved}"
+                                                            VerticalOptions="Center">
+                                                            <Label.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SaveItemCommand, Source={RelativeSource AncestorType={x:Type local:FrmJobCompanyLst}}}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    NumberOfTapsRequired="1"
+                                                                    Tapped="OnSaveTapped" />
+                                                            </Label.GestureRecognizers>
+                                                        </Label>
+                                                    </HorizontalStackLayout>
+
+
+                                                    <HorizontalStackLayout Spacing="4">
+                                                        <!--  ⭐  -->
+                                                        <Label
+                                                            FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                            FontSize="20"
+                                                            HorizontalOptions="Center"
+                                                            Text="&#xf005;"
+                                                            TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                                            VerticalOptions="Center" />
+                                                        <Label FontSize="14" Text="{Binding TotalRate}" />
+                                                    </HorizontalStackLayout>
+
+                                                    <HorizontalStackLayout Spacing="4">
+                                                        <Label FontSize="12" Text="{Binding ReviewCount}" />
+                                                        <Label FontSize="12" Text="Reviews" />
+                                                    </HorizontalStackLayout>
+
+
+                                                </VerticalStackLayout>
+
+                                                <!--  Company Info  -->
+                                                <VerticalStackLayout
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="2"
+                                                    Spacing="3">
+                                                    <Label
+                                                        FontSize="{Binding ThemeSettingCardViewHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding CompanyName_0_255}"
+                                                        TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                    <Label
+                                                        FontSize="{Binding ThemeSettingCardViewBody.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding CompanyTypeName_0_255}" />
+                                                    <Label Grid.Column="1">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding CityName_0_255}" />
+                                                                <Span Text=", " />
+                                                                <Span Text="{Binding CountryName_0_255}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </SwipeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                    <!--  List View  -->
+                    <StackLayout
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding IsListView}"
+                        VerticalOptions="FillAndExpand">
+                        <Frame
+                            Padding="0"
+                            CornerRadius="3"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <ListView
+                                x:Name="lstView"
+                                HorizontalOptions="FillAndExpand"
+                                IsPullToRefreshEnabled="True"
+                                IsRefreshing="{Binding IsRefreshing}"
+                                ItemSelected="lstView_ItemSelected"
+                                ItemsSource="{Binding JobCompanyList}"
+                                RefreshCommand="{Binding RefreshCommand}"
+                                RowHeight="100"
+                                VerticalOptions="FillAndExpand">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <SwipeView>
+                                                <SwipeView.LeftItems>
+                                                    <SwipeItems>
+                                                        <SwipeItem
+                                                            BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                            Command="{Binding BindingContext.SaveItemCommand, Source={RelativeSource AncestorType={Type local:FrmJobCompanyLst}}}"
+                                                            CommandParameter="{Binding .}"
+                                                            Text="{Binding Source={ext:LanguageExtension Key=JOB.Common.btnName.Save}, Path=Value}" />
+                                                    </SwipeItems>
+                                                </SwipeView.LeftItems>
+                                                <Grid
+                                                    Padding="10"
+                                                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                    ColumnDefinitions="Auto,*"
+                                                    ColumnSpacing="12"
+                                                    RowDefinitions="Auto,Auto"
+                                                    RowSpacing="8"
+                                                    VerticalOptions="CenterAndExpand">
+
+                                                    <!--  📷 Column 0: Image  -->
+                                                    <!--  Profile Image  -->
+                                                    <Frame
+                                                        Grid.Row="0"
+                                                        Grid.RowSpan="2"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,10,0"
+                                                        Padding="0"
+                                                        CornerRadius="10"
+                                                        HeightRequest="70"
+                                                        IsClippedToBounds="True"
+                                                        WidthRequest="70">
+
+                                                        <Image
+                                                            x:Name="CompanyImage"
+                                                            Aspect="AspectFill"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Source="{Binding CompanyLogo, Converter={StaticResource CompanyImageURLConverter}}"
+                                                            VerticalOptions="FillAndExpand" />
+
+                                                    </Frame>
+
+                                                    <!--  🏢 Row 0, Column 1  -->
+                                                    <Grid
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        ColumnDefinitions="*,Auto"
+                                                        ColumnSpacing="6">
+
+                                                        <!--  Company Info (Left side)  -->
+                                                        <!--  Company Info  -->
+                                                        <VerticalStackLayout
+                                                            Grid.Column="0"
+                                                            Grid.ColumnSpan="2"
+                                                            Spacing="3">
+                                                            <Label
+                                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                                LineBreakMode="TailTruncation"
+                                                                Text="{Binding CompanyName_0_255}"
+                                                                TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                            <Label
+                                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                                LineBreakMode="TailTruncation"
+                                                                Text="{Binding CompanyTypeName_0_255}" />
+                                                            <Label>
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}" Text="{Binding CityName_0_255}" />
+                                                                        <Span Text=", " />
+                                                                        <Span FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}" Text="{Binding CountryName_0_255}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                        </VerticalStackLayout>
+
+
+                                                        <!--  Job Count + Bookmark Icon (Right side)  -->
+                                                        <HorizontalStackLayout
+                                                            Grid.Column="1"
+                                                            HeightRequest="30"
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            Spacing="2">
+
+                                                            <Border
+                                                                BackgroundColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                                HorizontalOptions="Start"
+                                                                Stroke="Transparent"
+                                                                StrokeShape="RoundRectangle 10"
+                                                                VerticalOptions="CenterAndExpand">
+                                                                <HorizontalStackLayout
+                                                                    Padding="5"
+                                                                    HorizontalOptions="End"
+                                                                    Spacing="2"
+                                                                    VerticalOptions="Start">
+                                                                    <Label
+                                                                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                                        FontSize="12"
+                                                                        Text="{Binding JobCount}" />
+                                                                    <Label
+                                                                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                                        FontSize="13"
+                                                                        Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.jobs}, Path=Value}" />
+                                                                </HorizontalStackLayout>
+                                                            </Border>
+                                                            <Label
+                                                                FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                                FontSize="20"
+                                                                HorizontalOptions="Center"
+                                                                Text="&#xF02E;"
+                                                                TextColor="{Binding IsSaved}"
+                                                                VerticalOptions="Center">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.SaveItemCommand, Source={RelativeSource AncestorType={x:Type local:FrmJobCompanyLst}}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        Tapped="OnSaveTapped" />
+                                                                </Label.GestureRecognizers>
+
+                                                            </Label>
+                                                        </HorizontalStackLayout>
+                                                    </Grid>
+
+                                                    <!--  ⭐ Row 1, Column 1: Rating Info  -->
+                                                    <HorizontalStackLayout
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        HorizontalOptions="Start"
+                                                        Spacing="4"
+                                                        VerticalOptions="Start">
+                                                        <!--  ⭐  -->
+                                                        <Label
+                                                            FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                                            FontSize="15"
+                                                            HorizontalOptions="Center"
+                                                            Text="&#xf005;"
+                                                            TextColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                                            VerticalOptions="Center" />
+                                                        <Label FontSize="12" Text="{Binding TotalRate}" />
+
+
+                                                        <Label FontSize="12" Text="{Binding ReviewCount}" />
+                                                        <Label FontSize="12" Text="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.reviews}, Path=Value}" />
+                                                    </HorizontalStackLayout>
+                                                </Grid>
+
+
+
+                                            </SwipeView>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Frame>
+                    </StackLayout>
+                    <!--  Grid View  -->
+                    <RefreshView
+                        Command="{Binding RefreshCommand}"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        IsVisible="{Binding IsGridView}">
+                        <StackLayout VerticalOptions="FillAndExpand">
+                            <dg:DataGrid
+                                x:Name="MyGrid"
+                                Padding="0"
+                                BackgroundColor="Gray"
+                                BorderColor="LightGray"
+                                BorderThickness="3"
+                                ItemSelected="grdView_ItemSelected"
+                                ItemsSource="{Binding JobCompanyList}"
+                                RefreshingEnabled="False"
+                                SelectionMode="Single"
+                                SortingEnabled="True"
+                                VerticalOptions="FillAndExpand">
+                                <dg:DataGrid.Effects>
+                                    <TouchEffect />
+                                </dg:DataGrid.Effects>
+                                <dg:DataGrid.Columns>
+                                    <dg:DataGridColumn
+                                        x:Name="CompanyName"
+                                        Title="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.CompanyName}, Path=Value}"
+                                        Width="*"
+                                        PropertyName="CompanyName_0_255" />
+                                    <dg:DataGridColumn
+                                        x:Name="AcDate"
+                                        Title="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.Date}, Path=Value}"
+                                        Width="*"
+                                        PropertyName="CompanyRegSDate" />
+                                    <dg:DataGridColumn
+                                        x:Name="CompanyType"
+                                        Title="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.CompanyType}, Path=Value}"
+                                        Width="*"
+                                        PropertyName="CompanyTypeName_0_255" />
+                                    <dg:DataGridColumn
+                                        x:Name="CompanyCity"
+                                        Title="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.City}, Path=Value}"
+                                        Width="*"
+                                        PropertyName="CityName_0_255" />
+                                    <dg:DataGridColumn
+                                        x:Name="CompanyCountry"
+                                        Title="{Binding Source={ext:LanguageExtension Key=JOB.JobCompany.lbl.Country}, Path=Value}"
+                                        Width="*"
+                                        PropertyName="CountryName_0_255" />
+                                </dg:DataGrid.Columns>
+                            </dg:DataGrid>
+                        </StackLayout>
+
+                    </RefreshView>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <!--  Invisible overlay (captures outside taps). Initially hidden.  -->
+        <BoxView
+            x:Name="Overlay"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="Transparent"
+            IsVisible="False">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOverlayTapped" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <!--  Hidden menu  -->
+        <Frame
+            x:Name="MenuBox"
+            Padding="5"
+            AbsoluteLayout.LayoutBounds="1,0.09"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BackgroundColor="White"
+            CornerRadius="8"
+            HorizontalOptions="End"
+            IsVisible="False"
+            VerticalOptions="Start">
+            <VerticalStackLayout>
+                <StackLayout
+                    Orientation="Horizontal"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MoreSearchCommand}" />
+                    </StackLayout.GestureRecognizers>
+                    <Label
+                        Margin="0,3"
+                        Padding="0"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="&#xF002;"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        Margin="3"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.SearchMore}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </StackLayout>
+                <!--  Separator line  -->
+                <BoxView
+                    Margin="0"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <Label
+                    Margin="3"
+                    Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.SortedBy}, Path=Value}"
+                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <StackLayout
+                    x:Name="LabelsContainer"
+                    BindableLayout.ItemsSource="{Binding sortingList}"
+                    Orientation="Vertical">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="15,*">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="Sorting_Tapped" />
+                                </Grid.GestureRecognizers>
+                                <Label
+                                    Grid.Column="0"
+                                    Margin="0,3"
+                                    FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                    IsVisible="{Binding ShowIcon}"
+                                    Text="&#xf00c;"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="0,3"
+                                    Text="{Binding label}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <!--  Separator line  -->
+                <BoxView
+                    Margin="15,0,0,0"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <Grid
+                    ColumnDefinitions="15,*"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Ascending_Tapped" />
+                    </Grid.GestureRecognizers>
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,3"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        IsVisible="{Binding IsAscending}"
+                        Text="&#xf00c;"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,3"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Ascending}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </Grid>
+                <Grid
+                    Margin="0,2"
+                    ColumnDefinitions="15,*"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Descending_Tapped" />
+                    </Grid.GestureRecognizers>
+                    <Label
+                        Grid.Column="0"
+                        Margin="0"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        IsVisible="{Binding IsDescending}"
+                        Text="&#xf00c;"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="0"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Descending}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </Grid>
+                <!--  Separator line  -->
+                <BoxView
+                    Margin="0"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand"
+                    Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <Label
+                    Margin="3"
+                    Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.View}, Path=Value}"
+                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                <Grid
+                    ColumnDefinitions="15,*"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CardViewCommand}" />
+                    </Grid.GestureRecognizers>
+                    <Label
+                        Grid.Column="0"
+                        Margin="0,3"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        IsVisible="{Binding IsCardView}"
+                        Text="&#xf00c;"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="0,3"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Card}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </Grid>
+                <Grid
+                    Margin="0,2"
+                    ColumnDefinitions="15,*"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ListViewCommand}" />
+                    </Grid.GestureRecognizers>
+                    <Label
+                        Grid.Column="0"
+                        Margin="0"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        IsVisible="{Binding IsListView}"
+                        Text="&#xf00c;"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="0"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.List}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </Grid>
+                <Grid
+                    Margin="0,2"
+                    ColumnDefinitions="15,*"
+                    TouchEffect.PressedOpacity="0.4"
+                    TouchEffect.PressedScale="0.9">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GridViewCommand}" />
+                    </Grid.GestureRecognizers>
+                    <Label
+                        Grid.Column="0"
+                        Margin="0"
+                        FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                        IsVisible="{Binding IsGridView}"
+                        Text="&#xf00c;"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="0"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Grid}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+    </AbsoluteLayout>
+</ContentView>

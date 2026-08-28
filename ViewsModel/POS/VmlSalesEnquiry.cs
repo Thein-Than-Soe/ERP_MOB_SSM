@@ -264,10 +264,10 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SALE_ENQUIRY l_RES_SALE_ENQUIRY in mJSN_SALE_ENQUIRY.RES_SALE_ENQUIRY)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_ENQUIRY.EnquiryCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SALE_ENQUIRY.EnquiryCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SALE_ENQUIRY.EnquiryDate.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_ENQUIRY.StatusName.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_ENQUIRY.CustomerName.ToLower().Contains(argKeyword))
+                            || l_RES_SALE_ENQUIRY.StatusName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_ENQUIRY.CustomerName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_SALE_ENQUIRY_lst.Add(l_RES_SALE_ENQUIRY);
                         }

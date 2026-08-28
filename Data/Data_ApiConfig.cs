@@ -172,15 +172,15 @@ namespace CS.ERP_MOB.Data
                 Password = "",
                 Sequence = 8
             });
-            //JOB
+            //SSM
             mApiConfig_Lst.Add(new ApiConfig
             {
                 Ask = 0,
-                ProductCode = "WMS",
+                ProductCode = "SSM",
                 UploadURL = "http://upload.kumudr.com",
-                APIURL = "http://jobdevapi.kumudr.com/Service.svc",
+                APIURL = "http://ssmdevapi.kumudr.com/Service.svc",
                 APIProtocol = "http://",
-                APIServer = "jobdevapi.kumudr.com/",
+                APIServer = "ssmdevapi.kumudr.com/",
                 APIPort = "",
                 APIServiceName = "Service.svc/",
                 ApiContentType = "application/json",
@@ -190,7 +190,27 @@ namespace CS.ERP_MOB.Data
                 SecreteKey = "",
                 User = "",
                 Password = "",
-                Sequence = 8
+                Sequence = 9
+            });
+            //HMS
+            mApiConfig_Lst.Add(new ApiConfig
+            {
+                Ask = 0,
+                ProductCode = "HMS",
+                UploadURL = "http://upload.kumudr.com",
+                APIURL = "http://hmsdevapi.kumudr.com/Service.svc",
+                APIProtocol = "http://",
+                APIServer = "hmsdevapi.kumudr.com/",
+                APIPort = "",
+                APIServiceName = "Service.svc/",
+                ApiContentType = "application/json",
+                ApiAcceptType = "application/json",
+                ApiKey = "",
+                PublicKey = "",
+                SecreteKey = "",
+                User = "",
+                Password = "",
+                Sequence = 10
             });
         }
     }

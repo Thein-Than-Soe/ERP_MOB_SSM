@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.SSM.FrmInquirySet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CS.ERP_MOB.Views.Frame"
+    Title="FrmInquirySet">
+    <ScrollView>
+
+        <VerticalStackLayout Padding="15" Spacing="15">
+
+            <!--  =========================================================  -->
+            <!--  SECTION 1 : HEADER & SELECT ITEM  -->
+            <!--  =========================================================  -->
+
+            <Border
+                Padding="15"
+                BackgroundColor="White"
+                Stroke="#DDDDDD"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Inquiry Information" />
+
+                    <!--  Inquiry Number  -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label
+                            FontSize="13"
+                            Text="Inquiry Number"
+                            TextColor="Gray" />
+
+                        <Border
+                            Padding="10"
+                            BackgroundColor="#F5F5F5"
+                            StrokeShape="RoundRectangle 6"
+                            StrokeThickness="0">
+
+                            <Label FontSize="15" Text="ENQ-190393" />
+                        </Border>
+                    </VerticalStackLayout>
+
+
+                    <!--  Customer  -->
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Customer"
+                            TextColor="Gray" />
+
+                        <Picker
+                            Title="Select Customer"
+                            ItemDisplayBinding="{Binding CustomerName}"
+                            ItemsSource="{Binding Customers}"
+                            SelectedItem="{Binding SelectedCustomer}" />
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Customer Contact  -->
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Customer Contact"
+                            TextColor="Gray" />
+
+                        <Picker
+                            Title="Select Customer Contact"
+                            ItemDisplayBinding="{Binding ContactName}"
+                            ItemsSource="{Binding CustomerContacts}"
+                            SelectedItem="{Binding SelectedCustomerContact}" />
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Inquiry Date  -->
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Inquiry Date"
+                            TextColor="Gray" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+
+                            <DatePicker Grid.Column="0" Date="2026-08-17" />
+
+                            <TimePicker Grid.Column="1" Time="14:30" />
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Stock  -->
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label
+                            FontSize="13"
+                            Text="Stock"
+                            TextColor="Gray" />
+
+                        <Picker
+                            Title="Select Stock"
+                            ItemDisplayBinding="{Binding StockName}"
+                            ItemsSource="{Binding Stocks}"
+                            SelectedItem="{Binding SelectedStock}" />
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Add To List  -->
+                    <Button
+                        Command="{Binding AddToListCommand}"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="+  Add to List" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <!--  =========================================================  -->
+            <!--  SECTION 2 : ITEM LIST  -->
+            <!--  =========================================================  -->
+
+            <VerticalStackLayout Spacing="8">
+
+                <Grid ColumnDefinitions="*,Auto">
+
+                    <Label
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Selected Items" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="13"
+                        Text="3 Items"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                </Grid>
+
+
+                <CollectionView ItemsSource="{Binding InquiryItems}" SelectionMode="None">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate>
+
+                            <controls:FrmSsmItemCard
+                                Amount="{Binding TotalAmount}"
+                                Discount="{Binding Discount}"
+                                ItemName="{Binding StockName_0_255}"
+                                ItemNumber="{Binding StockNumber_0_50}"
+                                Price="{Binding Price}"
+                                Qty="{Binding QTY}"
+                                UOM="{Binding UOMName_0_255}" />
+
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </VerticalStackLayout>
+
+
+            <!--  =========================================================  -->
+            <!--  SECTION 3 : SUMMARY  -->
+            <!--  =========================================================  -->
+
+            <Border
+                Padding="15"
+                BackgroundColor="White"
+                Stroke="#DDDDDD"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Summary" />
+
+
+                    <!--  Subtotal  -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label FontSize="15" Text="Subtotal" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            Text="125,000 MMK" />
+
+                    </Grid>
+
+
+                    <!--  Discount  -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label FontSize="15" Text="Discount" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            Text="-5,000 MMK" />
+
+                    </Grid>
+
+
+                    <!--  GST  -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label FontSize="15" Text="GST" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            Text="12,000 MMK" />
+
+                    </Grid>
+
+
+                    <!--  Round Off  -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label FontSize="15" Text="Round Off" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            Text="0 MMK" />
+
+                    </Grid>
+
+
+                    <!--  Separator  -->
+                    <BoxView BackgroundColor="#DDDDDD" HeightRequest="1" />
+
+
+                    <!--  Grand Total  -->
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="Grand Total" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="17"
+                            Text="132,000 MMK" />
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <!--  =========================================================  -->
+            <!--  SAVE BUTTON  -->
+            <!--  =========================================================  -->
+
+            <Button
+                Command="{Binding SaveInquiryCommand}"
+                CornerRadius="8"
+                FontAttributes="Bold"
+                FontSize="16"
+                HeightRequest="50"
+                Text="Save Inquiry" />
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

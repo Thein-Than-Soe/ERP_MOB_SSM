@@ -250,7 +250,7 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     {
                         argKeyword = argKeyword.ToLower();
                         if (l_RES_SUPPLIER.SupplierEmail.ToLower().Contains(argKeyword)
-                            || l_RES_SUPPLIER.SupplierCode.ToLower().Contains(argKeyword)
+                            || l_RES_SUPPLIER.SupplierCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SUPPLIER.SupplierMobilePhone.ToLower().Contains(argKeyword))
                         {
                             l_RES_SUPPLIER_lst.Add(l_RES_SUPPLIER);

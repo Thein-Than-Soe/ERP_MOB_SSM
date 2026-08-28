@@ -272,9 +272,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_INVENTORY_RECEIVED l_RES_INVENTORY_RECEIVED in mJSN_INVENTORY_RECEIVED_JUN.RES_INVENTORY_RECEIVED)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_INVENTORY_RECEIVED.ReceivedCode.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_RECEIVED.LocationName.ToLower().Contains(argKeyword)
-                            || l_RES_INVENTORY_RECEIVED.ReceivedTypeName.ToLower().Contains(argKeyword))
+                        if (l_RES_INVENTORY_RECEIVED.ReceivedCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_RECEIVED.LocationName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_INVENTORY_RECEIVED.ReceivedTypeName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_RES_INVENTORY_RECEIVED_lst.Add(l_RES_INVENTORY_RECEIVED);
                         }

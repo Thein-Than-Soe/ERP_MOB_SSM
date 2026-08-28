@@ -278,8 +278,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_ORDER l_RES_PURCHASE_ORDER in mJSN_PURCHASE_ORDER_JUN.RES_PURCHASE_ORDER)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_ORDER.SupplierName.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_ORDER.OrderCode.ToLower().Contains(argKeyword)
+                        if (l_RES_PURCHASE_ORDER.SupplierName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_ORDER.OrderCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_PURCHASE_ORDER.GrandTotal.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_ORDER_lst.Add(l_RES_PURCHASE_ORDER);

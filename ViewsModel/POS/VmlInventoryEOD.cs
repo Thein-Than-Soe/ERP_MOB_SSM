@@ -280,9 +280,9 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (DAT_SETTLEMENT_INVENTORY l_DAT_SETTLEMENT_INVENTORY in mJSN_RES_SETTLEMENT_INVENTORY.DAT_SETTLEMENT_INVENTORY)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_DAT_SETTLEMENT_INVENTORY.SettlementCode.ToLower().Contains(argKeyword)
+                        if (l_DAT_SETTLEMENT_INVENTORY.SettlementCode_0_50.ToLower().Contains(argKeyword)
                             || l_DAT_SETTLEMENT_INVENTORY.TotalTransaction.ToLower().Contains(argKeyword)
-                            || l_DAT_SETTLEMENT_INVENTORY.SaleManName.ToLower().Contains(argKeyword))
+                            || l_DAT_SETTLEMENT_INVENTORY.SaleManName_0_255.ToLower().Contains(argKeyword))
                         {
                             l_DAT_SETTLEMENT_INVENTORY_lst.Add(l_DAT_SETTLEMENT_INVENTORY);
                         }

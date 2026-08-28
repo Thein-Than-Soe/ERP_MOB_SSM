@@ -175,7 +175,6 @@
     "MsgAccess": "There is no access",
     "MsgDelete": "Not allowed to delete.",
     "MsgYesNo": "Are you sure you want to quit without save.?",
-    "MsgPriceChange": "Would you like to update the price acccording to selected date?",
-    "MsgBlanked": "(*) Fields can't be blaked"
+    "MsgPriceChange": "Would you like to update the price acccording to selected date?"
 }
 

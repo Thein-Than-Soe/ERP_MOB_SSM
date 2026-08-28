@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.JOB.FrmJobSearchDtl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+    Title="Job Search Detail">
+
+
+    <Grid RowDefinitions="*,Auto" RowSpacing="0">
+        <!--  Scrollable Content  -->
+        <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
+            <VerticalStackLayout Padding="20,20,20,80" Spacing="10">
+                <!--  Vacancy Info  -->
+                <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                    <HorizontalStackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding SelectedVacancy.DesignationName_0_255}"
+                            TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <Label IsVisible="{Binding SelectedVacancy.JobClassificationName_0_255, Converter={StaticResource StringExistsConverter}}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontSize="14" Text="   ( " />
+                                    <Span FontSize="16" Text="{Binding SelectedVacancy.JobClassificationName_0_255}" />
+                                    <Span FontSize="14" Text=" )" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </HorizontalStackLayout>
+
+                    <Label
+                        FontSize="12"
+                        IsVisible="{Binding SelectedVacancy.CompanyName_0_255, Converter={StaticResource StringExistsConverter}}"
+                        Text="{Binding SelectedVacancy.CompanyName_0_255}" />
+
+                    <HorizontalStackLayout>
+                        <Label IsVisible="{Binding SelectedVacancy.SD, Converter={StaticResource StringExistsConverter}}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontSize="14"
+                                        Text="Posted :"
+                                        TextColor="Green" />
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.SD}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label IsVisible="{Binding SelectedVacancy.ED, Converter={StaticResource StringExistsConverter}}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontSize="14"
+                                        Text="   Deadline : "
+                                        TextColor="DarkRed" />
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.ED}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+                <!--  Break  -->
+                <BoxView
+                    Margin="0,10"
+                    BackgroundColor="Gray"
+                    HeightRequest="1"
+                    HorizontalOptions="Fill" />
+
+
+                <!--  Overview  -->
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                        Margin="0,0,0,10"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="Job Overviews" />
+
+                    <Grid ColumnDefinitions="130, *">
+                        <Label FontAttributes="Bold" Text="Location" />
+                        <Label Grid.Column="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.SelectedVacancy.CityName_0_255}" />
+                                    <Span FontSize="14" Text=", " />
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.CountryName_0_255}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="130, *" IsVisible="{Binding SelectedVacancy.VacancyAvailabilityName_0_255, Converter={StaticResource StringExistsConverter}}">
+                        <Label FontAttributes="Bold" Text="Job type" />
+                        <Label Grid.Column="1" Text="{Binding SelectedVacancy.VacancyAvailabilityName_0_255}" />
+                    </Grid>
+
+
+                    <Grid ColumnDefinitions="130, *">
+                        <Label FontAttributes="Bold" Text="Salary" />
+                        <Label Grid.Column="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding SelectedVacancy.MinSalary}" />
+                                    <Span FontSize="14" Text="  ~  " />
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.MaxSalary}" />
+                                    <Span FontSize="14" Text="{Binding SelectedVacancy.CurrencyCode_0_50}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="130, *" IsVisible="{Binding SelectedVacancy.Education, Converter={StaticResource StringExistsConverter}}">
+                        <Label FontAttributes="Bold" Text="Education" />
+                        <Label Grid.Column="1" Text="{Binding SelectedVacancy.Education}" />
+                    </Grid>
+                    <Grid ColumnDefinitions="130, *" IsVisible="{Binding SelectedVacancy.Experience, Converter={StaticResource StringExistsConverter}}">
+                        <Label FontAttributes="Bold" Text="Experience" />
+                        <Label Grid.Column="1" Text="{Binding SelectedVacancy.Experience}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="130, *" IsVisible="{Binding SelectedVacancy.EmploymentTypeName_0_255, Converter={StaticResource StringExistsConverter}}">
+                        <Label FontAttributes="Bold" Text="Employment Type" />
+                        <Label Grid.Column="1" Text="{Binding SelectedVacancy.EmploymentTypeName_0_255}" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!--  Description  -->
+                <VerticalStackLayout IsVisible="{Binding SelectedVacancy.JD, Converter={StaticResource StringExistsConverter}}">
+                    <!--  Break  -->
+                    <BoxView
+                        Margin="0,10,0,20"
+                        BackgroundColor="Gray"
+                        HeightRequest="1"
+                        HorizontalOptions="FillAndExpand" />
+
+                    <Label
+                        Margin="0,0,0,10"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="Job Description" />
+                    <Label Text="{Binding SelectedVacancy.JD}" />
+                </VerticalStackLayout>
+
+                <!--  Break  -->
+                <BoxView
+                    Margin="0,10"
+                    BackgroundColor="Gray"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
+
+                <!--  Requirement  -->
+                <VerticalStackLayout Margin="0,0,0,10" IsVisible="{Binding SelectedVacancy.Requirement, Converter={StaticResource StringExistsConverter}}">
+                    <Label
+                        Margin="0,0,0,10"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="Job Requirement" />
+                    <Label Text="{Binding SelectedVacancy.Requirement}" />
+                </VerticalStackLayout>
+
+
+                <Grid ColumnDefinitions="150, *" IsVisible="{Binding SelectedVacancy.SkillSet, Converter={StaticResource StringExistsConverter}}">
+                    <Label FontAttributes="Bold" Text="Skill Set" />
+                    <Label Grid.Column="1" Text="{Binding SelectedVacancy.SkillSet}" />
+                </Grid>
+
+                <Grid ColumnDefinitions="150, *" IsVisible="{Binding SelectedVacancy.OtherQualification, Converter={StaticResource StringExistsConverter}}">
+                    <Label FontAttributes="Bold" Text="Other Qualification" />
+                    <Label Grid.Column="1" Text="{Binding SelectedVacancy.OtherQualification}" />
+                </Grid>
+
+                <Grid ColumnDefinitions="150, *" IsVisible="{Binding SelectedVacancy.Knowledge, Converter={StaticResource StringExistsConverter}}">
+                    <Label FontAttributes="Bold" Text="Knowledge" />
+                    <Label Grid.Column="1" Text="{Binding SelectedVacancy.Knowledge}" />
+                </Grid>
+
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+        <!--  Fixed Bottom Box  -->
+        <Grid
+            Grid.Row="1"
+            Padding="20,0"
+            BackgroundColor="AntiqueWhite"
+            ColumnDefinitions="*"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            VerticalOptions="End">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <!--  Save button  -->
+                <Frame
+                    Grid.Column="0"
+                    Padding="10,7"
+                    BackgroundColor="{Binding SaveButtonColor}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BindingContext.SaveItemCommand, Source={RelativeSource AncestorType={x:Type local:FrmJobSearchDtl}}}" CommandParameter="{Binding SelectedVacancy}" />
+                    </Frame.GestureRecognizers>
+
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf0c7;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="{Binding SaveButtonText}"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+                <!--  Apply button  -->
+                <Frame
+                    Grid.Column="1"
+                    Padding="10,7"
+                    BackgroundColor="{Binding ApplyButtonColor}"
+                    CornerRadius="5"
+                    HasShadow="True"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <!--  Tap Gesture  -->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BindingContext.ApplyItemCommand, Source={RelativeSource AncestorType={x:Type local:FrmJobSearchDtl}}}" CommandParameter="{Binding SelectedVacancy}" />
+                    </Frame.GestureRecognizers>
+
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            Text="&#xf0c7;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <!--  Text  -->
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="{Binding ApplyButtonText}"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

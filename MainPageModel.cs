@@ -1,25 +1,26 @@
-﻿using CS.ERP.PL.SYS.DAT;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.Data;
 using CS.ERP_MOB.DB;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Models;
 using CS.ERP_MOB.Models.Frame;
-using CS.ERP_MOB.Views.SSM;
 using CS.ERP_MOB.Services.ACC;
 using CS.ERP_MOB.Services.ATT;
 using CS.ERP_MOB.Services.CRM;
 using CS.ERP_MOB.Services.HCM;
+using CS.ERP_MOB.Services.HMS;
 using CS.ERP_MOB.Services.PAY;
 using CS.ERP_MOB.Services.POS;
-using CS.ERP_MOB.Services.SYS;
 using CS.ERP_MOB.Services.SSM;
+using CS.ERP_MOB.Services.SYS;
 //using CS.ERP_MOB.Services.WMS;
 using CS.ERP_MOB.Views.Frame;
-using System.Windows.Input;
+using CS.ERP_MOB.Views.SSM;
 using FreshMvvm.Maui;
-using CommunityToolkit.Mvvm.Messaging;
 using RGPopup.Maui.Extensions;
 using RGPopup.Maui.Services;
+using System.Windows.Input;
 namespace CS.ERP_MOB
 {
     public class MainPageModel: FreshBasePageModel
@@ -256,24 +257,13 @@ namespace CS.ERP_MOB
                 return mNotiCommand;
             }
         }
-        public ICommand EvershineCommand
-        {
-            get
-            {
-                if (mEvershineCommand == null)
-                {
-                    mEvershineCommand = new Command(() => this.selectApplicationTab("evershine"));
-                }
-                return mEvershineCommand;
-            }
-        }
         public ICommand ScheduleCommand
         {
             get
             {
                 if (mScheduleCommand == null)
                 {
-                    mScheduleCommand = new Command(() => this.selectApplicationTab("schedule"));
+                    mScheduleCommand = new Command(() => this.selectApplicationTab("frontdesk"));
                 }
                 return mScheduleCommand;
             }
@@ -311,9 +301,6 @@ namespace CS.ERP_MOB
                 return mSettingCommand;
             }
         }
-
-
-
 
         public ICommand MenuCommand
         {
@@ -447,8 +434,7 @@ namespace CS.ERP_MOB
                 NotiSelected = l_lowercaseName == "noti";
                 DiscussionSelected = l_lowercaseName == "discussion";
                 Settingselected = l_lowercaseName == "setting";
-                EvershineSelected = l_lowercaseName == "evershine";
-                ScheduleSelected = l_lowercaseName == "schedule";
+                ScheduleSelected = l_lowercaseName == "frontdesk";
                 BookSelected = l_lowercaseName == "book";
 
                 if (ProductSelected)
@@ -470,22 +456,13 @@ namespace CS.ERP_MOB
                     //await this.showDiscussionList();
                     await PopupNavigation.Instance.PushAsync(new PopDiscussion());
                 }
-                else if (EvershineSelected)
-                {
-                    //if (!Common.bindMenu("csm-dashboard"))
-                    //{
-                    //    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-                    //    return;
-                    //}
-                    this.changeContentView(new FrmSsmFrontDeskLst(), "EverShine");
-                }
                 else if (ScheduleSelected)
                 {
                     this.changeContentView(new FrmSsmScheduleLst(), "Schedule");
                 }
                 else if (BookSelected)
                 {
-                    this.changeContentView(new FrmSsmBookLst(), "Book");
+                    this.changeContentView(new FrmSsmBookNowLst(), "Book");
                 }
                 else
                 {
@@ -538,9 +515,9 @@ namespace CS.ERP_MOB
                             //case "WMS":
                             //    Wms_Service.mApiConfig = l_apiConfig;
                             //    break;
-                            //case "JOB":
-                            //    Job_Service.mApiConfig = l_apiConfig;
-                            //    break;
+                            case "HMS":
+                                Hms_Service.mApiConfig = l_apiConfig;
+                                break;
                             case "SSM":
                                 Ssm_Service.mApiConfig = l_apiConfig;
                                 break;

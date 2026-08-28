@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
+using Syncfusion.Licensing;
 //using ERP_MOB_SSM;
 using FreshMvvm.Maui.Extensions;
 using Maui.TouchEffect.Hosting;
@@ -11,9 +13,14 @@ namespace CS.ERP_MOB
     {
         public static MauiApp CreateMauiApp()
         {
+            //Syncfusion
+            SyncfusionLicenseProvider.RegisterLicense(
+            "Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdlWXdccnVXQmJfVk1xV0RWYEk=");
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .ConfigureSyncfusionCore()
                 .UseMauiTouchEffect()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()

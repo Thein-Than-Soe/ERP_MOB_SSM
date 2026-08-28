@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CS.ERP_MOB.Views.JOB.FrmJobAdviceDtl"
+             xmlns:general="clr-namespace:CS.ERP_MOB.General"
+             xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+             xmlns:local="clr-namespace:CS.ERP_MOB.Views.JOB"
+             Title="Advice Detail">
+
+
+    <Grid>
+        <!-- Scrollable Content -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="10">
+                <Frame 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HeightRequest="150"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    CornerRadius="0"
+                    Margin="0,0,10,0"
+                    IsClippedToBounds="True">
+
+                    <Image
+                        Source="{Binding ReferenceDoc}"
+                        Aspect="AspectFill"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill">
+                    </Image>
+
+                </Frame>
+                <!-- Company Info -->
+                <VerticalStackLayout VerticalOptions="Center" Spacing="8">
+                    <Grid>
+                        <Label Text="{Binding AdviceName_0_255}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="16"
+                                   TextColor="{Binding ThemeSettingCardViewHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                   LineBreakMode="CharacterWrap"
+                                   HorizontalOptions="FillAndExpand"/>
+                    </Grid>
+                    
+                    <Label Text="{Binding AdviceTypeName_0_255}" FontSize="12" />
+                    <Label Text="{Binding AdviceDescription_0_500}" FontSize="12" />
+                    
+                    <Label Margin="0,15,0,0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="By " FontSize="14" />
+                                <Span Text="{Binding OpenedbyName_0_255}"  FontSize="12" />
+                                <Span Text="    " FontFamily="{StaticResource Key=FontAwesomeSolid}" />
+                                <Span Text="&#xF0E0;" FontSize="14" FontFamily="{StaticResource Key=FontAwesomeSolid}" />
+                                <Span Text=" " FontFamily="{StaticResource Key=FontAwesomeSolid}" />
+                                <Span Text="{Binding OpenedbyMail}"  FontSize="12" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="{Binding TD}" FontSize="12" />
+                </VerticalStackLayout>
+
+                
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

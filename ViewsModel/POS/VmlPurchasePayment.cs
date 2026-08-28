@@ -268,10 +268,10 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_PURCHASE_PAYMENT l_RES_PURCHASE_PAYMENT in mJSN_PURCHASE_PAYMENT_JUN.RES_PURCHASE_PAYMENT)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_PURCHASE_PAYMENT.SupplierName.ToLower().Contains(argKeyword)
-                            || l_RES_PURCHASE_PAYMENT.PaymentCode.ToLower().Contains(argKeyword)
+                        if (l_RES_PURCHASE_PAYMENT.SupplierName_0_255.ToLower().Contains(argKeyword)
+                            || l_RES_PURCHASE_PAYMENT.PaymentCode_0_50.ToLower().Contains(argKeyword)
                               || l_RES_PURCHASE_PAYMENT.OutstandingAmount.ToLower().Contains(argKeyword)
-                             || l_RES_PURCHASE_PAYMENT.PaymentTypeName.ToLower().Contains(argKeyword)
+                             || l_RES_PURCHASE_PAYMENT.PaymentTypeName_0_255.ToLower().Contains(argKeyword)
                             || l_RES_PURCHASE_PAYMENT.PaymentAmount.ToLower().Contains(argKeyword))
                         {
                             l_RES_PURCHASE_PAYMENT_lst.Add(l_RES_PURCHASE_PAYMENT);

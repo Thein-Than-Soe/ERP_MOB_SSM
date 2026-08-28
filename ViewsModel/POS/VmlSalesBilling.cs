@@ -268,8 +268,8 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     foreach (RES_SALE_BILLING l_RES_SALE_BILLING in mJSN_SALE_BILL_JUN.RES_SALE_BILLING)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_BILLING.BillingCode.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BILLING.ParentCode.ToLower().Contains(argKeyword)
+                        if (l_RES_SALE_BILLING.BillingCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_BILLING.ParentCode_0_50.ToLower().Contains(argKeyword)
                             || l_RES_SALE_BILLING.GrandTotal.ToLower().Contains(argKeyword))
                         {
                             l_RES_SALE_BILLING_lst.Add(l_RES_SALE_BILLING);
