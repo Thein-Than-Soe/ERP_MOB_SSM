@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmPaymentSet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CS.ERP_MOB.Views.Frame"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    Title="Payment Set">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!--  =================================================  -->
+        <!--  SCROLLABLE PAYMENT CONTENT  -->
+        <!--  =================================================  -->
+
+        <ScrollView Grid.Row="0" Padding="20">
+
+            <VerticalStackLayout Spacing="12">
+
+
+                <!--  =================================================  -->
+                <!--  PAYMENT TYPE  -->
+                <!--  =================================================  -->
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="10"
+                    HorizontalOptions="Fill">
+
+                    <!--  Payment Type  -->
+                    <Border
+                        Grid.Column="0"
+                        HorizontalOptions="Fill"
+                        Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Picker
+                            Title="Select Payment Type"
+                            Margin="10,0"
+                            ItemDisplayBinding="{Binding PaymentTypeName_0_255}"
+                            ItemsSource="{Binding PaymentTypeList}"
+                            SelectedItem="{Binding SelectedPaymentType}" />
+
+                    </Border>
+
+                    <!--  Transaction Date + Time  -->
+                    <Border
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Grid
+                            Padding="5,0"
+                            ColumnDefinitions="*,*"
+                            VerticalOptions="Center">
+
+                            <DatePicker
+                                x:Name="TransactionDate"
+                                Grid.Column="0"
+                                Date="{Binding TransactionDate, Mode=TwoWay}"
+                                FontSize="12"
+                                HeightRequest="40"
+                                HorizontalOptions="Fill"
+                                IsEnabled="{Binding IsTransactionDateEditable}" />
+
+                            <TimePicker
+                                x:Name="TransactionTime"
+                                Grid.Column="1"
+                                FontSize="12"
+                                HeightRequest="40"
+                                HorizontalOptions="Fill"
+                                IsEnabled="{Binding IsTransactionDateEditable}"
+                                Time="{Binding TransactionTime, Mode=TwoWay}" />
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+
+                <!--  =================================================  -->
+                <!--  TRANSACTION NO  -->
+                <!--  =================================================  -->
+
+                <VerticalStackLayout IsVisible="{Binding IsTransactionNoVisible}" Spacing="5">
+
+                    <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Entry
+                            Margin="10,0"
+                            Placeholder="{Binding TransactionNoLabel}"
+                            Text="{Binding TransactionNo}" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+
+                <!--  =================================================  -->
+                <!--  FROM BANK  -->
+                <!--  =================================================  -->
+
+                <VerticalStackLayout IsVisible="{Binding IsBankVisible}" Spacing="5">
+
+                    <Label FontAttributes="Bold" Text="From Bank" />
+
+                    <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Picker
+                            Title="Select From Bank"
+                            Margin="10,0"
+                            ItemDisplayBinding="{Binding BankName_0_255}"
+                            ItemsSource="{Binding FromBankList}"
+                            SelectedItem="{Binding SelectedFromBank}" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+
+                <!--  =================================================  -->
+                <!--  TO BANK  -->
+                <!--  =================================================  -->
+
+                <VerticalStackLayout IsVisible="{Binding IsBankVisible}" Spacing="5">
+
+                    <Label FontAttributes="Bold" Text="To Bank" />
+
+                    <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Picker
+                            Title="Select To Bank"
+                            Margin="10,0"
+                            ItemDisplayBinding="{Binding BankName_0_255}"
+                            ItemsSource="{Binding ToBankList}"
+                            SelectedItem="{Binding SelectedToBank}" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+
+                <!--  =================================================  -->
+                <!--  DEPOSIT / REMAINING  -->
+                <!--  =================================================  -->
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="10"
+                    HorizontalOptions="Fill">
+
+                    <!--  Deposit Amount  -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            Text="Deposit Amount" />
+
+                        <Border
+                            HeightRequest="45"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Entry
+                                Margin="8,0"
+                                Keyboard="Numeric"
+                                Placeholder="Enter amount"
+                                Text="{Binding DepositAmount}" />
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+
+                    <!--  Remaining Amount  -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            Text="Remaining Amount" />
+
+                        <Border
+                            HeightRequest="45"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Entry
+                                Margin="8,0"
+                                FontAttributes="Bold"
+                                IsReadOnly="True"
+                                Placeholder="Remaining"
+                                Text="{Binding RemainingAmount}" />
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </Grid>
+
+
+                <!--  =================================================  -->
+                <!--  CASH : TENDER  -->
+                <!--  =================================================  -->
+
+                <VerticalStackLayout IsVisible="{Binding IsCashVisible}" Spacing="5">
+
+                    <Label FontAttributes="Bold" Text="Tender" />
+
+                    <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Entry
+                            Margin="10,0"
+                            Keyboard="Numeric"
+                            Placeholder="Enter Tender Amount"
+                            Text="{Binding Tender}" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+
+                <!--  =================================================  -->
+                <!--  CASH : CHANGE  -->
+                <!--  =================================================  -->
+
+                <VerticalStackLayout IsVisible="{Binding IsCashVisible}" Spacing="5">
+
+                    <Label FontAttributes="Bold" Text="Change" />
+
+                    <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+
+                        <Entry
+                            Margin="10,0"
+                            IsReadOnly="True"
+                            Keyboard="Numeric"
+                            Placeholder="Change"
+                            Text="{Binding Change}" />
+
+                    </Border>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+
+        <!--  =================================================  -->
+        <!--  FIXED ADD PAYMENT BUTTON  -->
+        <!--  =================================================  -->
+
+        <Button
+            Grid.Row="1"
+            Margin="10,5,10,10"
+            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+            Clicked="AddToList_Clicked"
+            CornerRadius="10"
+            FontAttributes="Bold"
+            FontSize="16"
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            Text="Add payment"
+            TextColor="White"
+            WidthRequest="180" />
+
+    </Grid>
+
+</ContentPage>

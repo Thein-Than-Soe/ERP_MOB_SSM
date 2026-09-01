@@ -1,17 +1,20 @@
-﻿using CS.ERP.PL.POS.DAT;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.HMS.DAT;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
-
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Services.POS;
 using CS.ERP_MOB.ViewsModel.Frame;
+using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
+using RGPopup.Maui.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
 using static CS.ERP_MOB.General.Utility;
 
 namespace CS.ERP_MOB.ViewsModel.SYS
@@ -21,7 +24,14 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         #region "Declaring"
         public JSN_REQ_SALE_PAYMENT_LST mJSN_REQ_SALE_PAYMENT_LST = new JSN_REQ_SALE_PAYMENT_LST();
         public JSN_SALE_PAYMENT_LST mJSN_SALE_PAYMENT_LST = new JSN_SALE_PAYMENT_LST();
-        public JSN_LOAD_SALE_PAYMENT mJSN_LOAD_SALE_PAYMENT = new JSN_LOAD_SALE_PAYMENT();
+
+        public ObservableCollection<SortingItem> sortingList { get; set; }
+        SortingItem[] labelTexts = [
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Code"), value = "PaymentCode_0_50", ShowIcon = true },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Date"), value = "PaymentDate", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.CompanyPaymentType.lbl.PaymentType"), value = "PaymentTypeName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false }
+            ];
         string mRequest = "";
         string mResponse = "";
         #endregion
@@ -30,10 +40,13 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         public VmlMyPayment()
         {
             this.switchDisplayView(DisplayView.Card);
-            PaymentLoad = new JSN_LOAD_SALE_PAYMENT();
-            MyPaymentClosedList = new List<RES_SALE_PAYMENT>();
-            MyPaymentActiveList = new List<RES_SALE_PAYMENT>();
-            MyPaymentPartialList = new List<RES_SALE_PAYMENT>();
+            OrderLoad = new JSN_LOAD_SALE_ORDER();
+            SaleOrderLst = new List<RES_SALE_PAYMENT>();
+
+            LoadMoreCommand = new Command(async () => await LoadMoreItems());
+            sortingList = new ObservableCollection<SortingItem>(labelTexts);
+            IsAscending = true;
+            IsDescending = false;
         }
         #endregion
 
@@ -93,64 +106,99 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 NotifyPropertyChanged("IsRefreshing");
             }
         }
+        private bool mIsAscending;
+        public bool IsAscending
+        {
+            get
+            {
+                return mIsAscending;
+            }
+            set
+            {
+                mIsAscending = value;
+                NotifyPropertyChanged("IsAscending");
+            }
+        }
+        private bool mIsDescending;
+        public bool IsDescending
+        {
+            get
+            {
+                return mIsDescending;
+            }
+            set
+            {
+                mIsDescending = value;
+                NotifyPropertyChanged("IsDescending");
+            }
+        }
+
+        private bool isLoadingMore = false;
+        public bool IsLoadingMore
+        {
+            get => isLoadingMore;
+            set
+            {
+                isLoadingMore = value;
+                NotifyPropertyChanged(nameof(IsLoadingMore));
+            }
+        }
         #endregion
 
         #region "Data Tab"
-        public JSN_LOAD_SALE_PAYMENT JSN_LOAD_SALE_PAYMENT = new JSN_LOAD_SALE_PAYMENT();
-        public JSN_LOAD_SALE_PAYMENT PaymentLoad
+        public JSN_LOAD_SALE_ORDER JSN_LOAD_SALE_ORDER = new JSN_LOAD_SALE_ORDER();
+        public JSN_LOAD_SALE_ORDER OrderLoad
         {
-            get { return JSN_LOAD_SALE_PAYMENT; }
-            set { JSN_LOAD_SALE_PAYMENT = value; NotifyPropertyChanged("PaymentLoad"); }
+            get { return JSN_LOAD_SALE_ORDER; }
+            set { JSN_LOAD_SALE_ORDER = value; NotifyPropertyChanged("OrderLoad"); }
         }
-        public RES_SALE_PAYMENT_HEADER mRES_SALE_PAYMENT_HEADER = new RES_SALE_PAYMENT_HEADER();
-        public RES_STATUS mRES_STATUS = new RES_STATUS();
-        public RES_COMPANY rES_COMPANY = new RES_COMPANY();
-        public RES_SALE_PAYMENT rES_SALE_PAYMENT = new RES_SALE_PAYMENT();
 
+        public RES_PARENT_TYPE mRES_PARENT_TYPE = new RES_PARENT_TYPE();
+        public RES_SALE_PAYMENT rES_SALE_BROWSE = new RES_SALE_PAYMENT();
+        public RES_STATUS mRES_STATUS = new RES_STATUS();
+
+        public RES_PARENT_TYPE RES_PARENT_TYPE
+        {
+            get { return mRES_PARENT_TYPE; }
+            set { mRES_PARENT_TYPE = value; NotifyPropertyChanged("RES_PARENT_TYPE"); }
+        }
 
         public RES_SALE_PAYMENT RES_SALE_PAYMENT
         {
-            get { return rES_SALE_PAYMENT; }
-            set { rES_SALE_PAYMENT = value; NotifyPropertyChanged("RES_SALE_PAYMENT"); }
-        }
-        public RES_SALE_PAYMENT_HEADER RES_SALE_PAYMENT_HEADER
-        {
-            get { return mRES_SALE_PAYMENT_HEADER; }
-            set { mRES_SALE_PAYMENT_HEADER = value; NotifyPropertyChanged("RES_SALE_PAYMENT_HEADER"); }
+            get { return rES_SALE_BROWSE; }
+            set { rES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_PAYMENT"); }
         }
 
-        public RES_STATUS RES_STATUS
+        public List<RES_SALE_PAYMENT> mSaleOrderLst;
+        public List<RES_SALE_PAYMENT> SaleOrderLst
         {
-            get { return mRES_STATUS; }
-            set { mRES_STATUS = value; NotifyPropertyChanged("RES_STATUS"); }
+            get { return mSaleOrderLst; }
+            set { mSaleOrderLst = value; NotifyPropertyChanged("SaleOrderLst"); }
         }
 
-        public RES_COMPANY RES_COMPANY
+        public List<RES_SALE_PAYMENT_DETAIL> mSaleOrderDetailLst;
+        public List<RES_SALE_PAYMENT_DETAIL> SaleOrderDetailLst
         {
-            get { return rES_COMPANY; }
-            set { rES_COMPANY = value; NotifyPropertyChanged("RES_COMPANY"); }
+            get { return mSaleOrderDetailLst; }
+            set { mSaleOrderDetailLst = value; NotifyPropertyChanged("SaleOrderDetailLst"); }
         }
 
-        public List<RES_SALE_PAYMENT> mMyPaymentClosedList;
-        public List<RES_SALE_PAYMENT> MyPaymentClosedList
-        {
-            get { return mMyPaymentClosedList; }
-            set { mMyPaymentClosedList = value; NotifyPropertyChanged("MyPaymentClosedList"); }
-        }
 
-        public List<RES_SALE_PAYMENT> mMyPaymentActiveList;
-        public List<RES_SALE_PAYMENT> MyPaymentActiveList
-        {
-            get { return mMyPaymentActiveList; }
-            set { mMyPaymentActiveList = value; NotifyPropertyChanged("MyPaymentActiveList"); }
-        }
+        #endregion
 
-        public List<RES_SALE_PAYMENT> mMyPaymentPartialList;
-        public List<RES_SALE_PAYMENT> MyPaymentPartialList
+        #region "Task"
+        private async Task LoadMoreItems()
         {
-            get { return mMyPaymentPartialList; }
-            set { mMyPaymentPartialList = value; NotifyPropertyChanged("MyPaymentPartialList"); }
+            if (IsLoadingMore) return;
+            IsLoadingMore = true;
+            loadSalePayHis();
+            IsLoadingMore = false;
         }
+        //private Task ExecuteActiveItem()
+        //{
+        //    saveMyOrder();
+        //    return Task.CompletedTask;
+        //}
 
         #endregion
 
@@ -201,11 +249,120 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             {
                 if (mRefreshCommand == null)
                 {
-                    mRefreshCommand = new Command(() => this.getMyPayment());
+                    mRefreshCommand = new Command(() => this.loadSalePayHis());
                 }
                 return mRefreshCommand;
             }
         }
+
+        private ICommand mEditItemCommand;
+        public ICommand EditItemCommand
+        {
+            get
+            {
+                if (mEditItemCommand == null)
+                {
+                    mEditItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Edit"))
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                                //route to detail page
+                            }
+                        }
+                    });
+                    //mEditItemCommand = new Command(() => this.switchDisplayView(DisplayView.Grid));
+                    //mRefreshCommand = new Command(() => this.getInvoice());
+                }
+                return mEditItemCommand;
+            }
+        }
+        private ICommand mSelectItemCommand;
+        public ICommand SelectItemCommand
+        {
+            get
+            {
+                if (mSelectItemCommand == null)
+                {
+                    //mRefreshCommand = new Command(() => this.getInvoice());
+                }
+                return mSelectItemCommand;
+            }
+        }
+        private ICommand mSendItemCommand;
+        public ICommand SendItemCommand
+        {
+            get
+            {
+                if (mSendItemCommand == null)
+                {
+                    mSendItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        if (Utility.checkButtonAccess("Send"))
+                        {
+                            bool answer = await Application.Current.MainPage.DisplayAlert(
+                                $"{item.InvoiceCode_0_50}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                            if (answer)
+                            {
+                            }
+                        }
+                    });
+                }
+                return mSendItemCommand;
+            }
+        }
+
+        public ICommand LongPressItemCommand { get; }
+
+        private ICommand mCardItemTappedCommand;
+        public ICommand CardItemTappedCommand
+        {
+            get
+            {
+                if (mCardItemTappedCommand == null)
+                {
+                    mCardItemTappedCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                    {
+                        bool answer = await Application.Current.MainPage.DisplayAlert(
+                               $"{item.InvoiceCode_0_50}?",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Active")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                        if (answer)
+                        {
+                            //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
+
+                        }
+                    });
+                }
+                return mCardItemTappedCommand;
+            }
+        }
+        private ICommand mMoreSearchCommand;
+        public ICommand MoreSearchCommand
+        {
+            get
+            {
+                if (mMoreSearchCommand == null)
+                {
+                    mMoreSearchCommand = new Command(() => this.selectMoreSearch());
+                }
+                return mMoreSearchCommand;
+            }
+        }
+        public ICommand LoadMoreCommand { get; }
         #endregion
 
         #region "Method"
@@ -222,45 +379,56 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
-        private void bindDataTab(List<RES_SALE_PAYMENT> argRES_SALE_PAYMENT_HEADER_LST)
+        private void bindDataTab(List<RES_SALE_PAYMENT> argRES_SALE_PAYMENT_LST)
         {
             try
             {
-                List<RES_SALE_PAYMENT> l_RES_SALE_PAYMENT_HEADER_ACTIVE = new List<RES_SALE_PAYMENT>();
-                List<RES_SALE_PAYMENT> l_RES_SALE_PAYMENT_HEADER_PARTIAL= new List<RES_SALE_PAYMENT>();
-                List<RES_SALE_PAYMENT> l_RES_SALE_PAYMENT_HEADER_CLOSED= new List<RES_SALE_PAYMENT>();
-
-                if (argRES_SALE_PAYMENT_HEADER_LST != null && argRES_SALE_PAYMENT_HEADER_LST.Count > 0)
-                {                   
-
-                    foreach (RES_SALE_PAYMENT l_RES_SALE_PAYMENT_HEADER in argRES_SALE_PAYMENT_HEADER_LST)
-                    {
-                        l_RES_SALE_PAYMENT_HEADER.PaymentDate = Utility.getDateTimeString(l_RES_SALE_PAYMENT_HEADER.PaymentDate);
-                        if (l_RES_SALE_PAYMENT_HEADER.StatusAsk.Equals("1"))
-                        {
-                            l_RES_SALE_PAYMENT_HEADER_ACTIVE.Add(l_RES_SALE_PAYMENT_HEADER);
-                        }
-                        else if (l_RES_SALE_PAYMENT_HEADER.StatusAsk.Equals("8"))
-                        {
-                            l_RES_SALE_PAYMENT_HEADER_PARTIAL.Add(l_RES_SALE_PAYMENT_HEADER);
-                        }
-                        else if (l_RES_SALE_PAYMENT_HEADER.StatusAsk.Equals("3"))
-                        {
-                            l_RES_SALE_PAYMENT_HEADER_CLOSED.Add(l_RES_SALE_PAYMENT_HEADER);
-                        }
-                    }
-
-                    RES_SALE_PAYMENT = argRES_SALE_PAYMENT_HEADER_LST[0];
-                    MyPaymentClosedList = l_RES_SALE_PAYMENT_HEADER_CLOSED;
-                    MyPaymentActiveList = l_RES_SALE_PAYMENT_HEADER_ACTIVE;
-                    MyPaymentPartialList = l_RES_SALE_PAYMENT_HEADER_PARTIAL;
-                }
-                else
+                if (argRES_SALE_PAYMENT_LST != null && argRES_SALE_PAYMENT_LST.Count > 0)
                 {
-                    MyPaymentClosedList = new List<RES_SALE_PAYMENT>();
-                    MyPaymentActiveList = new List<RES_SALE_PAYMENT>();
-                    MyPaymentPartialList = new List<RES_SALE_PAYMENT>();
+                    SaleOrderLst = argRES_SALE_PAYMENT_LST;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+        public void searchDataApi(string argKeyword)
+        {
+            try
+            {
+                //mJSN_REQ_SALE_PAYMENT_LST.RES = new RES_SALE_ORDER();
+                //mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_ORDER.Remark = argKeyword;
+                loadSalePayHis();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex.InnerException;
+            }
+        }
+        private async void callSearchMorePopup()
+        {
+            try
+            {
+                //var popup = new FrmWishlistPop(this.SalesInvoiceLoad);
+                //await PopupNavigation.Instance.PushAsync(popup);
+
+                //var result = await popup.PopupClosedTask;
+                //if (result is RES_SALE_ORDER selectedData)
+                //{
+                //    mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_ORDER = selectedData;
+                //    if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+                //    {
+                //        SaleOrderLst = new ObservableCollection<RES_SALE_ORDER>(mRES_SALE_ORDER_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+                //                                                               || (data.OrderCode_0_50 == selectedData.OrderCode_0_50)).ToList());
+                //    }
+                //    else
+                //    {
+                //        getMyOrder();
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -271,40 +439,86 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
-                List<RES_SALE_PAYMENT> l_RES_SALE_PAYMENT_HEADER_lst = new List<RES_SALE_PAYMENT>();
+                List<RES_SALE_PAYMENT> l_RES_SALE_PAYMENT_lst = new List<RES_SALE_PAYMENT>();
                 if (argKeyword != null && !argKeyword.Equals(""))
                 {
-                    foreach (RES_SALE_PAYMENT l_RES_SALE_PAYMENT_HEADER in mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT)
+                    foreach (RES_SALE_PAYMENT l_RES_SALE_PAYMENT in mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_PAYMENT_HEADER.CustomerName_0_255.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_PAYMENT_HEADER.PaymentCode_0_50.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_PAYMENT_HEADER.GSTAmount.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_PAYMENT_HEADER.PaymentTypeName_0_255.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_PAYMENT_HEADER.PaymentDate.ToLower().Contains(argKeyword))
+                        if (l_RES_SALE_PAYMENT.PaymentCode_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_PAYMENT.SD.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_PAYMENT.ED.ToLower().Contains(argKeyword)
+                            )
                         {
-                            l_RES_SALE_PAYMENT_HEADER_lst.Add(l_RES_SALE_PAYMENT_HEADER);
+                            l_RES_SALE_PAYMENT_lst.Add(l_RES_SALE_PAYMENT);
                         }
                     }
                 }
                 else
                 {
-                    l_RES_SALE_PAYMENT_HEADER_lst = mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT;// OriginalMyPaymentClosedList.GetRange(0, OriginalMyPaymentClosedList.Count);
+                    l_RES_SALE_PAYMENT_lst = mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT;// OriginalMyOrderClosedList.GetRange(0, OriginalMyOrderClosedList.Count);
                 }
-                bindDataTab(l_RES_SALE_PAYMENT_HEADER_lst);
+                bindDataTab(l_RES_SALE_PAYMENT_lst);
             }
             catch (Exception ex)
             {
                 throw ex.InnerException;
             }
         }
-        #endregion
-
-        #region "Web Service Api"
-        public async void getMyPayment()
+        private void selectMoreSearch()
         {
             try
             {
+                loadSalePayHis();
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+        //private async void callSearchMorePopup()
+        //{
+        //    try
+        //    {
+        //        var popup = new FrmSsm(this.mJSN_RES_FRONT_DESK_USER);
+        //        await PopupNavigation.Instance.PushAsync(popup);
+
+        //        var result = await popup.PopupClosedTask;
+        //        if (result is DAT_FRONT_DESK selectedData)
+        //        {
+        //            mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
+        //            if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+        //            {
+        //                FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+        //                                                                      || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+        //            }
+        //            else
+        //            {
+        //                await getFrontDeskUser();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.InnerException;
+        //    }
+
+        //}
+        #endregion
+
+        #region "Web Service Api"
+        public async void loadSalePayHis()
+        {
+            try
+            {
+                Utility.openLoader();
+                mJSN_REQ_SALE_PAYMENT_LST.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_PAYMENT.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_PAYMENT.SD = Utility.getTLFormLoadSD();
+                mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_PAYMENT.ED = Utility.getTLFormLoadED();
+                
+                mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_PAYMENT_HEADER = new List<RES_SALE_PAYMENT_HEADER> { new RES_SALE_PAYMENT_HEADER() };
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_PAYMENT_LST);
                 mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSalePayHis);
                 if (mResponse != null || mResponse != "")
@@ -314,7 +528,9 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                     {
                         if (this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT.Count > 0)
                         {
-                            bindDataTab(this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT);
+                            SaleOrderLst = this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT;
+                            
+                            //SaleOrderDetailLst = this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT_DETAIL;
                             MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
                         }
                         else
@@ -336,88 +552,15 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             {
                 throw ex.InnerException;
             }
-        }
-
-        public async void saveMyPayment()
-        {
-            try
+            finally
             {
-                mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_PAYMENT_LST);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleBillJun);
-                if (mResponse != null || mResponse != "")
-                {
-                    this.mJSN_SALE_PAYMENT_LST = JsonConvert.DeserializeObject<JSN_SALE_PAYMENT_LST>(mResponse);
-                    if (mJSN_SALE_PAYMENT_LST.Message.Code == "7")
-                    {
-                        if (this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT.Count > 0)
-                        {
-                            RES_SALE_PAYMENT = this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT[0];
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.SaveSuccess);
-                            //route parent list form after save
-                            Common.routeMenu(Common.mCommon.SelectedMenu);
-                        }
-                        else
-                        {
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.NoData);
-                        }
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_SALE_PAYMENT_LST.Message.Message);
-                    }
-                }
-                else
-                {
-                    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.WebServiceErr);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
+                Utility.closeLoader();
             }
         }
-
-        public async void loadMyPayment()
-        {
-            try
-            {
-                mRequest = JsonConvert.SerializeObject(Common.mCommon.REQ_AUTHORIZATION);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSalePayment);
-                if (mResponse != null || mResponse != "")
-                {
-                    this.mJSN_LOAD_SALE_PAYMENT = JsonConvert.DeserializeObject<JSN_LOAD_SALE_PAYMENT>(mResponse);
-                    if (mJSN_LOAD_SALE_PAYMENT.Message.Code == "7")
-                    {
-                        this.PaymentLoad = mJSN_LOAD_SALE_PAYMENT;
-
-                        //if (this.mJSN_LOAD_APPLICANT.RES_SUPPLIER.Count > 0)
-                        //{
-                        //   this.JSN_LOAD_SUPPLIER= bindDataTab(this.mJSN_SUPPLIERNCONTACT.RES_SUPPLIER);
-                        //    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
-                        //}
-                        //else
-                        //{
-                        //    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.NoData);
-                        //}
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_LOAD_SALE_PAYMENT.Message.Message);
-                    }
-                }
-                else
-                {
-                    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.WebServiceErr);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-
 
         #endregion
+
+
 
     }
 }

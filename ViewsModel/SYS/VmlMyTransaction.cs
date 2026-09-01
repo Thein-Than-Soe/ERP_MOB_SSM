@@ -1,26 +1,37 @@
-﻿using CS.ERP.PL.POS.DAT;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.HMS.DAT;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
-
-using CS.ERP_MOB.ViewsModel.Frame;
-using Newtonsoft.Json;
-
-using Microsoft.Maui.Controls;
-using static CS.ERP_MOB.General.Utility;
 using CS.ERP_MOB.Services.POS;
-using System.Collections.Generic;
+using CS.ERP_MOB.ViewsModel.Frame;
+using Microsoft.Maui.Controls;
+using Newtonsoft.Json;
+using RGPopup.Maui.Services;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows.Input;
+using static CS.ERP_MOB.General.Utility;
 
-namespace CS.ERP_MOB.ViewsModel.Pos
+namespace CS.ERP_MOB.ViewsModel.SYS
 {
     public class VmlMyTransaction : BaseViewModel
     {
         #region "Declaring"
         public JSN_REQ_SALE_LOAD mJSN_REQ_SALE_LOAD = new JSN_REQ_SALE_LOAD();
-        public JSN_LOAD_SALE_BROWSE mJSN_LOAD_SALE_BROWSE = new JSN_LOAD_SALE_BROWSE();
+        public JSN_RES_MY_TRANSACTION mJSN_RES_MY_TRANSACTION = new JSN_RES_MY_TRANSACTION();
+
+        public ObservableCollection<SortingItem> sortingList { get; set; }
+        SortingItem[] labelTexts = [
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Code"), value = "Code_0_50", ShowIcon = true },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Date"), value = "Date", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.CompanyPaymentType.lbl.PaymentType"), value = "PaymentTypeName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false }
+            ];
         string mRequest = "";
         string mResponse = "";
         #endregion
@@ -29,9 +40,13 @@ namespace CS.ERP_MOB.ViewsModel.Pos
         public VmlMyTransaction()
         {
             this.switchDisplayView(DisplayView.Card);
-            MyTransactionClosedList = new List<RES_SALE_BROWSE>();
-            MyTransactionActiveList = new List<RES_SALE_BROWSE>();
-            MyTransactionPartialList = new List<RES_SALE_BROWSE>();
+            OrderLoad = new JSN_LOAD_SALE_ORDER();
+            SaleOrderLst = new List<RES_SALE_BROWSE>();
+
+            LoadMoreCommand = new Command(async () => await LoadMoreItems());
+            sortingList = new ObservableCollection<SortingItem>(labelTexts);
+            IsAscending = true;
+            IsDescending = false;
         }
         #endregion
 
@@ -91,52 +106,99 @@ namespace CS.ERP_MOB.ViewsModel.Pos
                 NotifyPropertyChanged("IsRefreshing");
             }
         }
+        private bool mIsAscending;
+        public bool IsAscending
+        {
+            get
+            {
+                return mIsAscending;
+            }
+            set
+            {
+                mIsAscending = value;
+                NotifyPropertyChanged("IsAscending");
+            }
+        }
+        private bool mIsDescending;
+        public bool IsDescending
+        {
+            get
+            {
+                return mIsDescending;
+            }
+            set
+            {
+                mIsDescending = value;
+                NotifyPropertyChanged("IsDescending");
+            }
+        }
+
+        private bool isLoadingMore = false;
+        public bool IsLoadingMore
+        {
+            get => isLoadingMore;
+            set
+            {
+                isLoadingMore = value;
+                NotifyPropertyChanged(nameof(IsLoadingMore));
+            }
+        }
         #endregion
 
         #region "Data Tab"
-        public RES_SALE_BROWSE mRES_SALE_BROWSE = new RES_SALE_BROWSE();
-        public RES_STATUS mRES_STATUS = new RES_STATUS();
-        public RES_PARENT_TYPE mRES_PARENT_TYPE = new RES_PARENT_TYPE();
-        public RES_STATUS RES_STATUS
+        public JSN_LOAD_SALE_ORDER JSN_LOAD_SALE_ORDER = new JSN_LOAD_SALE_ORDER();
+        public JSN_LOAD_SALE_ORDER OrderLoad
         {
-            get { return mRES_STATUS; }
-            set { mRES_STATUS = value; NotifyPropertyChanged("RES_STATUS"); }
+            get { return JSN_LOAD_SALE_ORDER; }
+            set { JSN_LOAD_SALE_ORDER = value; NotifyPropertyChanged("OrderLoad"); }
         }
+
+        public RES_PARENT_TYPE mRES_PARENT_TYPE = new RES_PARENT_TYPE();
+        public RES_SALE_BROWSE rES_SALE_BROWSE = new RES_SALE_BROWSE();
+        public RES_STATUS mRES_STATUS = new RES_STATUS();
 
         public RES_PARENT_TYPE RES_PARENT_TYPE
         {
             get { return mRES_PARENT_TYPE; }
-            set { mRES_PARENT_TYPE = value; NotifyPropertyChanged("RES_STATUS"); }
+            set { mRES_PARENT_TYPE = value; NotifyPropertyChanged("RES_PARENT_TYPE"); }
         }
 
         public RES_SALE_BROWSE RES_SALE_BROWSE
         {
-            get { return mRES_SALE_BROWSE; }
-            set { mRES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
+            get { return rES_SALE_BROWSE; }
+            set { rES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
         }
 
-        public List<RES_SALE_BROWSE> mMyTransactionClosedList;
-        public List<RES_SALE_BROWSE> MyTransactionClosedList
+        public List<RES_SALE_BROWSE> mSaleOrderLst;
+        public List<RES_SALE_BROWSE> SaleOrderLst
         {
-            get { return mMyTransactionClosedList; }
-            set { mMyTransactionClosedList = value; NotifyPropertyChanged("MyTransactionClosedList"); }
+            get { return mSaleOrderLst; }
+            set { mSaleOrderLst = value; NotifyPropertyChanged("SaleOrderLst"); }
         }
 
-        public List<RES_SALE_BROWSE> mMyTransactionActiveList;
-        public List<RES_SALE_BROWSE> MyTransactionActiveList
+        public List<RES_SALE_BROWSE_DETAIL> mSaleOrderDetailLst;
+        public List<RES_SALE_BROWSE_DETAIL> SaleOrderDetailLst
         {
-            get { return mMyTransactionActiveList; }
-            set { mMyTransactionActiveList = value; NotifyPropertyChanged("MyTransactionActiveList"); }
+            get { return mSaleOrderDetailLst; }
+            set { mSaleOrderDetailLst = value; NotifyPropertyChanged("SaleOrderDetailLst"); }
         }
 
-        public List<RES_SALE_BROWSE> mMyTransactionPartialList;
-        public List<RES_SALE_BROWSE> MyTransactionPartialList
+
+        #endregion
+
+        #region "Task"
+        private async Task LoadMoreItems()
         {
-            get { return mMyTransactionPartialList; }
-            set { mMyTransactionPartialList = value; NotifyPropertyChanged("MyTransactionPartialList"); }
+            if (IsLoadingMore) return;
+            IsLoadingMore = true;
+            getMyTransactionHistory();
+            IsLoadingMore = false;
         }
-
-
+        //private Task ExecuteActiveItem()
+        //{
+        //    saveMyOrder();
+        //    return Task.CompletedTask;
+        //}
 
         #endregion
 
@@ -187,11 +249,93 @@ namespace CS.ERP_MOB.ViewsModel.Pos
             {
                 if (mRefreshCommand == null)
                 {
-                    mRefreshCommand = new Command(() => this.getMyTransaction());
+                    mRefreshCommand = new Command(() => this.getMyTransactionHistory());
                 }
                 return mRefreshCommand;
             }
         }
+
+        private ICommand mEditItemCommand;
+        public ICommand EditItemCommand
+        {
+            get
+            {
+                //if (mEditItemCommand == null)
+                //{
+                //    mEditItemCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                //    {
+                //        if (Utility.checkButtonAccess("Edit"))
+                //        {
+                //            bool answer = await Application.Current.MainPage.DisplayAlert(
+                //               $"{item.InvoiceTransactionCode_0_50}",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send")}",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                //            if (answer)
+                //            {
+                //                //route to detail page
+                //            }
+                //        }
+                //    });
+                //    //mEditItemCommand = new Command(() => this.switchDisplayView(DisplayView.Grid));
+                //    //mRefreshCommand = new Command(() => this.getInvoice());
+                //}
+                return mEditItemCommand;
+            }
+        }
+        private ICommand mSelectItemCommand;
+        public ICommand SelectItemCommand
+        {
+            get
+            {
+                if (mSelectItemCommand == null)
+                {
+                    //mRefreshCommand = new Command(() => this.getInvoice());
+                }
+                return mSelectItemCommand;
+            }
+        }
+        public ICommand LongPressItemCommand { get; }
+
+        private ICommand mCardItemTappedCommand;
+        public ICommand CardItemTappedCommand
+        {
+            get
+            {
+                //if (mCardItemTappedCommand == null)
+                //{
+                //    mCardItemTappedCommand = new Command<RES_SALE_INVOICE>(async (item) =>
+                //    {
+                //        bool answer = await Application.Current.MainPage.DisplayAlert(
+                //               $"{item.InvoiceTransactionCode_0_50}?",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Active")}",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
+                //               $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
+
+                //        if (answer)
+                //        {
+                //            //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
+
+                //        }
+                //    });
+                //}
+                return mCardItemTappedCommand;
+            }
+        }
+        private ICommand mMoreSearchCommand;
+        public ICommand MoreSearchCommand
+        {
+            get
+            {
+                if (mMoreSearchCommand == null)
+                {
+                    mMoreSearchCommand = new Command(() => this.selectMoreSearch());
+                }
+                return mMoreSearchCommand;
+            }
+        }
+        public ICommand LoadMoreCommand { get; }
         #endregion
 
         #region "Method"
@@ -212,44 +356,28 @@ namespace CS.ERP_MOB.ViewsModel.Pos
         {
             try
             {
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_ACTIVE = new List<RES_SALE_BROWSE>();
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_PARTIAL = new List<RES_SALE_BROWSE>();
-                List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_CLOSED = new List<RES_SALE_BROWSE>();
-
-
                 if (argRES_SALE_BROWSE_LST != null && argRES_SALE_BROWSE_LST.Count > 0)
                 {
-                    foreach (RES_SALE_BROWSE l_RES_SALE_BROWSE in argRES_SALE_BROWSE_LST)
-                    {   
-                        l_RES_SALE_BROWSE.SaleCloseDate = Utility.getDateTimeString(l_RES_SALE_BROWSE.SaleCloseDate);
-
-                        if (l_RES_SALE_BROWSE.StatusAsk == "1")
-                        {
-                            l_RES_SALE_BROWSE_ACTIVE.Add(l_RES_SALE_BROWSE);
-                        }
-                        else if (l_RES_SALE_BROWSE.StatusAsk == "8")
-                        {
-                            l_RES_SALE_BROWSE_PARTIAL.Add(l_RES_SALE_BROWSE);
-                        }
-                        else if (l_RES_SALE_BROWSE.StatusAsk == "3")
-                        {
-                            l_RES_SALE_BROWSE_CLOSED.Add(l_RES_SALE_BROWSE);
-                        }
-                    }
-                    RES_SALE_BROWSE = argRES_SALE_BROWSE_LST[0];
-                    MyTransactionClosedList = l_RES_SALE_BROWSE_CLOSED;
-                    MyTransactionActiveList = l_RES_SALE_BROWSE_ACTIVE;
-                    MyTransactionPartialList = l_RES_SALE_BROWSE_PARTIAL;
-                }
-                else
-                {
-                    MyTransactionClosedList = new List<RES_SALE_BROWSE>();
-                    MyTransactionActiveList = new List<RES_SALE_BROWSE>();
-                    MyTransactionPartialList = new List<RES_SALE_BROWSE>();
+                    SaleOrderLst = argRES_SALE_BROWSE_LST;
                 }
             }
             catch (Exception ex)
             {
+                throw ex.InnerException;
+            }
+        }
+
+        public void searchDataApi(string argKeyword)
+        {
+            try
+            {
+                //mJSN_REQ_SALE_LOAD.RES = new RES_SALE_ORDER();
+                //mJSN_REQ_SALE_LOAD.RES_SALE_ORDER.Remark = argKeyword;
+                getMyTransactionHistory();
+            }
+            catch (Exception ex)
+            {
+
                 throw ex.InnerException;
             }
         }
@@ -260,14 +388,13 @@ namespace CS.ERP_MOB.ViewsModel.Pos
                 List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_lst = new List<RES_SALE_BROWSE>();
                 if (argKeyword != null && !argKeyword.Equals(""))
                 {
-                    foreach (RES_SALE_BROWSE l_RES_SALE_BROWSE in mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE)
+                    foreach (RES_SALE_BROWSE l_RES_SALE_BROWSE in mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE)
                     {
                         argKeyword = argKeyword.ToLower();
-                        if (l_RES_SALE_BROWSE.GrandTotal.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BROWSE.CustomerName_0_255.ToLower().Contains(argKeyword)
-                              || l_RES_SALE_BROWSE.Code_0_50.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BROWSE.SaleCloseDate.ToLower().Contains(argKeyword)
-                            || l_RES_SALE_BROWSE.PaymentTypeName_0_255.ToLower().Contains(argKeyword))
+                        if (l_RES_SALE_BROWSE.Code_0_50.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_BROWSE.SD.ToLower().Contains(argKeyword)
+                            || l_RES_SALE_BROWSE.ED.ToLower().Contains(argKeyword)
+                            )
                         {
                             l_RES_SALE_BROWSE_lst.Add(l_RES_SALE_BROWSE);
                         }
@@ -275,7 +402,7 @@ namespace CS.ERP_MOB.ViewsModel.Pos
                 }
                 else
                 {
-                    l_RES_SALE_BROWSE_lst = mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE;// OriginalMyTransactionClosedList.GetRange(0, OriginalMyTransactionClosedList.Count);
+                    l_RES_SALE_BROWSE_lst = mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE;// OriginalMyOrderClosedList.GetRange(0, OriginalMyOrderClosedList.Count);
                 }
                 bindDataTab(l_RES_SALE_BROWSE_lst);
             }
@@ -284,23 +411,72 @@ namespace CS.ERP_MOB.ViewsModel.Pos
                 throw ex.InnerException;
             }
         }
-        #endregion
-
-        #region "Web Service Api"
-        public async void getMyTransaction()
+        private void selectMoreSearch()
         {
             try
             {
+                getMyTransactionHistory();
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+        //private async void callSearchMorePopup()
+        //{
+        //    try
+        //    {
+        //        var popup = new FrmSsm(this.mJSN_RES_FRONT_DESK_USER);
+        //        await PopupNavigation.Instance.PushAsync(popup);
+
+        //        var result = await popup.PopupClosedTask;
+        //        if (result is DAT_FRONT_DESK selectedData)
+        //        {
+        //            mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
+        //            if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+        //            {
+        //                FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+        //                                                                      || (data.InvoiceTransactionCode_0_50 == selectedData.InvoiceTransactionCode_0_50)).ToList());
+        //            }
+        //            else
+        //            {
+        //                await getFrontDeskUser();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.InnerException;
+        //    }
+
+        //}
+        #endregion
+
+        #region "Web Service Api"
+        public async void getMyTransactionHistory()
+        {
+            try
+            {
+                Utility.openLoader();
+                mJSN_REQ_SALE_LOAD.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.TranTypeAsk = "3";
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.SD = Utility.getTLFormLoadSD();
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.ED = Utility.getTLFormLoadED();
+
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE_DETAIL = new List<RES_SALE_BROWSE_DETAIL> { new RES_SALE_BROWSE_DETAIL() };
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSaleTransHis);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetMyTransactionHistory);
                 if (mResponse != null || mResponse != "")
                 {
-                    this.mJSN_LOAD_SALE_BROWSE = JsonConvert.DeserializeObject<JSN_LOAD_SALE_BROWSE>(mResponse);
-                    if (mJSN_LOAD_SALE_BROWSE.Message.Code == "7")
+                    this.mJSN_RES_MY_TRANSACTION = JsonConvert.DeserializeObject<JSN_RES_MY_TRANSACTION>(mResponse);
+                    if (mJSN_RES_MY_TRANSACTION.Message.Code == "7")
                     {
-                        if (this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE.Count > 0)
+                        if (this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE.Count > 0)
                         {
-                            bindDataTab(this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE);
+                            SaleOrderLst = this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE;
+                            SaleOrderDetailLst = this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE_DETAIL;
                             MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
                         }
                         else
@@ -310,7 +486,7 @@ namespace CS.ERP_MOB.ViewsModel.Pos
                     }
                     else
                     {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_LOAD_SALE_BROWSE.Message.Message);
+                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_RES_MY_TRANSACTION.Message.Message);
                     }
                 }
                 else
@@ -322,47 +498,15 @@ namespace CS.ERP_MOB.ViewsModel.Pos
             {
                 throw ex.InnerException;
             }
-        }
-        public async void saveMyTransaction()
-        {
-            try
+            finally
             {
-                mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSaleTransHis);
-                if (mResponse != null || mResponse != "")
-                {
-                    this.mJSN_LOAD_SALE_BROWSE = JsonConvert.DeserializeObject<JSN_LOAD_SALE_BROWSE>(mResponse);
-                    if (mJSN_LOAD_SALE_BROWSE.Message.Code == "7")
-                    {
-                        if (this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE.Count > 0)
-                        {
-                            RES_SALE_BROWSE = this.mJSN_LOAD_SALE_BROWSE.RES_SALE_BROWSE[0];
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.SaveSuccess);
-                            //route parent list form after save
-                            Common.routeMenu(Common.mCommon.SelectedMenu);
-                        }
-                        else
-                        {
-                            MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.NoData);
-                        }
-                    }
-                    else
-                    {
-                        MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, this.mJSN_LOAD_SALE_BROWSE.Message.Message);
-                    }
-                }
-                else
-                {
-                    MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.WebServiceErr);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
+                Utility.closeLoader();
             }
         }
 
         #endregion
+
+
 
     }
 }

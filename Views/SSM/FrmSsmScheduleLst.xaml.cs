@@ -120,13 +120,13 @@ namespace CS.ERP_MOB.Views.SSM
 
             switch (sortBy)
             {
-                case "InOutDate":
+                case "OrderDate":
                     sorted = mVmlSchedule.IsAscending
-                        ? mVmlSchedule.FrontDeskList.OrderBy(x => x.InOutDate)
-                        : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.InOutDate);
+                        ? mVmlSchedule.FrontDeskList.OrderBy(x => x.OrderDate)
+                        : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.OrderDate);
                     break;
 
-                case "InvoiceCode_0_50":
+                case "OrderCode_0_50":
                     sorted = mVmlSchedule.IsAscending
                         ? mVmlSchedule.FrontDeskList.OrderBy(x => x.InvoiceCode_0_50)
                         : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.InvoiceCode_0_50);
@@ -138,22 +138,16 @@ namespace CS.ERP_MOB.Views.SSM
                         : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.CustomerName_0_255);
                     break;
 
-                case "StatusName_0_255":
+                case "InOutStatusName_0_255":
                     sorted = mVmlSchedule.IsAscending
-                        ? mVmlSchedule.FrontDeskList.OrderBy(x => x.StatusName_0_255)
-                        : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.StatusName_0_255);
+                        ? mVmlSchedule.FrontDeskList.OrderBy(x => x.InOutStatusName_0_255)
+                        : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.InOutStatusName_0_255);
                     break;
 
                 case "StockName_0_255":
                     sorted = mVmlSchedule.IsAscending
                         ? mVmlSchedule.FrontDeskList.OrderBy(x => x.StockName_0_255)
                         : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.StockName_0_255);
-                    break;
-
-                case "UserName_0_255":
-                    sorted = mVmlSchedule.IsAscending
-                        ? mVmlSchedule.FrontDeskList.OrderBy(x => x.UserName_0_255)
-                        : mVmlSchedule.FrontDeskList.OrderByDescending(x => x.UserName_0_255);
                     break;
 
                 default:
@@ -253,7 +247,13 @@ namespace CS.ERP_MOB.Views.SSM
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is DAT_FRONT_DESK selectedItem)
             {
-                await Navigation.PushAsync(new FrmSsmScheduleSet(selectedItem));
+                // Open your book now with data
+                if (!Common.bindMenu("ssm-book-now-lst"))
+                {
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-lst", logoImg = "" };
+                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                }
+                Common.routeMenu(Common.mCommon.SelectedMenu, selectedItem.Ask);
             }
         }
         private void OnMenuTapped(object sender, TappedEventArgs e)

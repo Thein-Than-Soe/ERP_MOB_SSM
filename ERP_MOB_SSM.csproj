@@ -265,6 +265,9 @@
 	  <Compile Update="Views\SSM\FrmSsmOrderSet.xaml.cs">
 	    <DependentUpon>FrmSsmOrderSet.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmPaymentSet.xaml.cs">
+	    <DependentUpon>FrmSsmPaymentSet.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -857,6 +860,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmOrderSet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmPaymentSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmAccessLst.xaml">

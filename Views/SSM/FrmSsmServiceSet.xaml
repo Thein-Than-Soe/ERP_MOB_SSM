@@ -47,7 +47,7 @@
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
-                            Text="Item Number"
+                            Text="Item Code"
                             TextColor="Black" />
 
                         <Picker
@@ -284,7 +284,7 @@
                                 Grid.Column="0"
                                 FontAttributes="Bold"
                                 FontSize="17"
-                                Text="Total Price"
+                                Text="Total Amount"
                                 TextColor="Black"
                                 VerticalOptions="Center" />
 
@@ -336,6 +336,108 @@
                         ItemDisplayBinding="{Binding UserName_0_255}"
                         ItemsSource="{Binding AvailableUserList}"
                         SelectedItem="{Binding AssignedUser}" />
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+            <Frame
+                Padding="15"
+                BackgroundColor="White"
+                BorderColor="LightGray"
+                CornerRadius="10"
+                HasShadow="False"
+                IsVisible="True">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Recurring" />
+
+                    <!--  Recurring  -->
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="10"
+                        HorizontalOptions="Fill">
+
+                        <!--  Recurring Type - 50%  -->
+                        <Border
+                            Grid.Column="0"
+                            HeightRequest="40"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Picker
+                                x:Name="PickerBeatType"
+                                Title="Recurring Type"
+                                Margin="5,0"
+                                ItemDisplayBinding="{Binding BeatTypeName_0_255}"
+                                ItemsSource="{Binding BeatTypeList}"
+                                SelectedItem="{Binding SelectedBeatType, Mode=TwoWay}"
+                                ToolTipProperties.Text="Please select BeatTypeName" />
+
+                        </Border>
+
+
+                        <!--  Date + Time - 50%  -->
+                        <Border
+                            Grid.Column="1"
+                            HeightRequest="40"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <Grid
+                                Padding="5,0"
+                                ColumnDefinitions="Auto,*,*"
+                                VerticalOptions="Center">
+
+                                <!--  Calendar Icon  -->
+                                <Label
+                                    Margin="10,0"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf073;"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+
+                                <!--  Date  -->
+                                <DatePicker
+                                    x:Name="RecurringDatePicker"
+                                    Grid.Column="1"
+                                    Date="{Binding OrderDate, Mode=TwoWay}"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Fill"
+                                    IsEnabled="{Binding IsServiceEditable}" />
+
+                                <!--  Time  -->
+                                <TimePicker
+                                    x:Name="RecurringTimePicker"
+                                    Grid.Column="2"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Fill"
+                                    IsEnabled="{Binding IsServiceEditable}"
+                                    Time="{Binding OrderTime, Mode=TwoWay}" />
+
+                            </Grid>
+
+                        </Border>
+
+                    </Grid>
+
+
 
                 </VerticalStackLayout>
 

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
@@ -26,11 +27,10 @@ namespace CS.ERP_MOB.ViewsModel.SYS
 
         public ObservableCollection<SortingItem> sortingList { get; set; }
         SortingItem[] labelTexts = [
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Code"), value = "Code_0_50", ShowIcon = true },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Date"), value = "OrderDate", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("WMS.PickList.lbl.SalesPerson"), value = "SalePersonName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SYS.Setup.lbl.Total"), value = "GrandTotal", ShowIcon = false}
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Code"), value = "Code_0_50", ShowIcon = true },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Date"), value = "Date", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.CompanyPaymentType.lbl.PaymentType"), value = "PaymentTypeName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false }
             ];
         string mRequest = "";
         string mResponse = "";
@@ -476,6 +476,34 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
+        //private async void callSearchMorePopup()
+        //{
+        //    try
+        //    {
+        //        var popup = new FrmSsm(this.mJSN_RES_FRONT_DESK_USER);
+        //        await PopupNavigation.Instance.PushAsync(popup);
+
+        //        var result = await popup.PopupClosedTask;
+        //        if (result is DAT_FRONT_DESK selectedData)
+        //        {
+        //            mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
+        //            if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+        //            {
+        //                FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+        //                                                                      || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+        //            }
+        //            else
+        //            {
+        //                await getFrontDeskUser();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.InnerException;
+        //    }
+
+        //}
         #endregion
 
         #region "Web Service Api"
@@ -483,6 +511,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
+                Utility.openLoader();
                 mJSN_REQ_SALE_LOAD.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.TranTypeAsk = "3";
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
@@ -520,6 +549,10 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             catch (Exception ex)
             {
                 throw ex.InnerException;
+            }
+            finally
+            {
+                Utility.closeLoader();
             }
         }
         

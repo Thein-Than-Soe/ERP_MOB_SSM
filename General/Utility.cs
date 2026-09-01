@@ -285,6 +285,7 @@ namespace CS.ERP_MOB.General
             }
         }
         #region "DecimalFormat"
+        //roundoffamount, usersetting decimal place, amount after dis
         public static string getDecimalFormatString(string argDecimal, string argDecimalPlace, string argDecimaRounding)
         {
             try

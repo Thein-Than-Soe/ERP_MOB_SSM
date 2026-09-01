@@ -104,11 +104,13 @@ public partial class FrmSsmServiceSet : ContentPage
        
         try
         {
+            //recurring date time add
+
             await Application.Current.MainPage.DisplayAlert(
                 "Service",
-                "Load service API and assign person list.\n\nPop up the assign box.",
+                "Successfully added the service",
                 "OK");
-        //await Shell.Current.GoToAsync("..");
+            await Navigation.PopAsync();
         }
         catch (Exception ex)
         {

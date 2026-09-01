@@ -18,6 +18,8 @@ using System.Windows.Input;
 using static CS.ERP_MOB.General.Utility;
 using Microsoft.Maui.Devices.Sensors;
 using CS.ERP_MOB.Services.SSM;
+using CS.ERP_MOB.Views.SSM;
+using RGPopup.Maui.Services;
 
 namespace CS.ERP_MOB.ViewsModel.SSM
 {
@@ -44,8 +46,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.OrderDate"), value = "OrderDate", ShowIcon = true },
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.OrderCode"), value = "OrderCode_0_50", ShowIcon = false },
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.CustomerName"), value = "CustomerName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.AssignUser"), value = "UserName_0_255", ShowIcon = false}
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.InOutStatusName"), value = "InOutStatusName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("SSM.FrontDesk.lbl.StockName"), value = "StockName_0_255", ShowIcon = false}
             ];
         public ObservableCollection<DAT_FRONT_DESK> FrontDeskList { get; set; }
         public ObservableCollection<RES_USER_LST> UserList { get; set; }
@@ -1019,31 +1021,31 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         }
         private async void callSearchMorePopup()
         {
-            //try
-            //{
-            //    var popup = new FrmSsmSchedulePop(this.SalesInvoiceLoad);
-            //    await PopupNavigation.Instance.PushAsync(popup);
+            try
+            {
+                var popup = new FrmSsmSchedulePop(this.mJSN_RES_FRONT_DESK_USER);
+                await PopupNavigation.Instance.PushAsync(popup);
 
-            //    var result = await popup.PopupClosedTask;
-            //    if (result is DAT_FRONT_DESK selectedData)
-            //    {
-            //        mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
-            //        if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-            //        {
-            //             FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
-            //                                                                   || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
-            //        }
-            //        else
-            //        {
-            //            getFrontDeskUser();
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex.InnerException;
-            //}
-        
+                var result = await popup.PopupClosedTask;
+                if (result is DAT_FRONT_DESK selectedData)
+                {
+                    mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
+                    if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
+                    {
+                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
+                                                                              || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+                    }
+                    else
+                    {
+                        await getFrontDeskUser();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+
         }
         public void bindCustomer(List<RES_USER_LST> argRES_USER_LST_LST)
         {

@@ -89,24 +89,17 @@ namespace CS.ERP_MOB.Views.SYS
                         ? mVmlMyOrder.SaleOrderLst.OrderBy(x => x.Code_0_50)
                         : mVmlMyOrder.SaleOrderLst.OrderByDescending(x => x.Code_0_50);
                     break;
-
-                case "SalePersonName_0_255":
-                    sorted = mVmlMyOrder.IsAscending
-                        ? mVmlMyOrder.SaleOrderLst.OrderBy(x => x.SalePersonName_0_255)
-                        : mVmlMyOrder.SaleOrderLst.OrderByDescending(x => x.SalePersonName_0_255);
-                    break;
-
                 case "StatusName_0_255":
                     sorted = mVmlMyOrder.IsAscending
                         ? mVmlMyOrder.SaleOrderLst.OrderBy(x => x.StatusName_0_255)
                         : mVmlMyOrder.SaleOrderLst.OrderByDescending(x => x.StatusName_0_255);
                     break;
-
-                case "GrandTotal":
+                case "PaymentTypeName_0_255":
                     sorted = mVmlMyOrder.IsAscending
-                        ? mVmlMyOrder.SaleOrderLst.OrderBy(x => x.GrandTotal)
-                        : mVmlMyOrder.SaleOrderLst.OrderByDescending(x => x.GrandTotal);
+                        ? mVmlMyOrder.SaleOrderLst.OrderBy(x => x.PaymentTypeName_0_255)
+                        : mVmlMyOrder.SaleOrderLst.OrderByDescending(x => x.PaymentTypeName_0_255);
                     break;
+
 
                 default:
                     return;
