@@ -467,7 +467,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE_DETAIL = new List<RES_SALE_BROWSE_DETAIL> { new RES_SALE_BROWSE_DETAIL() };
 
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetMyTransactionHistory);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsmyTransaction);
                 if (mResponse != null || mResponse != "")
                 {
                     this.mJSN_RES_MY_TRANSACTION = JsonConvert.DeserializeObject<JSN_RES_MY_TRANSACTION>(mResponse);

@@ -415,7 +415,7 @@
                                 <DatePicker
                                     x:Name="RecurringDatePicker"
                                     Grid.Column="1"
-                                    Date="{Binding OrderDate, Mode=TwoWay}"
+                                    Date="{Binding RecurringDate, Mode=TwoWay}"
                                     FontSize="12"
                                     HeightRequest="40"
                                     HorizontalOptions="Fill"
@@ -429,7 +429,7 @@
                                     HeightRequest="40"
                                     HorizontalOptions="Fill"
                                     IsEnabled="{Binding IsServiceEditable}"
-                                    Time="{Binding OrderTime, Mode=TwoWay}" />
+                                    Time="{Binding RecurringTime, Mode=TwoWay}" />
 
                             </Grid>
 

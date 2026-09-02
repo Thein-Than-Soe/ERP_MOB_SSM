@@ -432,6 +432,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 mSelectedBeatType = value;
                 NotifyPropertyChanged(nameof(SelectedBeatType));
+                HasSelectedBeatType = SelectedBeatType != null;
                 NotifyPropertyChanged(nameof(HasSelectedBeatType));
             }
         }
@@ -520,6 +521,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 mAssignedUser = value;
                 NotifyPropertyChanged("AssignedUser");
+                HasAssignedUser = AssignedUser != null;
                 NotifyPropertyChanged(nameof(HasAssignedUser));
             }
         }
@@ -648,10 +650,35 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        public bool HasAssignedUser => AssignedUser != null;
 
-        public bool HasSelectedBeatType =>SelectedBeatType != null;
+        private bool mHasAssignedUser = false;
 
+        public bool HasAssignedUser
+        {
+            get => mHasAssignedUser;
+            set
+            {
+                if (mHasAssignedUser == value)
+                    return;
+
+                mHasAssignedUser = value;
+                NotifyPropertyChanged(nameof(HasAssignedUser));
+            }
+        }
+        private bool mHasSelectedBeatType = false;
+
+        public bool HasSelectedBeatType
+        {
+            get => mHasSelectedBeatType;
+            set
+            {
+                if (mHasSelectedBeatType == value)
+                    return;
+
+                mHasSelectedBeatType = value;
+                NotifyPropertyChanged(nameof(HasSelectedBeatType));
+            }
+        }
         private bool mIsBankVisible;
 
         public bool IsBankVisible
@@ -1155,7 +1182,33 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
+        private DateTime mRecurringDate;
+        public DateTime RecurringDate
+        {
+            get => mRecurringDate;
+            set
+            {
+                if (mRecurringDate == value)
+                    return;
 
+                mRecurringDate = value;
+                NotifyPropertyChanged(nameof(RecurringDate));
+            }
+        }
+        private TimeSpan mRecurringTime;
+
+        public TimeSpan RecurringTime
+        {
+            get => mRecurringTime;
+            set
+            {
+                if (mRecurringTime == value)
+                    return;
+
+                mRecurringTime = value;
+                NotifyPropertyChanged(nameof(RecurringTime));
+            }
+        }
         #endregion
 
         #region "Amount calculate methods"
@@ -1951,6 +2004,12 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 mDAT_BOOK_NOW_HEADER.BeatTypeAsk = SelectedBeatType.Ask;
                 mDAT_BOOK_NOW_HEADER.BeatTypeName_0_255 = SelectedBeatType.BeatTypeName_0_255;
+
+                DateTime RecurringDateTime = RecurringDate.Date + RecurringTime;
+                mDAT_BOOK_NOW_HEADER.ReferenceDate = RecurringDateTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
+                mDAT_BOOK_NOW_HEADER.BeatTypeName_0_255 = SelectedBeatType.BeatTypeName_0_255;
+
                 mDAT_BOOK_NOW_HEADER.SD = SelectedBeatType.SD;
 
                 mDAT_BOOK_NOW_HEADER.RoundOffAmount = this.RoundOffAmount.ToString();
