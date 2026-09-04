@@ -23,7 +23,7 @@ namespace CS.ERP_MOB.Route
             DicRouteList.Add("signup", typeof(FrmSignUp));
 
             DicRouteList.Add("ssm-profile", typeof(FrmSsmProfile));
-            DicRouteList.Add("ssm-dashboard", typeof(HomePage));
+            DicRouteList.Add("ssm-dashboard", typeof(FrmSsmDashboardLst));
             DicRouteList.Add("ssm-front-desk", typeof(FrmSsmScheduleLst));
             DicRouteList.Add("ssm-book-lst", typeof(FrmSsmOrderSet));
             //DicRouteList.Add("ssm-book-set", typeof(FrmSsmProfile));

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Threading.Tasks;
+﻿using CS.ERP.PL.POS.DAT;
+using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.Views.Frame;
-using Newtonsoft.Json;
 //using Plugin.Connectivity;
 //using Rg.Plugins.Popup.Services;
 using Microsoft.Maui.Networking;
-using RGPopup.Maui.Services;
+using Newtonsoft.Json;
 using RGPopup.Maui;
+using RGPopup.Maui.Services;
+using System;
 using System.Diagnostics;
-using CS.ERP.PL.POS.DAT;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 namespace CS.ERP_MOB.General
 {
     public class Utility
@@ -258,7 +259,192 @@ namespace CS.ERP_MOB.General
             return DateTime.Now;
         }
 
+        //Filter range
 
+        public class DateRange
+        {
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+        }
+
+        public static DateRange CalendarFormat(DAT_FILTER_RANGE filterRangeData)
+        {
+            DateTime today = DateTime.Today;
+            double count = double.Parse(filterRangeData.Count);
+
+            DateTime startDate;
+            DateTime endDate;
+
+            switch (filterRangeData.PeriodTypeAsk)
+            {
+                // ===== Day =====
+                case "3":
+                    startDate = today.AddDays(-(count - 1)).Date;
+                    endDate = today.Date.AddDays(1).AddTicks(-1);
+                    break;
+
+                // ===== Week (Mon–Sun) =====
+                case "8":
+                    int dayOfWeek = (int)today.DayOfWeek;
+
+                    // Sunday = 0, Monday = 1
+                    int diffToMonday = dayOfWeek == 0
+                        ? -6
+                        : 1 - dayOfWeek;
+
+                    DateTime currentWeekStart = today.AddDays(diffToMonday);
+
+                    startDate = currentWeekStart.Date;
+
+                    endDate = currentWeekStart
+                        .AddDays(6)
+                        .Date
+                        .AddDays(1)
+                        .AddTicks(-1);
+
+                    break;
+
+                // ===== Month =====
+                case "4":
+                    startDate = new DateTime(
+                        today.Year,
+                        today.Month,
+                        1
+                    );
+
+                    endDate = new DateTime(
+                        today.Year,
+                        today.Month,
+                        DateTime.DaysInMonth(today.Year, today.Month)
+                    )
+                    .Date
+                    .AddDays(1)
+                    .AddTicks(-1);
+
+                    break;
+
+                // ===== Quarter =====
+                case "7":
+                    int currentQuarter = (today.Month - 1) / 3;
+                    int quarterStartMonth = currentQuarter * 3 + 1;
+
+                    startDate = new DateTime(
+                        today.Year,
+                        quarterStartMonth,
+                        1
+                    ).AddMonths(-(int)((count - 1) * 3));
+
+                    endDate = new DateTime(
+                        today.Year,
+                        quarterStartMonth,
+                        1
+                    )
+                    .AddMonths(3)
+                    .AddTicks(-1);
+
+                    break;
+
+                // ===== Year =====
+                case "5":
+                    startDate = new DateTime(
+                        today.Year - (int)(count - 1),
+                        1,
+                        1
+                    );
+
+                    endDate = new DateTime(
+                        today.Year,
+                        12,
+                        31
+                    )
+                    .Date
+                    .AddDays(1)
+                    .AddTicks(-1);
+
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return new DateRange
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+        }
+
+        public static DateRange CurrentFormat(DAT_FILTER_RANGE filterRangeData)
+        {
+            DateTime today = DateTime.Now;
+            double count = double.Parse(filterRangeData.Count);
+
+            DateTime startDate;
+            DateTime endDate;
+
+            switch (filterRangeData.PeriodTypeAsk)
+            {
+                // ===== Day (rolling) =====
+                case "3":
+                    startDate = today.Date.AddDays(-count);
+                    endDate = today;
+                    break;
+
+                // ===== Week (rolling) =====
+                case "8":
+                    startDate = today.AddDays(-count * 7);
+                    endDate = today;
+                    break;
+
+                // ===== Month (rolling) =====
+                case "4":
+                    startDate = today.AddMonths(-(int)count);
+                    endDate = today;
+                    break;
+
+                // ===== Quarter (rolling) =====
+                case "7":
+                    startDate = today.AddMonths(-(int)(count * 3));
+                    endDate = today;
+                    break;
+
+                // ===== Year (rolling) =====
+                case "5":
+                    startDate = today.AddYears(-(int)count);
+                    endDate = today;
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return new DateRange
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+        }
+
+        public static DateRange OnFilterRangeChanged(DAT_FILTER_RANGE filterRangeData)
+        {
+            if (filterRangeData == null)
+                return null;
+
+            DateRange range = null;
+
+            // 1 = Calendar Format
+            if (filterRangeData.FilterRangeTypeAsk == "1")
+            {
+                range = CalendarFormat(filterRangeData);
+            }
+            // 2 = Current Format
+            else if (filterRangeData.FilterRangeTypeAsk == "2")
+            {
+                range = CurrentFormat(filterRangeData);
+            }
+
+            return range;
+        }
         #endregion
         public static Boolean checkButtonAccess(string menuName)
         {

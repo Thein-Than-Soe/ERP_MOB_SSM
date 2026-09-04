@@ -54,10 +54,97 @@ public partial class FrmSsmPaymentSet : ContentPage
 
     }
 
+    private bool ValidateData()
+    {
+        if (vm.SelectedPaymentType == null)
+        {
+            Application.Current.MainPage.DisplayAlert(
+                "Required",
+                "Please select a payment type.",
+                "OK");
+
+            return false;
+        }
+
+        switch (vm.SelectedPaymentType.Ask)
+        {
+            case "1": // CASH
+
+                if (!decimal.TryParse(vm.Tender, out decimal tenderAmount))
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        "Required",
+                        "Please enter a valid tender amount.",
+                        "OK");
+
+                    return false;
+                }
+
+                if (tenderAmount < vm.GrandTotal)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        "Invalid Tender",
+                        "Tender amount cannot be less than the Grand Total.",
+                        "OK");
+
+                    return false;
+                }
+
+                break;
+
+            case "2": // CHEQUE
+
+                if (string.IsNullOrWhiteSpace(vm.TransactionNo))
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        "Required",
+                        "Please enter the cheque number.",
+                        "OK");
+
+                    return false;
+                }
+
+                break;
+
+            case "3": // CREDIT CARD
+                if (vm.SelectedToBank == null)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        "Required",
+                        "Please select the To Bank.",
+                        "OK");
+
+                    return false;
+                }
+                break;
+
+            case "8": // DEBIT CARD
+
+                if (vm.SelectedToBank == null)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        "Required",
+                        "Please select the To Bank.",
+                        "OK");
+
+                    return false;
+                }
+
+                break;
+        }
+        return true;
+
+    }
+
     private async void AddToList_Clicked(object sender, EventArgs e)
     {
         try
         {
+            bool isValid = ValidateData();
+
+            if (!isValid)
+                return;
+
             // Create a new payment record
             RES_SALE_PAYMENT payment = new RES_SALE_PAYMENT();
 
@@ -83,7 +170,6 @@ public partial class FrmSsmPaymentSet : ContentPage
 
             payment.SalePersonAsk = vm.AssignedUser.Ask;
 
-            payment.StatusAsk = vm.StatusAsk;
 
 
             // =====================================================
@@ -214,7 +300,6 @@ public partial class FrmSsmPaymentSet : ContentPage
 
             vm.PaymentList.Add(payment);
 
-
             // =====================================================
             // SUCCESS
             // =====================================================
@@ -234,6 +319,44 @@ public partial class FrmSsmPaymentSet : ContentPage
                 "OK");
         }
     }
+    
+    private async void Delete_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            bool isValid = ValidateData();
+
+            if (!isValid)
+                return;
+
+            // =====================================================
+            // ADD PAYMENT TO VIEWMODEL LIST
+            // =====================================================
+
+            vm.PaymentList.Remove(CurrentItem);
+
+            // =====================================================
+            // SUCCESS
+            // =====================================================
+
+            await Application.Current.MainPage.DisplayAlert(
+                "Payment",
+                "Successfully remove the payment.",
+                "OK");
+
+            await Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.ToString(),
+                "OK");
+        }
+    }
+    
+    
+    
     #endregion
 
 

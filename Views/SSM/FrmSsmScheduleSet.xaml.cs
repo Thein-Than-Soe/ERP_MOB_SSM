@@ -57,7 +57,7 @@ namespace CS.ERP_MOB.Views.SSM
 
                         // go to book now
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "2";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "2";
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
 
@@ -69,7 +69,8 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Check In":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "3";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "3";
+                        vm.mDAT_FRONT_DESK.InOutStatusName_0_255 = "Check In";
 
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
@@ -85,7 +86,7 @@ namespace CS.ERP_MOB.Views.SSM
                     case "WIP":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "4";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "4";
 
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
@@ -97,7 +98,7 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Done":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "5";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "5";
 
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
@@ -109,7 +110,7 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Check Out":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "6";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "6";
 
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
@@ -124,7 +125,7 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Complete":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "7";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "7";
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
 
@@ -136,7 +137,7 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Closed":
 
                         vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "8";
+                        vm.mDAT_FRONT_DESK.InOutStatusAsk = "8";
                         vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
                         vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
 

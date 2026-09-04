@@ -5,7 +5,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:CS.ERP_MOB.Views.Frame"
-    xmlns:general="clr-namespace:CS.ERP_MOB.General">
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    x:Name="BookNowView">
 
     <ScrollView x:Name="MainScrollView">
         <VerticalStackLayout Padding="15" Spacing="15">
@@ -246,7 +247,7 @@
 
                                         <Label
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="{Binding ConverterQuantity}"
+                                            Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
 
                                     </HorizontalStackLayout>
@@ -430,7 +431,7 @@
                                 ToolTipProperties.Text="Discount rate"
                                 VerticalOptions="Center" />
                         </HorizontalStackLayout>
-                        <Label Grid.Column="1">
+                        <Label Grid.Column="1" VerticalOptions="Center">
                             <Label.Text>
                                 <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
                                     <Binding Path="SelectedCurrency" />
@@ -591,14 +592,14 @@
             <!--  =====================================================  -->
 
             <VerticalStackLayout
-                Margin="0,0,0,0"
+                Margin="0"
                 IsVisible="{Binding IsServiceAdded}"
                 Spacing="8">
 
                 <!--  Payment Header  -->
                 <Border
                     Padding="8"
-                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
                     Stroke="{StaticResource BorderColor}"
                     StrokeThickness="1">
 
@@ -613,17 +614,18 @@
 
                         <!--  Payment Title  -->
                         <Label
+                            Grid.Column="0"
                             Margin="20,0,0,0"
                             FontAttributes="Bold"
                             Text="Payment"
-                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
                             VerticalOptions="Center" />
 
                         <!--  Add Payment  -->
                         <Frame
                             Grid.Column="1"
                             Padding="0"
-                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
                             BorderColor="Gray"
                             HeightRequest="40"
                             WidthRequest="40">
@@ -639,13 +641,14 @@
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="AddPayment_Clicked" />
                             </Frame.GestureRecognizers>
+
                         </Frame>
 
                         <!--  Payment List Dropdown Toggle  -->
                         <Frame
                             Grid.Column="2"
                             Padding="0"
-                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
                             BorderColor="Gray"
                             HeightRequest="40"
                             VerticalOptions="Center"
@@ -667,6 +670,7 @@
                         </Frame>
 
                     </Grid>
+
                 </Border>
 
 
@@ -674,128 +678,184 @@
                 <!--  PAYMENT LIST DROPDOWN  -->
                 <!--  =================================================  -->
 
-                <Frame
+                <Border
                     x:Name="Payment_DropdownContent"
                     Margin="10,0"
                     Padding="10"
-                    BackgroundColor="#F9F9F9"
-                    BorderColor="#CCCCCC"
-                    CornerRadius="8"
-                    IsVisible="False">
+                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                    IsVisible="False"
+                    Stroke="#CCCCCC"
+                    StrokeThickness="1">
 
-                    <Grid RowDefinitions="Auto,*">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
 
-                        <!--  No Payment  -->
+
+                    <!--  Payment Content  -->
+                    <VerticalStackLayout Spacing="5">
+
+                        <!--  No Payment
                         <Label
-                            Grid.Row="0"
                             Padding="5"
                             HorizontalOptions="Center"
-                            IsVisible="{Binding PaymentList.Count, Converter={StaticResource ZeroToBoolConverter}}"
+                            IsVisible="{Binding IsPaymentListEmpty}"
                             Text="No payment added."
                             TextColor="Gray" />
+                        -->
 
                         <!--  Payment List  -->
-                        <CollectionView
-                            x:Name="payment_lstView"
-                            Grid.Row="1"
-                            ItemsSource="{Binding PaymentList}"
-                            SelectionMode="None"
-                            VerticalOptions="Fill">
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding PaymentList}" Spacing="5">
 
-                            <CollectionView.ItemTemplate>
+                            <BindableLayout.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Border
-                                        Margin="0,3"
-                                        Padding="10"
-                                        BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                        Stroke="#DDDDDD"
-                                        StrokeThickness="1">
+                                    <SwipeView>
 
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="8" />
-                                        </Border.StrokeShape>
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="payment_lstView_ItemSelected" />
-                                        </Border.GestureRecognizers>
+                                        <!--  Swipe LEFT  -->
+                                        <SwipeView.LeftItems>
+                                            <SwipeItems Mode="Reveal">
+                                                <SwipeItem
+                                                    BackgroundColor="#EF4444"
+                                                    Invoked="Payment_Delete_Invoked"
+                                                    Text="Delete" />
+                                            </SwipeItems>
+                                        </SwipeView.LeftItems>
 
+                                        <!--  Swipe RIGHT  -->
+                                        <SwipeView.RightItems>
+                                            <SwipeItems Mode="Reveal">
+                                                <SwipeItem
+                                                    BackgroundColor="#3B82F6"
+                                                    Invoked="Payment_Edit_Invoked"
+                                                    Text="Edit" />
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
 
-                                        <Grid
+                                        <!--  Payment Card  -->
+                                        <Border
+                                            Margin="0,3"
                                             Padding="10"
-                                            ColumnDefinitions="*,Auto"
-                                            ColumnSpacing="10">
+                                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                            Stroke="#DDDDDD"
+                                            StrokeThickness="1">
 
-                                            <!--  Payment Type  -->
-                                            <Label
-                                                Grid.Column="0"
-                                                FontAttributes="Bold"
-                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                                Text="{Binding PaymentTypeName_0_255}"
-                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                                VerticalOptions="Center" />
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="8" />
+                                            </Border.StrokeShape>
 
-                                            <!--  Deposit Amount  -->
-                                            <Label
-                                                Grid.Column="1"
-                                                FontAttributes="Bold"
-                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                                VerticalOptions="Center">
+                                            <Grid
+                                                Padding="10"
+                                                ColumnDefinitions="*,Auto"
+                                                ColumnSpacing="10">
 
-                                                <Label.Text>
-                                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                                        <Binding Path="SelectedCurrency" />
-                                                        <Binding Path="DepositAmount" />
-                                                    </MultiBinding>
-                                                </Label.Text>
+                                                <!--  Payment Type  -->
+                                                <Label
+                                                    Grid.Column="0"
+                                                    FontAttributes="Bold"
+                                                    FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                    Text="{Binding PaymentTypeName_0_255}"
+                                                    TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                                    VerticalOptions="Center" />
 
-                                            </Label>
+                                                <!--  Deposit Amount  -->
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                    TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                                    VerticalOptions="Center">
 
-                                        </Grid>
+                                                    <Label.Text>
+                                                        <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                                            <Binding Path="BindingContext.SelectedCurrency" Source="{x:Reference BookNowView}" />
+                                                            <Binding Path="DepositAmount" />
+                                                        </MultiBinding>
+                                                    </Label.Text>
 
-                                    </Border>
+                                                </Label>
+
+                                            </Grid>
+
+                                        </Border>
+
+                                    </SwipeView>
 
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            </BindableLayout.ItemTemplate>
 
-                        </CollectionView>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-                    </Grid>
+                </Border>
 
-                </Frame>
             </VerticalStackLayout>
+
             <!--  =================================================  -->
             <!--  COMPLETE BOOKING  -->
             <!--  =================================================  -->
-            <Frame
-                x:Name="SaveBookNowButton"
-                Grid.Column="1"
-                Padding="0"
-                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                BorderColor="Gray"
-                CornerRadius="22"
-                HeightRequest="40"
-                IsEnabled="{Binding IsServiceAdded}"
-                WidthRequest="120">
+            <HorizontalStackLayout Spacing="5">
+                <Frame
+                    x:Name="SaveBookNowButton"
+                    Grid.Column="1"
+                    Padding="0"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    BorderColor="Gray"
+                    CornerRadius="22"
+                    HeightRequest="40"
+                    IsEnabled="{Binding IsServiceAdded}"
+                    WidthRequest="120">
 
-                <Label
-                    FontSize="15"
-                    HorizontalOptions="Center"
-                    Text="Book Now"
-                    TextColor="White"
-                    VerticalOptions="Center">
+                    <Label
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="Book Now"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center">
 
-                    <Label.GestureRecognizers>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
-                    </Label.GestureRecognizers>
+                    </Frame.GestureRecognizers>
 
-                </Label>
+                </Frame>
 
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
-                </Frame.GestureRecognizers>
+                <Frame
+                    x:Name="DeleteButton"
+                    Grid.Column="1"
+                    Padding="0"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    BorderColor="Gray"
+                    CornerRadius="22"
+                    HeightRequest="40"
+                    IsEnabled="{Binding IsServiceAdded}"
+                    WidthRequest="120">
 
-            </Frame>
+                    <Label
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="Book Now"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="btn_Delete_Tapped" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btn_Delete_Tapped" />
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+            </HorizontalStackLayout>
+
 
 
         </VerticalStackLayout>

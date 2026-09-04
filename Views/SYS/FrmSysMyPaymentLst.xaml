@@ -402,7 +402,7 @@
                                     </dg:DataGridColumn>
                                     <dg:DataGridColumn
                                         x:Name="AcCustomer"
-                                        Title="Sales Person"
+                                        Title="Payment"
                                         Width="70"
                                         HorizontalContentAlignment="Start">
                                         <dg:DataGridColumn.CellTemplate>
@@ -466,7 +466,7 @@
                                     </dg:DataGridColumn>
                                     <dg:DataGridColumn
                                         x:Name="AcTotal"
-                                        Title="Grand Total"
+                                        Title="Amount"
                                         Width="*">
                                         <dg:DataGridColumn.HeaderLabelStyle>
                                             <Style TargetType="Label">

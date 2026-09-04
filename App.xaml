@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <converters:FriendlyDateConverter x:Key="FriendlyDateConverter" />
             <converters:StatusPostingConverter x:Key="StatusPostingConverter" />
+            <converters:NoDecimalConverter x:Key="NoDecimalConverter" />
             <converters:CustomerContactConverter x:Key="CustomerContactConverter" />
             <converters:AmountCurrencyConverter x:Key="AmountCurrencyConverter" />
             <converters:StringToBoolConverter x:Key="StringToBoolConverter" />

@@ -87,7 +87,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             IsAscending = true;
             IsDescending = false;
 
-            this.switchDisplayView(DisplayView.Card);
+            this.switchDisplayView(DisplayView.Schedule);
         }
         #endregion
 
@@ -402,6 +402,9 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         //    this.getFrontDeskUser();
                         //}
                         mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
+                        mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                        mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.SD = Utility.getTLFormLoadSD();
+                        mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.ED = Utility.getTLFormLoadED();
                         mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.Sequence = "0";
                         this.getFrontDeskUser();
                     });
@@ -577,7 +580,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         if (answer)
                         {
                             //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
-
                         }
                     });
                 }
@@ -923,13 +925,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 IsListView = argDisplayView == DisplayView.List;
                 IsGridView = argDisplayView == DisplayView.Grid;
 
-                //var tmp = FrontDeskList;
-                // FrontDeskList = null;
-                //NotifyPropertyChanged(nameof(FrontDeskList));
-
-                // FrontDeskList = tmp;
-                //NotifyPropertyChanged(nameof(FrontDeskList));
-
                 if (IsScheduleView)
                     BuildSchedulerAppointments();
             }
@@ -1012,7 +1007,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             try
             {
-                //loadInvoice();
+                //loadInvoice(); // if needed call load api for pickers
+                callSearchMorePopup();
             }
             catch (Exception ex)
             {
@@ -1032,8 +1028,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
                     if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
                     {
-                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
-                                                                              || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)).ToList());
                     }
                     else
                     {
@@ -1074,6 +1069,16 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 Utility.openLoader();
                 mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION.TranDateTime =DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK =
+                            new DAT_FRONT_DESK
+                            {
+                                CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk,
+                                SD = Utility.getTLFormLoadSD(),
+                                ED = Utility.getTLFormLoadED()
+                            };
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_FRONT_DESK);
                 mResponse = await Hms_Service.ApiCall(mRequest, Hms_Name.wsgetFrontDeskUser);
                 if (mResponse != null && mResponse != "")

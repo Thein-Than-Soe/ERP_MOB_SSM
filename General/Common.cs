@@ -106,7 +106,10 @@ namespace CS.ERP_MOB.General
         public static ObservableCollection<RES_MENU> RES_MENU_LST = new ObservableCollection<RES_MENU>();
         private RES_PRODUCT mRES_PRODUCT = new RES_PRODUCT();
         private RES_MENU mRES_MENU = new RES_MENU();
-        public REQ_AUTHORIZATION mREQ_AUTHORIZATION = new REQ_AUTHORIZATION();
+        public REQ_AUTHORIZATION mREQ_AUTHORIZATION = new REQ_AUTHORIZATION
+        {
+            TranDateTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        };
         public RES_MESSAGE mRES_MESSAGE = new RES_MESSAGE();
         //public static JSN_PROFILE mJSN_PROFILE = new JSN_PROFILE();
         public static JSN_RES_MOBILE_LOGIN mJSN_RES_MOBILE_LOGIN = new JSN_RES_MOBILE_LOGIN();

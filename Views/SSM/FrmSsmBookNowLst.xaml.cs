@@ -87,11 +87,6 @@ public partial class FrmSsmBookNowLst : ContentView
                 await vm.loadBookNow();
             }
 
-            //ServiceButton.IsVisible = !vm.IsServiceAdded;
-            //EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
-            //ServiceCard.IsVisible = vm.IsServiceAdded;
-            //InvoiceSection.IsVisible = vm.IsServiceAdded;
-            //ServiceSection.IsVisible = vm.IsCustomerSelected;
         }
         catch (Exception ex)
         {
@@ -161,6 +156,14 @@ public partial class FrmSsmBookNowLst : ContentView
             }
         
     }
+    private async void btn_Delete_Tapped( object sender,EventArgs e)
+    {
+        // call API to assign users
+        //assign UI data
+        vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
+        await vm.saveBookNow();
+        
+    }
 
     private bool ValidateBookNow()
     {
@@ -202,83 +205,6 @@ public partial class FrmSsmBookNowLst : ContentView
                 "OK");
 
             return false;
-        }
-
-        if (vm.SelectedPaymentType == null)
-        {
-            Application.Current.MainPage.DisplayAlert(
-                "Required",
-                "Please select a payment type.",
-                "OK");
-
-            return false;
-        }
-
-        switch (vm.SelectedPaymentType.Ask)
-        {
-            case "1": // CASH
-
-                if (!decimal.TryParse(vm.Tender, out decimal tenderAmount))
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please enter a valid tender amount.",
-                        "OK");
-
-                    return false;
-                }
-
-                if (tenderAmount < vm.GrandTotal)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Invalid Tender",
-                        "Tender amount cannot be less than the Grand Total.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
-
-            case "2": // CHEQUE
-
-                if (string.IsNullOrWhiteSpace(vm.TransactionNo))
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please enter the cheque number.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
-
-            case "3": // CREDIT CARD
-                if (vm.SelectedToBank == null)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please select the To Bank.",
-                        "OK");
-
-                    return false;
-                }
-                break;
-
-            case "8": // DEBIT CARD
-
-                if (vm.SelectedToBank == null)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please select the To Bank.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
         }
 
         return true;
@@ -323,6 +249,31 @@ public partial class FrmSsmBookNowLst : ContentView
         {
             throw ex.InnerException;
         }
+    }
+
+    private async void Payment_Delete_Invoked(object sender, EventArgs e)
+    {
+        if (sender is not SwipeItem swipeItem)
+            return;
+
+        if (swipeItem.BindingContext is not RES_SALE_PAYMENT payment)
+            return;
+
+        vm.PaymentList.Remove(payment);
+    }
+    private async void Payment_Edit_Invoked(object sender, EventArgs e)
+    {
+        if (sender is not SwipeItem swipeItem)
+            return;
+
+        if (swipeItem.BindingContext is not RES_SALE_PAYMENT payment)
+            return;
+
+        // Edit selected payment
+        // Put your edit logic here
+        vm.InitializePaymentAmount();
+        await Navigation.PushAsync(new FrmSsmPaymentSet(payment, vm));
+
     }
 
     private bool _isPaymentDropdownOpen = false;

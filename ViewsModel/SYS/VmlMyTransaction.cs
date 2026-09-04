@@ -51,6 +51,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         #endregion
 
         #region "Display View"
+        private bool mIsLoadingTransactionHistory;
         private bool mIsCardView;
         public bool IsCardView
         {
@@ -189,10 +190,19 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         #region "Task"
         private async Task LoadMoreItems()
         {
-            if (IsLoadingMore) return;
-            IsLoadingMore = true;
-            getMyTransactionHistory();
-            IsLoadingMore = false;
+            if (IsLoadingMore)
+                return;
+
+            try
+            {
+                IsLoadingMore = true;
+
+                await getMyTransactionHistory();
+            }
+            finally
+            {
+                IsLoadingMore = false;
+            }
         }
         //private Task ExecuteActiveItem()
         //{
@@ -243,14 +253,28 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         }
 
         private ICommand mRefreshCommand;
+
         public ICommand RefreshCommand
         {
             get
             {
                 if (mRefreshCommand == null)
                 {
-                    mRefreshCommand = new Command(() => this.getMyTransactionHistory());
+                    mRefreshCommand = new Command(async () =>
+                    {
+                        try
+                        {
+                            IsRefreshing = true;
+
+                            await getMyTransactionHistory();
+                        }
+                        finally
+                        {
+                            IsRefreshing = false;
+                        }
+                    });
                 }
+
                 return mRefreshCommand;
             }
         }
@@ -453,8 +477,10 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         #endregion
 
         #region "Web Service Api"
-        public async void getMyTransactionHistory()
+        public async Task getMyTransactionHistory()
         {
+            if (mIsLoadingTransactionHistory)
+                return;
             try
             {
                 Utility.openLoader();
@@ -467,7 +493,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE_DETAIL = new List<RES_SALE_BROWSE_DETAIL> { new RES_SALE_BROWSE_DETAIL() };
 
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
-                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetMyTransactionHistory);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsmyTransaction);
                 if (mResponse != null || mResponse != "")
                 {
                     this.mJSN_RES_MY_TRANSACTION = JsonConvert.DeserializeObject<JSN_RES_MY_TRANSACTION>(mResponse);
@@ -501,6 +527,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             finally
             {
                 Utility.closeLoader();
+                mIsLoadingTransactionHistory = false;
             }
         }
 

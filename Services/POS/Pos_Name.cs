@@ -46,10 +46,12 @@ namespace CS.ERP_MOB.Services.POS
         public static string wsloadSalePayment = "loadSalePayment";
 
         public static string wsgetMyTransactionHistory = "getMyTransactionHistory";
+        public static string wsmyTransaction = "myTransaction";
         public static string wsgetInventryStockDetail = "getInventryStockDetail";
         public static string wssaveSaleOrderJunOva = "saveSaleOrderJunOva";
         public static string wsgetBookNow = "getBookNow";
         public static string wsgetAvailableUser = "getAvailableUser";
+        public static string wsgetSSMDashboard = "getSSMDashboard";
 
         #endregion
         #region "Save"
