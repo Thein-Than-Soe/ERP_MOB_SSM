@@ -5,29 +5,30 @@ using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Views.Frame;
-using CS.ERP_MOB.ViewsModel.SYS;
+using CS.ERP_MOB.ViewsModel.SSM;
 using CS.ERP_MOB.ViewsModel.POS;
 using Microsoft.Maui.Controls;
 using RGPopup.Maui.Services;
 using System.Collections.ObjectModel;
 
-namespace CS.ERP_MOB.Views.SYS
+namespace CS.ERP_MOB.Views.SSM
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrmSysMyTransactionLst : ContentView
+    public partial class FrmSsmOrderBookLst : ContentView
     {
         #region "Declaring"
-        VmlMyTransaction mVmlMyTransaction { get; set; }
+        VmlSsmOrderBook mVmlSsmOrderBook { get; set; }
         #endregion
         #region "Constructor"
-        public FrmSysMyTransactionLst()
+        public FrmSsmOrderBookLst()
         {
             try
             {
                 InitializeComponent();
-                BindingContext = mVmlMyTransaction = new VmlMyTransaction();
+                BindingContext = mVmlSsmOrderBook = new VmlSsmOrderBook();
 
-                mVmlMyTransaction.getMyTransactionHistory();
+                mVmlSsmOrderBook.loadSaleOrder();
+                mVmlSsmOrderBook.getSaleOrderJun();
             }
             catch (Exception ex)
             {
@@ -42,7 +43,7 @@ namespace CS.ERP_MOB.Views.SYS
         {
             base.OnSizeAllocated(width, height);
 
-            if (mVmlMyTransaction != null)
+            if (mVmlSsmOrderBook != null)
             {
                 int newColumns = width switch
                 {
@@ -71,63 +72,57 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private void sortSalesInvoiceList(string sortBy)
         {
-            if (mVmlMyTransaction.SaleOrderLst == null || !mVmlMyTransaction.SaleOrderLst.Any())
+            if (mVmlSsmOrderBook.SaleOrderLst == null || !mVmlSsmOrderBook.SaleOrderLst.Any())
                 return;
 
-            IEnumerable<RES_SALE_BROWSE> sorted;
+            IEnumerable<RES_SALE_ORDER> sorted;
 
             switch (sortBy)
             {
-                case "Date":
-                    sorted = mVmlMyTransaction.IsAscending
-                        ? mVmlMyTransaction.SaleOrderLst.OrderBy(x => x.Date)
-                        : mVmlMyTransaction.SaleOrderLst.OrderByDescending(x => x.Date);
+                case "OrderDate":
+                    sorted = mVmlSsmOrderBook.IsAscending
+                        ? mVmlSsmOrderBook.SaleOrderLst.OrderBy(x => x.OrderDate)
+                        : mVmlSsmOrderBook.SaleOrderLst.OrderByDescending(x => x.OrderDate);
                     break;
 
-                case "Code_0_50":
-                    sorted = mVmlMyTransaction.IsAscending
-                        ? mVmlMyTransaction.SaleOrderLst.OrderBy(x => x.Code_0_50)
-                        : mVmlMyTransaction.SaleOrderLst.OrderByDescending(x => x.Code_0_50);
+                case "OrderCode_0_50":
+                    sorted = mVmlSsmOrderBook.IsAscending
+                        ? mVmlSsmOrderBook.SaleOrderLst.OrderBy(x => x.OrderCode_0_50)
+                        : mVmlSsmOrderBook.SaleOrderLst.OrderByDescending(x => x.OrderCode_0_50);
                     break;
-
                 case "StatusName_0_255":
-                    sorted = mVmlMyTransaction.IsAscending
-                        ? mVmlMyTransaction.SaleOrderLst.OrderBy(x => x.StatusName_0_255)
-                        : mVmlMyTransaction.SaleOrderLst.OrderByDescending(x => x.StatusName_0_255);
+                    sorted = mVmlSsmOrderBook.IsAscending
+                        ? mVmlSsmOrderBook.SaleOrderLst.OrderBy(x => x.StatusName_0_255)
+                        : mVmlSsmOrderBook.SaleOrderLst.OrderByDescending(x => x.StatusName_0_255);
                     break;
 
-                case "PaymentTypeName_0_255":
-                    sorted = mVmlMyTransaction.IsAscending
-                        ? mVmlMyTransaction.SaleOrderLst.OrderBy(x => x.GrandTotal)
-                        : mVmlMyTransaction.SaleOrderLst.OrderByDescending(x => x.GrandTotal);
-                    break;
 
                 default:
                     return;
             }
 
-            mVmlMyTransaction.SaleOrderLst = new List<RES_SALE_BROWSE>(sorted);
-            if (mVmlMyTransaction.IsCardView)
+            mVmlSsmOrderBook.SaleOrderLst = new List<RES_SALE_ORDER>(sorted);
+            if (mVmlSsmOrderBook.IsCardView)
             {
-                collectionView.ItemsSource = mVmlMyTransaction.SaleOrderLst;
+                collectionView.ItemsSource = mVmlSsmOrderBook.SaleOrderLst;
             }
-            else if (mVmlMyTransaction.IsListView)
+            else if (mVmlSsmOrderBook.IsListView)
             {
-                lstView.ItemsSource = mVmlMyTransaction.SaleOrderLst;
+                lstView.ItemsSource = mVmlSsmOrderBook.SaleOrderLst;
             }
             else
             {
-                MyGrid.ItemsSource = mVmlMyTransaction.SaleOrderLst;
+                MyGrid.ItemsSource = mVmlSsmOrderBook.SaleOrderLst;
             }
         }
-        private void getCheckedData(List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST)
+        private void getCheckedData(List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST)
         {
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                //if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
-                //{
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
-                //}
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
+                {
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
+                }
             }
         }
         #endregion
@@ -174,7 +169,7 @@ namespace CS.ERP_MOB.Views.SYS
             if (result != null && result == "7")
             {
                 Common.mCommon.saveNoti(argRES_CONTROL);
-                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
+                await Navigation.PushAsync(new FrmSsmOrderBookSet());
             }
         }
         private async Task btnEdit_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
@@ -186,13 +181,13 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnPrint_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            getCheckedData(l_RES_SALE_BROWSE_LST);
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            getCheckedData(l_RES_SALE_ORDER_LST);
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Print");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -244,19 +239,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnSendMail_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -309,19 +304,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnExpPDF_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -373,19 +368,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnExpExcel_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -436,19 +431,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnExpCSV_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -499,19 +494,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnPost_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Post");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -563,19 +558,19 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async Task btnSummary_onClick(RES_CONTROL argRES_CONTROL)
         {
-            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            List<RES_SALE_ORDER> l_RES_SALE_ORDER_LST = new List<RES_SALE_ORDER>();
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                if (mVmlMyTransaction.SaleOrderLst[i].IsChecked == "1")
+                if (mVmlSsmOrderBook.SaleOrderLst[i].IsChecked == "1")
                 {
-                    l_RES_SALE_BROWSE_LST.Add(mVmlMyTransaction.SaleOrderLst[i]);
+                    l_RES_SALE_ORDER_LST.Add(mVmlSsmOrderBook.SaleOrderLst[i]);
                 }
             }
             string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
             string notiInfo = "";
-            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            foreach (RES_SALE_ORDER item in l_RES_SALE_ORDER_LST)
             {
-                messageInfo += item.Code_0_50 + ",";
+                messageInfo += item.OrderCode_0_50 + ",";
                 notiInfo += item.Ask + ",";
             }
             if (messageInfo.Length > 0)
@@ -638,16 +633,16 @@ namespace CS.ERP_MOB.Views.SYS
 
                     if (text != null && text != "")
                     {
-                        mVmlMyTransaction.searchData(text);
+                        mVmlSsmOrderBook.searchData(text);
                     }
                     else
                     {
-                        mVmlMyTransaction.searchData("");
+                        mVmlSsmOrderBook.searchData("");
                     }
                 }
                 else
                 {
-                    mVmlMyTransaction.searchDataApi(text);
+                    mVmlSsmOrderBook.searchDataApi(text);
                 }
             }
             catch (Exception ex)
@@ -657,7 +652,7 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async void OnEditSwipeInvoked(object sender, EventArgs e)
         {
-            //if (sender is SwipeItem swipeItem && swipeItem.BindingContext is RES_SALE_BROWSE selectedItem)
+            //if (sender is SwipeItem swipeItem && swipeItem.BindingContext is RES_SALE_ORDER selectedItem)
             //{
             //    await Navigation.PushAsync(new FrmPosSaleInvoiceSet(selectedItem));
             //}
@@ -676,7 +671,7 @@ namespace CS.ERP_MOB.Views.SYS
         {
             if (Utility.checkButtonAccess("Edit"))
             {
-                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_BROWSE)tappedItem));
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_ORDER)tappedItem));
             }
             else
             {
@@ -734,13 +729,13 @@ namespace CS.ERP_MOB.Views.SYS
         {
             bool checkAll = chkSelectAll.IsChecked;
 
-            for (int i = 0; i < mVmlMyTransaction.SaleOrderLst.Count; i++)
+            for (int i = 0; i < mVmlSsmOrderBook.SaleOrderLst.Count; i++)
             {
-                var item = mVmlMyTransaction.SaleOrderLst[i];
+                var item = mVmlSsmOrderBook.SaleOrderLst[i];
                 item.IsChecked = checkAll ? "1" : "0";
 
-                mVmlMyTransaction.SaleOrderLst.RemoveAt(i);
-                mVmlMyTransaction.SaleOrderLst.Insert(i, item);
+                mVmlSsmOrderBook.SaleOrderLst.RemoveAt(i);
+                mVmlSsmOrderBook.SaleOrderLst.Insert(i, item);
             }
         }
         private void Sorting_Tapped(object sender, TappedEventArgs e)
@@ -748,7 +743,7 @@ namespace CS.ERP_MOB.Views.SYS
             if (e.Parameter is SortingItem tappedItem)
             {
                 // Hide all icons
-                foreach (var item in mVmlMyTransaction.sortingList)
+                foreach (var item in mVmlSsmOrderBook.sortingList)
                     item.ShowIcon = false;
 
                 // Show only tapped item’s icon
@@ -758,17 +753,17 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private void Ascending_Tapped(object sender, TappedEventArgs e)
         {
-            mVmlMyTransaction.IsDescending = false;
-            mVmlMyTransaction.IsAscending = true;
+            mVmlSsmOrderBook.IsDescending = false;
+            mVmlSsmOrderBook.IsAscending = true;
         }
         private void Descending_Tapped(object sender, TappedEventArgs e)
         {
-            mVmlMyTransaction.IsDescending = true;
-            mVmlMyTransaction.IsAscending = false;
+            mVmlSsmOrderBook.IsDescending = true;
+            mVmlSsmOrderBook.IsAscending = false;
         }
         private void chkSelectItem_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            if (sender is RES_SALE_BROWSE item)
+            if (sender is RES_SALE_ORDER item)
             {
                 item.IsChecked = e.Value ? "1" : "0";
             }
@@ -777,7 +772,7 @@ namespace CS.ERP_MOB.Views.SYS
         {
             if (Utility.checkButtonAccess("Edit"))
             {
-                if (e.Parameter is RES_SALE_BROWSE tappedItem)
+                if (e.Parameter is RES_SALE_ORDER tappedItem)
                 {
                     OnItemSingleTapped(sender, tappedItem);
                 }
@@ -789,20 +784,20 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private void OnListNGridLongPress(object sender, EventArgs e)
         {
-            if (sender is Grid gridItem && gridItem.BindingContext is RES_SALE_BROWSE selectedItem)
+            if (sender is Grid gridItem && gridItem.BindingContext is RES_SALE_ORDER selectedItem)
             {
                 if (selectedItem == null)
                     return;
-                int index = mVmlMyTransaction.SaleOrderLst.IndexOf(selectedItem);
+                int index = mVmlSsmOrderBook.SaleOrderLst.IndexOf(selectedItem);
                 selectedItem.IsChecked = "1";
-                mVmlMyTransaction.SaleOrderLst.RemoveAt(index);
-                mVmlMyTransaction.SaleOrderLst.Insert(index, selectedItem);
+                mVmlSsmOrderBook.SaleOrderLst.RemoveAt(index);
+                mVmlSsmOrderBook.SaleOrderLst.Insert(index, selectedItem);
                 OnItemDoubleTapped(sender, selectedItem);
             }
         }
         private void OnListDoubleTap(object sender, TappedEventArgs e)
         {
-            var tappedItem = e.Parameter as RES_SALE_BROWSE;
+            var tappedItem = e.Parameter as RES_SALE_ORDER;
 
             if (tappedItem == null)
                 return;
@@ -817,14 +812,15 @@ namespace CS.ERP_MOB.Views.SYS
                 return;
             }
 
-            if (sender is VisualElement ve && ve.BindingContext is RES_SALE_BROWSE tappedItem)
+            if (sender is VisualElement ve && ve.BindingContext is RES_SALE_ORDER tappedItem)
             {
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
                 OnItemSingleTapped(sender, tappedItem);
             }
         }
         private void OnGridDoubleTap(object sender, TappedEventArgs e)
         {
-            if (sender is VisualElement ve && ve.BindingContext is RES_SALE_BROWSE tappedItem)
+            if (sender is VisualElement ve && ve.BindingContext is RES_SALE_ORDER tappedItem)
             {
                 tappedItem.IsChecked = "1";
                 OnItemDoubleTapped(sender, tappedItem);

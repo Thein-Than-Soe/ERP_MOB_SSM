@@ -22,7 +22,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>OVA SSM</ApplicationTitle>
+		<ApplicationTitle>Ova SSM</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.ovaerp.cs.erp_mob_ssm</ApplicationId>
@@ -125,7 +125,7 @@
   		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="30.2.6" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="30.2.6" />
 		<PackageReference Include="Syncfusion.Maui.TabView" Version="30.2.6" />
-		<PackageReference Include="Syncfusion.Maui.Picker" Version="30.2.6" />
+		<PackageReference Include="Syncfusion.Maui.Charts" Version="30.2.6" />
 		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
 		<PackageReference Include="TouchEffect.Maui" Version="7.0.0" />
 		<PackageReference Include="UraniumUI" Version="2.12.1" />
@@ -244,11 +244,14 @@
 	  <Compile Update="Views\Frame\FrmSsmItemCard.xaml.cs">
 	    <DependentUpon>FrmSsmItemCard.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmOrderBookSet.xaml.cs">
+	    <DependentUpon>FrmSsmOrderBookSet.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmOrderBookPop.xaml.cs">
+	    <DependentUpon>FrmSsmOrderBookPop.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmScheduleSet.xaml.cs">
 	    <DependentUpon>FrmSsmScheduleSet.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmSchedulePop.xaml.cs">
-	    <DependentUpon>FrmSsmSchedulePop.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmServiceSet.xaml.cs">
 	    <DependentUpon>FrmSsmStockDtl.xaml</DependentUpon>
@@ -262,11 +265,14 @@
 	  <Compile Update="Views\SSM\FrmSsmScheduleLst.xaml.cs">
 	    <DependentUpon>FrmSsmScheduleLst.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmOrderSet.xaml.cs">
-	    <DependentUpon>FrmSsmOrderSet.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmPaymentSet.xaml.cs">
 	    <DependentUpon>FrmSsmPaymentSet.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmDashboardLst.xaml.cs">
+	    <DependentUpon>FrmSsmDashboardLst.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmOrderBookLst.xaml.cs">
+	    <DependentUpon>FrmSsmOrderBookLst.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	
@@ -685,10 +691,10 @@
 	  <MauiXaml Update="Views\JOB\FrmJobApplicantCertificateSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmScheduleSet.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmOrderBookPop.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmSchedulePop.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmScheduleSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmServiceSet.xaml">
@@ -859,10 +865,13 @@
 	  <MauiXaml Update="Views\SSM\FrmSsmScheduleLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmOrderSet.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmPaymentSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmPaymentSet.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmDashboardLst.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SSM\FrmSsmOrderBookLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmAccessLst.xaml">

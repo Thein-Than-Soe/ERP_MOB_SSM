@@ -289,19 +289,33 @@
         <!--  FIXED ADD PAYMENT BUTTON  -->
         <!--  =================================================  -->
 
-        <Button
-            Grid.Row="1"
-            Margin="10,5,10,10"
-            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-            Clicked="AddToList_Clicked"
-            CornerRadius="10"
-            FontAttributes="Bold"
-            FontSize="16"
-            HeightRequest="50"
-            HorizontalOptions="Center"
-            Text="Add payment"
-            TextColor="White"
-            WidthRequest="180" />
+        <HorizontalStackLayout Grid.Row="1" Spacing="5">
+            <Button
+                Margin="10,5,10,10"
+                BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                Clicked="AddToList_Clicked"
+                CornerRadius="10"
+                FontAttributes="Bold"
+                FontSize="16"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                Text="Save"
+                TextColor="White"
+                WidthRequest="180" />
+            <Button
+                Margin="10,5,10,10"
+                BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                Clicked="Delete_Clicked"
+                CornerRadius="10"
+                FontAttributes="Bold"
+                FontSize="16"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                Text="Delete"
+                TextColor="White"
+                WidthRequest="180" />
+
+        </HorizontalStackLayout>
 
     </Grid>
 

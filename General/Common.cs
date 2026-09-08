@@ -106,7 +106,11 @@ namespace CS.ERP_MOB.General
         public static ObservableCollection<RES_MENU> RES_MENU_LST = new ObservableCollection<RES_MENU>();
         private RES_PRODUCT mRES_PRODUCT = new RES_PRODUCT();
         private RES_MENU mRES_MENU = new RES_MENU();
-        public REQ_AUTHORIZATION mREQ_AUTHORIZATION = new REQ_AUTHORIZATION();
+        private DAT_CONFIRMATION_USER_JUN mDAT_CONFIRMATION_USER_JUN = new DAT_CONFIRMATION_USER_JUN();
+        public REQ_AUTHORIZATION mREQ_AUTHORIZATION = new REQ_AUTHORIZATION
+        {
+            TranDateTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+        };
         public RES_MESSAGE mRES_MESSAGE = new RES_MESSAGE();
         //public static JSN_PROFILE mJSN_PROFILE = new JSN_PROFILE();
         public static JSN_RES_MOBILE_LOGIN mJSN_RES_MOBILE_LOGIN = new JSN_RES_MOBILE_LOGIN();
@@ -768,6 +772,16 @@ namespace CS.ERP_MOB.General
             {
                 mRES_MENU = value;
                 OnPropertyChanged("SelectedMenu");
+            }
+        }
+
+        public DAT_CONFIRMATION_USER_JUN ConfirmationUserJun
+        {
+            get { return mDAT_CONFIRMATION_USER_JUN; }
+            set
+            {
+                mDAT_CONFIRMATION_USER_JUN = value;
+                OnPropertyChanged("ConfirmationUserJun");
             }
         }
 
@@ -2422,6 +2436,23 @@ namespace CS.ERP_MOB.General
             catch (Exception ex)
             {
 
+            }
+        }
+        public void getConfirmation(RES_CONTROL argRES_CONTROL)
+        {
+            foreach (DAT_CONFIRMATION_USER_JUN l_DAT_CONFIRMATION_USER_JUN in this.JSN_RES_MOBILE_LOGIN.DAT_CONFIRMATION_USER_JUN)
+            {
+                if (l_DAT_CONFIRMATION_USER_JUN.MenuAsk == Common.mCommon.SelectedMenu.Id)
+                {
+                    foreach (DAT_CONFIRMATION_USER_JUN l_DAT_CONFIRMATION_USER_JUN_DETAIL in l_DAT_CONFIRMATION_USER_JUN.DAT_CONFIRMATION_USER_JUN_DETAIL)
+                    {
+                        if (l_DAT_CONFIRMATION_USER_JUN_DETAIL.ControlAsk == argRES_CONTROL.ID)
+                        {
+                            ConfirmationUserJun = l_DAT_CONFIRMATION_USER_JUN_DETAIL;
+                            return;
+                        }
+                    }
+                }
             }
         }
         public string maskEmail(string email)

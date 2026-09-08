@@ -3,23 +3,24 @@ using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.HMS.REQ;
 using CS.ERP.PL.HMS.RES;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Services.HMS;
 using CS.ERP_MOB.Services.POS;
+using CS.ERP_MOB.Services.SSM;
+using CS.ERP_MOB.Views.SSM;
 using CS.ERP_MOB.ViewsModel.Frame;
+using Microsoft.Maui.Devices.Sensors;
 using Newtonsoft.Json;
+using RGPopup.Maui.Services;
 using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using static CS.ERP_MOB.General.Utility;
-using Microsoft.Maui.Devices.Sensors;
-using CS.ERP_MOB.Services.SSM;
-using CS.ERP_MOB.Views.SSM;
-using RGPopup.Maui.Services;
 
 namespace CS.ERP_MOB.ViewsModel.SSM
 {
@@ -51,6 +52,9 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             ];
         public ObservableCollection<DAT_FRONT_DESK> FrontDeskList { get; set; }
         public ObservableCollection<RES_USER_LST> UserList { get; set; }
+
+        public ObservableCollection<string> ProductPhotos { get; set; }= new ObservableCollection<string>();
+        public bool HasPhotos => ProductPhotos.Count > 0;
         public ObservableCollection<SchedulerAppointment> SchedulerAppointments
 {
             get;
@@ -87,7 +91,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             IsAscending = true;
             IsDescending = false;
 
-            this.switchDisplayView(DisplayView.Card);
+            this.switchDisplayView(DisplayView.Schedule);
         }
         #endregion
 
@@ -213,34 +217,19 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             set { JSN_RES_CHECK_IN_OUT = value; NotifyPropertyChanged("SalesInvoiceLoad"); }
         }
 
+        private DAT_FRONT_DESK mSelectedFrontDesk;
+        public DAT_FRONT_DESK SelectedFrontDesk
+        {
+            get => mSelectedFrontDesk;
+            set
+            {
+                if (mSelectedFrontDesk == value)
+                    return;
 
-        //public RES_SALE_BROWSE mRES_SALE_BROWSE = new RES_SALE_BROWSE();
-        //public RES_SALE_BROWSE RES_SALE_BROWSE
-        //{
-        //    get { return mRES_SALE_BROWSE; }
-        //    set { mRES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
-        //}
-
-        //public DAT_FRONT_DESK mDAT_FRONT_DESK = new DAT_FRONT_DESK();
-        //public DAT_FRONT_DESK DAT_FRONT_DESK
-        //{
-        //    get { return mDAT_FRONT_DESK; }
-        //    set { mDAT_FRONT_DESK = value; NotifyPropertyChanged("DAT_FRONT_DESK"); }
-        //}
-
-        //public DAT_FRONT_DESK_DETAIL mDAT_FRONT_DESK_DETAIL = new DAT_FRONT_DESK_DETAIL();
-        //public DAT_FRONT_DESK_DETAIL DAT_FRONT_DESK_DETAIL
-        //{
-        //    get { return mDAT_FRONT_DESK_DETAIL; }
-        //    set { mDAT_FRONT_DESK_DETAIL = value; NotifyPropertyChanged("DAT_FRONT_DESK_DETAIL"); }
-        //}
-
-        //public RES_COMPANY mRES_COMPANY = new RES_COMPANY();
-        //public RES_COMPANY RES_COMPANY
-        //{
-        //    get { return mRES_COMPANY; }
-        //    set { mRES_COMPANY = value; NotifyPropertyChanged("RES_COMPANY"); }
-        //}
+                mSelectedFrontDesk = value;
+                NotifyPropertyChanged(nameof(SelectedFrontDesk));
+            }
+        }
 
         public List<RES_USER_LST> mCustomerDtlList;
         public List<RES_USER_LST> CustomerDtlList
@@ -280,6 +269,66 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 NotifyPropertyChanged(nameof(ReferenceUploadFilePath));
             }
         }
+        private DateTime mStartDate = Utility.getDateTime( Utility.getTLFormLoadSD() ).Date;
+
+        public DateTime StartDate
+        {
+            get => mStartDate;
+            set
+            {
+                if (mStartDate == value)
+                    return;
+
+                mStartDate = value;
+
+                NotifyPropertyChanged(nameof(StartDate));
+
+            }
+        }
+        private TimeSpan mStartTime = Utility.getDateTime(Utility.getTLFormLoadSD()).TimeOfDay;
+
+        public TimeSpan StartTime
+        {
+            get => mStartTime;
+            set
+            {
+                if (mStartTime == value)
+                    return;
+
+                mStartTime = value;
+
+                NotifyPropertyChanged(nameof(StartTime));
+
+            }
+        }
+        private DateTime mEndDate = Utility.getDateTime(Utility.getTLFormLoadED() ).Date;
+
+        public DateTime EndDate
+        {
+            get => mEndDate;
+            set
+            {
+                if (mEndDate == value)
+                    return;
+
+                mEndDate = value;
+                NotifyPropertyChanged(nameof(EndDate));
+            }
+        }
+        private TimeSpan mEndTime = Utility.getDateTime(Utility.getTLFormLoadED() ).TimeOfDay;
+
+        public TimeSpan EndTime
+        {
+            get => mEndTime;
+            set
+            {
+                if (mEndTime == value)
+                    return;
+
+                mEndTime = value;
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+        }
         #endregion
 
         #region "Commands"
@@ -294,16 +343,16 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     new PickOptions
                     {
                         PickerTitle = "Select Reference No. File",
-                        FileTypes = FilePickerFileType.Pdf
+                        FileTypes = FilePickerFileType.Images
                     });
 
                 if (result == null)
                     return;
 
+                // Selected file name
                 ReferenceFileName = result.FileName;
 
-                var stream = await result.OpenReadAsync();
-
+                using var stream = await result.OpenReadAsync();
                 using var memoryStream = new MemoryStream();
 
                 await stream.CopyToAsync(memoryStream);
@@ -313,18 +362,53 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 var uploadFolderName = Ssm_UploadFolder.ssm_service;
 
                 string response = await Ssm_Service.UploadImageToServer(
-                    uploadFolderName, "reference",  result.FileName,  fileBytes);
+                    uploadFolderName,
+                    "reference",
+                    result.FileName,
+                    fileBytes);
 
-                if (response != null)
+                if (!string.IsNullOrWhiteSpace(response))
                 {
+                    // Final path of the newly uploaded file
                     ReferenceUploadFilePath =
-                        "/uploads" + uploadFolderName + "/" +  response;
+                        "/uploads" + uploadFolderName + "/" + response;
+
+                    // Add the newly uploaded file to the selected front desk
+                    if (string.IsNullOrWhiteSpace(mDAT_FRONT_DESK.ReferenceDocument))
+                    {
+                        mDAT_FRONT_DESK.ReferenceDocument =
+                            ReferenceUploadFilePath;
+                    }
+                    else
+                    {
+                        mDAT_FRONT_DESK.ReferenceDocument += ";" +
+                                                             ReferenceUploadFilePath;
+                    }
+
+                    // Add the new file to the selected front desk's UI list
+                    ProductPhotos.Add(ReferenceUploadFilePath);
+
+                    NotifyPropertyChanged(nameof(HasPhotos));
                 }
                 else
                 {
-                    ReferenceUploadFilePath = mDAT_FRONT_DESK.ReferenceDocument;
+                    // Upload failed.
+                    // Keep the existing selected front desk documents unchanged.
 
-                    ReferenceFileName = Path.GetFileName(ReferenceUploadFilePath);
+                    ReferenceUploadFilePath = null;
+
+                    if (!string.IsNullOrWhiteSpace(mDAT_FRONT_DESK.ReferenceDocument))
+                    {
+                        ReferenceFileName =
+                            Path.GetFileName(
+                                mDAT_FRONT_DESK.ReferenceDocument
+                                    .Split(';', StringSplitOptions.RemoveEmptyEntries)
+                                    .Last());
+                    }
+                    else
+                    {
+                        ReferenceFileName = null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -401,7 +485,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         //{
                         //    this.getFrontDeskUser();
                         //}
-                        mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
                         mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.Sequence = "0";
                         this.getFrontDeskUser();
                     });
@@ -450,16 +533,17 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         if (Utility.checkButtonAccess("Delete") && item.StatusAsk != "9")
                         {
                             bool answer = await Application.Current.MainPage.DisplayAlert(
-                               $"{item.InvoiceCode_0_50}",
+                               $"{item.OrderCode_0_50}",
                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Delete")}",
                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
 
                             if (answer)
                             {
-                                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = item;
-                                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.StatusAsk = "6";
-                                updateServiceStatus();
+                                VmlSsmBookNow vm = new VmlSsmBookNow();
+                                vm.mDAT_BOOK_NOW_HEADER.Ask = item.Ask;
+                                vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
+                                await vm.saveBookNow();
                             }
                         }
                         else
@@ -577,7 +661,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         if (answer)
                         {
                             //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(item));
-
                         }
                     });
                 }
@@ -606,7 +689,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             if (IsLoadingMore) return;
             IsLoadingMore = true;
-            getFrontDeskUser();
+            await getFrontDeskUser();
             IsLoadingMore = false;
         }
         private Task ExecuteActiveItem()
@@ -823,7 +906,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
 
-        #region Status Action
+        #region "Status Update Action"
         public List<string> GetAvailableScheduleActions( DAT_FRONT_DESK item)
         {
             var actions = new List<string>();
@@ -840,35 +923,40 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 case "2":
                     // Assign
-                    actions.Add("Check In");
+                    actions.Add("Travelling");
                     break;
 
                 case "3":
+                    // Travelling
+                    actions.Add("Check In");
+                    break;
+
+                case "4":
                     // Check In
                     actions.Add("WIP");
                     break;
 
-                case "4":
+                case "5":
                     // WIP
                     actions.Add("Done");
                     break;
 
-                case "5":
+                case "6":
                     // Done
                     actions.Add("Check Out");
                     break;
 
-                case "6":
+                case "7":
                     // Check Out
                     actions.Add("Complete");
                     break;
 
-                case "7":
+                case "8":
                     // Complete
                     actions.Add("Closed");
                     break;
 
-                case "8":
+                case "9":
                     // Closed
                     break;
             }
@@ -923,13 +1011,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 IsListView = argDisplayView == DisplayView.List;
                 IsGridView = argDisplayView == DisplayView.Grid;
 
-                //var tmp = FrontDeskList;
-                // FrontDeskList = null;
-                //NotifyPropertyChanged(nameof(FrontDeskList));
-
-                // FrontDeskList = tmp;
-                //NotifyPropertyChanged(nameof(FrontDeskList));
-
                 if (IsScheduleView)
                     BuildSchedulerAppointments();
             }
@@ -963,13 +1044,13 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
         
-        public void searchDataApi(string argKeyword)
+        public async void searchDataApi(string argKeyword)
         {
             try
             {
                 mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
                 mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.Remark = argKeyword;
-                getFrontDeskUser();
+                await getFrontDeskUser();
             }
             catch (Exception ex)
             {
@@ -1012,7 +1093,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             try
             {
-                //loadInvoice();
+                //loadInvoice(); // if needed call load api for pickers
+                callSearchMorePopup();
             }
             catch (Exception ex)
             {
@@ -1032,11 +1114,11 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
                     if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
                     {
-                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
-                                                                              || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
+                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)).ToList());
                     }
                     else
                     {
+
                         await getFrontDeskUser();
                     }
                 }
@@ -1065,6 +1147,62 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 throw ex.InnerException;
             }
         }
+
+        //mmn
+        public void LoadOrderReference(DAT_FRONT_DESK selectedFrontDesk)
+        {
+            ProductPhotos.Clear();
+
+            if (selectedFrontDesk == null ||
+                string.IsNullOrWhiteSpace(selectedFrontDesk.ReferenceDocument))
+            {
+                NotifyPropertyChanged(nameof(HasPhotos));
+                return;
+            }
+
+            var paths = selectedFrontDesk.ReferenceDocument
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var path in paths)
+            {
+                var trimmedPath = path.Trim();
+
+                if (!string.IsNullOrWhiteSpace(trimmedPath))
+                {
+                    ProductPhotos.Add(trimmedPath);
+                }
+            }
+
+            NotifyPropertyChanged(nameof(HasPhotos));
+        }
+        public void LoadReferenceDocuments(DAT_FRONT_DESK selectedFrontDesk)
+        {
+            ProductPhotos.Clear();
+
+            if (selectedFrontDesk == null ||
+                string.IsNullOrWhiteSpace(selectedFrontDesk.ReferenceDocument))
+            {
+                NotifyPropertyChanged(nameof(HasPhotos));
+                return;
+            }
+
+            var paths = selectedFrontDesk.ReferenceDocument
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var path in paths)
+            {
+                var trimmedPath = path.Trim();
+
+                if (!string.IsNullOrWhiteSpace(trimmedPath))
+                {
+                    ProductPhotos.Add(trimmedPath);
+                }
+            }
+
+            NotifyPropertyChanged(nameof(HasPhotos));
+        }
+
+
         #endregion
 
         #region "Web Service Api"
@@ -1074,6 +1212,13 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 Utility.openLoader();
                 mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                DateTime SD = StartDate.Date + StartTime;
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                DateTime ED = EndDate.Date + EndTime;
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_FRONT_DESK);
                 mResponse = await Hms_Service.ApiCall(mRequest, Hms_Name.wsgetFrontDeskUser);
                 if (mResponse != null && mResponse != "")
@@ -1087,6 +1232,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                             bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
                             bindDataTabUser(this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST);
                             BuildSchedulerAppointments();
+                            
                             Utility.closeLoader();
                             WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
                         }

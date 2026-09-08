@@ -8,6 +8,7 @@ using CS.ERP_MOB.Views.Frame;
 using CS.ERP_MOB.ViewsModel.SSM;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Xaml;
+using RGPopup.Maui.Services;
 using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
 
@@ -28,18 +29,6 @@ namespace CS.ERP_MOB.Views.SSM
                 InitializeComponent();
                 mVmlSchedule = new VmlSchedule();
                 BindingContext = mVmlSchedule;
-                mVmlSchedule.mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
-                mVmlSchedule.mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
-                mVmlSchedule.mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK =
-                            new DAT_FRONT_DESK
-                            {
-                                CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk,
-                                SD = Utility.getTLFormLoadSD(),
-                                ED = Utility.getTLFormLoadED()
-                            };
-                //mVmlSchedule.mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK_DETAIL.Add(new DAT_FRONT_DESK_DETAIL());
-                //mVmlSchedule.mJSN_REQ_FRONT_DESK.RES_SALE_BROWSE.Add(new RES_SALE_BROWSE());
-                
                 ConfigureScheduler();
             }
             catch (Exception ex)
@@ -185,28 +174,15 @@ namespace CS.ERP_MOB.Views.SSM
         
         #endregion
 
-        #region "Task"
-        private async Task btnNew_onClick(RES_CONTROL argRES_CONTROL)
-        {
-            bool answer = await this.GetParentPage().DisplayAlert("Info", Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.AddNew"),
-                                Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes"),
-                                Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No"));
-            if (answer)
-            {
-                Common.mCommon.saveNoti(argRES_CONTROL);
-                await Navigation.PushAsync(new FrmSsmOrderSet());
-            }
-        }
-        #endregion
 
         #region "Event"
         private async void TgrNew_Tapped(object sender, EventArgs e)
         {
             try
             {
-                if (!Common.bindMenu("ssm-book-now-lst"))
+                if (!Common.bindMenu("ssm-book-now-set"))
                 {
-                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-lst", logoImg = "" };
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
                     MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
                 }
                 Common.routeMenu(Common.mCommon.SelectedMenu);
@@ -248,9 +224,9 @@ namespace CS.ERP_MOB.Views.SSM
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is DAT_FRONT_DESK selectedItem)
             {
                 // Open your book now with data
-                if (!Common.bindMenu("ssm-book-now-lst"))
+                if (!Common.bindMenu("ssm-book-now-set"))
                 {
-                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-lst", logoImg = "" };
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
                     MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
                 }
                 Common.routeMenu(Common.mCommon.SelectedMenu, selectedItem.Ask);
@@ -284,10 +260,47 @@ namespace CS.ERP_MOB.Views.SSM
             {
                 await btnNew_onClick(argRES_CONTROL);
             };
-           
+            popup.OnEditClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnEdit_onClick(tappedItem, argRES_CONTROL);
+            };
+            popup.OnDeleteClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnDelete_onClick(tappedItem, argRES_CONTROL);
+            };
+            popup.OnPrintClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnPrint_onClick(argRES_CONTROL);
+            };
+            popup.OnSendMailClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnSendMail_onClick(argRES_CONTROL);
+            };
+            popup.OnExpPDFClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnExpPDF_onClick(argRES_CONTROL);
+            };
+            popup.OnExpExcelClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnExpExcel_onClick(argRES_CONTROL);
+            };
+            popup.OnExpCSVClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnExpCSV_onClick(argRES_CONTROL);
+            };
+            popup.OnPostClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnPost_onClick(argRES_CONTROL);
+            };
+            popup.OnSummaryClicked = async (RES_CONTROL argRES_CONTROL) =>
+            {
+                await btnSummary_onClick(argRES_CONTROL);
+            };
+
             await this.GetParentPage().ShowPopupAsync(popup);
 
         }
+
         private void OnCheckAllCheckChanged(object sender, CheckedChangedEventArgs e)
         {
             bool checkAll = chkSelectAll.IsChecked;
@@ -337,7 +350,7 @@ namespace CS.ERP_MOB.Views.SSM
             {
                 if (e.Parameter is DAT_FRONT_DESK tappedItem)
                 {
-                    await Navigation.PushAsync(new FrmSsmScheduleSet(tappedItem));
+                    OnItemSingleTapped(sender, tappedItem);
                 }
             }
             else
@@ -378,169 +391,578 @@ namespace CS.ERP_MOB.Views.SSM
         #endregion
 
 
+        #region "Task"
+        private async Task btnNew_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            bool answer = await this.GetParentPage().DisplayAlert("Info", Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.AddNew"),
+                                Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes"),
+                                Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No"));
+            if (answer)
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL);
+                if (!Common.bindMenu("ssm-book-now-set"))
+                {
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                }
+                Common.routeMenu(Common.mCommon.SelectedMenu);
+            }
+        }
+        //private async Task btnNew_onClick(RES_CONTROL argRES_CONTROL)
+        //{
+        //    //string result = "";
+        //    //Common.mCommon.getConfirmation(argRES_CONTROL);
+        //    //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+        //    //{
+        //    //    result = "7";
+        //    //}
+        //    //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+        //    //{
+        //    //    var popup = new PopConfirmYesNo();
+        //    //    await PopupNavigation.Instance.PushAsync(popup);
+        //    //    result = await popup.ShowAsync();
+        //    //}
+        //    //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+        //    //{
+        //    //    var popup = new PopConfirmEmailOTP();
+        //    //    await PopupNavigation.Instance.PushAsync(popup);
+        //    //    result = await popup.ShowAsync();
+        //    //}
+        //    //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+        //    //{
+        //    //    var popup = new PopConfirmSMSOTP();
+        //    //    await PopupNavigation.Instance.PushAsync(popup);
+        //    //    result = await popup.ShowAsync();
+        //    //}
+        //    //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+        //    //{
+        //    //    var popup = new PopConfirmPassword();
+        //    //    await PopupNavigation.Instance.PushAsync(popup);
+        //    //    result = await popup.ShowAsync();
+        //    //}
+        //    //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+        //    //{
+        //    //    var popup = new PopConfirmSignature();
+        //    //    await PopupNavigation.Instance.PushAsync(popup);
+        //    //    result = await popup.ShowAsync();
+        //    //}
+        //    //if (result != null && result == "7")
+        //    //{
+        //    //    Common.mCommon.saveNoti(argRES_CONTROL);
+        //    //    await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
+        //    //}
+        //}
+        private async Task btnEdit_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
+        {
+            
+        }
+        private async Task btnDelete_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
+        {
+
+        }
+        private async Task btnPrint_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            getCheckedData(l_DAT_FRONT_DESK_LST);
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Print");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50+ ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        private async Task btnSendMail_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Send");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50+ ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+
+        }
+        private async Task btnExpPDF_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50 + ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        private async Task btnExpExcel_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50+ ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        private async Task btnExpCSV_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50+ ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        private async Task btnPost_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Post");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50 + ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        private async Task btnSummary_onClick(RES_CONTROL argRES_CONTROL)
+        {
+            List<DAT_FRONT_DESK> l_DAT_FRONT_DESK_LST = new List<DAT_FRONT_DESK>();
+            for (int i = 0; i < mVmlSchedule.FrontDeskList.Count; i++)
+            {
+                if (mVmlSchedule.FrontDeskList[i].IsChecked == "1")
+                {
+                    l_DAT_FRONT_DESK_LST.Add(mVmlSchedule.FrontDeskList[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
+            string notiInfo = "";
+            foreach (DAT_FRONT_DESK item in l_DAT_FRONT_DESK_LST)
+            {
+                messageInfo += item.OrderCode_0_50+ ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
+        }
+        #endregion
+
         private void ConfigureScheduler()
         {
-            ScheduleView.View = SchedulerView.TimelineDay;
+            ScheduleView.View = SchedulerView.Month;
         }
 
         private async void Scheduler_Tapped(object sender,SchedulerTappedEventArgs e)
         {
-            // Nothing selected
-            if (e?.Appointments == null ||
-                e.Appointments.Count == 0)
-                return;
 
-            // Get ONLY the appointment that was tapped
-            var appt = e.Appointments[0] as SchedulerAppointment;
-
-            if (appt == null) return;
-
-            // Convert SchedulerAppointment -> your DAT_FRONT_DESK
-            var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
-            if (item == null) return;
-
-            // Get actions according to current status
-            var actions =
-                mVmlSchedule.GetAvailableScheduleActions(item);
-            if (actions == null || actions.Count == 0)  return;
-
-            // Show your custom action popup
-            // File: ViewsModel/SSM/VmlSchedule.cs
-            // Section: Your action popup method
-
-            var popup = new Popup();
-
-            var stack = new VerticalStackLayout
+            // clicked an empty cell
+            if (e.Appointments == null || e.Appointments.Count == 0)
             {
-                Padding = 10,
-                Spacing = 5
-            };
-
-            // Always add Edit
-            actions.Insert(0, "Edit");
-
-            foreach (var action in actions)
-            {
-                var btn = new Button
+                // e.Date gives the DateTime of the blank cell clicked
+                if (e.Date is DateTime clickedDate)
                 {
-                    Text = action
-                };
+                    // Perform your action for a blank cell click here (e.g., open a new event dialog)
+                    System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
 
-                btn.Clicked += async (s, e) =>
-                {
-                    // Close popup first for navigate
-                    popup.Close();
-                    await Task.Delay(100);
-
-                    switch (action)
+                    var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    // Open your book now with date
+                    if (!Common.bindMenu("ssm-book-now-set"))
                     {
-                        case "Edit":
-
-                            // Route to edit/service page
-                            await Navigation.PushAsync(
-                                new FrmSsmScheduleSet(item));
-
-                            break;
-
-
-                        case "Assign":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "2";
-
-                            await mVmlSchedule.updateServiceStatus();
-
-                            //go to book now (getBookNow) or service set with order no.
-
-                            break;
-
-
-                        case "Check In":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "3";
-                            mVmlSchedule.mDAT_FRONT_DESK.OrderSD =
-                                Utility.getTLFormLoadSD();
-
-                            await mVmlSchedule.GetCurrentLocation();
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
-
-
-                        case "WIP":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "4";
-
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
-
-
-                        case "Done":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "5";
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
-
-
-                        case "Check Out":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "6";
-                            mVmlSchedule.mDAT_FRONT_DESK.ED = Utility.getTLFormLoadED();
-
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
-
-
-                        case "Complete":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "7";
-
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
-
-
-                        case "Closed":
-
-                            // API call, update UI
-                            mVmlSchedule.mDAT_FRONT_DESK = item;
-                            mVmlSchedule.mDAT_FRONT_DESK.StatusAsk = "8";
-                            await mVmlSchedule.updateServiceStatus();
-
-                            break;
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
                     }
-
-                };
-
-                stack.Children.Add(btn);
+                    Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
+                }
             }
+            else // An existing appointment was tapped
+            {
+                var appt = e.Appointments[0] as SchedulerAppointment;
 
-            popup.Content = stack;
+                if (appt == null) return;
+                // Convert SchedulerAppointment -> your DAT_FRONT_DESK
+                var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
 
-            await Application.Current.MainPage.ShowPopupAsync(popup);
-
+                if (item == null) return;
+                await Navigation.PushAsync(new FrmSsmScheduleSet(item));
+            }
+            
         }
 
         private async void Scheduler_DoubleTapped(object sender,SchedulerDoubleTappedEventArgs e)
         {
             // Nothing selected
-            if (e?.Appointments == null ||
-                e.Appointments.Count == 0)
-                return;
+            if (e.Appointments == null || e.Appointments.Count == 0)
+            {
+                // e.Date gives the DateTime of the blank cell clicked
+                if (e.Date is DateTime clickedDate)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
+
+                    var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    // Open your book now with date
+                    if (!Common.bindMenu("ssm-book-now-set"))
+                    {
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                    }
+                    Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
+                }
+            }
 
             // Get the appointment that was double-tapped
             var appt = e.Appointments[0] as SchedulerAppointment;
@@ -556,9 +978,9 @@ namespace CS.ERP_MOB.Views.SSM
                 return;
 
             // Open your book now with data
-            if (!Common.bindMenu("ssm-book-now-lst"))
+            if (!Common.bindMenu("ssm-book-now-set"))
             {
-                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-lst", logoImg = "" };
+                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
                 MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
             }
             Common.routeMenu(Common.mCommon.SelectedMenu, FrontDeskAsk);

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView
-    x:Class="CS.ERP_MOB.Views.SYS.FrmSysMyPaymentLst"
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmOrderBookLst"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Effects="clr-namespace:RGPopup.Maui.Effects;assembly=RGPopup.Maui"
@@ -103,7 +103,7 @@
                                             <SwipeItems>
                                                 <SwipeItem
                                                     BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyPaymentLst}}}"
+                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyOrderLst}}}"
                                                     CommandParameter="{Binding .}"
                                                     Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                             </SwipeItems>
@@ -111,13 +111,13 @@
 
                                         <StackLayout Padding="{StaticResource Key=paddingTop}">
                                             <footer:OvaListFormCartView
-                                                CodeLabel="{Binding PaymentDate, Converter={StaticResource FriendlyDateConverter}}"
-                                                HeaderLabel="{Binding PaymentCode_0_50}"
+                                                CodeLabel="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
+                                                HeaderLabel="{Binding Code_0_50}"
                                                 IsChecked="{Binding IsChecked}"
                                                 ItemAsk="{Binding Ask}"
                                                 ItemDoubleTapped="OnItemDoubleTapped"
                                                 ItemSingleTapped="OnItemSingleTapped"
-                                                NameLabel="{Binding PaymentTypeName_0_255}">
+                                                NameLabel="{Binding SalePersonName_0_255}">
                                                 <footer:OvaListFormCartView.RemarkLabel>
                                                     <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
                                                         <Binding Path="CurrencyDescription_0_500" />
@@ -134,7 +134,7 @@
                                                 <footer:OvaListFormCartView.FooterLabel>
                                                     <MultiBinding Converter="{StaticResource StatusPostingConverter}">
                                                         <Binding Path="StatusName_0_255" />
-                                                        <Binding Path="SalePersonName_0_255" />
+                                                        <Binding Path="PostingStatusName_0_255" />
                                                     </MultiBinding>
                                                 </footer:OvaListFormCartView.FooterLabel>
                                             </footer:OvaListFormCartView>
@@ -182,7 +182,7 @@
                                                     <SwipeItems>
                                                         <SwipeItem
                                                             BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyPaymentLst}}}"
+                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyOrderLst}}}"
                                                             CommandParameter="{Binding .}"
                                                             Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                                     </SwipeItems>
@@ -240,7 +240,7 @@
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalOptions="Start"
                                                             LineBreakMode="TailTruncation"
-                                                            Text="{Binding PaymentDate, Converter={StaticResource FriendlyDateConverter}}"
+                                                            Text="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                         <Label
                                                             Grid.Row="2"
@@ -249,7 +249,7 @@
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalOptions="End"
                                                             LineBreakMode="TailTruncation"
-                                                            Text="{Binding PaymentTypeName_0_255}"
+                                                            Text="{Binding SalePersonName_0_255}"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                         <Label
                                                             Grid.Row="1"
@@ -269,7 +269,7 @@
                                                             FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalTextAlignment="Start"
-                                                            Text="{Binding PaymentCode_0_50}"
+                                                            Text="{Binding Code_0_50}"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
                                                         <Label
@@ -362,7 +362,7 @@
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding PaymentCode_0_50}"
+                                                        Text="{Binding Code_0_50}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                                         VerticalOptions="Center" />
                                                 </Grid>
@@ -394,7 +394,7 @@
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding PaymentDate, Converter={StaticResource FriendlyDateConverter}}"
+                                                        Text="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                 </Grid>
                                             </DataTemplate>
@@ -402,7 +402,7 @@
                                     </dg:DataGridColumn>
                                     <dg:DataGridColumn
                                         x:Name="AcCustomer"
-                                        Title="Payment"
+                                        Title="Sales Person"
                                         Width="70"
                                         HorizontalContentAlignment="Start">
                                         <dg:DataGridColumn.CellTemplate>
@@ -425,7 +425,7 @@
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding PaymentTypeName_0_255}"
+                                                        Text="{Binding SalePersonName_0_255}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                                         VerticalOptions="Center" />
                                                 </Grid>
@@ -466,7 +466,7 @@
                                     </dg:DataGridColumn>
                                     <dg:DataGridColumn
                                         x:Name="AcTotal"
-                                        Title="Amount"
+                                        Title="Grand Total"
                                         Width="*">
                                         <dg:DataGridColumn.HeaderLabelStyle>
                                             <Style TargetType="Label">

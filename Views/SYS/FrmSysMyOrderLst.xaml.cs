@@ -134,47 +134,47 @@ namespace CS.ERP_MOB.Views.SYS
         #region "Task"
         private async Task btnNew_onClick(RES_CONTROL argRES_CONTROL)
         {
-            //string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL);
-            //    await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
-            //}
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL);
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
+            }
         }
         private async Task btnEdit_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
         {
@@ -201,45 +201,45 @@ namespace CS.ERP_MOB.Views.SYS
             }
 
             string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         private async Task btnSendMail_onClick(RES_CONTROL argRES_CONTROL)
         {
@@ -265,110 +265,110 @@ namespace CS.ERP_MOB.Views.SYS
             }
 
             string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
 
         }
         private async Task btnExpPDF_onClick(RES_CONTROL argRES_CONTROL)
         {
-            //List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            //for (int i = 0; i < mVmlMyOrder.SaleOrderLst.Count; i++)
-            //{
-            //    if (mVmlMyOrder.SaleOrderLst[i].IsChecked == "1")
-            //    {
-            //        l_RES_SALE_BROWSE_LST.Add(mVmlMyOrder.SaleOrderLst[i]);
-            //    }
-            //}
-            //string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
-            //string notiInfo = "";
-            //foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
-            //{
-            //    messageInfo += item.Code_0_50 + ",";
-            //    notiInfo += item.Ask + ",";
-            //}
-            //if (messageInfo.Length > 0)
-            //{
-            //    messageInfo = messageInfo.TrimEnd(',');
-            //    notiInfo = notiInfo.TrimEnd(',');
-            //}
+            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
+            for (int i = 0; i < mVmlMyOrder.SaleOrderLst.Count; i++)
+            {
+                if (mVmlMyOrder.SaleOrderLst[i].IsChecked == "1")
+                {
+                    l_RES_SALE_BROWSE_LST.Add(mVmlMyOrder.SaleOrderLst[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Export");
+            string notiInfo = "";
+            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            {
+                messageInfo += item.Code_0_50 + ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
 
-            //string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         private async Task btnExpExcel_onClick(RES_CONTROL argRES_CONTROL)
         {
@@ -393,45 +393,45 @@ namespace CS.ERP_MOB.Views.SYS
                 notiInfo = notiInfo.TrimEnd(',');
             }
             string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         private async Task btnExpCSV_onClick(RES_CONTROL argRES_CONTROL)
         {
@@ -456,109 +456,109 @@ namespace CS.ERP_MOB.Views.SYS
                 notiInfo = notiInfo.TrimEnd(',');
             }
             string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         private async Task btnPost_onClick(RES_CONTROL argRES_CONTROL)
         {
-            //List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
-            //for (int i = 0; i < mVmlMyOrder.SaleOrderLst.Count; i++)
-            //{
-            //    if (mVmlMyOrder.SaleOrderLst[i].IsChecked == "1")
-            //    {
-            //        l_RES_SALE_BROWSE_LST.Add(mVmlMyOrder.SaleOrderLst[i]);
-            //    }
-            //}
-            //string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Post");
-            //string notiInfo = "";
-            //foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
-            //{
-            //    messageInfo += item.Code_0_50 + ",";
-            //    notiInfo += item.Ask + ",";
-            //}
-            //if (messageInfo.Length > 0)
-            //{
-            //    messageInfo = messageInfo.TrimEnd(',');
-            //    notiInfo = notiInfo.TrimEnd(',');
-            //}
+            List<RES_SALE_BROWSE> l_RES_SALE_BROWSE_LST = new List<RES_SALE_BROWSE>();
+            for (int i = 0; i < mVmlMyOrder.SaleOrderLst.Count; i++)
+            {
+                if (mVmlMyOrder.SaleOrderLst[i].IsChecked == "1")
+                {
+                    l_RES_SALE_BROWSE_LST.Add(mVmlMyOrder.SaleOrderLst[i]);
+                }
+            }
+            string messageInfo = Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Post");
+            string notiInfo = "";
+            foreach (RES_SALE_BROWSE item in l_RES_SALE_BROWSE_LST)
+            {
+                messageInfo += item.Code_0_50 + ",";
+                notiInfo += item.Ask + ",";
+            }
+            if (messageInfo.Length > 0)
+            {
+                messageInfo = messageInfo.TrimEnd(',');
+                notiInfo = notiInfo.TrimEnd(',');
+            }
 
-            //string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            string result = "";
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         private async Task btnSummary_onClick(RES_CONTROL argRES_CONTROL)
         {
@@ -583,45 +583,45 @@ namespace CS.ERP_MOB.Views.SYS
                 notiInfo = notiInfo.TrimEnd(',');
             }
             string result = "";
-            //Common.mCommon.getConfirmation(argRES_CONTROL);
-            //if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
-            //{
-            //    result = "7";
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
-            //{
-            //    var popup = new PopConfirmYesNo();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
-            //{
-            //    var popup = new PopConfirmEmailOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
-            //{
-            //    var popup = new PopConfirmSMSOTP();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
-            //{
-            //    var popup = new PopConfirmPassword();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
-            //{
-            //    var popup = new PopConfirmSignature();
-            //    await PopupNavigation.Instance.PushAsync(popup);
-            //    result = await popup.ShowAsync();
-            //}
-            //if (result != null && result == "7")
-            //{
-            //    Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
-            //}
+            Common.mCommon.getConfirmation(argRES_CONTROL);
+            if (Common.mCommon.ConfirmationUserJun.ConfirmationStatus == "0")
+            {
+                result = "7";
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "1")//1 for Yes/No
+            {
+                var popup = new PopConfirmYesNo();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "2")//2 for EmailOTP
+            {
+                var popup = new PopConfirmEmailOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "3")//3 for SMSOTP
+            {
+                var popup = new PopConfirmSMSOTP();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "4")//4 for Password
+            {
+                var popup = new PopConfirmPassword();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            else if (Common.mCommon.ConfirmationUserJun.ConfirmationTypeAsk == "5")//5 for Signature
+            {
+                var popup = new PopConfirmSignature();
+                await PopupNavigation.Instance.PushAsync(popup);
+                result = await popup.ShowAsync();
+            }
+            if (result != null && result == "7")
+            {
+                Common.mCommon.saveNoti(argRES_CONTROL, notiInfo);
+            }
         }
         #endregion
 
@@ -673,14 +673,14 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async void OnItemSingleTapped(object sender, object tappedItem)
         {
-            //if (Utility.checkButtonAccess("Edit"))
-            //{
-            //    await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_BROWSE)tappedItem));
-            //}
-            //else
-            //{
-            //    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-            //}
+            if (Utility.checkButtonAccess("Edit"))
+            {
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_BROWSE)tappedItem));
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+            }
         }
         private async void OnItemDoubleTapped(object sender, object tappedItem)
         {
@@ -774,17 +774,17 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async void OnListSingleTap(object sender, TappedEventArgs e)
         {
-            //if (Utility.checkButtonAccess("Edit"))
-            //{
-            //    if (e.Parameter is RES_SALE_BROWSE tappedItem)
-            //    {
-            //        await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
-            //    }
-            //}
-            //else
-            //{
-            //    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-            //}
+            if (Utility.checkButtonAccess("Edit"))
+            {
+                if (e.Parameter is RES_SALE_BROWSE tappedItem)
+                {
+                    OnItemSingleTapped(sender, tappedItem);
+                }
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+            }
         }
         private void OnListNGridLongPress(object sender, EventArgs e)
         {
@@ -810,16 +810,17 @@ namespace CS.ERP_MOB.Views.SYS
         }
         private async void OnGridSingleTap(object sender, TappedEventArgs e)
         {
-            //if (!Utility.checkButtonAccess("Edit"))
-            //{
-            //    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-            //    return;
-            //}
+            if (!Utility.checkButtonAccess("Edit"))
+            {
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+                return;
+            }
 
-            //if (sender is VisualElement ve && ve.BindingContext is RES_SALE_BROWSE tappedItem)
-            //{
-            //    await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
-            //}
+            if (sender is VisualElement ve && ve.BindingContext is RES_SALE_BROWSE tappedItem)
+            {
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
+                OnItemSingleTapped(sender, tappedItem);
+            }
         }
         private void OnGridDoubleTap(object sender, TappedEventArgs e)
         {

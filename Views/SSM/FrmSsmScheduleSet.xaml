@@ -8,19 +8,137 @@
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="10">
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+
+                <!--  Row 1  -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+
+                    <Label
+                        x:Name="lblOpen"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Open"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblAssign"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Assign"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblTravelling"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Travelling"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblCheckIn"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Check In"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblWip"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="WIP"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblDone"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Done"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+
+                <!--  Row 2  -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+
+                    <Label
+                        x:Name="lblCheckOut"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Check Out"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblComplete"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Complete"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="→"
+                        TextColor="Gray"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        x:Name="lblClosed"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="Closed"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
             <Label
                 FontAttributes="Bold"
                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                FontSize="16"
-                Text="{Binding InvoiceCode_0_50}" />
+                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                Text="{Binding SelectedFrontDesk.InvoiceCode_0_50}"
+                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
             <Label
                 FontAttributes="Bold"
                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                FontSize="15"
-                HorizontalOptions="Start"
-                Text="{Binding StockName_0_255}"
-                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                VerticalOptions="Center" />
+                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                Text="{Binding SelectedFrontDesk.StockName_0_255}"
+                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
             <Grid
                 Margin="0,20,0,0"
@@ -49,7 +167,7 @@
                     Grid.Column="2"
                     FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                     FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                    Text="{Binding OrderDate, Converter={StaticResource FriendlyDateConverter}}"
+                    Text="{Binding SelectedFrontDesk.OrderDate, Converter={StaticResource FriendlyDateConverter}}"
                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                     VerticalOptions="Center" />
 
@@ -58,6 +176,8 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     Text="Status"
                     VerticalOptions="Center" />
 
@@ -65,6 +185,8 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     HorizontalTextAlignment="Center"
                     Text=":"
                     VerticalOptions="Center" />
@@ -74,7 +196,7 @@
                     Grid.Column="2"
                     FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                     FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                    Text="{Binding InOutStatusName_0_255}"
+                    Text="{Binding SelectedFrontDesk.InOutStatusName_0_255}"
                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                     VerticalOptions="Center" />
 
@@ -83,6 +205,8 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     Text="Assign To"
                     VerticalOptions="Center" />
 
@@ -90,6 +214,8 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     HorizontalTextAlignment="Center"
                     Text=":"
                     VerticalOptions="Center" />
@@ -99,7 +225,7 @@
                     Grid.Column="2"
                     FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                     FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                    Text="{Binding UserName_0_255}"
+                    Text="{Binding SelectedFrontDesk.UserName_0_255}"
                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                     VerticalOptions="Center" />
 
@@ -108,6 +234,8 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     Text="Customer"
                     VerticalOptions="Center" />
 
@@ -115,6 +243,8 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     HorizontalTextAlignment="Center"
                     Text=":"
                     VerticalOptions="Center" />
@@ -129,8 +259,8 @@
 
                     <Label.Text>
                         <MultiBinding Converter="{StaticResource CustomerContactConverter}">
-                            <Binding Path="CustomerName_0_255" />
-                            <Binding Path="ContactName_0_255" />
+                            <Binding Path="SelectedFrontDesk.CustomerName_0_255" />
+                            <Binding Path="SelectedFrontDesk.ContactName_0_255" />
                         </MultiBinding>
                     </Label.Text>
 
@@ -139,7 +269,90 @@
             </Grid>
 
 
-            <!--  =================================================  -->
+
+            <!--  Image gallery  -->
+            <VerticalStackLayout
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                IsVisible="{Binding HasPhotos}"
+                Spacing="5">
+
+                <Grid HeightRequest="220">
+
+                    <CarouselView
+                        x:Name="ReferenceCarousel"
+                        IndicatorView="ReferenceIndicator"
+                        ItemsSource="{Binding ProductPhotos}">
+
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+
+                                <Image
+                                    Margin="10"
+                                    Aspect="AspectFit"
+                                    Source="{Binding Converter={StaticResource ImageURLConverter}}" />
+
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+
+                    </CarouselView>
+
+                    <!--  Previous  -->
+                    <Border
+                        BackgroundColor="#80000000"
+                        HeightRequest="40"
+                        HorizontalOptions="Start"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
+                        WidthRequest="40">
+
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text="&#xf053;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PreviousImage_Clicked" />
+                        </Border.GestureRecognizers>
+
+                    </Border>
+
+                    <!--  Next  -->
+                    <Border
+                        BackgroundColor="#80000000"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
+                        WidthRequest="40">
+
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text="&#xf054;"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="NextImage_Clicked" />
+                        </Border.GestureRecognizers>
+
+                    </Border>
+
+                </Grid>
+
+                <IndicatorView
+                    x:Name="ReferenceIndicator"
+                    HorizontalOptions="Center"
+                    IndicatorColor="LightGray"
+                    SelectedIndicatorColor="#2196F3" />
+
+            </VerticalStackLayout>
             <!--  REFERENCE DOCUMENT  -->
             <Border
                 Grid.Column="1"
@@ -158,9 +371,7 @@
                     RowDefinitions="Auto,Auto"
                     RowSpacing="8">
 
-                    <!--  =========================================  -->
                     <!--  Document Icon  -->
-                    <!--  =========================================  -->
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
@@ -172,9 +383,7 @@
                         VerticalOptions="Center" />
 
 
-                    <!--  =========================================  -->
                     <!--  Reference Document  -->
-                    <!--  =========================================  -->
                     <Label
                         Grid.Row="0"
                         Grid.Column="1"
@@ -184,9 +393,7 @@
                         VerticalOptions="Center" />
 
 
-                    <!--  =========================================  -->
                     <!--  Choose File  -->
-                    <!--  =========================================  -->
                     <Button
                         Grid.Row="0"
                         Grid.Column="2"
@@ -197,13 +404,11 @@
                         CornerRadius="6"
                         FontAttributes="Bold"
                         FontSize="12"
-                        Text="Choose File"
+                        Text="Add File"
                         TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
 
-                    <!--  =========================================  -->
                     <!--  Current Document  -->
-                    <!--  =========================================  -->
                     <HorizontalStackLayout
                         Grid.Row="1"
                         Grid.Column="1"
@@ -211,10 +416,11 @@
                         Spacing="6">
 
                         <Label
-                            FontSize="12"
+                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                             LineBreakMode="TailTruncation"
                             MaxLines="1"
-                            Text="{Binding ReferenceDocument}"
+                            Text="{Binding ReferenceFileName}"
                             TextColor="Gray"
                             VerticalOptions="Center" />
 
@@ -247,7 +453,7 @@
                         AutoSize="TextChanges"
                         FontSize="14"
                         Placeholder="Enter service description"
-                        Text="{Binding ServiceDescription_0_500}" />
+                        Text="{Binding SelectedFrontDesk.ServiceDescription_0_500}" />
                 </Grid>
             </Border>
 
@@ -285,7 +491,7 @@
                                 FontFamily="{StaticResource FontAwesomeSolid}"
                                 FontSize="18"
                                 Text="&#xf0c7;"
-                                TextColor="White"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 VerticalOptions="Center" />
 
                             <!--  Text  -->

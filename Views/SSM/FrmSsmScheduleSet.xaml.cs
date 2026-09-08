@@ -7,6 +7,7 @@ using CS.ERP.PL.POS.RES;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.ViewsModel.SSM;
 using Microsoft.Maui.Controls;
+using Syncfusion.Maui.Core.Carousel;
 
 namespace CS.ERP_MOB.Views.SSM
 {
@@ -21,27 +22,45 @@ namespace CS.ERP_MOB.Views.SSM
             InitializeComponent();
             frontDesk = new DAT_FRONT_DESK();
 
-            // Optionally bind to the UI
-            BindingContext = frontDesk;
+            vm.SelectedFrontDesk = frontDesk;
+
+            vm.LoadReferenceDocuments(frontDesk);
+
+            BindingContext = vm;
 
             SetAvailableAction();
+            UpdateStatusDisplay();
         }
         public FrmSsmScheduleSet(DAT_FRONT_DESK selectedFrontDesk)
         {
             InitializeComponent();
             frontDesk = selectedFrontDesk;
+            vm.SelectedFrontDesk = frontDesk;
 
             // Optionally bind to the UI
-            BindingContext = frontDesk;
+            vm.LoadReferenceDocuments(frontDesk);
+            BindingContext = vm;
             Title = !string.IsNullOrWhiteSpace(
                         selectedFrontDesk?.OrderCode_0_50)
                     ? selectedFrontDesk.OrderCode_0_50
                     : "New Order";
             SetAvailableAction();
+            UpdateStatusDisplay();
         }
 
+        private void NextImage_Clicked(object sender, EventArgs e)
+        {
+            int total = ReferenceCarousel.ItemsSource.Cast<object>().Count();
 
+            if (ReferenceCarousel.Position < total - 1)
+                ReferenceCarousel.Position++;
+        }
 
+        private void PreviousImage_Clicked(object sender, EventArgs e)
+        {
+            if (ReferenceCarousel.Position > 0)
+                ReferenceCarousel.Position--;
+        }
         private async void OnSaveBtn_Clicked(object sender, EventArgs e)
         {
             try
@@ -56,10 +75,22 @@ namespace CS.ERP_MOB.Views.SSM
                     case "Assign":
 
                         // go to book now
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "2";
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.InOutStatusAsk = "2";
+
+
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
+
+                        await vm.updateServiceStatus();
+
+                        break;
+
+                    case "Travelling":
+
+                        // go to book now
+                        vm.SelectedFrontDesk.InOutStatusAsk = "3";
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
 
                         await vm.updateServiceStatus();
 
@@ -68,13 +99,13 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "Check In":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "3";
+                        
+                        vm.SelectedFrontDesk.InOutStatusAsk = "4";
+                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Check In";
 
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
-                        vm.mDAT_FRONT_DESK.OrderSD =
-                            Utility.getTLFormLoadSD();
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.OrderSD = Utility.getTLFormLoadSD();
 
                         await vm.GetCurrentLocation();
                         await vm.updateServiceStatus();
@@ -84,11 +115,10 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "WIP":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "4";
+                        vm.SelectedFrontDesk.InOutStatusAsk = "5";
 
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
                         await vm.updateServiceStatus();
 
                         break;
@@ -96,11 +126,10 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "Done":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "5";
+                        vm.SelectedFrontDesk.InOutStatusAsk = "6";
 
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
                         await vm.updateServiceStatus();
 
                         break;
@@ -108,12 +137,11 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "Check Out":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "6";
+                        vm.SelectedFrontDesk.InOutStatusAsk = "7";
 
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
-                        vm.mDAT_FRONT_DESK.ED =
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.ED =
                             Utility.getTLFormLoadED();
 
                         await vm.updateServiceStatus();
@@ -123,10 +151,9 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "Complete":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "7";
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.InOutStatusAsk = "8";
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
 
                         await vm.updateServiceStatus();
 
@@ -135,16 +162,16 @@ namespace CS.ERP_MOB.Views.SSM
 
                     case "Closed":
 
-                        vm.mDAT_FRONT_DESK = frontDesk;
-                        vm.mDAT_FRONT_DESK.StatusAsk = "8";
-                        vm.mDAT_FRONT_DESK.ReferenceDocument = vm.ReferenceUploadFilePath;
-                        vm.mDAT_FRONT_DESK.ServiceDescription_0_500 = Ent_Description.Text;
+                        vm.SelectedFrontDesk.InOutStatusAsk = "9";
+                        vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                        vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
 
                         await vm.updateServiceStatus();
 
                         break;
 
                 }
+            
             }
             catch (Exception ex)
             {
@@ -173,5 +200,63 @@ namespace CS.ERP_MOB.Views.SSM
                 btn_save.Text = mCurrentAction;
             }
         }
+
+        private void UpdateStatusDisplay()
+        {
+            // Default all statuses to gray
+            lblOpen.TextColor = Color.FromArgb("#9CA3AF");
+            lblAssign.TextColor = Color.FromArgb("#9CA3AF");
+            lblTravelling.TextColor = Color.FromArgb("#3B82F6");
+            lblCheckIn.TextColor = Color.FromArgb("#9CA3AF");
+            lblWip.TextColor = Color.FromArgb("#9CA3AF");
+            lblDone.TextColor = Color.FromArgb("#9CA3AF");
+            lblCheckOut.TextColor = Color.FromArgb("#9CA3AF");
+            lblComplete.TextColor = Color.FromArgb("#9CA3AF");
+            lblClosed.TextColor = Color.FromArgb("#9CA3AF");
+
+
+            if (frontDesk == null)
+                return;
+
+            if (!int.TryParse(frontDesk.InOutStatusAsk, out int currentStatus))
+                return;
+
+            Label[] statusLabels =
+            {
+                lblOpen,
+                lblAssign,
+                lblTravelling,
+                lblCheckIn,
+                lblWip,
+                lblDone,
+                lblCheckOut,
+                lblComplete,
+                lblClosed
+            };
+
+            for (int i = 0; i < statusLabels.Length; i++)
+            {
+                int status = i + 1;
+
+                if (status < currentStatus)
+                {
+                    // Already completed
+                    statusLabels[i].TextColor = Color.FromArgb("#22C55E");
+                }
+                else if (status == currentStatus)
+                {
+                    // Current status
+                    statusLabels[i].TextColor = Colors.Black;
+                    statusLabels[i].FontSize = 15;
+                }
+                else
+                {
+                    // Future status
+                    statusLabels[i].TextColor = Color.FromArgb("#9CA3AF");
+                }
+            }
+        }
+
+
     }
 }
