@@ -51,8 +51,13 @@ namespace CS.ERP_MOB.General
         public Utility()
         {
         }
+        private static int _loaderCount = 0;
         public static async void openLoader()
         {
+            _loaderCount++;
+            if (_loaderCount == 1)
+            {
+                // Existing code that actually shows loader
                 try
                 {
                     var popup = new FrmLoader();  // Using the PopupPage that wraps FrmLoader
@@ -60,12 +65,19 @@ namespace CS.ERP_MOB.General
                 }
                 catch (Exception ex)
                 {
-                //throw ex.InnerException;
+                    throw;
                 }
-            
+            }
+
         }
         public static async void closeLoader()
         {
+            if(_loaderCount > 0)
+                _loaderCount--;
+
+            if (_loaderCount == 0)
+            {
+                // Existing code that actually hides loader
                 try
                 {
                     await PopupNavigation.Instance.PopAsync();
@@ -74,6 +86,8 @@ namespace CS.ERP_MOB.General
                 {
                     Debug.WriteLine("loader Already closed");
                 }
+            }
+            
         }
         public static void checkInternetCon()
         {
