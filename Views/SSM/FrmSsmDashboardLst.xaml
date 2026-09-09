@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmDashboardLst"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:footer="clr-namespace:CS.ERP_MOB.Views.SYS"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.SSM"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect"
+    x:Name="DashboardPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="15">
+
+
+            <!--  =====================================================  -->
+            <!--  3. TASK SUMMARY - DONUT CHART  -->
+            <!--  =====================================================  -->
+
+            <Border
+                Padding="15"
+                BackgroundColor="White"
+                Stroke="#E5E7EB"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <!--  Header  -->
+                    <Grid ColumnDefinitions="Auto,Auto,*">
+
+                        <Border
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            Padding="0"
+                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="40"
+                            StrokeShape="RoundRectangle 50"
+                            StrokeThickness="0"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                Text="&#xf0ae;"
+                                TextColor="{StaticResource OvaTextColor}"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="17"
+                                Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.TaskSummary}, Path=Value}"
+                                TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                            <Label
+                                FontSize="11"
+                                Text="Overview of tasks"
+                                TextColor="#999" />
+
+                        </VerticalStackLayout>
+
+
+                        <!--  1. FILTER RANGE  -->
+                        <!--  =====================================================  -->
+
+                        <Border
+                            Grid.Column="2"
+                            Padding="5,0,5,0"
+                            HorizontalOptions="End"
+                            StrokeThickness="1"
+                            WidthRequest="140">
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0">
+
+                                <!--  Filter Icon  -->
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    Text="&#xf0b0;"
+                                    TextColor="#555"
+                                    VerticalOptions="Center" />
+
+                                <!--  Filter Picker  -->
+                                <Picker
+                                    Title="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.FilterRange}, Path=Value}"
+                                    Grid.Column="1"
+                                    FontSize="14"
+                                    ItemDisplayBinding="{Binding FilterRangeName_0_255}"
+                                    ItemsSource="{Binding FilterRangeList}"
+                                    SelectedItem="{Binding SelectedFilterRange}"
+                                    VerticalOptions="Center" />
+
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,Auto">
+
+
+                        <!--  Donut  -->
+                        <syncfusion:SfCircularChart
+                            Grid.Column="0"
+                            HeightRequest="150"
+                            HorizontalOptions="Center"
+                            WidthRequest="200">
+
+                            <syncfusion:DoughnutSeries
+                                InnerRadius="0.5"
+                                ItemsSource="{Binding DoughnutChartData}"
+                                PaletteBrushes="{Binding CustomBrushes}"
+                                Radius="0.9"
+                                ShowDataLabels="True"
+                                XBindingPath="TypeName"
+                                YBindingPath="Volume">
+
+
+                                <syncfusion:DoughnutSeries.CenterView>
+
+                                    <Border
+                                        HeightRequest="70"
+                                        Stroke="Transparent"
+                                        WidthRequest="70">
+
+                                        <VerticalStackLayout
+                                            HorizontalOptions="Center"
+                                            Spacing="2"
+                                            VerticalOptions="Center">
+
+                                            <Label
+                                                FontSize="12"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Source={x:Reference DashboardPage}, Path=BindingContext.TotalTaskName}" />
+
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Source={x:Reference DashboardPage}, Path=BindingContext.TotalTask}" />
+
+                                        </VerticalStackLayout>
+
+                                    </Border>
+
+                                </syncfusion:DoughnutSeries.CenterView>
+
+                            </syncfusion:DoughnutSeries>
+
+                        </syncfusion:SfCircularChart>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Spacing="12"
+                            VerticalOptions="Center">
+
+                            <Grid
+                                Padding="0,6"
+                                ColumnDefinitions="14,*,Auto"
+                                ColumnSpacing="5">
+
+                                <!--  Color Circle  -->
+                                <Border
+                                    Grid.Column="0"
+                                    BackgroundColor="Gray"
+                                    HeightRequest="12"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center"
+                                    WidthRequest="12">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+
+                                </Border>
+
+                                <!--  Type Name  -->
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding TotalTaskName}"
+                                    TextColor="#374151"
+                                    VerticalOptions="Center" />
+
+                                <!--  Volume  -->
+                                <Label
+                                    Grid.Column="2"
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    Text="{Binding TotalTask}"
+                                    TextColor="#111827"
+                                    VerticalOptions="Center" />
+
+                            </Grid>
+
+                            <CollectionView ItemsSource="{Binding DoughnutChartData}" SelectionMode="None">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <Grid
+                                            Padding="0,6"
+                                            ColumnDefinitions="14,*,Auto"
+                                            ColumnSpacing="5">
+
+                                            <!--  Color Circle  -->
+                                            <Border
+                                                Grid.Column="0"
+                                                BackgroundColor="{Binding Color}"
+                                                HeightRequest="12"
+                                                StrokeThickness="0"
+                                                VerticalOptions="Center"
+                                                WidthRequest="12">
+
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="6" />
+                                                </Border.StrokeShape>
+
+                                            </Border>
+
+                                            <!--  Type Name  -->
+                                            <Label
+                                                Grid.Column="1"
+                                                FontSize="12"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding TypeName}"
+                                                TextColor="#374151"
+                                                VerticalOptions="Center" />
+
+                                            <!--  Volume  -->
+                                            <Label
+                                                Grid.Column="2"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Text="{Binding Volume, StringFormat='{0:0}'}"
+                                                TextColor="#111827"
+                                                VerticalOptions="Center" />
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+
+                            </CollectionView>
+
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout>
+                <HorizontalStackLayout Margin="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="17"
+                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.TaskSummary}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                    <Label
+                        FontSize="11"
+                        Text=" (Today)"
+                        TextColor="#999"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!--  Today task Cards  -->
+
+                <CollectionView ItemsSource="{Binding TaskComparisonDisplayList}" SelectionMode="None">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border
+                                Padding="10"
+                                BackgroundColor="White"
+                                Stroke="#E5E7EB"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="1">
+
+                                <Grid ColumnDefinitions="48,Auto" ColumnSpacing="12">
+
+                                    <!--  Staff / Type Icon  -->
+                                    <Border
+                                        Grid.Column="0"
+                                        BackgroundColor="{Binding TypeColor}"
+                                        HeightRequest="40"
+                                        StrokeShape="RoundRectangle 10"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center"
+                                        WidthRequest="40">
+
+                                        <Label
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="19"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf0ae;"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
+
+                                    </Border>
+
+
+                                    <!--  Type Name  -->
+                                    <VerticalStackLayout
+                                        Grid.Column="1"
+                                        Spacing="3"
+                                        VerticalOptions="Center">
+
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                            Text="{Binding TypeName}"
+                                            TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                        <Label
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                            Text="{Binding QTY}"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                        <HorizontalStackLayout Spacing="1">
+
+                                            <Label
+                                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="{Binding Icon}"
+                                                TextColor="{Binding UpDownColor}"
+                                                VerticalOptions="Center" />
+
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="{Binding LastData}"
+                                                TextColor="Gray" />
+
+                                            <Label
+                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="%"
+                                                TextColor="Gray" />
+
+                                        </HorizontalStackLayout>
+
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+
+            </VerticalStackLayout>
+
+
+            <!--  =====================================================  -->
+            <!--  2. REVENUE CARD  -->
+            <!--  =====================================================  -->
+
+            <Border
+                Padding="10"
+                BackgroundColor="White"
+                Stroke="#E5E7EB"
+                StrokeShape="RoundRectangle 12">
+
+                <Grid ColumnDefinitions="Auto,*,Auto" RowSpacing="8">
+
+                    <!--  Dollar Icon  -->
+                    <Border
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        Padding="0"
+                        BackgroundColor="ForestGreen"
+                        HeightRequest="40"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="0"
+                        VerticalOptions="Center"
+                        WidthRequest="40">
+                        <Label
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Text="&#xf155;"
+                            TextColor="{StaticResource OvaTextColor}"
+                            VerticalOptions="Center" />
+                    </Border>
+
+                    <!--  Title  -->
+                    <Label
+                        Grid.Column="1"
+                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.Revenue}, Path=Value}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Revenue  -->
+                    <Label
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        VerticalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                <Binding Path="TodayRevenue.CurrencyCode_0_50" />
+                                <Binding Path="TodayRevenue.Amount" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+
+                </Grid>
+            </Border>
+
+
+            <!--  =====================================================  -->
+            <!--  4. SCHEDULE  -->
+            <!--  =====================================================  -->
+
+            <Border
+                Background="White"
+                HeightRequest="700"
+                Stroke="#E5E7EB"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <scheduler:SfScheduler
+                    x:Name="ScheduleView"
+                    AllowedViews="Month"
+                    AppointmentsSource="{Binding SchedulerAppointments}"
+                    HorizontalOptions="Fill"
+                    ShowDatePickerButton="True"
+                    VerticalOptions="Fill"
+                    View="Month">
+
+                    <!--  IMPORTANT  -->
+                    <scheduler:SfScheduler.AppointmentMapping>
+                        <scheduler:SchedulerAppointmentMapping
+                            EndTime="EndTime"
+                            Id="Id"
+                            Notes="Notes"
+                            StartTime="StartTime"
+                            Subject="Subject" />
+                    </scheduler:SfScheduler.AppointmentMapping>
+
+                    <scheduler:SfScheduler.MonthView>
+                        <scheduler:SchedulerMonthView AppointmentDisplayMode="Text" />
+                    </scheduler:SfScheduler.MonthView>
+
+                </scheduler:SfScheduler>
+
+            </Border>
+
+
+            <!--  =====================================================  -->
+            <!--  5. STAFF OVERVIEW  -->
+            <!--  =====================================================  -->
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="17"
+                Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.StaffOverview}, Path=Value}"
+                TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+
+            <!--  Staff Cards  -->
+
+            <CollectionView ItemsSource="{Binding StaffOverviewList}" SelectionMode="None">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border
+                            Padding="10"
+                            BackgroundColor="White"
+                            Stroke="#E5E7EB"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+
+                            <Grid ColumnDefinitions="48,Auto" ColumnSpacing="12">
+
+                                <!--  Staff / Type Icon  -->
+                                <Border
+                                    Grid.Column="0"
+                                    BackgroundColor="#F1F5F9"
+                                    HeightRequest="40"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40">
+
+                                    <Label
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="19"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf007;"
+                                        TextColor="#1976D2"
+                                        VerticalOptions="Center" />
+
+                                </Border>
+
+
+                                <!--  Type Name  -->
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="3"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                        Text="{Binding TypeName}"
+                                        TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                    <Label
+                                        FontSize="11"
+                                        Text="{Binding Total, Converter={StaticResource NoDecimalConverter}}"
+                                        TextColor="#999" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentView>

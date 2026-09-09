@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
-    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmSchedulePop"
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmOrderBookPop"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
@@ -80,112 +80,10 @@
                             <Picker
                                 x:Name="pkrCustomer"
                                 Title="{Binding Source={ext:LanguageExtension Key=POS.Common.plh.Select}, Path=Value}"
-                                ItemDisplayBinding="{Binding UserName_0_255}"
+                                ItemDisplayBinding="{Binding CustomerName_0_255}"
                                 ItemsSource="{Binding CustomerDtlList}" />
-
-
-
-                            <!--  Start date, End date  -->
-                            <HorizontalStackLayout
-                                HorizontalOptions="Fill"
-                                Spacing="5"
-                                VerticalOptions="Center">
-
-                                <!--  Start Date + Start Time  -->
-
-                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
-
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="5" />
-                                    </Border.StrokeShape>
-
-                                    <Grid
-                                        Padding="5,0"
-                                        ColumnDefinitions="Auto,*,*"
-                                        VerticalOptions="Center">
-
-                                        <!--  Icon  -->
-                                        <Label
-                                            Margin="10"
-                                            FontFamily="{StaticResource FontAwesomeSolid}"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="&#xf251;"
-                                            TextColor="Black"
-                                            VerticalOptions="Center" />
-
-                                        <!--  Start Date - Display Only  -->
-                                        <DatePicker
-                                            Grid.Column="1"
-                                            Date="{Binding StartDate, Mode=TwoWay}"
-                                            FontSize="12"
-                                            HeightRequest="40"
-                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                                        <!--  Start Time - Editable  -->
-                                        <TimePicker
-                                            Grid.Column="2"
-                                            FontSize="12"
-                                            Format="HH:mm"
-                                            HeightRequest="40"
-                                            HorizontalOptions="Fill"
-                                            Time="{Binding StartTime, Mode=TwoWay}"
-                                            VerticalOptions="Center" />
-
-                                    </Grid>
-                                </Border>
-
-
-
-                                <!--  End Date + End Time  -->
-
-                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
-
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="5" />
-                                    </Border.StrokeShape>
-
-                                    <Grid
-                                        Padding="5,0"
-                                        ColumnDefinitions="Auto,*,*"
-                                        VerticalOptions="Center">
-
-                                        <!--  Icon  -->
-                                        <Label
-                                            Margin="10"
-                                            FontFamily="{StaticResource FontAwesomeSolid}"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="&#xf253;"
-                                            TextColor="Black"
-                                            VerticalOptions="Center" />
-
-                                        <!--  End Date - Display Only  -->
-                                        <DatePicker
-                                            Grid.Column="1"
-                                            Date="{Binding EndDate, Mode=TwoWay}"
-                                            FontSize="12"
-                                            HeightRequest="40"
-                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                                        <!--  End Time - Editable  -->
-                                        <TimePicker
-                                            Grid.Column="2"
-                                            FontSize="12"
-                                            Format="HH:mm"
-                                            HeightRequest="40"
-                                            HorizontalOptions="Fill"
-                                            Time="{Binding EndTime, Mode=TwoWay}"
-                                            VerticalOptions="Center" />
-
-                                    </Grid>
-                                </Border>
-
-
-                            </HorizontalStackLayout>
-
-
-
+                            <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=POS.SalesInvoiceJunOva.lbl.InvoiceNo}, Path=Value}" />
+                            <Entry x:Name="entCode" Placeholder="Enter Code" />
                         </StackLayout>
                     </ScrollView>
 

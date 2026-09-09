@@ -1,17 +1,22 @@
-namespace CS.ERP_MOB.Views.SSM;
+﻿namespace CS.ERP_MOB.Views.SSM;
 
+using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.HCM.DAT;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.POS.DAT;
+using CS.ERP_MOB.General;
 using CS.ERP_MOB.Views.Frame;
 using CS.ERP_MOB.ViewsModel.SSM;
 using RGPopup.Maui.Extensions;
+using System.Globalization;
 
 public partial class FrmSsmBookNowLst : ContentView
 {
     private readonly VmlSsmBookNow vm;
     private bool _isFromFrontDesk;
+    private bool _isFromSchedulerBlankCell;
     private string FrontDeskAsk;
+    private DateTime BlankCellDate;
 
     private bool _isLoaded;
 
@@ -38,17 +43,29 @@ public partial class FrmSsmBookNowLst : ContentView
     }
 
     // Constructor when coming from Front Desk
-    public FrmSsmBookNowLst(String argDAT_FRONT_DESK_Ask)
+    public FrmSsmBookNowLst(string arg)
     {
         try
         {
             InitializeComponent();
 
-            _isFromFrontDesk = true;
-
             vm = new VmlSsmBookNow();
 
-            FrontDeskAsk = argDAT_FRONT_DESK_Ask;
+            if (arg.StartsWith("DATE:", StringComparison.OrdinalIgnoreCase))
+            {
+                // Opened from blank scheduler cell
+                _isFromSchedulerBlankCell = true;
+
+                string dateString = arg.Substring("DATE:".Length);
+                BlankCellDate = Utility.getDateTime(dateString);
+            }
+            else
+            {
+                // Opened from Front Desk
+                _isFromFrontDesk = true;
+
+                FrontDeskAsk = arg;
+            }
 
             BindingContext = vm;
 
@@ -78,20 +95,23 @@ public partial class FrmSsmBookNowLst : ContentView
             if (_isFromFrontDesk)
             {
                 // Existing booking from Front Desk
-                await vm.loadBookNow();
+                
                 await vm.getBookNow(FrontDeskAsk);
+            }
+            else if(_isFromSchedulerBlankCell)
+            {
+                // Normal new booking with date from schedule
+                await vm.loadBookNow();
+                vm.OrderDate = BlankCellDate.Date;
+                vm.OrderTime = BlankCellDate.TimeOfDay;
             }
             else
             {
                 // Normal new booking
+                await Task.Delay(300);
                 await vm.loadBookNow();
             }
 
-            //ServiceButton.IsVisible = !vm.IsServiceAdded;
-            //EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
-            //ServiceCard.IsVisible = vm.IsServiceAdded;
-            //InvoiceSection.IsVisible = vm.IsServiceAdded;
-            //ServiceSection.IsVisible = vm.IsCustomerSelected;
         }
         catch (Exception ex)
         {
@@ -145,23 +165,72 @@ public partial class FrmSsmBookNowLst : ContentView
             return;
 
         //save book now
+
+        await vm.bindSaveBookNowData();
         await vm.saveBookNow();
-        if (vm.SelectedPaymentType.Ask == "15")
+        bool hasOtherPayment = false;
+        if (vm.mJSN_RES_BOOK_NOW.RES_SALE_PAYMENT != null)
             {
-                await Clipboard.Default.SetTextAsync(vm.HitPayUrl);
+                foreach (var payment in vm.mJSN_RES_BOOK_NOW.RES_SALE_PAYMENT)
+                {
+                    switch (payment.PaymentTypeAsk)
+                    {
+                        case "1": // Cash
+                        case "2": // Cheque
+                                  // Nothing to show
+                            break;
 
-                await Application.Current.MainPage.DisplayAlert(
-                    "HitPay URL",
-                    $"{vm.HitPayUrl}\n\nThe URL has been copied to your clipboard.",
-                    "OK");
+                        case "15": // HitPay
+                            vm.HitPayUrl = payment.HitPayURL ?? "";
+
+                            if (!string.IsNullOrWhiteSpace(vm.HitPayUrl))
+                            {
+                                await Clipboard.Default.SetTextAsync(vm.HitPayUrl);
+
+                                await Application.Current.MainPage.DisplayAlert(
+                                    "HitPay URL",
+                                    $"{vm.HitPayUrl}\n\nThe URL has been copied to your clipboard.",
+                                    "OK");
+                            }
+                            break;
+
+                        default:
+                            // Card / other payment types
+                            hasOtherPayment = true;
+                            break;
+                    }
+                }
             }
-            else
+
+            // Show subscription payment only once
+            if (hasOtherPayment)
             {
-                await Navigation.PushPopupAsync(new FrmSubscriptionPayment());
+                await Navigation.PushPopupAsync(
+                    new FrmSubscriptionPayment());
             }
+
+        }
+
+
+
+    private async void btn_Delete_Tapped(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(this.FrontDeskAsk))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Delete Order",
+                "This is a new order, can't delete.",
+                "OK");
+
+            return;
+        }
+
+        // Existing order → perform delete
         
+        vm.mDAT_BOOK_NOW_HEADER.Ask = FrontDeskAsk;
+        vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
+        await vm.saveBookNow();
     }
-
     private bool ValidateBookNow()
     {
         if (vm.SelectedCustomer == null)
@@ -194,92 +263,6 @@ public partial class FrmSsmBookNowLst : ContentView
             return false;
         }
 
-        if (vm.UserSelectedUOM == null)
-        {
-            Application.Current.MainPage.DisplayAlert(
-                "Required",
-                "Please select a UOM in service.",
-                "OK");
-
-            return false;
-        }
-
-        if (vm.SelectedPaymentType == null)
-        {
-            Application.Current.MainPage.DisplayAlert(
-                "Required",
-                "Please select a payment type.",
-                "OK");
-
-            return false;
-        }
-
-        switch (vm.SelectedPaymentType.Ask)
-        {
-            case "1": // CASH
-
-                if (!decimal.TryParse(vm.Tender, out decimal tenderAmount))
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please enter a valid tender amount.",
-                        "OK");
-
-                    return false;
-                }
-
-                if (tenderAmount < vm.GrandTotal)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Invalid Tender",
-                        "Tender amount cannot be less than the Grand Total.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
-
-            case "2": // CHEQUE
-
-                if (string.IsNullOrWhiteSpace(vm.TransactionNo))
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please enter the cheque number.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
-
-            case "3": // CREDIT CARD
-                if (vm.SelectedToBank == null)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please select the To Bank.",
-                        "OK");
-
-                    return false;
-                }
-                break;
-
-            case "8": // DEBIT CARD
-
-                if (vm.SelectedToBank == null)
-                {
-                    Application.Current.MainPage.DisplayAlert(
-                        "Required",
-                        "Please select the To Bank.",
-                        "OK");
-
-                    return false;
-                }
-
-                break;
-        }
 
         return true;
     }
@@ -323,6 +306,31 @@ public partial class FrmSsmBookNowLst : ContentView
         {
             throw ex.InnerException;
         }
+    }
+
+    private async void Payment_Delete_Invoked(object sender, EventArgs e)
+    {
+        if (sender is not SwipeItem swipeItem)
+            return;
+
+        if (swipeItem.BindingContext is not RES_SALE_PAYMENT payment)
+            return;
+
+        vm.PaymentList.Remove(payment);
+    }
+    private async void Payment_Edit_Invoked(object sender, EventArgs e)
+    {
+        if (sender is not SwipeItem swipeItem)
+            return;
+
+        if (swipeItem.BindingContext is not RES_SALE_PAYMENT payment)
+            return;
+
+        // Edit selected payment
+        // Put your edit logic here
+        vm.InitializePaymentAmount();
+        await Navigation.PushAsync(new FrmSsmPaymentSet(payment, vm));
+
     }
 
     private bool _isPaymentDropdownOpen = false;

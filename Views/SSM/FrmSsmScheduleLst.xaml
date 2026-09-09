@@ -502,16 +502,17 @@
                             ShowDatePickerButton="True"
                             Tapped="Scheduler_Tapped"
                             VerticalOptions="Fill"
-                            View="TimelineDay">
+                            View="Month">
 
                             <!--  1. Turn on separate timeline lanes  -->
                             <scheduler:SfScheduler.TimelineView>
                                 <scheduler:SchedulerTimelineView
                                     EndHour="24"
+                                    ShowCurrentTimeIndicator="False"
                                     StartHour="0"
                                     TimeInterval="60"
                                     TimeIntervalWidth="100"
-                                    TimeRulerHeight="80" />
+                                    TimeRulerHeight="50" />
                             </scheduler:SfScheduler.TimelineView>
 
                             <!--  Month view  -->
@@ -710,7 +711,7 @@
                     <Label
                         Grid.Column="1"
                         Margin="0,3"
-                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Common.lbl.Schedule}, Path=Value}"
+                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Common.view.ScheduleView}, Path=Value}"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                 </Grid>
                 <Grid

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using CS.ERP_MOB.General;
 
 namespace CS.ERP_MOB
 {
@@ -27,5 +28,6 @@ namespace CS.ERP_MOB
     )]
     public class MainActivity : MauiAppCompatActivity
     {
+
     }
 }

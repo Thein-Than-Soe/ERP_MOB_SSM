@@ -1,16 +1,17 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Threading.Tasks;
+﻿using CS.ERP.PL.POS.DAT;
+using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.Views.Frame;
-using Newtonsoft.Json;
 //using Plugin.Connectivity;
 //using Rg.Plugins.Popup.Services;
 using Microsoft.Maui.Networking;
-using RGPopup.Maui.Services;
+using Newtonsoft.Json;
 using RGPopup.Maui;
+using RGPopup.Maui.Services;
+using System;
 using System.Diagnostics;
-using CS.ERP.PL.POS.DAT;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 namespace CS.ERP_MOB.General
 {
     public class Utility
@@ -52,27 +53,27 @@ namespace CS.ERP_MOB.General
         }
         public static async void openLoader()
         {
-            try
-            {
-                var popup = new FrmLoader();  // Using the PopupPage that wraps FrmLoader
-                await PopupNavigation.Instance.PushAsync(popup);  // Show the popup
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    var popup = new FrmLoader();  // Using the PopupPage that wraps FrmLoader
+                    await PopupNavigation.Instance.PushAsync(popup);  // Show the popup
+                }
+                catch (Exception ex)
+                {
                 //throw ex.InnerException;
-            }
-
+                }
+            
         }
         public static async void closeLoader()
         {
-            try
-            {
-                await PopupNavigation.Instance.PopAsync();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("loader Already closed");
-            }
+                try
+                {
+                    await PopupNavigation.Instance.PopAsync();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("loader Already closed");
+                }
         }
         public static void checkInternetCon()
         {
@@ -258,7 +259,192 @@ namespace CS.ERP_MOB.General
             return DateTime.Now;
         }
 
+        //Filter range
 
+        public class DateRange
+        {
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+        }
+
+        public static DateRange CalendarFormat(DAT_FILTER_RANGE filterRangeData)
+        {
+            DateTime today = DateTime.Today;
+            double count = double.Parse(filterRangeData.Count);
+
+            DateTime startDate;
+            DateTime endDate;
+
+            switch (filterRangeData.PeriodTypeAsk)
+            {
+                // ===== Day =====
+                case "3":
+                    startDate = today.AddDays(-(count - 1)).Date;
+                    endDate = today.Date.AddDays(1).AddTicks(-1);
+                    break;
+
+                // ===== Week (Mon–Sun) =====
+                case "8":
+                    int dayOfWeek = (int)today.DayOfWeek;
+
+                    // Sunday = 0, Monday = 1
+                    int diffToMonday = dayOfWeek == 0
+                        ? -6
+                        : 1 - dayOfWeek;
+
+                    DateTime currentWeekStart = today.AddDays(diffToMonday);
+
+                    startDate = currentWeekStart.Date;
+
+                    endDate = currentWeekStart
+                        .AddDays(6)
+                        .Date
+                        .AddDays(1)
+                        .AddTicks(-1);
+
+                    break;
+
+                // ===== Month =====
+                case "4":
+                    startDate = new DateTime(
+                        today.Year,
+                        today.Month,
+                        1
+                    );
+
+                    endDate = new DateTime(
+                        today.Year,
+                        today.Month,
+                        DateTime.DaysInMonth(today.Year, today.Month)
+                    )
+                    .Date
+                    .AddDays(1)
+                    .AddTicks(-1);
+
+                    break;
+
+                // ===== Quarter =====
+                case "7":
+                    int currentQuarter = (today.Month - 1) / 3;
+                    int quarterStartMonth = currentQuarter * 3 + 1;
+
+                    startDate = new DateTime(
+                        today.Year,
+                        quarterStartMonth,
+                        1
+                    ).AddMonths(-(int)((count - 1) * 3));
+
+                    endDate = new DateTime(
+                        today.Year,
+                        quarterStartMonth,
+                        1
+                    )
+                    .AddMonths(3)
+                    .AddTicks(-1);
+
+                    break;
+
+                // ===== Year =====
+                case "5":
+                    startDate = new DateTime(
+                        today.Year - (int)(count - 1),
+                        1,
+                        1
+                    );
+
+                    endDate = new DateTime(
+                        today.Year,
+                        12,
+                        31
+                    )
+                    .Date
+                    .AddDays(1)
+                    .AddTicks(-1);
+
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return new DateRange
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+        }
+
+        public static DateRange CurrentFormat(DAT_FILTER_RANGE filterRangeData)
+        {
+            DateTime today = DateTime.Now;
+            double count = double.Parse(filterRangeData.Count);
+
+            DateTime startDate;
+            DateTime endDate;
+
+            switch (filterRangeData.PeriodTypeAsk)
+            {
+                // ===== Day (rolling) =====
+                case "3":
+                    startDate = today.Date.AddDays(-count);
+                    endDate = today;
+                    break;
+
+                // ===== Week (rolling) =====
+                case "8":
+                    startDate = today.AddDays(-count * 7);
+                    endDate = today;
+                    break;
+
+                // ===== Month (rolling) =====
+                case "4":
+                    startDate = today.AddMonths(-(int)count);
+                    endDate = today;
+                    break;
+
+                // ===== Quarter (rolling) =====
+                case "7":
+                    startDate = today.AddMonths(-(int)(count * 3));
+                    endDate = today;
+                    break;
+
+                // ===== Year (rolling) =====
+                case "5":
+                    startDate = today.AddYears(-(int)count);
+                    endDate = today;
+                    break;
+
+                default:
+                    return null;
+            }
+
+            return new DateRange
+            {
+                StartDate = startDate,
+                EndDate = endDate
+            };
+        }
+
+        public static DateRange OnFilterRangeChanged(DAT_FILTER_RANGE filterRangeData)
+        {
+            if (filterRangeData == null)
+                return null;
+
+            DateRange range = null;
+
+            // 1 = Calendar Format
+            if (filterRangeData.FilterRangeTypeAsk == "1")
+            {
+                range = CalendarFormat(filterRangeData);
+            }
+            // 2 = Current Format
+            else if (filterRangeData.FilterRangeTypeAsk == "2")
+            {
+                range = CurrentFormat(filterRangeData);
+            }
+
+            return range;
+        }
         #endregion
         public static Boolean checkButtonAccess(string menuName)
         {
@@ -747,6 +933,168 @@ namespace CS.ERP_MOB.General
         }
         #endregion
 
+        #region "Discount"
+        //call for finding maching discount rule
+        public static DAT_DISCOUNT_RULE FindMatchingDiscountRule(List<DAT_DISCOUNT_RULE> DiscountRules, string discountCalculationFigureAsk, decimal calculationValue, DateTime discountDate, string currencyAsk)
+        {
+            if (DiscountRules == null || DiscountRules.Count == 0)
+                return null;
+
+            var matchedRules = DiscountRules
+                .Where(rule =>
+                    rule.DiscountCalculationFigureAsk == discountCalculationFigureAsk &&
+                    IsDiscountDateMatched(
+                        discountDate,
+                        DateTime.Parse(rule.SD),
+                        DateTime.Parse(rule.ED)) &&
+                    IsDiscountCurrencyMatched(rule, currencyAsk) &&
+                    IsDiscountConditionMatched(rule, calculationValue))
+                .OrderByDescending(rule =>
+                    decimal.Parse(rule.DiscountCalculationAmount))
+                .ToList();
+
+            return matchedRules.FirstOrDefault();
+        }
+        private static bool IsDiscountDateMatched(DateTime discountDate, DateTime startDate, DateTime endDate)
+        {
+            if (startDate.Kind == DateTimeKind.Utc)
+                startDate = startDate.ToLocalTime();
+
+            if (endDate.Kind == DateTimeKind.Utc)
+                endDate = endDate.ToLocalTime();
+
+            if (discountDate.Kind == DateTimeKind.Utc)
+                discountDate = discountDate.ToLocalTime();
+
+            discountDate = discountDate.Date;
+            startDate = startDate.Date;
+            endDate = endDate.Date;
+
+            return discountDate >= startDate &&
+                   discountDate <= endDate;
+        }
+        private static bool IsDiscountCurrencyMatched(DAT_DISCOUNT_RULE rule, string currencyAsk)
+        {
+            if (rule == null)
+                return false;
+
+            // Only fixed amount needs currency matching.
+            // Percentage does not need it.
+            if (rule.DiscountTypeAsk != "2")
+                return true;
+
+            return rule.CurrencyAsk == currencyAsk;
+        }
+        private static bool IsDiscountConditionMatched(DAT_DISCOUNT_RULE rule, decimal calculationValue)
+        {
+            decimal conditionAmount =
+                decimal.Parse(rule.DiscountCalculationAmount);
+
+            switch (rule.DiscountConditionTypeAsk)
+            {
+                // >=
+                case "1":
+                    return calculationValue >= conditionAmount;
+                // <=
+                case "2":
+                    return calculationValue <= conditionAmount;
+                // >
+                case "3":
+                    return calculationValue > conditionAmount;
+                // Between
+                case "4":
+
+                    // Between requires a minimum and maximum value.
+                    // DAT_DISCOUNT_RULE currently only shows
+                    // DiscountCalculationAmount.
+                    //
+                    // So this needs the actual upper-bound field
+                    // from your API/model before implementing.
+                    return false;
+
+
+                default:
+
+                    return false;
+            }
+        }
+
+        //call for discount after selected rule
+        public static decimal CalculateDiscount(DAT_DISCOUNT_RULE SelectedRule, decimal calculationValue)
+        {
+            if (calculationValue <= 0)
+                return 0;
+
+            // At this point:
+            // SelectedDiscountTypeAsk can come from the matched rule
+            // OR from user selection.
+            //
+            // DiscountRate can come from the matched rule
+            // OR from user input.
+
+            string discountTypeAsk = SelectedRule.DiscountTypeAsk;
+            decimal rate = decimal.Parse(SelectedRule.Rate);
+
+            decimal discount = 0;
+
+            switch (discountTypeAsk)
+            {
+                case "0": // NA
+                    discount = 0;
+                    break;
+                case "1": // %
+                    discount = calculationValue * rate / 100m;
+                    break;
+
+                case "2": // $
+                    discount = rate;
+                    break;
+
+                case "3": // Coupon
+                    discount = CalculateCouponDiscount(
+                        SelectedRule,
+                        rate,
+                        calculationValue);
+                    break;
+
+                case "4": // By X get X
+                case "5": // By X get Y
+                          // Handle later when item/tier logic is added
+                    discount = 0;
+                    break;
+
+                default:
+                    discount = 0;
+                    break;
+            }
+
+            if (discount < 0)
+                discount = 0;
+
+            if (discount > calculationValue)
+                discount = calculationValue;
+
+            return discount;
+        }
+        private static decimal CalculateCouponDiscount(DAT_DISCOUNT_RULE rule, decimal rate, decimal calculationValue)
+        {
+            if (rule == null || rate <= 0)
+                return 0;
+
+            switch (rule.ValueTypeAsk)
+            {
+                case "1": // Fixed
+                    return rate;
+
+                case "2": // Percentage
+                    return calculationValue * rate / 100m;
+
+                default:
+                    return 0;
+            }
+        }
+
+        #endregion
 
         #region "GrandTotal"
         public static string getGrandTotalString(string argGrandTotal, string argGrandTotalDecimalPlace, string argGrandTotalRoundAsking)

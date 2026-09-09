@@ -94,7 +94,26 @@ namespace CS.ERP_MOB.General
         }
     }
 
+    public class NoDecimalConverter : IValueConverter
+    {
+        public object Convert( object value,Type targetType,object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return "0";
 
+            if (decimal.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal number))
+            {
+                return number.ToString("0", CultureInfo.InvariantCulture);
+            }
+
+            return "0";
+        }
+
+        public object ConvertBack( object value, Type targetType,object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
     public class AmountCurrencyConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

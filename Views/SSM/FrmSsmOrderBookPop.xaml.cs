@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.Messaging;
-using CS.ERP.PL.AMS.RES;
+using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.HMS.RES;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.ViewsModel.Frame;
@@ -13,20 +14,20 @@ using RGPopup.Maui.Services;
 namespace CS.ERP_MOB.Views.SSM
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrmSsmSchedulePop : PopupPage
+    public partial class FrmSsmOrderBookPop : PopupPage
     {
         #region "Declaring"
-        DAT_FRONT_DESK mDAT_FRONT_DESK = new DAT_FRONT_DESK();
-        VmlSchedule mVmlSchedule;
+        RES_SALE_ORDER mRES_SALE_ORDER = new RES_SALE_ORDER();
+        VmlSsmOrderBook mVmlSsmOrderBook;
         private TaskCompletionSource<object> _taskCompletionSource;
         public Task<object> PopupClosedTask => _taskCompletionSource.Task;
         #endregion
-        public FrmSsmSchedulePop()
+        public FrmSsmOrderBookPop()
         {
             try
             {
                 InitializeComponent();
-                BindingContext = mVmlSchedule = new VmlSchedule();
+                BindingContext = mVmlSsmOrderBook = new VmlSsmOrderBook();
 
 
                 var display = DeviceDisplay.MainDisplayInfo;
@@ -42,13 +43,16 @@ namespace CS.ERP_MOB.Views.SSM
                 throw ex.InnerException;
             }
         }
-        public FrmSsmSchedulePop(VmlSchedule mVmlSchedule)
+        public FrmSsmOrderBookPop(JSN_SALE_ORDER_JUN argJSN_SALE_ORDER_JUN)
         {
             try
             {
                 InitializeComponent();
-                BindingContext = mVmlSchedule;
-                
+                BindingContext = mVmlSsmOrderBook = new VmlSsmOrderBook();
+
+                //Bind load data for picker here  mmn
+                //mVmlSsmOrderBook.bindCustomer(argJSN_SALE_ORDER_JUN.RES_USER_LST);
+
                 _taskCompletionSource = new TaskCompletionSource<object>();
 
                 var display = DeviceDisplay.MainDisplayInfo;
@@ -87,21 +91,22 @@ namespace CS.ERP_MOB.Views.SSM
             try
             {
 
-                var l_SelectedCustomer = pkrCustomer.SelectedItem as RES_USER_LST;
-
-                DAT_FRONT_DESK selectedFrontDesk = null;
-
-                if (l_SelectedCustomer != null &&
-                    !string.IsNullOrWhiteSpace(l_SelectedCustomer.Ask))
+                await PopupNavigation.Instance.PopAsync();
+                mRES_SALE_ORDER = new RES_SALE_ORDER();
+                var l_SelectedCustomer = pkrCustomer.SelectedItem as RES_SALE_ORDER;
+                if (l_SelectedCustomer != null)
                 {
-                    selectedFrontDesk = mVmlSchedule.FrontDeskList?.FirstOrDefault(x => x.UserAsk == l_SelectedCustomer.Ask);
+//mmn check list here
+                    //mRES_SALE_ORDER.CustomerAsk = l_SelectedCustomer.Ask;
+                }
+                if (entCode.Text != null)
+                {
+                    mRES_SALE_ORDER.OrderCode_0_50 = entCode.Text;
                 }
 
-                await PopupNavigation.Instance.PopAsync();
-
-                if (selectedFrontDesk != null)
+                if (mRES_SALE_ORDER != null)
                 {
-                    _taskCompletionSource.SetResult(selectedFrontDesk);
+                    _taskCompletionSource.SetResult(mRES_SALE_ORDER);
                 }
                 else
                 {
@@ -111,10 +116,6 @@ namespace CS.ERP_MOB.Views.SSM
             catch (Exception ex)
             {
                 throw ex.InnerException;
-            }
-            finally
-            {
-                await PopupNavigation.Instance.PopAsync();
             }
 
         }      

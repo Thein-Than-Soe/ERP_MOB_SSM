@@ -23,25 +23,31 @@ namespace CS.ERP_MOB.Route
             DicRouteList.Add("signup", typeof(FrmSignUp));
 
             DicRouteList.Add("ssm-profile", typeof(FrmSsmProfile));
-            DicRouteList.Add("ssm-dashboard", typeof(HomePage));
+            DicRouteList.Add("ssm-dashboard", typeof(FrmSsmDashboardLst));
             DicRouteList.Add("ssm-front-desk", typeof(FrmSsmScheduleLst));
-            DicRouteList.Add("ssm-book-lst", typeof(FrmSsmOrderSet));
-            //DicRouteList.Add("ssm-book-set", typeof(FrmSsmProfile));
+
+            DicRouteList.Add("ssm-book-lst", typeof(FrmSsmOrderBookLst));
+            DicRouteList.Add("ssm-book-set", typeof(FrmSsmOrderBookSet));
             //DicRouteList.Add("ssm-book-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-book-import", typeof(FrmSsmProfile));
-            DicRouteList.Add("ssm-service-lst", typeof(FrmSsmProfile));
+
+            DicRouteList.Add("ssm-service-lst", typeof(FrmSsmServiceSet));
             //DicRouteList.Add("ssm-service-set", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-service-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-service-import", typeof(FrmSsmProfile));
-            DicRouteList.Add("ssm-book-now-lst", typeof(FrmSsmBookNowLst));
-            //DicRouteList.Add("ssm-book-now-set", typeof(FrmSsmBookNowLst(DAT_FRONT_DESK)));
+
+            DicRouteList.Add("ssm-invoice-set", typeof(FrmSsmProfile));
+            DicRouteList.Add("ssm-invoice-dtl", typeof(FrmSsmProfile));
+            DicRouteList.Add("ssm-invoice-import", typeof(FrmSsmProfile));
+
+            DicRouteList.Add("ssm-book-now-lst", typeof(FrmSsmScheduleLst));
+            DicRouteList.Add("ssm-book-now-set", typeof(FrmSsmBookNowLst));
             //DicRouteList.Add("ssm-book-now-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-book-now-import", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-check-in-out-lst", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-check-in-out-set", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-check-in-out-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-check-in-out-import", typeof(FrmSsmProfile));
-            DicRouteList.Add("privacy", typeof(FrmSsmProfile));
             DicRouteList.Add("ssm-transaction-lst", typeof(FrmSysMyTransactionLst));
             DicRouteList.Add("ssm-my-order-lst", typeof(FrmSysMyOrderLst));
             DicRouteList.Add("ssm-payment-lst", typeof(FrmSysMyPaymentLst));

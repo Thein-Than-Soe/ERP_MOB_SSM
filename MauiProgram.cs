@@ -45,7 +45,7 @@ namespace CS.ERP_MOB
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
+            
             //return builder.Build();
             MauiApp mauiApp = builder.Build();
 

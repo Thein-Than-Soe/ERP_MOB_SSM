@@ -26,12 +26,6 @@
                     <!--  Item Name  -->
                     <VerticalStackLayout Spacing="5">
 
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="14"
-                            Text="Item Name"
-                            TextColor="Black" />
-
                         <Picker
                             Title="Select item"
                             FontSize="15"
@@ -44,11 +38,6 @@
                     <!--  Item Number  -->
                     <VerticalStackLayout Spacing="5">
 
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="14"
-                            Text="Item Code"
-                            TextColor="Black" />
 
                         <Picker
                             Title="Select item number"
@@ -66,29 +55,6 @@
 
                     <VerticalStackLayout Spacing="12">
 
-                        <!--  Barcode Info  -->
-                        <!--  Example: 1 hrs = SGD 2,000.00  -->
-                        <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-
-                            <Label FontSize="14" Text="1" />
-
-                            <Label FontSize="14" Text="{Binding ItemUOM}" />
-
-                            <Label FontSize="14" Text="=" />
-
-                            <Label FontSize="14">
-                                <Label.Text>
-                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                        <Binding Path="SelectedCurrency" />
-                                        <Binding Path="SelectedPrice" />
-                                    </MultiBinding>
-                                </Label.Text>
-                            </Label>
-
-                        </HorizontalStackLayout>
-
-
-                        <!--  Start date, End date  -->
                         <!--  Start date, End date  -->
                         <HorizontalStackLayout
                             HorizontalOptions="Fill"
@@ -96,103 +62,99 @@
                             VerticalOptions="Center">
 
                             <!--  Start Date + Start Time  -->
-                            <VerticalStackLayout HorizontalOptions="FillAndExpand" Spacing="5">
 
-                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
 
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="5" />
-                                    </Border.StrokeShape>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
 
-                                    <Grid
-                                        Padding="5,0"
-                                        ColumnDefinitions="Auto,*,*"
-                                        VerticalOptions="Center">
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,*,*"
+                                    VerticalOptions="Center">
 
-                                        <!--  Icon  -->
-                                        <Label
-                                            Margin="10"
-                                            FontFamily="{StaticResource FontAwesomeSolid}"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="&#xf251;"
-                                            TextColor="Black"
-                                            VerticalOptions="Center" />
+                                    <!--  Icon  -->
+                                    <Label
+                                        Margin="10"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf251;"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
 
-                                        <!--  Start Date - Display Only  -->
-                                        <Label
-                                            Grid.Column="1"
-                                            FontSize="12"
-                                            HeightRequest="40"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                            VerticalTextAlignment="Center" />
+                                    <!--  Start Date - Display Only  -->
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        HeightRequest="40"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalTextAlignment="Center" />
 
-                                        <!--  Start Time - Editable  -->
-                                        <TimePicker
-                                            Grid.Column="2"
-                                            FontSize="12"
-                                            Format="HH:mm"
-                                            HeightRequest="40"
-                                            HorizontalOptions="Fill"
-                                            Time="{Binding StartTime, Mode=TwoWay}"
-                                            VerticalOptions="Center" />
+                                    <!--  Start Time - Editable  -->
+                                    <TimePicker
+                                        Grid.Column="2"
+                                        FontSize="12"
+                                        Format="HH:mm"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        Time="{Binding StartTime, Mode=TwoWay}"
+                                        VerticalOptions="Center" />
 
-                                    </Grid>
-                                </Border>
+                                </Grid>
+                            </Border>
 
-                            </VerticalStackLayout>
 
 
                             <!--  End Date + End Time  -->
-                            <VerticalStackLayout HorizontalOptions="FillAndExpand" Spacing="5">
 
-                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
 
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="5" />
-                                    </Border.StrokeShape>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
 
-                                    <Grid
-                                        Padding="5,0"
-                                        ColumnDefinitions="Auto,*,*"
-                                        VerticalOptions="Center">
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,*,*"
+                                    VerticalOptions="Center">
 
-                                        <!--  Icon  -->
-                                        <Label
-                                            Margin="10"
-                                            FontFamily="{StaticResource FontAwesomeSolid}"
-                                            FontSize="15"
-                                            HorizontalOptions="Center"
-                                            Text="&#xf253;"
-                                            TextColor="Black"
-                                            VerticalOptions="Center" />
+                                    <!--  Icon  -->
+                                    <Label
+                                        Margin="10"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf253;"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
 
-                                        <!--  End Date - Display Only  -->
-                                        <Label
-                                            Grid.Column="1"
-                                            FontSize="12"
-                                            HeightRequest="40"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                            VerticalTextAlignment="Center" />
+                                    <!--  End Date - Display Only  -->
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        HeightRequest="40"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalTextAlignment="Center" />
 
-                                        <!--  End Time - Editable  -->
-                                        <TimePicker
-                                            Grid.Column="2"
-                                            FontSize="12"
-                                            Format="HH:mm"
-                                            HeightRequest="40"
-                                            HorizontalOptions="Fill"
-                                            Time="{Binding EndTime, Mode=TwoWay}"
-                                            VerticalOptions="Center" />
+                                    <!--  End Time - Editable  -->
+                                    <TimePicker
+                                        Grid.Column="2"
+                                        FontSize="12"
+                                        Format="HH:mm"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        Time="{Binding EndTime, Mode=TwoWay}"
+                                        VerticalOptions="Center" />
 
-                                    </Grid>
-                                </Border>
+                                </Grid>
+                            </Border>
 
-                            </VerticalStackLayout>
 
                         </HorizontalStackLayout>
 
@@ -200,12 +162,12 @@
                         <!--  QUANTITY + USER UOM  -->
                         <!--  =================================================  -->
 
-                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="15">
+                        <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="5">
 
                             <!--  Quantity  -->
                             <HorizontalStackLayout
                                 Grid.Column="0"
-                                Spacing="5"
+                                Spacing="0"
                                 VerticalOptions="Center">
 
                                 <!--  Minus  -->
@@ -226,7 +188,7 @@
                                     FontSize="16"
                                     HorizontalTextAlignment="Center"
                                     Keyboard="Numeric"
-                                    Text="{Binding Quantity}"
+                                    Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
                                     TextChanged="QtyEntry_TextChanged"
                                     VerticalTextAlignment="Center"
                                     WidthRequest="60" />
@@ -263,8 +225,27 @@
                                     Title="Select UOM"
                                     ItemDisplayBinding="{Binding UOMName_0_255}"
                                     ItemsSource="{Binding UomList}"
-                                    SelectedItem="{Binding UserSelectedUOM, Mode=TwoWay}"
-                                    WidthRequest="110" />
+                                    SelectedItem="{Binding UserSelectedUOM, Mode=TwoWay}" />
+
+                            </Border>
+                            <!--  Currency Picker  -->
+                            <Border
+                                Grid.Column="2"
+                                Padding="10,0"
+                                HeightRequest="40"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                VerticalOptions="Center">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+
+                                <Picker
+                                    Title="Currency"
+                                    ItemDisplayBinding="{Binding CurrencyCode_0_50}"
+                                    ItemsSource="{Binding CurrencyList}"
+                                    SelectedItem="{Binding UserSelectedCurrency, Mode=TwoWay}" />
 
                             </Border>
 
@@ -415,7 +396,7 @@
                                 <DatePicker
                                     x:Name="RecurringDatePicker"
                                     Grid.Column="1"
-                                    Date="{Binding OrderDate, Mode=TwoWay}"
+                                    Date="{Binding RecurringDate, Mode=TwoWay}"
                                     FontSize="12"
                                     HeightRequest="40"
                                     HorizontalOptions="Fill"
@@ -429,7 +410,7 @@
                                     HeightRequest="40"
                                     HorizontalOptions="Fill"
                                     IsEnabled="{Binding IsServiceEditable}"
-                                    Time="{Binding OrderTime, Mode=TwoWay}" />
+                                    Time="{Binding RecurringTime, Mode=TwoWay}" />
 
                             </Grid>
 
