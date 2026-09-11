@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
     xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
     CloseWhenBackgroundIsClicked="true"
     HasSystemPadding="true"
@@ -130,12 +131,12 @@
                                             Margin="0,0,2,0"
                                             FontFamily="{StaticResource FontAwesomeSolid}"
                                             Text="&#xf07a;"
-                                            TextColor="{StaticResource OvaListViewTextColor}"
+                                            TextColor="{Binding ThemeSettingMenu.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                             VerticalOptions="Center" />
                                         <Label
                                             FontSize="15"
                                             Text="{Binding Text}"
-                                            TextColor="{StaticResource OvaListViewTextColor}"
+                                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                             VerticalOptions="Center" />
                                     </StackLayout>
                                     <Label
@@ -143,7 +144,7 @@
                                         FontSize="30"
                                         HorizontalOptions="End"
                                         Text="{Binding StateIcon, Converter={StaticResource IconConverter}}"
-                                        TextColor="{StaticResource OvaListViewStateIconColor}"
+                                        TextColor="{Binding ThemeSettingMenu.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                         VerticalOptions="Center" />
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TgrMenuHeader_onTapped" />

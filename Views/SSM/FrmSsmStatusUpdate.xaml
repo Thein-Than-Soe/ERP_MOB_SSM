@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmScheduleSet"
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmStatusUpdate"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:general="clr-namespace:CS.ERP_MOB.General"
@@ -141,7 +141,7 @@
                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
             <Grid
-                Margin="0,20,0,0"
+                Margin="10,10,0,0"
                 ColumnDefinitions="100, 15, *"
                 RowDefinitions="Auto, Auto, Auto, Auto"
                 RowSpacing="4">
@@ -151,6 +151,8 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     FontAttributes="Bold"
+                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                     Text="Order Date"
                     VerticalOptions="Center" />
 
@@ -353,10 +355,109 @@
                     SelectedIndicatorColor="#2196F3" />
 
             </VerticalStackLayout>
+
+            <!--  User Entry fields  -->
+            <!--  Start date, End date  -->
+            <HorizontalStackLayout
+                Margin="0,30,0,0"
+                HorizontalOptions="Fill"
+                Spacing="5"
+                VerticalOptions="Center">
+
+                <!--  Start Date + Start Time  -->
+                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        Padding="5,0"
+                        ColumnDefinitions="Auto,*,*"
+                        VerticalOptions="Center">
+
+                        <!--  Icon  -->
+                        <Label
+                            Margin="10"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="15"
+                            HorizontalOptions="Center"
+                            Text="&#xf251;"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <!--  Start Date - Display Only  -->
+                        <DatePicker
+                            x:Name="pkr_SD"
+                            Grid.Column="1"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="40"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                        <!--  Start Time - Editable  -->
+                        <TimePicker
+                            x:Name="pkr_ST"
+                            Grid.Column="2"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            Format="HH:mm"
+                            HeightRequest="40"
+                            HorizontalOptions="Fill"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+                </Border>
+
+                <!--  End Date + End Time  -->
+                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+
+                    <Grid
+                        Padding="5,0"
+                        ColumnDefinitions="Auto,*,*"
+                        VerticalOptions="Center">
+
+                        <!--  Icon  -->
+                        <Label
+                            Margin="10"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            FontSize="15"
+                            HorizontalOptions="Center"
+                            Text="&#xf253;"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <!--  End Date - Display Only  -->
+                        <DatePicker
+                            x:Name="pkr_ED"
+                            Grid.Column="1"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            HeightRequest="40"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                        <!--  End Time - Editable  -->
+                        <TimePicker
+                            x:Name="pkr_ET"
+                            Grid.Column="2"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            Format="HH:mm"
+                            HeightRequest="40"
+                            HorizontalOptions="Fill"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+                </Border>
+
+
+            </HorizontalStackLayout>
+
             <!--  REFERENCE DOCUMENT  -->
             <Border
                 Grid.Column="1"
-                Margin="0,30,0,0"
                 Padding="12"
                 Stroke="#D9D9D9"
                 StrokeThickness="1">

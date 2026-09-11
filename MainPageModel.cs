@@ -458,11 +458,22 @@ namespace CS.ERP_MOB
                 }
                 else if (ScheduleSelected)
                 {
-                    this.changeContentView(new FrmSsmScheduleLst(), "Schedule");
+                    if (!Common.bindMenu("ssm-front-desk"))
+                    {
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Front Desk", MenuUrl = "ssm-front-desk", logoImg = "" };
+                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                    }
+                    Common.routeMenu(Common.mCommon.SelectedMenu);
+
                 }
                 else if (BookSelected)
                 {
-                    this.changeContentView(new FrmSsmBookNowLst(), "Book");
+                    if (!Common.bindMenu("ssm-book-now-set"))
+                    {
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book Now Entry", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                    }
+                    Common.routeMenu(Common.mCommon.SelectedMenu);
                 }
                 else
                 {

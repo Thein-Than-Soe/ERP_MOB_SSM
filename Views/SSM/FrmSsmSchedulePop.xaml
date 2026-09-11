@@ -92,7 +92,6 @@
                                 VerticalOptions="Center">
 
                                 <!--  Start Date + Start Time  -->
-
                                 <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
 
                                     <Border.StrokeShape>
@@ -135,10 +134,7 @@
                                     </Grid>
                                 </Border>
 
-
-
                                 <!--  End Date + End Time  -->
-
                                 <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
 
                                     <Border.StrokeShape>

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
     Visual="Material">
     <ContentView.Content>
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
@@ -73,17 +74,19 @@
                         <StackLayout Orientation="Horizontal" Spacing="10">
                             <Button
                                 x:Name="btnSignUp"
-                                BackgroundColor="{StaticResource OvaBackgroundColor}"
+                                BackgroundColor="{StaticResource OvaColor}"
                                 Clicked="btnSignUp_onClicked"
                                 HorizontalOptions="FillAndExpand"
                                 Text="Sign up"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 TextTransform="None" />
                             <Button
                                 x:Name="btnSignIn"
-                                BackgroundColor="{StaticResource OvaBackgroundColor}"
+                                BackgroundColor="{StaticResource OvaColor}"
                                 Clicked="btnSignIn_onClicked"
                                 HorizontalOptions="FillAndExpand"
                                 Text="Sign in"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 TextTransform="None" />
                         </StackLayout>
                         <Button

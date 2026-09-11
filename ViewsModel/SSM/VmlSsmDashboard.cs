@@ -329,6 +329,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 case "4":
                     return Color.FromArgb("#EF4444");
+                case "5":
+                    return Color.FromArgb("#64748B");
 
                 default:
                     return Color.FromArgb("#64748B");
@@ -514,9 +516,17 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     {
                         if (this.mJSN_RES_SSM_DASHBOARD != null)
                         {
-                            FilterRangeList = this.mJSN_RES_SSM_DASHBOARD.DAT_FILTER_RANGE;
-
                             FrontDeskList = this.mJSN_RES_SSM_DASHBOARD.DAT_FRONT_DESK;
+
+                            FilterRangeList = this.mJSN_RES_SSM_DASHBOARD.DAT_FILTER_RANGE;
+                            if (mSelectedFilterRange == null)
+                            {
+                                mSelectedFilterRange =
+                                    Utility.GetUserSettingFilterRange(FilterRangeList);
+
+                                NotifyPropertyChanged(nameof(SelectedFilterRange));
+                            }
+
                             BuildSchedulerAppointments();
 
                             DonutChartList = this.mJSN_RES_SSM_DASHBOARD.DAT_DONUT_CHART;

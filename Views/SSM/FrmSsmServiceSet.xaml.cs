@@ -1,5 +1,6 @@
 namespace CS.ERP_MOB.Views.SSM;
 
+using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.ECO.DAT;
 using CS.ERP.PL.POS.DAT;
 using CS.ERP_MOB.ViewsModel.SSM;
@@ -97,7 +98,7 @@ public partial class FrmSsmServiceSet : ContentPage
             if (vm.Quantity != quantity)
                 vm.Quantity = quantity;
         }
-    }
+    } 
 
     private async void AddToList_Clicked(object sender, EventArgs e)
     {
@@ -105,11 +106,7 @@ public partial class FrmSsmServiceSet : ContentPage
         try
         {
             //recurring date time add
-
-            await Application.Current.MainPage.DisplayAlert(
-                "Service",
-                "Successfully added the service",
-                "OK");
+            WeakReferenceMessenger.Default.Send("Successfully added the service");
             await Navigation.PopAsync();
         }
         catch (Exception ex)

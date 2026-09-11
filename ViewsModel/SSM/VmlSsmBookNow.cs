@@ -69,6 +69,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
 
             Quantity = 1;
+            DiscountRate = 0m;
             SelectedGSTMethod = GSTMethodList.FirstOrDefault(x => x.Ask == "E");
 
         }
@@ -1012,6 +1013,9 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             get => mDiscountRate;
             set
             {
+                if (value < 0)
+                    value = 0;
+
                 value = Math.Round(value, 2);
                 if (mDiscountRate == value)
                     return;
@@ -1021,12 +1025,31 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 NotifyPropertyChanged(nameof(DiscountRate));
 
                 // User changed rate.
+                DiscountRateText = value.ToString(
+            "0.##",
+            System.Globalization.CultureInfo.InvariantCulture);
                 // Only recalculate using current Type + Rate.
 
                 if (!_isLoadingDefaultDiscountRule)
                     CalculateDiscountAmount();
             }
         }
+
+        private string mDiscountRateText = "";
+
+        public string DiscountRateText
+        {
+            get => mDiscountRateText;
+            set
+            {
+                if (mDiscountRateText == value)
+                    return;
+
+                mDiscountRateText = value;
+                NotifyPropertyChanged(nameof(DiscountRateText));
+            }
+        }
+
         private decimal _taxAmount;
 
         public decimal TaxAmount
@@ -1056,8 +1079,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 NotifyPropertyChanged(nameof(GrandTotal));
 
-                CalculateChange();
-                CalculateRemainingAmount();
             }
         }
 
@@ -1917,6 +1938,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 ItemUOM = UserSelectedUOM.UOMName_0_255;
 
                 Subtotal = Utility.getGrandTotalDecimal( mDAT_BOOK_NOW_DETAIL.TotalAmount);
+                SelectedDiscountType = DiscountTypeList.FirstOrDefault(x => x.Ask == mDAT_BOOK_NOW_HEADER.DiscountTypeAsk);
                 DiscountRate = Utility.getGrandTotalDecimal( mDAT_BOOK_NOW_HEADER.DiscountRate);
                 DiscountAmount = Utility.getGrandTotalDecimal( mDAT_BOOK_NOW_HEADER.DiscountAmount);
 
@@ -2335,13 +2357,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                                 : "";
 
                         string orderNumber = mJSN_RES_BOOK_NOW.DAT_BOOK_NOW_HEADER[0]?.BookNowCode_0_50 ?? "";
-
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Booking Successful",
-                            $"Your booking was successful.\n\nOrder Number: {orderNumber}",
-                            "OK");
-
-                        WeakReferenceMessenger.Default.Send(this.mJSN_RES_BOOK_NOW.Message.Message);
+                        WeakReferenceMessenger.Default.Send($"{this.mJSN_RES_BOOK_NOW.Message.Message} Order Number: {orderNumber}");
                     }
                     else
                     {
@@ -2351,6 +2367,51 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 else
                 {
                     WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("DAT.ErrWebService"));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+            finally
+            {
+                Utility.closeLoader();
+            }
+        }
+        public async Task<bool> saveBookNow_delete()
+        {
+            try
+            {
+                Utility.openLoader();
+                mJSN_REQ_BOOK_NOW.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                
+                mJSN_REQ_BOOK_NOW.DAT_BOOK_NOW_HEADER = mDAT_BOOK_NOW_HEADER;
+                mJSN_REQ_BOOK_NOW.DAT_BOOK_NOW_DETAIL = new List<DAT_BOOK_NOW_DETAIL> { mDAT_BOOK_NOW_DETAIL };
+                mJSN_REQ_BOOK_NOW.DAT_SERVICE_ASSIGN = new List<DAT_SERVICE_ASSIGN> { mDAT_SERVICE_ASSIGN };
+                mRES_SALE_PAYMENT.Add(new RES_SALE_PAYMENT());
+                mJSN_REQ_BOOK_NOW.RES_SALE_PAYMENT =  mRES_SALE_PAYMENT;
+
+                mRequest = JsonConvert.SerializeObject(mJSN_REQ_BOOK_NOW);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wssaveBookNow);
+                if (mResponse != null && mResponse != "")
+                {
+                    this.mJSN_RES_BOOK_NOW = JsonConvert.DeserializeObject<JSN_RES_BOOK_NOW>(mResponse);
+                    if (mJSN_RES_BOOK_NOW.Message.Code == "7")
+                    {
+
+                        WeakReferenceMessenger.Default.Send($"{this.mJSN_RES_BOOK_NOW.Message.Message} Delete : {mDAT_BOOK_NOW_HEADER.BookNowCode_0_50}");
+                        return true;
+                    }
+                    else
+                    {
+                        WeakReferenceMessenger.Default.Send(this.mJSN_RES_BOOK_NOW.Message.Message);
+                        return false;
+                    }
+                }
+                else
+                {
+                    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("DAT.ErrWebService"));
+                    return false;
                 }
             }
             catch (Exception ex)

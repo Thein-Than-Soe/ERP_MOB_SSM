@@ -517,7 +517,15 @@
 
                             <!--  Month view  -->
                             <scheduler:SfScheduler.MonthView>
-                                <scheduler:SchedulerMonthView />
+                                <scheduler:SchedulerMonthView>
+                                    <scheduler:SchedulerMonthView.CellStyle>
+                                        <scheduler:SchedulerMonthCellStyle>
+                                            <scheduler:SchedulerMonthCellStyle.TextStyle>
+                                                <scheduler:SchedulerTextStyle FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}" TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                            </scheduler:SchedulerMonthCellStyle.TextStyle>
+                                        </scheduler:SchedulerMonthCellStyle>
+                                    </scheduler:SchedulerMonthView.CellStyle>
+                                </scheduler:SchedulerMonthView>
                             </scheduler:SfScheduler.MonthView>
 
                             <!--  2. This structure correctly handles ResourceView and Mapping in MAUI  -->

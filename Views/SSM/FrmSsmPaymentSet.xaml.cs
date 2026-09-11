@@ -20,7 +20,7 @@ public partial class FrmSsmPaymentSet : ContentPage
 
             vm = new VmlSsmBookNow();
             BindingContext = vm;
-            LoadData();
+            vm.InitializePaymentAmount();
         }
         catch (Exception ex)
         {
@@ -36,8 +36,34 @@ public partial class FrmSsmPaymentSet : ContentPage
             InitializeComponent();
             this.vm = vm;
             BindingContext = vm;
-            CurrentItem = mRES_SALE_PAYMENT ?? new RES_SALE_PAYMENT();
-            LoadData();
+            CurrentItem = mRES_SALE_PAYMENT;
+            // Load existing payment into ViewModel
+            if (mRES_SALE_PAYMENT != null)
+            {
+                LoadCurrentPayment();
+            }
+            else
+            {
+                vm.InitializePaymentAmount();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"FrmSsmPaymentSet ERROR: {ex}");
+            throw;
+        }
+    }
+    public FrmSsmPaymentSet(VmlSsmBookNow vm)
+    {
+        try
+        {
+            InitializeComponent();
+            this.vm = vm;
+            BindingContext = vm;
+            CurrentItem = new RES_SALE_PAYMENT();
+            
+                vm.InitializePaymentAmount();
+            
         }
         catch (Exception ex)
         {
@@ -47,13 +73,51 @@ public partial class FrmSsmPaymentSet : ContentPage
     }
 
     #region "Private method"
-    private void LoadData()
+
+    private void LoadCurrentPayment()
     {
-        // Set values into UI fields using x:Name
-        vm.InitializePaymentAmount();
+        if (CurrentItem == null)
+            return;
 
+        if (!string.IsNullOrWhiteSpace(CurrentItem.PaymentTypeAsk))
+        {
+            vm.SelectedPaymentType = vm.PaymentTypeList?.FirstOrDefault(x => x.Ask == CurrentItem.PaymentTypeAsk);
+        }
+
+        vm.TransactionNo = string.Empty;
+        switch (CurrentItem.PaymentTypeAsk)
+        {
+            case "2": // CHEQUE
+                vm.TransactionNo = CurrentItem.ChequeNo;
+                break;
+
+            case "3": // CREDIT CARD
+                vm.TransactionNo = CurrentItem.CreditCardNo;
+                break;
+
+            case "8": // DEBIT CARD
+                vm.TransactionNo = CurrentItem.CreditCardNo;
+                break;
+        }
+
+        vm.DepositAmount = CurrentItem.DepositAmount;
+        
+        vm.Tender = CurrentItem.Tender;
+
+        if (!string.IsNullOrWhiteSpace(CurrentItem.BankAsk))
+        {
+            vm.SelectedToBank = vm.ToBankList?.FirstOrDefault(x =>  x.Ask == CurrentItem.BankAsk);
+        }
+
+        if (!string.IsNullOrWhiteSpace(CurrentItem.TransactionDate))
+        {
+            if (DateTime.TryParse(CurrentItem.TransactionDate,out DateTime transactionDate))
+            {
+                vm.TransactionDate = transactionDate.Date;
+                vm.TransactionTime = transactionDate.TimeOfDay;
+            }
+        }
     }
-
     private bool ValidateData()
     {
         if (vm.SelectedPaymentType == null)
@@ -145,6 +209,12 @@ public partial class FrmSsmPaymentSet : ContentPage
             if (!isValid)
                 return;
 
+            bool isExistingPayment = CurrentItem != null && vm.PaymentList.Contains(CurrentItem);
+            if (isExistingPayment)
+            {
+                vm.PaymentList.Remove(CurrentItem);
+            }
+
             // Create a new payment record
             RES_SALE_PAYMENT payment = new RES_SALE_PAYMENT();
 
@@ -176,14 +246,9 @@ public partial class FrmSsmPaymentSet : ContentPage
             // TRANSACTION DATE
             // =====================================================
 
-            DateTime TranDate =
-                vm.TransactionDate.Date +
-                vm.TransactionTime;
+            DateTime TranDate = vm.TransactionDate.Date + vm.TransactionTime;
 
-            string TD = TranDate
-                    .ToUniversalTime()
-                    .ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-
+            string TD = TranDate .ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
             payment.TransactionDate = TD;
 
@@ -191,16 +256,10 @@ public partial class FrmSsmPaymentSet : ContentPage
             // =====================================================
             // TARGETED DATE
             // Transaction Date + 1 Month
-            // =====================================================
-
             DateTime TargetedDate =TranDate.AddMonths(1);
-
-            string TargetedDateString =TargetedDate
-                    .ToUniversalTime()
-                    .ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+            string TargetedDateString =TargetedDate .ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
             payment.TargetedDate = TargetedDateString;
-
 
             // =====================================================
             // PAYMENT AMOUNT
@@ -212,76 +271,43 @@ public partial class FrmSsmPaymentSet : ContentPage
             payment.OutstandingAmount = vm.RemainingAmount;
 
 
-            // =====================================================
             // PAYMENT TYPE SPECIFIC DATA
-            // =====================================================
-
             switch (vm.SelectedPaymentType.Ask)
             {
                 case "1": // CASH
 
-                    payment.Tender =
-                        vm.Tender;
-
-                    payment.Change =
-                        vm.Change;
-
+                    payment.Tender = vm.Tender;
+                    payment.Change = vm.Change;
                     break;
 
 
                 case "2": // CHEQUE
 
-                    payment.ChequeDate =
-                        TD;
-
-                    payment.ChequeNo =
-                        vm.TransactionNo;
-
+                    payment.ChequeDate =  TD;
+                    payment.ChequeNo = vm.TransactionNo;
                     break;
 
-
-                // =================================================
                 // CREDIT CARD
-                // =================================================
-
                 case "3":
 
-
                     payment.CreditCardNo = vm.TransactionNo;
-
-                    payment.BankAsk =
-                        vm.SelectedToBank.Ask;
-
+                    payment.BankAsk = vm.SelectedToBank.Ask;
                     break;
 
 
-                // =================================================
                 // DEBIT CARD
-                // =================================================
-
                 case "8":
 
                     payment.CreditCardNo = vm.TransactionNo;
-
                     payment.BankAsk = vm.SelectedToBank.Ask;
-
                     break;
 
-
-                // =================================================
                 // HIT PAY
-                // =================================================
 
                 case "15":
 
-                    // HitPay API will be handled during Save
-
                     break;
 
-
-                // =================================================
-                // DEFAULT
-                // =================================================
 
                 default:
 
@@ -289,15 +315,8 @@ public partial class FrmSsmPaymentSet : ContentPage
             }
 
 
-            // =====================================================
-            // ADD PAYMENT TO VIEWMODEL LIST
-            // =====================================================
-
             vm.PaymentList.Add(payment);
-
-            // =====================================================
-            // SUCCESS
-            // =====================================================
+            
 
             await Application.Current.MainPage.DisplayAlert(
                 "Payment",
@@ -308,10 +327,7 @@ public partial class FrmSsmPaymentSet : ContentPage
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.ToString(),
-                "OK");
+            await Application.Current.MainPage.DisplayAlert("Error",   ex.ToString(), "OK");
         }
     }
     
@@ -319,20 +335,11 @@ public partial class FrmSsmPaymentSet : ContentPage
     {
         try
         {
-            bool isValid = ValidateData();
-
-            if (!isValid)
+            if (CurrentItem == null)
                 return;
 
-            // =====================================================
             // ADD PAYMENT TO VIEWMODEL LIST
-            // =====================================================
-
             vm.PaymentList.Remove(CurrentItem);
-
-            // =====================================================
-            // SUCCESS
-            // =====================================================
 
             await Application.Current.MainPage.DisplayAlert(
                 "Payment",

@@ -48,7 +48,7 @@
 </PropertyGroup>
 
 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   <AndroidKeyStore>False</AndroidKeyStore>
   <AndroidUseAapt2>True</AndroidUseAapt2>
   <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
@@ -251,8 +251,8 @@
 	  <Compile Update="Views\SSM\FrmSsmOrderBookPop.xaml.cs">
 	    <DependentUpon>FrmSsmOrderBookPop.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmScheduleSet.xaml.cs">
-	    <DependentUpon>FrmSsmScheduleSet.xaml</DependentUpon>
+	  <Compile Update="Views\SSM\FrmSsmStatusUpdate.xaml.cs">
+	    <DependentUpon>FrmSsmStatusUpdate.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmServiceSet.xaml.cs">
 	    <DependentUpon>FrmSsmStockDtl.xaml</DependentUpon>
@@ -680,9 +680,6 @@
 	  <MauiXaml Update="Views\JOB\FrmApplicantSalarySet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmApplicantSummarySet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\JOB\FrmJobAdviceDtl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -695,13 +692,10 @@
 	  <MauiXaml Update="Views\SSM\FrmSsmOrderBookPop.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmScheduleSet.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmStatusUpdate.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmServiceSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmJobApplicantContactSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\JOB\FrmJobApplicantEducationSet.xaml">
@@ -711,9 +705,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\JOB\FrmJobApplicantLanguageSkillSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmJobApplicantProfileSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\JOB\FrmJobApplicantSkillSet.xaml">

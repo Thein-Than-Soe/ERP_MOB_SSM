@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Windows.Input;
+using CS.ERP_MOB.General;
 using Microsoft.Maui.Controls;
 
 
@@ -12,10 +13,11 @@ namespace CS.ERP_MOB
         // Retrieve the colours so that we're only doing this once, not when the item is selected/unselected
         private static Color SelectedItemBackgroundColor = (Color)Application.Current.Resources["ToolbarItemSelectedBackground"];
         private static Color UnselecteItemBackgroundcolor = (Color)Application.Current.Resources["ToolbarItemUnselectedBackground"];
-
+        //private static Color UnselecteItemBackgroundcolor => Color.FromArgb(Common.mCommon.ThemeSettingTaskbar.PropertiesBgColor);
         public TabItem()
         {
             InitializeComponent();
+            BackgroundColor = UnselecteItemBackgroundcolor;
         }
 
         #region Caption

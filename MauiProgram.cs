@@ -22,7 +22,6 @@ namespace CS.ERP_MOB
                 .UseMauiApp<App>()
                 .ConfigureSyncfusionCore()
                 .UseMauiTouchEffect()
-                .UseMauiRGPopup()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
                 .UseMauiCommunityToolkit()

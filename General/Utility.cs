@@ -51,7 +51,6 @@ namespace CS.ERP_MOB.General
         public Utility()
         {
         }
-        private static int _loaderCount = 0;
         public static async void openLoader()
         {
            try
@@ -246,16 +245,22 @@ namespace CS.ERP_MOB.General
         public static DateTime getDateTime(string argUTCDate)
         {
             if (string.IsNullOrWhiteSpace(argUTCDate))
+            {
                 return DateTime.Now;
+            }
 
             if (DateTime.TryParse(
                 argUTCDate,
                 CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal |
                 DateTimeStyles.AdjustToUniversal,
                 out DateTime utcDateTime))
             {
                 return utcDateTime.ToLocalTime();
             }
+
+            Debug.WriteLine(
+                $"getDateTime() invalid date: '{argUTCDate}'");
 
             return DateTime.Now;
         }
@@ -446,6 +451,17 @@ namespace CS.ERP_MOB.General
 
             return range;
         }
+
+        //User setting's Selected Filter range 
+        public static DAT_FILTER_RANGE GetUserSettingFilterRange(List<DAT_FILTER_RANGE> RangeList)
+        {
+            DAT_FILTER_RANGE mDAT_FILTER_RANGE = new DAT_FILTER_RANGE();
+
+            string periodType = Common.mCommon.UserSetting.TLPeriodTypeAsk;
+            mDAT_FILTER_RANGE = RangeList.FirstOrDefault(x => x.PeriodTypeAsk == periodType);
+            return mDAT_FILTER_RANGE;
+        }
+
         #endregion
         public static Boolean checkButtonAccess(string menuName)
         {

@@ -72,7 +72,8 @@ namespace CS.ERP_MOB
                 var basicNavContainer = new FreshNavigationContainer(page);
                 MainPage = basicNavContainer;
 
-                General.Common.mCommon.signInAuto();
+                //General.Common.mCommon.signInAuto();
+                MainPage.Loaded += MainPage_Loaded; //load builder and packages first
 
             }
             catch (Exception ex)
@@ -81,7 +82,22 @@ namespace CS.ERP_MOB
                 throw ex.InnerException;
             }
         }
+        private async void MainPage_Loaded(object sender, EventArgs e)
+        {
+            try
+            {
+                MainPage.Loaded -= MainPage_Loaded;
 
+                // Give MAUI/RGPopup time to finish application initialization
+                await Task.Delay(100);
+
+                General.Common.mCommon.signInAuto();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Auto Sign In Error: {ex}");
+            }
+        }
         protected override void OnStart()
         {
             try

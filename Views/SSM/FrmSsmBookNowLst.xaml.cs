@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.HCM.DAT;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.POS.DAT;
+using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Views.Frame;
 using CS.ERP_MOB.ViewsModel.SSM;
@@ -155,6 +156,98 @@ public partial class FrmSsmBookNowLst : ContentView
         ServiceSection.IsVisible = vm.IsCustomerSelected;
     }
 
+
+
+
+
+    //dis rate
+    private void EntDisRate_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is not Entry entry)
+            return;
+
+        string text = e.NewTextValue ?? "";
+
+        // Allow empty while user is editing
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        // Allow "." temporarily
+        if (text == ".")
+            return;
+
+        // Only digits and decimal point
+        if (!decimal.TryParse(
+                text,
+                System.Globalization.NumberStyles.AllowDecimalPoint,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out decimal value))
+        {
+            RestorePreviousText(entry, e.OldTextValue);
+            return;
+        }
+
+        // Maximum 2 decimal places
+        int dotIndex = text.IndexOf('.');
+
+        if (dotIndex >= 0)
+        {
+            int decimalPlaces = text.Length - dotIndex - 1;
+
+            if (decimalPlaces > 2)
+            {
+                RestorePreviousText(entry, e.OldTextValue);
+                return;
+            }
+        }
+
+        // Maximum = 100
+        if (value > 100)
+        {
+            RestorePreviousText(entry, e.OldTextValue);
+            return;
+        }
+
+        // Do NOT update vm.DiscountRate here.
+    }
+
+
+    private void RestorePreviousText(Entry entry, string oldText)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (entry.Text != oldText)
+                entry.Text = oldText;
+        });
+    }
+
+    private void EntDisRate_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (sender is not Entry entry)
+            return;
+
+        string text = entry.Text ?? "";
+
+        if (string.IsNullOrWhiteSpace(text) || text == ".")
+        {
+            vm.DiscountRate = 0;
+            entry.Text = "";
+            return;
+        }
+
+        if (decimal.TryParse(
+            text,
+            System.Globalization.NumberStyles.AllowDecimalPoint,
+            System.Globalization.CultureInfo.InvariantCulture,
+            out decimal value))
+        {
+            if (value > 100)
+                value = 100;
+
+            vm.DiscountRate = value;
+        }
+    }
+
     private async void btn_SaveBookNow_Tapped( object sender,EventArgs e)
     {
         // call API to assign users
@@ -203,16 +296,13 @@ public partial class FrmSsmBookNowLst : ContentView
             }
 
             // Show subscription payment only once
-            if (hasOtherPayment)
-            {
-                await Navigation.PushPopupAsync(
-                    new FrmSubscriptionPayment());
-            }
+            //if (hasOtherPayment)
+            //{
+            //    await Navigation.PushPopupAsync(
+            //        new FrmSubscriptionPayment());
+            //}
 
         }
-
-
-
     private async void btn_Delete_Tapped(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(this.FrontDeskAsk))
@@ -229,7 +319,20 @@ public partial class FrmSsmBookNowLst : ContentView
         
         vm.mDAT_BOOK_NOW_HEADER.Ask = FrontDeskAsk;
         vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
-        await vm.saveBookNow();
+        bool deleteSuccess = await vm.saveBookNow_delete();
+
+        if (deleteSuccess) //show new form
+        {
+            if (!Common.bindMenu("ssm-book-now-set"))
+            {
+                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+            }
+            Common.routeMenu(Common.mCommon.SelectedMenu);
+        
+        }
+        
+
     }
     private bool ValidateBookNow()
     {
@@ -272,13 +375,11 @@ public partial class FrmSsmBookNowLst : ContentView
     {
         try
         {
-            vm.InitializePaymentAmount();
-
-            await Navigation.PushAsync(new FrmSsmPaymentSet(new RES_SALE_PAYMENT(), vm));
+            await Navigation.PushAsync(new FrmSsmPaymentSet(vm));
         }
         catch (Exception ex)
         {
-            await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error going to experience add new page", ex.Message, "OK");
+            await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error going to add new page", ex.Message, "OK");
         }
     }
     private async void payment_lstView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -328,7 +429,6 @@ public partial class FrmSsmBookNowLst : ContentView
 
         // Edit selected payment
         // Put your edit logic here
-        vm.InitializePaymentAmount();
         await Navigation.PushAsync(new FrmSsmPaymentSet(payment, vm));
 
     }

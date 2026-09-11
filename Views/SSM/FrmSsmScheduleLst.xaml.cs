@@ -246,7 +246,7 @@ namespace CS.ERP_MOB.Views.SSM
         {
             if (Utility.checkButtonAccess("Edit"))
             {
-                await Navigation.PushAsync(new FrmSsmScheduleSet((DAT_FRONT_DESK)tappedItem));
+                await Navigation.PushAsync(new FrmSsmStatusUpdate((DAT_FRONT_DESK)tappedItem));
             }
             else
             {
@@ -377,7 +377,7 @@ namespace CS.ERP_MOB.Views.SSM
 
             if (sender is VisualElement ve && ve.BindingContext is DAT_FRONT_DESK tappedItem)
             {
-                await Navigation.PushAsync(new FrmSsmScheduleSet(tappedItem));
+                await Navigation.PushAsync(new FrmSsmStatusUpdate(tappedItem));
             }
         }
         private void OnGridDoubleTap(object sender, TappedEventArgs e)
@@ -938,7 +938,7 @@ namespace CS.ERP_MOB.Views.SSM
                 var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
 
                 if (item == null) return;
-                await Navigation.PushAsync(new FrmSsmScheduleSet(item));
+                await Navigation.PushAsync(new FrmSsmStatusUpdate(item));
             }
             
         }

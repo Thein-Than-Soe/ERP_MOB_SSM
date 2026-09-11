@@ -53,6 +53,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         public ObservableCollection<DAT_FRONT_DESK> FrontDeskList { get; set; }
         public ObservableCollection<RES_USER_LST> UserList { get; set; }
 
+        public ObservableCollection<string> RefDocPhotos { get; set; }= new ObservableCollection<string>();
         public ObservableCollection<string> ProductPhotos { get; set; }= new ObservableCollection<string>();
         public bool HasPhotos => ProductPhotos.Count > 0;
         public ObservableCollection<SchedulerAppointment> SchedulerAppointments
@@ -386,7 +387,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     }
 
                     // Add the new file to the selected front desk's UI list
-                    ProductPhotos.Add(ReferenceUploadFilePath);
+                    RefDocPhotos.Add(ReferenceUploadFilePath);
 
                     NotifyPropertyChanged(nameof(HasPhotos));
                 }
@@ -543,7 +544,17 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                                 VmlSsmBookNow vm = new VmlSsmBookNow();
                                 vm.mDAT_BOOK_NOW_HEADER.Ask = item.Ask;
                                 vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
-                                await vm.saveBookNow();
+
+                                bool deleteSuccess = await vm.saveBookNow_delete();
+
+                                if (deleteSuccess)
+                                {
+                                    // Delete card from UI
+                                    FrontDeskList.Remove(item);
+
+                                    // Refresh scheduler UI
+                                    BuildSchedulerAppointments();
+                                } 
                             }
                         }
                         else
@@ -591,54 +602,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     });
                 }
                 return mSendItemCommand;
-            }
-        }
-        private ICommand mActiveItemCommand;
-        public ICommand ActiveItemCommand
-        {
-            get
-            {
-                if (mActiveItemCommand == null)
-                {
-                    mActiveItemCommand = new Command<DAT_FRONT_DESK>(async (item) =>
-                    {
-                        if (item.StatusAsk == "8" && Utility.checkButtonAccess("Active"))
-                        {
-                            bool answer = await Application.Current.MainPage.DisplayAlert(
-                                $"{item.InvoiceCode_0_50}?",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Active")}",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
-
-                            if (answer)
-                            {
-                                item.StatusAsk = "1";//1 for active
-                                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = item;
-                                await ExecuteActiveItem();
-                            }
-                        }
-                        else if (item.StatusAsk != "8" && Utility.checkButtonAccess("Inactive"))
-                        {
-                            bool answer = await Application.Current.MainPage.DisplayAlert(
-                                $"{item.InvoiceCode_0_50}?",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.confirm.Inactive")}",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.Yes")}",
-                                $"{Common.mCommon.GetLanguageValueByKey("POS.Common.btnName.No")}");
-
-                            if (answer)
-                            {
-                                item.StatusAsk = "8";//8 for inactive
-                                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = item;
-                                await ExecuteActiveItem();
-                            }
-                        }
-                        else
-                        {
-                            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-                        }
-                    });
-                }
-                return mActiveItemCommand;
             }
         }
         public ICommand LongPressItemCommand { get; }
@@ -692,11 +655,11 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             await getFrontDeskUser();
             IsLoadingMore = false;
         }
-        private Task ExecuteActiveItem()
-        {
-            updateServiceStatus();
-            return Task.CompletedTask;
-        }
+        //private Task ExecuteActiveItem()
+        //{
+        //    updateServiceStatus();
+        //    return Task.CompletedTask;
+        //}
         #endregion
 
         #region "Schedule"
@@ -790,10 +753,14 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     if (resource == null)
                         continue;
 
-                    // DATES
+                    // DATES 
+                    if (string.IsNullOrWhiteSpace(item.OrderSD) ||string.IsNullOrWhiteSpace(item.OrderED))
+                    {
+                        continue;
+                    }
+
                     DateTime startTime = Utility.getDateTime(item.OrderSD);
                     DateTime endTime = Utility.getDateTime(item.OrderED);
-
 
                     // Prevent invalid duration
 
@@ -801,8 +768,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     {
                         endTime = startTime.AddMinutes(30);
                     }
-
-
                     // APPOINTMENT
 
                     var appointment = new SchedulerAppointment
@@ -845,7 +810,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
             catch (Exception ex)
             {
-                throw ex.InnerException ?? ex;
+                throw;
             }
         }
 
@@ -883,7 +848,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
 
-        #region Get Original Front Desk
+        #region "Get Original Front Desk"
 
         public DAT_FRONT_DESK GetFrontDeskFromAppointment(
             SchedulerAppointment appointment)
@@ -976,26 +941,26 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 if (location != null)
                 {
-                    mDAT_FRONT_DESK.UserGPSLatitude = location.Latitude.ToString("0.########");
-                    mDAT_FRONT_DESK.UserGPSLongitude = location.Longitude.ToString("0.########");
+                    SelectedFrontDesk.UserGPSLatitude = location.Latitude.ToString("0.########");
+                    SelectedFrontDesk.UserGPSLongitude = location.Longitude.ToString("0.########");
                 }
             }
             catch (FeatureNotEnabledException)
             {
                 // Location service is disabled on the device
-                mDAT_FRONT_DESK.UserGPSLatitude = "";
-                mDAT_FRONT_DESK.UserGPSLongitude = "";
+                SelectedFrontDesk.UserGPSLatitude = "";
+                SelectedFrontDesk.UserGPSLongitude = "";
             }
             catch (PermissionException)
             {
                 // User denied location permission
-                mDAT_FRONT_DESK.UserGPSLatitude = "";
-                mDAT_FRONT_DESK.UserGPSLongitude = "";
+                SelectedFrontDesk.UserGPSLatitude = "";
+                SelectedFrontDesk.UserGPSLongitude = "";
             }
             catch (Exception)
             {
-                mDAT_FRONT_DESK.UserGPSLatitude = "";
-                mDAT_FRONT_DESK.UserGPSLongitude = "";
+                SelectedFrontDesk.UserGPSLatitude = "";
+                SelectedFrontDesk.UserGPSLongitude = "";
             }
         }
         #endregion
@@ -1145,19 +1110,19 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        //mmn
+        //order images
         public void LoadOrderReference(DAT_FRONT_DESK selectedFrontDesk)
         {
             ProductPhotos.Clear();
 
             if (selectedFrontDesk == null ||
-                string.IsNullOrWhiteSpace(selectedFrontDesk.ReferenceDocument))
+                string.IsNullOrWhiteSpace(selectedFrontDesk.OrderDocument))
             {
                 NotifyPropertyChanged(nameof(HasPhotos));
                 return;
             }
 
-            var paths = selectedFrontDesk.ReferenceDocument
+            var paths = selectedFrontDesk.OrderDocument
                 .Split(';', StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var path in paths)
@@ -1172,33 +1137,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
             NotifyPropertyChanged(nameof(HasPhotos));
         }
-        public void LoadReferenceDocuments(DAT_FRONT_DESK selectedFrontDesk)
-        {
-            ProductPhotos.Clear();
-
-            if (selectedFrontDesk == null ||
-                string.IsNullOrWhiteSpace(selectedFrontDesk.ReferenceDocument))
-            {
-                NotifyPropertyChanged(nameof(HasPhotos));
-                return;
-            }
-
-            var paths = selectedFrontDesk.ReferenceDocument
-                .Split(';', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var path in paths)
-            {
-                var trimmedPath = path.Trim();
-
-                if (!string.IsNullOrWhiteSpace(trimmedPath))
-                {
-                    ProductPhotos.Add(trimmedPath);
-                }
-            }
-
-            NotifyPropertyChanged(nameof(HasPhotos));
-        }
-
 
         #endregion
 
@@ -1223,25 +1161,16 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     this.mJSN_RES_FRONT_DESK_USER = JsonConvert.DeserializeObject<JSN_RES_FRONT_DESK_USER>(mResponse);
                     if (this.mJSN_RES_FRONT_DESK_USER.Message.Code == "7")
                     {
-                        if (this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK.Count > 0)
-                        {
-                            mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK;
+                            mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK  ?? new List<DAT_FRONT_DESK>();
                             bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
-                            bindDataTabUser(this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST);
+                            bindDataTabUser( this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST ?? new List<RES_USER_LST>());
                             BuildSchedulerAppointments();
                             
-                            Utility.closeLoader();
                             WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
-                        }
-                        else
-                        {
-                            Utility.closeLoader();
-                            WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
-                        }
+                        
                     }
                     else
                     {
-                        Utility.closeLoader();
                         WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("DAT.ErrWebService"));
                     }
 
@@ -1258,7 +1187,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        public async Task updateServiceStatus()
+        public async Task<bool> updateServiceStatus()
         {
             try
             {
@@ -1273,21 +1202,21 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     if (mJSN_RES_UPDATE_SERVICE_STATUS.Message.Code == "7")
                     {
                         //method for update service status of the card
-                        await getFrontDeskUser();
-
-                        Utility.closeLoader();
+                        //await getFrontDeskUser();
+                        
                         WeakReferenceMessenger.Default.Send(this.mJSN_RES_UPDATE_SERVICE_STATUS.Message.Message);
+                        return true;
                     }
                     else
                     {
-                        Utility.closeLoader();
                         WeakReferenceMessenger.Default.Send(this.mJSN_RES_UPDATE_SERVICE_STATUS.Message.Message);
+                        return false; 
                     }
                 }
                 else
                 {
-                    Utility.closeLoader();
                     WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("ErrWebService"));
+                    return false;
                 }
             }
             catch (Exception ex)

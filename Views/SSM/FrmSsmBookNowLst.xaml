@@ -142,7 +142,6 @@
                             Grid.Column="1"
                             Padding="0"
                             BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                            BorderColor="Gray"
                             CornerRadius="22"
                             HeightRequest="44"
                             IsEnabled="{Binding IsServiceEditable}"
@@ -456,9 +455,11 @@
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                 FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                 Keyboard="Numeric"
-                                Text="{Binding DiscountRate, Mode=TwoWay}"
+                                Text="{Binding DiscountRateText, Mode=TwoWay}"
+                                TextChanged="EntDisRate_TextChanged"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 ToolTipProperties.Text="Discount rate"
+                                Unfocused="EntDisRate_Unfocused"
                                 VerticalOptions="Center" />
                         </HorizontalStackLayout>
                         <Label
@@ -776,9 +777,9 @@
                                         <SwipeView.LeftItems>
                                             <SwipeItems Mode="Reveal">
                                                 <SwipeItem
-                                                    BackgroundColor="#EF4444"
-                                                    Invoked="Payment_Delete_Invoked"
-                                                    Text="Delete" />
+                                                    BackgroundColor="#3B82F6"
+                                                    Invoked="Payment_Edit_Invoked"
+                                                    Text="Edit" />
                                             </SwipeItems>
                                         </SwipeView.LeftItems>
 
@@ -786,9 +787,10 @@
                                         <SwipeView.RightItems>
                                             <SwipeItems Mode="Reveal">
                                                 <SwipeItem
-                                                    BackgroundColor="#3B82F6"
-                                                    Invoked="Payment_Edit_Invoked"
-                                                    Text="Edit" />
+                                                    BackgroundColor="#EF4444"
+                                                    Invoked="Payment_Delete_Invoked"
+                                                    Text="Delete" />
+
                                             </SwipeItems>
                                         </SwipeView.RightItems>
 
@@ -803,6 +805,10 @@
                                             <Border.StrokeShape>
                                                 <RoundRectangle CornerRadius="8" />
                                             </Border.StrokeShape>
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="Payment_Edit_Invoked" />
+                                            </Border.GestureRecognizers>
 
                                             <Grid
                                                 Padding="10"
@@ -860,7 +866,6 @@
                     Grid.Column="1"
                     Padding="0"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    BorderColor="Gray"
                     CornerRadius="10"
                     HeightRequest="40"
                     IsEnabled="{Binding IsServiceAdded}"
@@ -890,7 +895,6 @@
                     Grid.Column="1"
                     Padding="0"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    BorderColor="Gray"
                     CornerRadius="10"
                     HeightRequest="40"
                     IsEnabled="{Binding IsServiceAdded}"

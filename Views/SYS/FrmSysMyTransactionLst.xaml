@@ -117,10 +117,10 @@
                                                 ItemAsk="{Binding Ask}"
                                                 ItemDoubleTapped="OnItemDoubleTapped"
                                                 ItemSingleTapped="OnItemSingleTapped"
-                                                NameLabel="{Binding SalePersonName_0_255}">
+                                                NameLabel="{Binding ParentCode_0_50}">
                                                 <footer:OvaListFormCartView.RemarkLabel>
                                                     <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                                        <Binding Path="DefaultCurrencyCode_0_50" />
+                                                        <Binding Path="CurrencyDescription_0_500" />
                                                         <Binding Path="GrandTotal" />
                                                     </MultiBinding>
                                                 </footer:OvaListFormCartView.RemarkLabel>
@@ -233,14 +233,24 @@
                                                             IsChecked="{Binding IsChecked, Mode=TwoWay, Converter={StaticResource StringToBoolConverter}}"
                                                             WidthRequest="20"
                                                             Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
                                                         <Label
                                                             Grid.Row="0"
                                                             Grid.Column="1"
                                                             FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalTextAlignment="Start"
-                                                            Text="{Binding Code_0_50}"
-                                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding Code_0_50}" />
+                                                                    <Span Text=" (" />
+                                                                    <Span Text="{Binding ParentCode_0_50}" />
+                                                                    <Span Text=")" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+
+                                                        </Label>
 
                                                         <Label
                                                             Grid.Row="0"
@@ -275,7 +285,7 @@
                                                             HorizontalOptions="End"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
                                                             <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                                                <Binding Path="DefaultCurrencyCode_0_50" />
+                                                                <Binding Path="CurrencyDescription_0_500" />
                                                                 <Binding Path="GrandTotal" />
                                                             </MultiBinding>
                                                         </Label>
@@ -500,7 +510,7 @@
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
                                                         <Label.Text>
                                                             <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                                                <Binding Path="DefaultCurrencyCode_0_50" />
+                                                                <Binding Path="CurrencyDescription_0_500" />
                                                                 <Binding Path="GrandTotal" />
                                                             </MultiBinding>
                                                         </Label.Text>

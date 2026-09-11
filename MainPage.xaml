@@ -32,7 +32,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Padding="{StaticResource padding}"
-                BackgroundColor="{Binding ThemeSettingBanner.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                BackgroundColor="{StaticResource OvaColor}"
                 VerticalOptions="FillAndExpand">
                 <Grid
                     x:Name="PublicTitleView"

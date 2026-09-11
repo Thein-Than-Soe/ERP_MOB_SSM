@@ -103,7 +103,7 @@
                 0,5,0,0
             </Thickness>
             <Color x:Key="ToolbarItemUnselectedBackground">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="ToolbarItemSelectedBackground">
                 DarkRed
@@ -112,10 +112,10 @@
                 white
             </Color>
             <Color x:Key="OvaBackgroundColor">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="OvaColor">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="OvaAlertColor">
                 #BBFFBB
@@ -154,7 +154,7 @@
                 #005569
             </Color>
             <Color x:Key="OvaClickableColor">
-                blue
+                #28a745
             </Color>
             <Color x:Key="OvaLiveChatColor">
                 Red
@@ -187,7 +187,7 @@
                 Gray
             </Color>
             <Color x:Key="OvaControlBackgroundColor">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="OvaControlColor">
                 White
@@ -199,10 +199,10 @@
                 Gray
             </Color>
             <Color x:Key="TabIndicatorColor">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="TextColorSelected">
-                #006FB9
+                #28a745
             </Color>
             <Color x:Key="TabTexttColor">
                 Gray
