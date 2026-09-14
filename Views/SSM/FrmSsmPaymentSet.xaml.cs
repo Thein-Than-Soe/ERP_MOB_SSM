@@ -1,5 +1,6 @@
 namespace CS.ERP_MOB.Views.SSM;
 
+using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.ECO.DAT;
 using CS.ERP.PL.HCM.DAT;
 using CS.ERP.PL.POS.DAT;
@@ -269,7 +270,7 @@ public partial class FrmSsmPaymentSet : ContentPage
             payment.GrandTotal = vm.GrandTotal.ToString();
             payment.DepositAmount = vm.DepositAmount;
             payment.OutstandingAmount = vm.RemainingAmount;
-
+            payment.TransactionNo = vm.TransactionNo ?? "";
 
             // PAYMENT TYPE SPECIFIC DATA
             switch (vm.SelectedPaymentType.Ask)
@@ -310,24 +311,19 @@ public partial class FrmSsmPaymentSet : ContentPage
 
 
                 default:
-
                     break;
             }
 
 
             vm.PaymentList.Add(payment);
-            
 
-            await Application.Current.MainPage.DisplayAlert(
-                "Payment",
-                "Successfully added the payment.",
-                "OK");
+            WeakReferenceMessenger.Default.Send("Payment successfully added");
 
             await Navigation.PopAsync();
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert("Error",   ex.ToString(), "OK");
+            WeakReferenceMessenger.Default.Send("Error");
         }
     }
     
@@ -341,19 +337,13 @@ public partial class FrmSsmPaymentSet : ContentPage
             // ADD PAYMENT TO VIEWMODEL LIST
             vm.PaymentList.Remove(CurrentItem);
 
-            await Application.Current.MainPage.DisplayAlert(
-                "Payment",
-                "Successfully remove the payment.",
-                "OK");
+            WeakReferenceMessenger.Default.Send("Payment successfully removed");
 
             await Navigation.PopAsync();
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.ToString(),
-                "OK");
+            WeakReferenceMessenger.Default.Send( "Error");
         }
     }
     

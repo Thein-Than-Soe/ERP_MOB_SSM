@@ -9,6 +9,7 @@ using CS.ERP_MOB.ViewsModel.SSM;
 using Microsoft.Maui.Devices;
 using RGPopup.Maui.Pages;
 using RGPopup.Maui.Services;
+using System.Diagnostics;
 
 namespace CS.ERP_MOB.Views.SSM
 {
@@ -89,34 +90,24 @@ namespace CS.ERP_MOB.Views.SSM
 
                 var l_SelectedCustomer = pkrCustomer.SelectedItem as RES_USER_LST;
 
-                DAT_FRONT_DESK selectedFrontDesk = null;
+                DAT_FRONT_DESK selectedFrontDesk = new DAT_FRONT_DESK();
 
                 if (l_SelectedCustomer != null &&
                     !string.IsNullOrWhiteSpace(l_SelectedCustomer.Ask))
                 {
-                    selectedFrontDesk = mVmlSchedule.FrontDeskList?.FirstOrDefault(x => x.UserAsk == l_SelectedCustomer.Ask);
+                    selectedFrontDesk.UserAsk = l_SelectedCustomer.Ask;
                 }
+
+                _taskCompletionSource?.TrySetResult(selectedFrontDesk);
 
                 await PopupNavigation.Instance.PopAsync();
 
-                if (selectedFrontDesk != null)
-                {
-                    _taskCompletionSource.SetResult(selectedFrontDesk);
-                }
-                else
-                {
-                    _taskCompletionSource.SetResult(null);
-                }
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
+                Debug.WriteLine(ex);
+                _taskCompletionSource?.TrySetException(ex);
             }
-            finally
-            {
-                await PopupNavigation.Instance.PopAsync();
-            }
-
         }      
     }
 }

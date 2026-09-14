@@ -63,13 +63,16 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 new SolidColorBrush(Color.FromArgb("#EF4444"))
             };
         }
+        private static readonly DateRange mInitialScheduleRange = Utility.GetInitialScheduleDateRange();
+
         public async Task InitializeAsync()
         {
-            mJSN_REQ_SSM_DASHBOARD.DAT_SSM_DASHBOARD.SD =
-                Utility.getTLFormLoadSD();
 
-            mJSN_REQ_SSM_DASHBOARD.DAT_SSM_DASHBOARD.ED =
-                Utility.getTLFormLoadED();
+            DateTime SD = mInitialScheduleRange.StartDate;
+            DateTime ED = mInitialScheduleRange.EndDate;
+
+            mJSN_REQ_SSM_DASHBOARD.DAT_SSM_DASHBOARD.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+            mJSN_REQ_SSM_DASHBOARD.DAT_SSM_DASHBOARD.ED = ED.ToUniversalTime() .ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
             await getSSMDashboard();
         }

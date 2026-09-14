@@ -697,6 +697,19 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
+        private List<RES_GST> mTaxInfoList;
+        public List<RES_GST> TaxInfoList
+        {
+            get
+            {
+                return mTaxInfoList;
+            }
+            set
+            {
+                mTaxInfoList = value;
+                NotifyPropertyChanged("TaxInfoList");
+            }
+        }
         private RES_GST mTaxInformation;
         public RES_GST TaxInformation
         {
@@ -708,6 +721,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 mTaxInformation = value;
                 NotifyPropertyChanged("TaxInformation");
+                CalculateGrandTotal();
             }
         }
         #endregion
@@ -1191,6 +1205,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 mOrderDate = value;
                 NotifyPropertyChanged(nameof(OrderDate));
+                UpdateTaxInformation();
             }
         }
 
@@ -1206,6 +1221,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 mOrderTime = value;
                 NotifyPropertyChanged(nameof(OrderTime));
+                UpdateTaxInformation();
             }
         }
 
@@ -1306,7 +1322,25 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Amount calculate methods"
-       
+
+        private void UpdateTaxInformation()
+        {
+            if (TaxInfoList == null || TaxInfoList.Count == 0)
+            {
+                TaxInformation = null;
+                return;
+            }
+
+            TaxInformation = TaxInfoList
+                .FirstOrDefault(tax =>
+                {
+                    DateTime startDate = Utility.getDateTime(tax.SD);
+                    DateTime endDate = Utility.getDateTime(tax.ED);
+
+                    return OrderDate >= startDate && OrderDate <= endDate;
+                });
+        }
+
         private bool IsHour(string uom)
         {
             return uom == "hour" ||
@@ -1955,7 +1989,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 await getAvailableUserInternal();
                 //assign
-                //AssignedUser = AvailableUserList.FirstOrDefault(x => x.Ask == mDAT_SERVICE_ASSIGN.PickupByAsk);
                 AssignedUser = AvailableUserList.FirstOrDefault(x => x.Ask == mDAT_SERVICE_ASSIGN.PickupByAsk);
                 SelectedBeatType =  BeatTypeList.FirstOrDefault(x => x.Ask == mDAT_BOOK_NOW_HEADER.BeatTypeAsk);
 
@@ -2096,7 +2129,11 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                             CustomerList = mJSN_RES_LOAD_BOOK_NOW.RES_CUSTOMER_DTL;
                             BeatTypeList = mJSN_RES_LOAD_BOOK_NOW.DAT_BEAT_TYPE;
 
+                            //data validate SD,ED valid in order date
+                            TaxInfoList = mJSN_RES_LOAD_BOOK_NOW.RES_GST;
                             TaxInformation = mJSN_RES_LOAD_BOOK_NOW.RES_GST[0];
+
+
                             DiscountRules = mJSN_RES_LOAD_BOOK_NOW.DAT_DISCOUNT_RULE;
                             DiscountTypeList = mJSN_RES_LOAD_BOOK_NOW.RES_DISCOUNT_TYPE;
 
@@ -2155,6 +2192,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                             CustomerList = mJSN_RES_LOAD_BOOK_NOW.RES_CUSTOMER_DTL;
                             BeatTypeList = mJSN_RES_LOAD_BOOK_NOW.DAT_BEAT_TYPE;
 
+                            TaxInfoList = mJSN_RES_LOAD_BOOK_NOW.RES_GST;
                             TaxInformation = mJSN_RES_LOAD_BOOK_NOW.RES_GST[0];
                             DiscountRules = mJSN_RES_LOAD_BOOK_NOW.DAT_DISCOUNT_RULE;
                             DiscountTypeList = mJSN_RES_LOAD_BOOK_NOW.RES_DISCOUNT_TYPE;
@@ -2259,7 +2297,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     if (mJSN_RES_AVAILABLE_USER.Message.Code == "7")
                     {
                         AvailableUserList = mJSN_RES_AVAILABLE_USER.RES_USER_LST;
-
                         Utility.closeLoader();
                         WeakReferenceMessenger.Default.Send(this.mJSN_RES_AVAILABLE_USER.Message.Message);
                     }
@@ -2305,6 +2342,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     if (mJSN_RES_AVAILABLE_USER.Message.Code == "7")
                     {
                         AvailableUserList = mJSN_RES_AVAILABLE_USER.RES_USER_LST;
+                        
 
                         Utility.closeLoader();
                         WeakReferenceMessenger.Default.Send(this.mJSN_RES_AVAILABLE_USER.Message.Message);

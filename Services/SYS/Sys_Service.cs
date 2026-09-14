@@ -1,5 +1,6 @@
 ﻿using CS.ERP_MOB.DB;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -76,7 +77,7 @@ namespace CS.ERP_MOB.Services.SYS
                 imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
                 // Add folder name field
                 content.Add(imageContent, fieldName, fileName);
-                var url = mApiConfig.UploadURL + Sys_UploadFolder.sys_User;
+                var url = mApiConfig.UploadURL + Sys_UploadFolder.sys_ImgUploadServiceName;
                 HttpResponseMessage response = await client.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
@@ -97,6 +98,5 @@ namespace CS.ERP_MOB.Services.SYS
                 throw ex.InnerException;
             }
         }
-
     }
 }

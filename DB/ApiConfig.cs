@@ -7,7 +7,7 @@ namespace CS.ERP_MOB.DB
     {
         [PrimaryKey, AutoIncrement]
         public int Ask { get; set; }
-        public string ProductCode { get; set; } = "SSM";
+        public string ProductCode { get; set; } = "SYS";
         public string UploadURL { get; set; } = "http://updqasrv.kumudr.com";
         public string APIURL { get; set; } = "http://sysqaapi.kumudr.com/Service.svc";
         public string SwitchProductURL { get; set; } = "http://sysqa.kumudr.com";

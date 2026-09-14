@@ -118,7 +118,7 @@
                             <ViewCell>
                                 <StackLayout
                                     Padding="{StaticResource paddingMenuGroupHeader}"
-                                    BackgroundColor="{StaticResource OvaListViewBackgroundColor}"
+                                    BackgroundColor="{Binding ThemeSettingMenu.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                     HorizontalOptions="FillAndExpand"
                                     Orientation="Horizontal"
                                     VerticalOptions="FillAndExpand">
@@ -126,17 +126,19 @@
                                         Margin="0,0,5,0"
                                         HorizontalOptions="StartAndExpand"
                                         Orientation="Horizontal"
+                                        Spacing="10"
                                         VerticalOptions="CenterAndExpand">
                                         <Label
-                                            Margin="0,0,2,0"
+                                            Margin="0,0,20,0"
                                             FontFamily="{StaticResource FontAwesomeSolid}"
-                                            Text="&#xf07a;"
+                                            Text="{Binding LogoImg, Converter={StaticResource IconConverter}}"
                                             TextColor="{Binding ThemeSettingMenu.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                            VerticalOptions="Center" />
+                                            VerticalOptions="Center"
+                                            WidthRequest="30" />
                                         <Label
-                                            FontSize="15"
+                                            FontSize="{Binding ThemeSettingMenu.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             Text="{Binding Text}"
-                                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            TextColor="{Binding ThemeSettingMenu.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                             VerticalOptions="Center" />
                                     </StackLayout>
                                     <Label

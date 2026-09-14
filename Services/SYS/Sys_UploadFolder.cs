@@ -13,6 +13,7 @@ namespace CS.ERP_MOB.Services.SYS
         public static string sys_Promotion = "/sys/promotion";
         public static string sys_Brief = "/sys/brief";
         public static string sys_Company = "/sys/company";
+        public static string sys_ImgUploadServiceName = "/api/uploadImage";
         #endregion
     }
 }

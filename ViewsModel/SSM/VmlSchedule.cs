@@ -80,7 +80,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #region "Contructor"
         public VmlSchedule()
         {
-            SalesInvoiceLoad = new JSN_RES_CHECK_IN_OUT();
+            //SalesInvoiceLoad = new JSN_RES_CHECK_IN_OUT();
             FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>();
             UserList = new ObservableCollection<RES_USER_LST>();
 
@@ -97,6 +97,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Boolean Declaring"
+        private bool mIsLoadingDashboard;
         private bool mIsScheduleView;
         public bool IsScheduleView
         {
@@ -211,11 +212,40 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Get Set"
-        public JSN_RES_CHECK_IN_OUT JSN_RES_CHECK_IN_OUT = new JSN_RES_CHECK_IN_OUT();
-        public JSN_RES_CHECK_IN_OUT SalesInvoiceLoad
+        private List<DAT_FILTER_RANGE> mFilterRangeList = new List<DAT_FILTER_RANGE>();
+        public List<DAT_FILTER_RANGE> FilterRangeList
         {
-            get { return JSN_RES_CHECK_IN_OUT; }
-            set { JSN_RES_CHECK_IN_OUT = value; NotifyPropertyChanged("SalesInvoiceLoad"); }
+            get { return mFilterRangeList; }
+            set { mFilterRangeList = value; NotifyPropertyChanged("FilterRangeList"); }
+        }
+        private DAT_FILTER_RANGE mSelectedFilterRange;
+
+        public DAT_FILTER_RANGE SelectedFilterRange
+        {
+            get => mSelectedFilterRange;
+            set
+            {
+                if (mSelectedFilterRange == value)
+                    return;
+
+                mSelectedFilterRange = value;
+                NotifyPropertyChanged(nameof(SelectedFilterRange));
+
+                if (value == null)
+                    return;
+
+                DateRange range = Utility.OnFilterRangeChanged(value);
+
+                if (range == null)
+                    return;
+
+                StartDate = range.StartDate.Date;
+                StartTime = range.StartDate.TimeOfDay;
+
+                EndDate = range.EndDate.Date;
+                EndTime = range.EndDate.TimeOfDay;
+
+            }
         }
 
         private DAT_FRONT_DESK mSelectedFrontDesk;
@@ -238,8 +268,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             get { return mCustomerDtlList; }
             set { mCustomerDtlList = value; NotifyPropertyChanged("CustomerDtlList"); }
         }
-
-        // File: ViewsModel/Job/VmlJobProfile.cs
 
         private string mReferenceFileName;
 
@@ -270,7 +298,18 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 NotifyPropertyChanged(nameof(ReferenceUploadFilePath));
             }
         }
-        private DateTime mStartDate = Utility.getDateTime( Utility.getTLFormLoadSD() ).Date;
+
+        //initial with user setting range 
+        private static readonly DateRange mInitialScheduleRange = Utility.GetInitialScheduleDateRange();
+
+        private DateTime mStartDate = mInitialScheduleRange.StartDate.Date;
+        private TimeSpan mStartTime = mInitialScheduleRange.StartDate.TimeOfDay;
+        private DateTime mEndDate =  mInitialScheduleRange.EndDate.Date;
+        private TimeSpan mEndTime = mInitialScheduleRange.EndDate.TimeOfDay;
+        //private DateTime mStartDate = Utility.getDateTime( Utility.getTLFormLoadSD() ).Date;
+        //private TimeSpan mStartTime = Utility.getDateTime(Utility.getTLFormLoadSD()).TimeOfDay;
+        //private DateTime mEndDate = Utility.getDateTime(Utility.getTLFormLoadED()).Date;
+        //private TimeSpan mEndTime = Utility.getDateTime(Utility.getTLFormLoadED()).TimeOfDay;
 
         public DateTime StartDate
         {
@@ -286,8 +325,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
             }
         }
-        private TimeSpan mStartTime = Utility.getDateTime(Utility.getTLFormLoadSD()).TimeOfDay;
-
         public TimeSpan StartTime
         {
             get => mStartTime;
@@ -302,8 +339,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
             }
         }
-        private DateTime mEndDate = Utility.getDateTime(Utility.getTLFormLoadED() ).Date;
-
         public DateTime EndDate
         {
             get => mEndDate;
@@ -316,8 +351,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 NotifyPropertyChanged(nameof(EndDate));
             }
         }
-        private TimeSpan mEndTime = Utility.getDateTime(Utility.getTLFormLoadED() ).TimeOfDay;
-
         public TimeSpan EndTime
         {
             get => mEndTime;
@@ -333,8 +366,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Commands"
-
-        // File: ViewsModel/Job/VmlJobProfile.cs
 
         public ICommand PickReferenceFileCommand => new Command(async () =>
         {
@@ -1076,7 +1107,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 var result = await popup.PopupClosedTask;
 
                 await getFrontDeskUser();
-                if (result is DAT_FRONT_DESK selectedData)
+                if (result is DAT_FRONT_DESK selectedData && !string.IsNullOrWhiteSpace(selectedData.CustomerAsk))
                 {
                     mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
                     if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
@@ -1143,8 +1174,11 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #region "Web Service Api"
         public async Task getFrontDeskUser()
         {
+            if (mIsLoadingDashboard)
+                return;
             try
             {
+                mIsLoadingDashboard = true;
                 Utility.openLoader();
                 mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
                 mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = new DAT_FRONT_DESK();
@@ -1162,11 +1196,20 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     if (this.mJSN_RES_FRONT_DESK_USER.Message.Code == "7")
                     {
                             mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK  ?? new List<DAT_FRONT_DESK>();
-                            bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
-                            bindDataTabUser( this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST ?? new List<RES_USER_LST>());
-                            BuildSchedulerAppointments();
-                            
-                            WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
+                            FilterRangeList = this.mJSN_RES_FRONT_DESK_USER.DAT_FILTER_RANGE;
+                        if (mSelectedFilterRange == null)
+                        {
+                            mSelectedFilterRange =
+                                Utility.GetUserSettingFilterRange(FilterRangeList);
+
+                            NotifyPropertyChanged(nameof(SelectedFilterRange));
+                        }
+                        bindCustomer(this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST);
+                        bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
+                        bindDataTabUser( this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST ?? new List<RES_USER_LST>());
+                        BuildSchedulerAppointments();
+                        
+                        WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
                         
                     }
                     else

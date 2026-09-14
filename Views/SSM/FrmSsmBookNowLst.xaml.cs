@@ -307,11 +307,7 @@ public partial class FrmSsmBookNowLst : ContentView
     {
         if (string.IsNullOrWhiteSpace(this.FrontDeskAsk))
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Delete Order",
-                "This is a new order, can't delete.",
-                "OK");
-
+            WeakReferenceMessenger.Default.Send("Error: new order, can't delete");
             return;
         }
 
@@ -397,11 +393,7 @@ public partial class FrmSsmBookNowLst : ContentView
             }
             else { return; }
                 ((ListView)sender).SelectedItem = null;
-            //}
-            //else
-            //{
-            //    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
-            //}
+         
         }
         catch (Exception ex)
         {

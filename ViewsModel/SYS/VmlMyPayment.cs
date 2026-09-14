@@ -28,7 +28,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         public ObservableCollection<SortingItem> sortingList { get; set; }
         SortingItem[] labelTexts = [
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Code"), value = "PaymentCode_0_50", ShowIcon = true },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Date"), value = "PaymentDate", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesOrderBrowse.lbl.Date"), value = "PaymentDate", ShowIcon = false },
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.CompanyPaymentType.lbl.PaymentType"), value = "PaymentTypeName_0_255", ShowIcon = false },
             new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.Setup.lbl.Status"), value = "StatusName_0_255", ShowIcon = false }
             ];

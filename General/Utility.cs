@@ -462,6 +462,118 @@ namespace CS.ERP_MOB.General
             return mDAT_FILTER_RANGE;
         }
 
+
+        // date range of initial user setting before range list
+        public static DateRange GetInitialScheduleDateRange()
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+
+                string periodTypeAsk =
+                    Common.mCommon.UserSetting.LFPeriodTypeAsk;
+
+                DateTime startDate;
+                DateTime endDate;
+
+                switch (periodTypeAsk)
+                {
+                    // ===== Day =====
+                    case "3":
+                        startDate = today.Date;
+                        endDate = today.Date
+                            .AddDays(1)
+                            .AddTicks(-1);
+                        break;
+
+                    // ===== Week (Monday - Sunday) =====
+                    case "8":
+                        int dayOfWeek = (int)today.DayOfWeek;
+
+                        // Sunday = 0, Monday = 1
+                        int diffToMonday = dayOfWeek == 0
+                            ? -6
+                            : 1 - dayOfWeek;
+
+                        startDate = today
+                            .AddDays(diffToMonday)
+                            .Date;
+
+                        endDate = startDate
+                            .AddDays(7)
+                            .AddTicks(-1);
+                        break;
+
+                    // ===== Month =====
+                    case "4":
+                        startDate = new DateTime(
+                            today.Year,
+                            today.Month,
+                            1);
+
+                        endDate = startDate
+                            .AddMonths(1)
+                            .AddTicks(-1);
+                        break;
+
+                    // ===== Quarter =====
+                    case "7":
+                        int currentQuarter =
+                            (today.Month - 1) / 3;
+
+                        int quarterStartMonth =
+                            currentQuarter * 3 + 1;
+
+                        startDate = new DateTime(
+                            today.Year,
+                            quarterStartMonth,
+                            1);
+
+                        endDate = startDate
+                            .AddMonths(3)
+                            .AddTicks(-1);
+                        break;
+
+                    // ===== Year =====
+                    case "5":
+                        startDate = new DateTime(
+                            today.Year,
+                            1,
+                            1);
+
+                        endDate = startDate
+                            .AddYears(1)
+                            .AddTicks(-1);
+                        break;
+
+                    default:
+                        startDate = today.Date;
+
+                        endDate = today.Date
+                            .AddDays(1)
+                            .AddTicks(-1);
+                        break;
+                }
+
+                return new DateRange
+                {
+                    StartDate = startDate,
+                    EndDate = endDate
+                };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+
+                DateTime today = DateTime.Today;
+
+                return new DateRange
+                {
+                    StartDate = today,
+                    EndDate = today.AddDays(1).AddTicks(-1)
+                };
+            }
+        }
         #endregion
         public static Boolean checkButtonAccess(string menuName)
         {

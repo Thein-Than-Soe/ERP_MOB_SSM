@@ -81,7 +81,7 @@ namespace CS.ERP_MOB.Services.SYS
         public static string wsGetCompany = "/getCompany";
         public static string wsGetCompanyUser = "/getCompanyUser";
         public static string wsGetSubscriberPlan = "/getSubscriberPlan";
-        public static string wsGetProfileDetail = "/getProfileDetail";
+        public static string wsgetProfileDetail = "getProfileDetail";
         public static string wsGetSubPayment = "/getSubPayment";
         public static string wsGetNoti = "/getNoti";
         public static string wsgetTitle = "/getTitle";
@@ -138,7 +138,7 @@ namespace CS.ERP_MOB.Services.SYS
         public static string wsSaveControl = "/saveControl";
         public static string wsSaveControlGroupJun = "/saveControlGroupJun";
         public static string wsSaveUserJun = "/saveUserJun";
-        public static string wsSaveUser = "/saveUser";
+        public static string wsSaveUser = "saveUser";
         public static string wsSavePassword = "savePassword";
         public static string wsSavePromotion = "/savePromotion";
         public static string wsSaveCompany = "/saveCompany";

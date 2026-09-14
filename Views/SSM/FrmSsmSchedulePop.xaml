@@ -76,14 +76,55 @@
                     <!--  Scrollable Content  -->
                     <ScrollView Grid.Row="0" HeightRequest="500">
                         <StackLayout Padding="20" Spacing="10">
-                            <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=POS.SalesInvoiceJunOva.lbl.Customer}, Path=Value}" />
-                            <Picker
-                                x:Name="pkrCustomer"
-                                Title="{Binding Source={ext:LanguageExtension Key=POS.Common.plh.Select}, Path=Value}"
-                                ItemDisplayBinding="{Binding UserName_0_255}"
-                                ItemsSource="{Binding CustomerDtlList}" />
+
+                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Picker
+                                    x:Name="pkrCustomer"
+                                    Title="Select Assigned Person"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                    ItemDisplayBinding="{Binding UserName_0_255}"
+                                    ItemsSource="{Binding CustomerDtlList}" />
+
+                            </Border>
+
+                            <!--  Filter Range  -->
+                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="0">
 
 
+                                    <!--  Filter Picker  -->
+                                    <Picker
+                                        Title="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.FilterRange}, Path=Value}"
+                                        Grid.Column="0"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        ItemDisplayBinding="{Binding FilterRangeName_0_255}"
+                                        ItemsSource="{Binding FilterRangeList}"
+                                        SelectedItem="{Binding SelectedFilterRange}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+
+                                    <!--  Filter Icon  -->
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="10,0,10,0"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                        Text="&#xf0b0;"
+                                        TextColor="#555"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
 
                             <!--  Start date, End date  -->
                             <HorizontalStackLayout
@@ -101,6 +142,7 @@
                                     <Grid
                                         Padding="5,0"
                                         ColumnDefinitions="Auto,*,*"
+                                        IsEnabled="False"
                                         VerticalOptions="Center">
 
                                         <!--  Icon  -->
@@ -116,19 +158,22 @@
                                         <!--  Start Date - Display Only  -->
                                         <DatePicker
                                             Grid.Column="1"
-                                            Date="{Binding StartDate, Mode=TwoWay}"
-                                            FontSize="12"
+                                            Date="{Binding StartDate, Mode=OneWay}"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             HeightRequest="40"
                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
                                         <!--  Start Time - Editable  -->
                                         <TimePicker
                                             Grid.Column="2"
-                                            FontSize="12"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             Format="HH:mm"
                                             HeightRequest="40"
                                             HorizontalOptions="Fill"
-                                            Time="{Binding StartTime, Mode=TwoWay}"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            Time="{Binding StartTime, Mode=OneWay}"
                                             VerticalOptions="Center" />
 
                                     </Grid>
@@ -144,6 +189,7 @@
                                     <Grid
                                         Padding="5,0"
                                         ColumnDefinitions="Auto,*,*"
+                                        IsEnabled="False"
                                         VerticalOptions="Center">
 
                                         <!--  Icon  -->
@@ -159,19 +205,22 @@
                                         <!--  End Date - Display Only  -->
                                         <DatePicker
                                             Grid.Column="1"
-                                            Date="{Binding EndDate, Mode=TwoWay}"
-                                            FontSize="12"
+                                            Date="{Binding EndDate, Mode=OneWay}"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             HeightRequest="40"
                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
                                         <!--  End Time - Editable  -->
                                         <TimePicker
                                             Grid.Column="2"
-                                            FontSize="12"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             Format="HH:mm"
                                             HeightRequest="40"
                                             HorizontalOptions="Fill"
-                                            Time="{Binding EndTime, Mode=TwoWay}"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            Time="{Binding EndTime, Mode=OneWay}"
                                             VerticalOptions="Center" />
 
                                     </Grid>

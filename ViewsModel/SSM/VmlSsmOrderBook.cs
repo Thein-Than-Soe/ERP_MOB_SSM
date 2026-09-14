@@ -151,6 +151,28 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 NotifyPropertyChanged(nameof(IsLoadingMore));
             }
         }
+
+        private bool mIsPaymentListEmpty = true;
+        public bool IsPaymentListEmpty
+        {
+            get => mIsPaymentListEmpty;
+            set
+            {
+                if (mIsPaymentListEmpty != value)
+                {
+                    NotifyPropertyChanged(nameof(IsPaymentListEmpty));
+                }
+            }
+        }
+
+        public bool HasDiscount => DiscountAmount > 0;
+        public bool HasGST => TaxInformation != null && !string.IsNullOrWhiteSpace(TaxInformation.GSTRate) && TaxInformation.GSTRate != "0";
+
+
+        private bool mIsSyncingTimeAndQuantity;
+        
+
+
         #endregion
 
         #region "Data Tab"
@@ -451,8 +473,55 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 NotifyPropertyChanged(nameof(UserSelectedUOM));
 
-                CalculateEndTimeFromQuantity();
+                //CalculateEndTimeFromQuantity();
                 UpdateSelectedStockBarcode();
+            }
+        }
+
+
+        //Discount
+        //Discount
+        private List<RES_DISCOUNT_TYPE> mDiscountTypeList;
+        public List<RES_DISCOUNT_TYPE> DiscountTypeList
+        {
+            get
+            {
+                return mDiscountTypeList;
+            }
+            set
+            {
+                mDiscountTypeList = value;
+                NotifyPropertyChanged("DiscountTypeList");
+            }
+        }
+        private RES_DISCOUNT_TYPE mSelectedDiscountType;
+        public RES_DISCOUNT_TYPE SelectedDiscountType
+        {
+            get
+            {
+                return mSelectedDiscountType;
+            }
+            set
+            {
+                mSelectedDiscountType = value;
+                NotifyPropertyChanged("SelectedDiscountType");
+                //if (!_isLoadingDefaultDiscountRule)
+                //    CalculateDiscountAmount();
+            }
+        }
+
+
+        private List<RES_GST> mTaxInfoList;
+        public List<RES_GST> TaxInfoList
+        {
+            get
+            {
+                return mTaxInfoList;
+            }
+            set
+            {
+                mTaxInfoList = value;
+                NotifyPropertyChanged("TaxInfoList");
             }
         }
 
@@ -477,7 +546,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             if (IsLoadingMore) return;
             IsLoadingMore = true;
-            await loadSaleOrder();
             await getSaleOrderJun();
             IsLoadingMore = false;
         }
@@ -536,7 +604,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 if (mRefreshCommand == null)
                 {
-                    mRefreshCommand = new Command(() => this.loadSaleOrder());
+                    mRefreshCommand = new Command(() => this.getSaleOrderJun());
                 }
                 return mRefreshCommand;
             }
@@ -688,7 +756,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             {
                 //mJSN_REQ_SALE_LOAD.RES = new RES_SALE_ORDER();
                 //mJSN_REQ_SALE_LOAD.RES_SALE_ORDER.Remark = argKeyword;
-                loadSaleOrder();
+                getSaleOrderJun();
             }
             catch (Exception ex)
             {
@@ -730,7 +798,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             try
             {
-                loadSaleOrder();
+                getSaleOrderJun();
             }
             catch (Exception ex)
             {
@@ -883,8 +951,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
         #region "Display View property"
 
-        public bool HasDiscount => DiscountAmount > 0;
-        private bool mIsSyncingTimeAndQuantity;
+        //public bool HasDiscount => DiscountAmount > 0;
+        //private bool mIsSyncingTimeAndQuantity;
         private bool mIsServiceAdded = false;
 
         public bool IsServiceAdded
@@ -1150,7 +1218,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 NotifyPropertyChanged(nameof(Subtotal));
                 // Recalculate discount whenever subtotal changes
-                CalculateSubtotalDiscount();
+                //CalculateSubtotalDiscount();
             }
         }
         private string mRevenueAmount;
@@ -1201,7 +1269,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 // User changed discount type.
                 // Recalculate amount using current Type + Rate.
-                RecalculateDiscountAmount();
+                //RecalculateDiscountAmount();
             }
         }
         private decimal mDiscountRate;
@@ -1220,7 +1288,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 // User changed rate.
                 // Only recalculate using current Type + Rate.
-                RecalculateDiscountAmount();
+                //RecalculateDiscountAmount();
             }
         }
         private decimal _taxAmount;
@@ -1366,6 +1434,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 mOrderDate = value;
                 NotifyPropertyChanged(nameof(OrderDate));
+                UpdateTaxInformation();
             }
         }
 
@@ -1381,6 +1450,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 mOrderTime = value;
                 NotifyPropertyChanged(nameof(OrderTime));
+                UpdateTaxInformation();
             }
         }
 
@@ -1481,6 +1551,24 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Amount calculate methods"
+
+        private void UpdateTaxInformation()
+        {
+            if (TaxInfoList == null || TaxInfoList.Count == 0)
+            {
+                TaxInformation = null;
+                return;
+            }
+
+            TaxInformation = TaxInfoList
+                .FirstOrDefault(tax =>
+                {
+                    DateTime startDate = Utility.getDateTime(tax.SD);
+                    DateTime endDate = Utility.getDateTime(tax.ED);
+
+                    return OrderDate >= startDate && OrderDate <= endDate;
+                });
+        }
 
         private bool IsHour(string uom)
         {
@@ -1613,8 +1701,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
 
             Subtotal = price * Quantity;
-            CalculateSubtotalDiscount();
-            CalculateGrandTotal();
         }
         private decimal ParseDecimal(string? value)
         {
@@ -1629,439 +1715,80 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
             return 0;
         }
-        private void CalculateSubtotalDiscount()
+        private bool _isLoadingDefaultDiscountRule;
+
+        private void CalculateDiscountAmount(bool findDefaultRule = false)
         {
-            var matchedRule = FindMatchingDiscountRule(
-                discountCalculationFigureAsk: "4",
-                calculationValue: Subtotal,
-                discountDate: OrderDate,
-                currencyAsk: UserSelectedCurrency?.Ask ?? "");
+            //try
+            //{
+            //    // Initial load: find the matching discount rule
+            //    if (findDefaultRule)
+            //    {
+            //        if (DiscountTypeList == null ||
+            //            DiscountTypeList.Count == 0 ||
+            //            UserSelectedCurrency == null)
+            //        {
+            //            DiscountAmount = 0;
+            //            return;
+            //        }
 
-            SelectedRule = matchedRule;
+            //        DAT_DISCOUNT_RULE matchedRule =
+            //            Utility.FindMatchingDiscountRule(
+            //                DiscountRules,
+            //                "4",
+            //                Subtotal,
+            //                OrderDate,
+            //                UserSelectedCurrency.Ask);
 
-            if (matchedRule == null)
-            {
-                // No matching rule
-                mSelectedDiscountTypeAsk = "0";
-                mDiscountRate = 0;
+            //        if (matchedRule != null)
+            //        {
+            //            _isLoadingDefaultDiscountRule = true;
 
-                NotifyPropertyChanged(nameof(SelectedDiscountTypeAsk));
-                NotifyPropertyChanged(nameof(DiscountRate));
+            //            SelectedDiscountType = DiscountTypeList.FirstOrDefault(x =>
+            //                x.Ask == matchedRule.DiscountTypeAsk);
 
-                DiscountAmount = 0;
+            //            DiscountRate = decimal.TryParse(
+            //                matchedRule.Rate,
+            //                out decimal rate)
+            //                ? rate
+            //                : 0;
 
-                return;
-            }
+            //            SelectedDiscountRule = matchedRule;
 
-            // Get default values from matched rule
-            mSelectedDiscountTypeAsk = matchedRule.DiscountTypeAsk;
-            mDiscountRate = ParseDecimal(matchedRule.Rate);
+            //            _isLoadingDefaultDiscountRule = false;
+            //        }
+            //    }
 
-            NotifyPropertyChanged(nameof(SelectedDiscountTypeAsk));
-            NotifyPropertyChanged(nameof(DiscountRate));
+            //    // Calculate using the CURRENT selected values
+            //    if (SelectedDiscountType == null)
+            //    {
+            //        DiscountAmount = 0;
+            //        return;
+            //    }
 
-            // Calculate amount using matched rule's Type + Rate
-            RecalculateDiscountAmount();
+            //    SelectedDiscountRule = new DAT_DISCOUNT_RULE
+            //    {
+            //        DiscountTypeAsk = SelectedDiscountType.Ask,
+            //        DiscountTypeName_0_255 =
+            //            SelectedDiscountType.DiscountTypeName_0_255,
+            //        Rate = DiscountRate.ToString()
+            //    };
+
+            //    decimal discount = Utility.CalculateDiscount(
+            //        SelectedDiscountRule,
+            //        calculationValue: Subtotal);
+
+            //    DiscountAmount = discount;
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(
+            //        $"CalculateDiscountAmount ERROR: {ex}");
+
+            //    DiscountAmount = 0;
+            //}
+
         }
-        private void RecalculateDiscountAmount()
-        {
-            decimal discount = CalculateDiscount(
-                discountCalculationFigureAsk: "4",
-                calculationValue: Subtotal,
-                discountDate: OrderDate,
-                currencyAsk: UserSelectedCurrency?.Ask ?? "");
-
-            DiscountAmount = discount;
-        }
-        private decimal CalculateDiscount(
-    string discountCalculationFigureAsk,
-    decimal calculationValue,
-    DateTime discountDate,
-    string currencyAsk)
-        {
-            if (calculationValue <= 0)
-                return 0;
-
-            // At this point:
-            // SelectedDiscountTypeAsk can come from the matched rule
-            // OR from user selection.
-            //
-            // DiscountRate can come from the matched rule
-            // OR from user input.
-
-            string discountTypeAsk = SelectedDiscountTypeAsk;
-            decimal rate = DiscountRate;
-
-            decimal discount = 0;
-
-            switch (discountTypeAsk)
-            {
-                case "1": // %
-                    discount = calculationValue * rate / 100m;
-                    break;
-
-                case "2": // $
-                    discount = rate;
-                    break;
-
-                case "3": // Coupon
-                    discount = CalculateCouponDiscount(
-                        SelectedRule,
-                        rate,
-                        calculationValue);
-                    break;
-
-                case "4": // By X get X
-                case "5": // By X get Y
-                          // Handle later when item/tier logic is added
-                    discount = 0;
-                    break;
-
-                default:
-                    discount = 0;
-                    break;
-            }
-
-            if (discount < 0)
-                discount = 0;
-
-            if (discount > calculationValue)
-                discount = calculationValue;
-
-            return discount;
-        }
-        private decimal CalculateCouponDiscount(DAT_DISCOUNT_RULE rule, decimal rate, decimal calculationValue)
-        {
-            if (rule == null || rate <= 0)
-                return 0;
-
-            switch (rule.ValueTypeAsk)
-            {
-                case "1": // Fixed
-                    return rate;
-
-                case "2": // Percentage
-                    return calculationValue * rate / 100m;
-
-                default:
-                    return 0;
-            }
-        }
-        private DAT_DISCOUNT_RULE FindMatchingDiscountRule(
-    string discountCalculationFigureAsk,
-    decimal calculationValue,
-    DateTime discountDate,
-    string currencyAsk)
-        {
-            if (DiscountRules == null || DiscountRules.Count == 0)
-                return null;
-
-            var matchedRules = DiscountRules
-                .Where(rule =>
-                    rule.DiscountCalculationFigureAsk == discountCalculationFigureAsk &&
-                    IsDiscountDateMatched(
-                        discountDate,
-                        DateTime.Parse(rule.SD),
-                        DateTime.Parse(rule.ED)) &&
-                    IsDiscountCurrencyMatched(rule, currencyAsk) &&
-                    IsDiscountConditionMatched(rule, calculationValue))
-                .OrderByDescending(rule =>
-                    ParseDecimal(rule.DiscountCalculationAmount))
-                .ToList();
-
-            return matchedRules.FirstOrDefault();
-        }
-        private bool IsDiscountDateMatched(DateTime discountDate, DateTime startDate, DateTime endDate)
-        {
-            if (startDate.Kind == DateTimeKind.Utc)
-                startDate = startDate.ToLocalTime();
-
-            if (endDate.Kind == DateTimeKind.Utc)
-                endDate = endDate.ToLocalTime();
-
-            if (discountDate.Kind == DateTimeKind.Utc)
-                discountDate = discountDate.ToLocalTime();
-
-            discountDate = discountDate.Date;
-            startDate = startDate.Date;
-            endDate = endDate.Date;
-
-            return discountDate >= startDate &&
-                   discountDate <= endDate;
-        }
-        private bool IsDiscountCurrencyMatched(DAT_DISCOUNT_RULE rule, string currencyAsk)
-        {
-            if (rule == null)
-                return false;
-
-            // Only fixed amount needs currency matching.
-            // Percentage does not need it.
-            if (rule.DiscountTypeAsk != "2")
-                return true;
-
-            return rule.CurrencyAsk == currencyAsk;
-        }
-        private bool IsDiscountConditionMatched(DAT_DISCOUNT_RULE rule, decimal calculationValue)
-        {
-            decimal conditionAmount =
-                ParseDecimal(rule.DiscountCalculationAmount);
-
-            switch (rule.DiscountConditionTypeAsk)
-            {
-                // >=
-                case "1":
-                    return calculationValue >= conditionAmount;
-                // <=
-                case "2":
-                    return calculationValue <= conditionAmount;
-                // >
-                case "3":
-                    return calculationValue > conditionAmount;
-                // Between
-                case "4":
-
-                    // Between requires a minimum and maximum value.
-                    // DAT_DISCOUNT_RULE currently only shows
-                    // DiscountCalculationAmount.
-                    //
-                    // So this needs the actual upper-bound field
-                    // from your API/model before implementing.
-                    return false;
-
-
-                default:
-
-                    return false;
-            }
-        }
-
-        //private void CalculateDiscount()
-        //{
-        //    // Reset first
-        //    DiscountAmount = 0;
-
-        //    if (DiscountRules == null || DiscountRules.Count == 0)
-        //        return;
-
-        //    if (Subtotal <= 0)
-        //        return;
-
-        //    // FIND ALL RULES THAT MATCH CURRENT SUBTOTAL
-        //    var matchedRules = DiscountRules
-        //        .Where(rule => IsDiscountRulesMatched(rule, Subtotal))
-        //        .OrderByDescending(rule =>
-        //            ParseDecimal(rule.DiscountCalculationAmount))
-        //        .ToList();
-
-        //    // No matching rule
-        //    if (matchedRules.Count == 0)
-        //        return;
-
-        //    // Select the matching rule
-        //    SelectedRule = matchedRules.First();
-
-        //    // =========================================================
-        //    // Set default DiscountRate from SelectedRule
-        //    // =========================================================
-        //    decimal defaultRate = ParseDecimal(SelectedRule.Rate);
-
-        //    if (mDiscountRate == 0)
-        //    {
-        //        mDiscountRate = defaultRate;
-        //        NotifyPropertyChanged(nameof(DiscountRate));
-        //    }
-
-        //    // Use the ViewModel DiscountRate
-        //    // User can change this value from the Entry
-        //    decimal rate = DiscountRate;
-
-
-        //    // =========================================================
-        //    // DiscountTypeAsk:
-        //    //
-        //    // 1 = Percentage
-        //    // 2 = Fixed amount
-        //    // 3 = Coupon
-        //    // =========================================================
-
-        //    switch (SelectedRule.DiscountTypeAsk)
-        //    {
-        //        // Percentage
-        //        case "1":
-
-        //            DiscountAmount = Subtotal * rate / 100m;
-
-        //            break;
-
-
-        //        // Fixed amount
-        //        case "2":
-
-        //            DiscountAmount =
-        //                ParseDecimal(SelectedRule.DiscountCalculationAmount);
-
-        //            break;
-
-
-        //        // Coupon
-        //        case "3":
-
-        //            DiscountAmount = Subtotal * rate / 100m;
-
-        //            break;
-
-
-        //        default:
-
-        //            DiscountAmount = 0;
-
-        //            break;
-        //    }
-
-
-        //    // =========================================================
-        //    // Never allow discount greater than subtotal
-        //    // =========================================================
-
-        //    if (DiscountAmount > Subtotal)
-        //    {
-        //        DiscountAmount = Subtotal;
-        //    }
-
-
-        //    NotifyPropertyChanged(nameof(DiscountAmount));
-        //    NotifyPropertyChanged(nameof(HasDiscount));
-        //}
-        ////private bool IsDiscountRulesMatched(DAT_DISCOUNT_RULE rule, decimal subtotal)
-        ////{
-        ////    decimal conditionAmount = ParseDecimal(rule.DiscountCalculationAmount);
-
-
-        ////    switch (rule.DiscountConditionTypeName_0_255?.Trim())
-        ////    {
-        ////        case ">=":
-        ////            return subtotal >= conditionAmount;
-
-        ////        case ">":
-        ////            return subtotal > conditionAmount;
-
-        ////        case "=":
-        ////        case "==":
-        ////            return subtotal == conditionAmount;
-
-        ////        case "<=":
-        ////            return subtotal <= conditionAmount;
-
-        ////        case "<":
-        ////            return subtotal < conditionAmount;
-
-        ////        default:
-        ////            return false;
-        ////    }
-        ////}
-        //private bool IsDiscountRulesMatched( DAT_DISCOUNT_RULE rule,decimal subtotal)
-        //{
-        //    // ---------------------------------------------------------
-        //    // 1. Check subtotal condition
-        //    // ---------------------------------------------------------
-
-        //    decimal conditionAmount =
-        //        ParseDecimal(rule.DiscountCalculationAmount);
-
-        //    bool amountMatched;
-
-        //    switch (rule.DiscountConditionTypeName_0_255?.Trim())
-        //    {
-        //        case ">=":
-        //            amountMatched = subtotal >= conditionAmount;
-        //            break;
-
-        //        case ">":
-        //            amountMatched = subtotal > conditionAmount;
-        //            break;
-
-        //        case "=":
-        //        case "==":
-        //            amountMatched = subtotal == conditionAmount;
-        //            break;
-
-        //        case "<=":
-        //            amountMatched = subtotal <= conditionAmount;
-        //            break;
-
-        //        case "<":
-        //            amountMatched = subtotal < conditionAmount;
-        //            break;
-
-        //        default:
-        //            amountMatched = false;
-        //            break;
-        //    }
-
-        //    // Amount does not match
-        //    if (!amountMatched)
-        //        return false;
-
-
-        //    // ---------------------------------------------------------
-        //    // 2. Check discount start/end date
-        //    // ---------------------------------------------------------
-
-        //    if (OrderDate == default)
-        //        return false;
-
-
-        //    // Parse SD
-        //    if (!DateTime.TryParse(
-        //        rule.SD,
-        //        null,
-        //        DateTimeStyles.RoundtripKind,
-        //        out DateTime startDate))
-        //    {
-        //        return false;
-        //    }
-
-
-        //    // Parse ED
-        //    if (!DateTime.TryParse(
-        //        rule.ED,
-        //        null,
-        //        DateTimeStyles.RoundtripKind,
-        //        out DateTime endDate))
-        //    {
-        //        return false;
-        //    }
-
-
-        //    // ---------------------------------------------------------
-        //    // Convert everything to the same timezone
-        //    // ---------------------------------------------------------
-
-        //    DateTime orderDate = OrderDate;
-
-        //    if (startDate.Kind == DateTimeKind.Utc)
-        //        startDate = startDate.ToLocalTime();
-
-        //    if (endDate.Kind == DateTimeKind.Utc)
-        //        endDate = endDate.ToLocalTime();
-
-
-        //    // Remove time if SD/ED are intended as whole dates
-        //    startDate = startDate.Date;
-        //    endDate = endDate.Date;
-        //    orderDate = orderDate.Date;
-
-
-        //    // ---------------------------------------------------------
-        //    // OrderDate must be between SD and ED
-        //    // ---------------------------------------------------------
-
-        //    if (orderDate < startDate || orderDate > endDate)
-        //        return false;
-
-
-        //    return true;
-        //}
 
         private void CalculateGrandTotal()
         {
@@ -2149,26 +1876,28 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
 
             // ==========================================
-            // ROUND OFF
+            // ROUND OFF PROCESS
             // ==========================================
 
             if (IsRoundOffEnabled)
             {
-                decimal roundedTotal =
-                    Math.Ceiling(totalBeforeRoundOff);
+                const decimal roundingUnit = 0.05m;
 
-                RoundOffAmount =
-                    roundedTotal - totalBeforeRoundOff;
+                // Round UP to the next 0.05
+                decimal roundedTotal =
+                    Math.Ceiling(totalBeforeRoundOff / roundingUnit) * roundingUnit;
+
+                RoundOffAmount = roundedTotal - totalBeforeRoundOff;
 
                 GrandTotal = roundedTotal;
             }
             else
             {
                 RoundOffAmount = 0;
-
                 GrandTotal = totalBeforeRoundOff;
             }
         }
+
         #endregion
 
         #region "Web Service Api"
@@ -2188,6 +1917,21 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         {
                             //load all picker list here
                             //StockList = this.mJSN_LOAD_SALE_ORDER.RES_STOCK;
+                            CustomerList = mJSN_LOAD_SALE_ORDER.RES_CUSTOMER_DTL;
+
+                            TaxInfoList = mJSN_LOAD_SALE_ORDER.RES_GST;
+                            TaxInformation = mJSN_LOAD_SALE_ORDER.RES_GST[0];
+                            //DiscountRules = mJSN_LOAD_SALE_ORDER.DAT_DISCOUNT_RULE;
+                            DiscountTypeList = mJSN_LOAD_SALE_ORDER.RES_DISCOUNT_TYPE;
+
+                            StockList = this.mJSN_LOAD_SALE_ORDER.RES_STOCK;
+                            StockBarcodeList = this.mJSN_LOAD_SALE_ORDER.RES_STOCK_BARCODE;
+                            //assign only time
+                            UomList = this.mJSN_LOAD_SALE_ORDER.RES_STOCK_UOM.Where(x => x.UOMTypeAsk == "4").ToList();
+                            CurrencyList = mJSN_LOAD_SALE_ORDER.RES_CURRENCY;
+
+
+
                             WeakReferenceMessenger.Default.Send(this.mJSN_LOAD_SALE_ORDER.Message.Message);
                         }
                         else
@@ -2215,6 +1959,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 Utility.closeLoader();
             }
         }
+
         public async Task getSaleOrderJun()
         {
             try
@@ -2226,7 +1971,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 mJSN_REQ_SALE_ORDER_JUN_get.RES_SALE_ORDER.ED = Utility.getTLFormLoadED();
 
                 mJSN_REQ_SALE_ORDER_JUN_get.RES_SALE_ORDER_DETAIL = new List<RES_SALE_ORDER_DETAIL> { };
-                mJSN_REQ_SALE_ORDER_JUN_get.RES_SALE_BROWSE = new List<RES_SALE_BROWSE> { };
+                mJSN_REQ_SALE_ORDER_JUN_get.RES_SALE_BROWSE = new List<RES_SALE_BROWSE> { new RES_SALE_BROWSE() };
 
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_ORDER_JUN_get);
                 mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleOrderJun);

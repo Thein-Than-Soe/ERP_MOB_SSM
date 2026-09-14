@@ -510,10 +510,7 @@
                                 VerticalOptions="Center" />
 
 
-                            <Switch
-                                IsToggled="{Binding IsGSTEnabled, Mode=TwoWay}"
-                                OnColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                                VerticalOptions="Center" />
+                            <Switch IsToggled="{Binding IsGSTEnabled, Mode=TwoWay}" VerticalOptions="Center" />
 
                         </HorizontalStackLayout>
 
@@ -577,10 +574,7 @@
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 VerticalOptions="Center" />
 
-                            <Switch
-                                IsToggled="{Binding IsRoundOffEnabled, Mode=TwoWay}"
-                                OnColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                                VerticalOptions="Center" />
+                            <Switch IsToggled="{Binding IsRoundOffEnabled, Mode=TwoWay}" VerticalOptions="Center" />
 
                         </HorizontalStackLayout>
 

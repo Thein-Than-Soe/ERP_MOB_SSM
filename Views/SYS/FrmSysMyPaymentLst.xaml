@@ -112,7 +112,7 @@
                                         <StackLayout Padding="{StaticResource Key=paddingTop}">
                                             <footer:OvaListFormCartView
                                                 CodeLabel="{Binding PaymentDate, Converter={StaticResource FriendlyDateConverter}}"
-                                                DesLabel="PaymentTypeName_0_255"
+                                                DesLabel="{Binding PaymentTypeName_0_255}"
                                                 HeaderLabel="{Binding PaymentCode_0_50}"
                                                 IsChecked="{Binding IsChecked}"
                                                 ItemAsk="{Binding Ask}"
@@ -243,7 +243,7 @@
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
                                                             <Label.FormattedText>
                                                                 <FormattedString>
-                                                                    <Span Text="{Binding Code_0_50}" />
+                                                                    <Span Text="{Binding PaymentCode_0_50}" />
                                                                     <Span Text=" (" />
                                                                     <Span Text="{Binding ParentCode_0_50}" />
                                                                     <Span Text=")" />

@@ -110,20 +110,13 @@
                                 Text="&#xf095;"
                                 TextColor="Black"
                                 VerticalOptions="Center" />
-                            <Picker
-                                x:Name="PickerCountryCode"
-                                Title="+45"
-                                Grid.Column="1"
-                                FontSize="14"
-                                HeightRequest="40"
-                                ItemDisplayBinding="{Binding CountryMobileCode_0_50}"
-                                ItemsSource="{Binding CountryList}"
-                                WidthRequest="60" />
+
                             <Entry
                                 x:Name="entPhoneNumber"
                                 Grid.Column="2"
                                 FontSize="14"
                                 HeightRequest="40"
+                                IsEnabled="False"
                                 Keyboard="Telephone"
                                 Placeholder="Phone Number"
                                 Text="{Binding mDbUser.UserPhone}" />
@@ -165,20 +158,19 @@
         <!--  Fixed Bottom Box  -->
         <Grid
             Grid.Row="1"
-            Padding="20,0"
+            Margin="0,0,0,20"
+            Padding="0"
             ColumnDefinitions="*"
-            HeightRequest="50"
             HorizontalOptions="Fill"
             VerticalOptions="End">
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
                 <!--  Save button  -->
                 <Frame
-                    Padding="10,7"
+                    x:Name="SaveBookNowButton"
+                    Padding="10"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="5"
-                    HasShadow="True"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    CornerRadius="10"
+                    IsEnabled="{Binding IsServiceAdded}">
 
                     <!--  Tap Gesture  -->
                     <Frame.GestureRecognizers>
@@ -197,16 +189,16 @@
                             FontFamily="{StaticResource FontAwesomeSolid}"
                             FontSize="18"
                             Text="&#xf0c7;"
-                            TextColor="White"
+                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                             VerticalOptions="Center" />
 
                         <!--  Text  -->
                         <Label
                             Grid.Column="1"
                             FontAttributes="Bold"
-                            FontSize="14"
+                            FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                             Text="Save"
-                            TextColor="White"
+                            TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                             VerticalOptions="Center" />
                     </Grid>
                 </Frame>

@@ -1229,6 +1229,7 @@ namespace CS.ERP_MOB.General
                             l_ObservableProperty.MenuUrl = menu.MenuUrl;
                             l_ObservableProperty.button = menu.button;
                             l_ObservableProperty.StateIcon = "";
+                            l_ObservableProperty.LogoImg = menu.logoImg;
                         }
                         l_ObservableProperty.Text = menu.Text;
                         mMenuList.Add(l_ObservableProperty);
