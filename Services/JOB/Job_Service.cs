@@ -17,10 +17,10 @@ namespace CS.ERP_MOB.Services.JOB
         {
             Ask = 1,
             ProductCode = "JOB",
-            UploadURL = "http://updlivesrv.kumudr.com",
-            APIURL = "http://jobliveapi.kumudr.com/Service.svc",
+            UploadURL = "http://updqasrv.kumudr.com",
+            APIURL = "http://jobqaapi.kumudr.com/Service.svc",
             APIProtocol = "http://",
-            APIServer = "jobliveapi.kumudr.com/",
+            APIServer = "jobqaapi.kumudr.com/",
             APIPort = "",
             APIServiceName = "Service.svc/",
             ApiContentType = "application/json",

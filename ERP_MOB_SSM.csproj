@@ -28,10 +28,10 @@
 		<ApplicationId>com.ovaerp.cs.erp_mob_ssm</ApplicationId>
 
 		<!-- Versions -->
-		<Version>1.0.3</Version>
-		<PackageVersion>1.0.3</PackageVersion>
-		<ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
-		<ApplicationVersion>3</ApplicationVersion>
+		<Version>1.0.4</Version>
+		<PackageVersion>1.0.4</PackageVersion>
+		<ApplicationDisplayVersion>1.0.4</ApplicationDisplayVersion>
+		<ApplicationVersion>4</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>

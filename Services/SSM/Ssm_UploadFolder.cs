@@ -24,6 +24,8 @@ namespace CS.ERP_MOB.Services.SSM
         public static string ssm_order = "/SSM/order";
         public static string ssm_payment = "/SSM/payment";
         public static string ssm_invoice = "/SSM/invoice";
+
+        public static string ssm_ImgUploadServiceName = "/api/uploadImage";
         #endregion
     }
 }

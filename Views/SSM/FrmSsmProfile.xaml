@@ -170,7 +170,8 @@
                     Padding="10"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                     CornerRadius="10"
-                    IsEnabled="{Binding IsServiceAdded}">
+                    HeightRequest="40"
+                    WidthRequest="100">
 
                     <!--  Tap Gesture  -->
                     <Frame.GestureRecognizers>
@@ -196,7 +197,9 @@
                         <Label
                             Grid.Column="1"
                             FontAttributes="Bold"
+                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                             FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            HorizontalOptions="Center"
                             Text="Save"
                             TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                             VerticalOptions="Center" />

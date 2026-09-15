@@ -1049,7 +1049,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        private string mDiscountRateText = "";
+        private string mDiscountRateText = "0";
 
         public string DiscountRateText
         {
@@ -1527,6 +1527,10 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                         SelectedDiscountRule = matchedRule;
 
                         _isLoadingDefaultDiscountRule = false;
+                    }
+                    else
+                    {
+                        SelectedDiscountType = DiscountTypeList.FirstOrDefault(x =>x.Ask == "0");
                     }
                 }
 

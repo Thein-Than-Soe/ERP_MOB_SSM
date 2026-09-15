@@ -418,7 +418,8 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     }
 
                     // Add the new file to the selected front desk's UI list
-                    RefDocPhotos.Add(ReferenceUploadFilePath);
+                    RefDocPhotos.Add(Ssm_Service.getUploadURL() + ReferenceUploadFilePath);
+                    //RefDocPhotos.Add(ReferenceUploadFilePath);
 
                     NotifyPropertyChanged(nameof(HasPhotos));
                 }
@@ -426,6 +427,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 {
                     // Upload failed.
                     // Keep the existing selected front desk documents unchanged.
+                    WeakReferenceMessenger.Default.Send("Upload failed");
 
                     ReferenceUploadFilePath = null;
 
@@ -1163,6 +1165,19 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 if (!string.IsNullOrWhiteSpace(trimmedPath))
                 {
                     ProductPhotos.Add(trimmedPath);
+                }
+            }
+
+            var docs = selectedFrontDesk.ReferenceDocument
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var doc in docs)
+            {
+                var trimmedPath = doc.Trim();
+
+                if (!string.IsNullOrWhiteSpace(trimmedPath))
+                {
+                    RefDocPhotos.Add(Ssm_Service.getUploadURL() + trimmedPath);
                 }
             }
 

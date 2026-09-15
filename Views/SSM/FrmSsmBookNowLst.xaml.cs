@@ -168,9 +168,12 @@ public partial class FrmSsmBookNowLst : ContentView
 
         string text = e.NewTextValue ?? "";
 
-        // Allow empty while user is editing
+        // Allow the Entry to stay blank.
         if (string.IsNullOrEmpty(text))
+        {
+            vm.DiscountRate = 0;
             return;
+        }
 
         // Allow "." temporarily
         if (text == ".")
@@ -208,7 +211,8 @@ public partial class FrmSsmBookNowLst : ContentView
             return;
         }
 
-        // Do NOT update vm.DiscountRate here.
+        // Update ViewModel immediately
+        vm.DiscountRate = value;
     }
 
 

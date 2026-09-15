@@ -17,10 +17,10 @@ namespace CS.ERP_MOB.Services.SSM
         {
             Ask = 1,
             ProductCode = "SSM",
-            UploadURL = "http://upddevsrv.kumudr.com",
-            APIURL = "http://ssmdevapi.kumudr.com/Service.svc",
+            UploadURL = "http://updqasrv.kumudr.com",
+            APIURL = "http://ssmqaapi.kumudr.com/Service.svc",
             APIProtocol = "http://",
-            APIServer = "ssmdevapi.kumudr.com/",
+            APIServer = "ssmqaapi.kumudr.com/",
             APIPort = "",
             APIServiceName = "Service.svc/",
             ApiContentType = "application/json",
@@ -97,7 +97,7 @@ namespace CS.ERP_MOB.Services.SSM
                 imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
                 // Add folder name field
                 content.Add(imageContent, fieldName, fileName);
-                var url = mApiConfig.UploadURL + Ssm_UploadFolder.ssm_User;
+                var url = mApiConfig.UploadURL + Ssm_UploadFolder.ssm_ImgUploadServiceName;
                 HttpResponseMessage response = await client.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)

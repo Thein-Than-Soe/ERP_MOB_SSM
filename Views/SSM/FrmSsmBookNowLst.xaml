@@ -131,9 +131,10 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="18"
+                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                             Text="Service"
-                            TextColor="Black"
+                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
                             VerticalOptions="Center" />
 
                         <!--  PLUS BUTTON  -->
@@ -221,12 +222,14 @@
 
                                     <Label
                                         FontAttributes="Bold"
+                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                         FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                         LineBreakMode="TailTruncation"
                                         Text="{Binding SelectedStock.StockName_0_255}"
                                         TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
 
                                     <Label
+                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                         FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                         LineBreakMode="TailTruncation"
                                         Text="{Binding SelectedStock.StockCode_0_50}"
@@ -249,12 +252,14 @@
                                     <HorizontalStackLayout Spacing="5">
 
                                         <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             Text="Qty:"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
                                             WidthRequest="60" />
 
                                         <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
@@ -266,12 +271,14 @@
                                     <HorizontalStackLayout Spacing="5">
 
                                         <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             Text="UOM:"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
                                             WidthRequest="60" />
 
                                         <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             Text="{Binding ItemUOM}"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
@@ -283,6 +290,7 @@
                                     <HorizontalStackLayout Spacing="5">
 
                                         <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             Text="Price:"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
@@ -290,6 +298,7 @@
 
                                         <Label
                                             FontAttributes="Bold"
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
                                             <Label.Text>
@@ -317,6 +326,7 @@
 
                                     <Label
                                         FontAttributes="Bold"
+                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                         FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                                         TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
                                         <Label.Text>
@@ -618,13 +628,17 @@
 
                         <Label
                             FontAttributes="Bold"
-                            FontSize="18"
-                            Text="Grand Total" />
+                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            Text="Grand Total"
+                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
 
                         <Label
                             Grid.Column="1"
                             FontAttributes="Bold"
-                            FontSize="16">
+                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
 
                             <Label.Text>
                                 <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
@@ -672,6 +686,8 @@
                             Grid.Column="0"
                             Margin="20,0,0,0"
                             FontAttributes="Bold"
+                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                             Text="Payment"
                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
                             VerticalOptions="Center" />

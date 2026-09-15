@@ -12,10 +12,10 @@ namespace CS.ERP_MOB.Services.HMS
         {
             Ask = 1,
             ProductCode = "HMS",
-            UploadURL = "http://upddevsrv.kumudr.com",
-            APIURL = "http://hmsdevapi.kumudr.com/Service.svc",
+            UploadURL = "http://updqasrv.kumudr.com",
+            APIURL = "http://hmsqaapi.kumudr.com/Service.svc",
             APIProtocol = "http://",
-            APIServer = "hmsdevapi.kumudr.com/",
+            APIServer = "hmsqaapi.kumudr.com/",
             APIPort = "",
             APIServiceName = "Service.svc/",
             ApiContentType = "application/json",

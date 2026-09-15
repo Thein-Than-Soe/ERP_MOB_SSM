@@ -129,12 +129,12 @@
                                         Spacing="10"
                                         VerticalOptions="CenterAndExpand">
                                         <Label
-                                            Margin="0,0,20,0"
                                             FontFamily="{StaticResource FontAwesomeSolid}"
+                                            HorizontalOptions="Center"
                                             Text="{Binding LogoImg, Converter={StaticResource IconConverter}}"
                                             TextColor="{Binding ThemeSettingMenu.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                             VerticalOptions="Center"
-                                            WidthRequest="30" />
+                                            WidthRequest="25" />
                                         <Label
                                             FontSize="{Binding ThemeSettingMenu.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                             Text="{Binding Text}"

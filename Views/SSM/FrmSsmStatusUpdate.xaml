@@ -16,6 +16,7 @@
                     <Label
                         x:Name="lblOpen"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Open"
                         VerticalOptions="Center" />
@@ -29,6 +30,7 @@
                     <Label
                         x:Name="lblAssign"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Assign"
                         VerticalOptions="Center" />
@@ -42,6 +44,7 @@
                     <Label
                         x:Name="lblTravelling"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Travelling"
                         VerticalOptions="Center" />
@@ -55,6 +58,7 @@
                     <Label
                         x:Name="lblCheckIn"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Check In"
                         VerticalOptions="Center" />
@@ -68,6 +72,7 @@
                     <Label
                         x:Name="lblWip"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="WIP"
                         VerticalOptions="Center" />
@@ -81,6 +86,7 @@
                     <Label
                         x:Name="lblDone"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Done"
                         VerticalOptions="Center" />
@@ -93,6 +99,7 @@
                     <Label
                         x:Name="lblCheckOut"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Check Out"
                         VerticalOptions="Center" />
@@ -106,6 +113,7 @@
                     <Label
                         x:Name="lblComplete"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Complete"
                         VerticalOptions="Center" />
@@ -119,6 +127,7 @@
                     <Label
                         x:Name="lblClosed"
                         FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Closed"
                         VerticalOptions="Center" />
@@ -504,28 +513,44 @@
                         Command="{Binding PickReferenceFileCommand}"
                         CornerRadius="6"
                         FontAttributes="Bold"
-                        FontSize="12"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Add File"
                         TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
 
                     <!--  Current Document  -->
-                    <HorizontalStackLayout
+                    <CollectionView
                         Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        Spacing="6">
+                        HeightRequest="100"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding RefDocPhotos}"
+                        SelectionMode="None">
 
-                        <Label
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1"
-                            Text="{Binding ReferenceFileName}"
-                            TextColor="Gray"
-                            VerticalOptions="Center" />
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="8" Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
 
-                    </HorizontalStackLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+
+                                <Border
+                                    Padding="2"
+                                    HeightRequest="90"
+                                    Stroke="LightGray"
+                                    StrokeShape="RoundRectangle 6"
+                                    WidthRequest="90">
+
+                                    <Image Aspect="AspectFill" Source="{Binding}" />
+
+                                </Border>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
 
                 </Grid>
 
@@ -599,9 +624,10 @@
                             <Label
                                 x:Name="btn_save"
                                 Grid.Column="1"
-                                FontSize="14"
+                                FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                 Text="Update"
-                                TextColor="White"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 VerticalOptions="Center" />
                         </Grid>
                     </Frame>
