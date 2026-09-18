@@ -225,18 +225,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 mStatusAsk = value;
 
                 NotifyPropertyChanged(nameof(StatusAsk));
-                NotifyPropertyChanged(nameof(IsServiceEditable));
                 NotifyPropertyChanged(nameof(IsPaymentEditable));
-            }
-        }
-
-
-        // Open only
-        public bool IsServiceEditable
-        {
-            get
-            {
-                return StatusAsk == "1";
             }
         }
 

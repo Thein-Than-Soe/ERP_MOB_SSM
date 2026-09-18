@@ -1,24 +1,25 @@
 using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.AMS.RES;
 using CS.ERP.PL.HMS.DAT;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.HMS.RES;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.ViewsModel.Frame;
-using CS.ERP_MOB.ViewsModel.SSM;
+using CS.ERP_MOB.ViewsModel.SYS;
 using Microsoft.Maui.Devices;
 using RGPopup.Maui.Pages;
 using RGPopup.Maui.Services;
 using System.Diagnostics;
 
-namespace CS.ERP_MOB.Views.SSM
+namespace CS.ERP_MOB.Views.SYS
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrmSsmSchedulePop : PopupPage
+    public partial class FrmSysMyPaymentPop : PopupPage
     {
         #region "Declaring"
-        VmlSchedule mVmlSchedule;
-        DAT_FRONT_DESK selectedData = new DAT_FRONT_DESK();
+        VmlMyPayment mVmlMyPayment;
+        RES_SALE_PAYMENT selectedData = new RES_SALE_PAYMENT();
         private TaskCompletionSource<object> _taskCompletionSource;
         public Task<object> PopupClosedTask => _taskCompletionSource.Task;
 
@@ -26,12 +27,12 @@ namespace CS.ERP_MOB.Views.SSM
         #endregion
 
         #region "Constructor"
-        public FrmSsmSchedulePop()
+        public FrmSysMyPaymentPop()
         {
             try
             {
                 InitializeComponent();
-                BindingContext = mVmlSchedule = new VmlSchedule();
+                BindingContext = mVmlMyPayment = new VmlMyPayment();
 
 
                 var display = DeviceDisplay.MainDisplayInfo;
@@ -47,7 +48,7 @@ namespace CS.ERP_MOB.Views.SSM
                 throw ex.InnerException;
             }
         }
-        public FrmSsmSchedulePop(VmlSchedule mVmlSchedule)
+        public FrmSysMyPaymentPop(VmlMyPayment mVmlMyPayment)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace CS.ERP_MOB.Views.SSM
                     // Set 2/3 height and full width
                     PopupFrame.HeightRequest = height * 2 / 3;
                     PopupFrame.WidthRequest = width;
-                    await InitializePopupAsync(mVmlSchedule);
+                    await InitializePopupAsync(mVmlMyPayment);
                 };
             }
             catch (Exception ex)
@@ -76,13 +77,13 @@ namespace CS.ERP_MOB.Views.SSM
         #endregion
 
         #region "Method"
-        private async Task InitializePopupAsync(VmlSchedule mVmlSchedule)
+        private async Task InitializePopupAsync(VmlMyPayment mVmlMyPayment)
         {
             try
             {
-                await mVmlSchedule.loadBookNow();
+                await mVmlMyPayment.loadSalePayHis();
 
-                BindingContext = mVmlSchedule;
+                BindingContext = mVmlMyPayment;
             }
             catch (Exception ex)
             {

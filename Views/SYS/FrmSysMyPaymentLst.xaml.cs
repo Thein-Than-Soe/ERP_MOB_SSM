@@ -106,7 +106,7 @@ namespace CS.ERP_MOB.Views.SYS
                     return;
             }
 
-            mVmlMyPayment.SaleOrderLst = new List<RES_SALE_PAYMENT>(sorted);
+            mVmlMyPayment.SaleOrderLst = new ObservableCollection<RES_SALE_PAYMENT>(sorted);
             if (mVmlMyPayment.IsCardView)
             {
                 collectionView.ItemsSource = mVmlMyPayment.SaleOrderLst;

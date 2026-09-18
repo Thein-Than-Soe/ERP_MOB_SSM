@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.EINV.RVD;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
@@ -180,12 +181,20 @@ namespace CS.ERP_MOB.Views.SSM
         {
             try
             {
-                if (!Common.bindMenu("ssm-book-now-set"))
+                if (Utility.checkButtonAccess("New"))
                 {
-                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                    if (!Common.bindMenu("ssm-book-now-set"))
+                    {
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                    }
+                    Common.routeMenu(Common.mCommon.SelectedMenu);
                 }
-                Common.routeMenu(Common.mCommon.SelectedMenu);
+                else
+                {
+                    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+                }
+
             }
             catch (Exception ex)
             {
@@ -369,7 +378,7 @@ namespace CS.ERP_MOB.Views.SSM
         }
         private async void OnGridSingleTap(object sender, TappedEventArgs e)
         {
-            if (!Utility.checkButtonAccess("Edit"))
+            if (Utility.checkButtonAccess("Edit"))
             {
                 WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
                 return;
@@ -454,7 +463,16 @@ namespace CS.ERP_MOB.Views.SSM
         //}
         private async Task btnEdit_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
         {
-            
+            if (tappedItem is DAT_FRONT_DESK selectedItem)
+            {
+                // Open your book now with data
+                if (!Common.bindMenu("ssm-book-now-set"))
+                {
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                }
+                Common.routeMenu(Common.mCommon.SelectedMenu, selectedItem.Ask);
+            }
         }
         private async Task btnDelete_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
         {
@@ -909,82 +927,91 @@ namespace CS.ERP_MOB.Views.SSM
 
         private async void Scheduler_Tapped(object sender,SchedulerTappedEventArgs e)
         {
+                // clicked an empty cell
+                //if (e.Appointments == null || e.Appointments.Count == 0)
+                //{
+                //    // e.Date gives the DateTime of the blank cell clicked
+                //    if (e.Date is DateTime clickedDate)
+                //    {
+                //        // Perform your action for a blank cell click here (e.g., open a new event dialog)
+                //        System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
 
-            // clicked an empty cell
-            if (e.Appointments == null || e.Appointments.Count == 0)
-            {
-                // e.Date gives the DateTime of the blank cell clicked
-                if (e.Date is DateTime clickedDate)
-                {
-                    // Perform your action for a blank cell click here (e.g., open a new event dialog)
-                    System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
+                //        var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                //        // Open your book now with date
+                //        if (!Common.bindMenu("ssm-book-now-set"))
+                //        {
+                //            Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                //            MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                //        }
+                //        Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
+                //    }
+                //}
+                //else // An existing appointment was tapped
+                //{
+                    var appt = e.Appointments[0] as SchedulerAppointment;
 
-                    var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-                    // Open your book now with date
-                    if (!Common.bindMenu("ssm-book-now-set"))
-                    {
-                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
-                    }
-                    Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
-                }
-            }
-            else // An existing appointment was tapped
-            {
-                var appt = e.Appointments[0] as SchedulerAppointment;
+                    if (appt == null) return;
+                    // Convert SchedulerAppointment -> your DAT_FRONT_DESK
+                    var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
 
-                if (appt == null) return;
-                // Convert SchedulerAppointment -> your DAT_FRONT_DESK
-                var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
+                    if (item == null) return;
+                    await Navigation.PushAsync(new FrmSsmStatusUpdate(item));
+                //}
 
-                if (item == null) return;
-                await Navigation.PushAsync(new FrmSsmStatusUpdate(item));
-            }
             
+
         }
 
         private async void Scheduler_DoubleTapped(object sender,SchedulerDoubleTappedEventArgs e)
         {
-            // Nothing selected
-            if (e.Appointments == null || e.Appointments.Count == 0)
+            if (Utility.checkButtonAccess("New"))
             {
-                // e.Date gives the DateTime of the blank cell clicked
-                if (e.Date is DateTime clickedDate)
+                // Nothing selected
+                if (e.Appointments == null || e.Appointments.Count == 0)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
-
-                    var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-                    // Open your book now with date
-                    if (!Common.bindMenu("ssm-book-now-set"))
+                    // e.Date gives the DateTime of the blank cell clicked
+                    if (e.Date is DateTime clickedDate)
                     {
-                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                        MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                        System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
+
+                        var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                        // Open your book now with date
+                        if (!Common.bindMenu("ssm-book-now-set"))
+                        {
+                            Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                            MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                        }
+                        Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
                     }
-                    Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
                 }
+
+                // Get the appointment that was double-tapped
+                var appt = e.Appointments[0] as SchedulerAppointment;
+
+                if (appt == null)
+                    return;
+
+                // Get your DAT_FRONT_DESK object
+                var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
+                string FrontDeskAsk = item.Ask;
+
+                if (item == null)
+                    return;
+
+                // Open your book now with data
+                if (!Common.bindMenu("ssm-book-now-set"))
+                {
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                }
+                Common.routeMenu(Common.mCommon.SelectedMenu, FrontDeskAsk);
+
             }
-
-            // Get the appointment that was double-tapped
-            var appt = e.Appointments[0] as SchedulerAppointment;
-
-            if (appt == null)
-                return;
-
-            // Get your DAT_FRONT_DESK object
-            var item = mVmlSchedule.GetFrontDeskFromAppointment(appt);
-            string FrontDeskAsk = item.Ask;
-
-            if (item == null)
-                return;
-
-            // Open your book now with data
-            if (!Common.bindMenu("ssm-book-now-set"))
+            else
             {
-                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
             }
-            Common.routeMenu(Common.mCommon.SelectedMenu, FrontDeskAsk);
-        }
+}
 
 
     }

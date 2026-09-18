@@ -584,18 +584,20 @@
                         CheckedChanged="OnCheckAllCheckChanged"
                         HeightRequest="16"
                         HorizontalOptions="Start"
+                        VerticalOptions="Center"
                         WidthRequest="16" />
                     <Label
                         Margin="3"
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.CheckAll}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
                 </StackLayout>
                 <StackLayout
                     Orientation="Horizontal"
                     TouchEffect.PressedOpacity="0.4"
                     TouchEffect.PressedScale="0.9">
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MoreSearchCommand}" />
+                        <TapGestureRecognizer Command="{Binding MoreSearchCommand}" Tapped="OnOverlayTapped" />
                     </StackLayout.GestureRecognizers>
                     <Label
                         Margin="0,3"

@@ -30,6 +30,9 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         string mRequest = "";
         string mResponse = "";
 
+        //loadBookNow
+        public JSN_RES_LOAD_BOOK_NOW mJSN_RES_LOAD_BOOK_NOW = new JSN_RES_LOAD_BOOK_NOW();
+
         //getFrontDeskUser
         public JSN_REQ_FRONT_DESK mJSN_REQ_FRONT_DESK = new JSN_REQ_FRONT_DESK();
         public JSN_RES_FRONT_DESK_USER mJSN_RES_FRONT_DESK_USER = new JSN_RES_FRONT_DESK_USER();
@@ -212,41 +215,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Get Set"
-        private List<DAT_FILTER_RANGE> mFilterRangeList = new List<DAT_FILTER_RANGE>();
-        public List<DAT_FILTER_RANGE> FilterRangeList
-        {
-            get { return mFilterRangeList; }
-            set { mFilterRangeList = value; NotifyPropertyChanged("FilterRangeList"); }
-        }
-        private DAT_FILTER_RANGE mSelectedFilterRange;
-
-        public DAT_FILTER_RANGE SelectedFilterRange
-        {
-            get => mSelectedFilterRange;
-            set
-            {
-                if (mSelectedFilterRange == value)
-                    return;
-
-                mSelectedFilterRange = value;
-                NotifyPropertyChanged(nameof(SelectedFilterRange));
-
-                if (value == null)
-                    return;
-
-                DateRange range = Utility.OnFilterRangeChanged(value);
-
-                if (range == null)
-                    return;
-
-                StartDate = range.StartDate.Date;
-                StartTime = range.StartDate.TimeOfDay;
-
-                EndDate = range.EndDate.Date;
-                EndTime = range.EndDate.TimeOfDay;
-
-            }
-        }
+        
 
         private DAT_FRONT_DESK mSelectedFrontDesk;
         public DAT_FRONT_DESK SelectedFrontDesk
@@ -260,13 +229,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 mSelectedFrontDesk = value;
                 NotifyPropertyChanged(nameof(SelectedFrontDesk));
             }
-        }
-
-        public List<RES_USER_LST> mCustomerDtlList;
-        public List<RES_USER_LST> CustomerDtlList
-        {
-            get { return mCustomerDtlList; }
-            set { mCustomerDtlList = value; NotifyPropertyChanged("CustomerDtlList"); }
         }
 
         private string mReferenceFileName;
@@ -696,9 +658,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         #endregion
 
         #region "Schedule"
-        //public ICommand AppointmentTappedCommand => new Command<SchedulerAppointment>(OnAppointmentTapped);
-
-
         public class ScheduleUser
         {
             public string UserAsk { get; set; }
@@ -878,11 +837,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
             NotifyPropertyChanged(nameof(ScheduleUsers));
         }
-        #endregion
-
-
-        #region "Get Original Front Desk"
-
         public DAT_FRONT_DESK GetFrontDeskFromAppointment(
             SchedulerAppointment appointment)
         {
@@ -902,7 +856,6 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         }
 
         #endregion
-
 
         #region "Status Update Action"
         public List<string> GetAvailableScheduleActions( DAT_FRONT_DESK item)
@@ -977,27 +930,136 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     SelectedFrontDesk.UserGPSLatitude = location.Latitude.ToString("0.########");
                     SelectedFrontDesk.UserGPSLongitude = location.Longitude.ToString("0.########");
                 }
+                else
+                {
+                    await Shell.Current.DisplayAlert(
+                        "Location Unavailable",
+                        "We couldn't determine your current location. Please try again.",
+                        "OK");
+
+                    SelectedFrontDesk.UserGPSLatitude = "";
+                    SelectedFrontDesk.UserGPSLongitude = "";
+                }
             }
             catch (FeatureNotEnabledException)
             {
                 // Location service is disabled on the device
                 SelectedFrontDesk.UserGPSLatitude = "";
                 SelectedFrontDesk.UserGPSLongitude = "";
+                await Shell.Current.DisplayAlert(
+                        "Location Services Disabled",
+                        "Please turn on Location Services on your device and try again.",
+                        "OK");
             }
             catch (PermissionException)
             {
                 // User denied location permission
                 SelectedFrontDesk.UserGPSLatitude = "";
                 SelectedFrontDesk.UserGPSLongitude = "";
+                await Shell.Current.DisplayAlert(
+                    "Location Permission Required",
+                    "Please allow location permission for this app to record your current location.",
+                    "OK");
             }
             catch (Exception)
             {
                 SelectedFrontDesk.UserGPSLatitude = "";
                 SelectedFrontDesk.UserGPSLongitude = "";
+                await Shell.Current.DisplayAlert(
+                        "Unable to Get Location",
+                        "We couldn't get your current location. Please check your location settings and try again.",
+                        "OK");
             }
         }
         #endregion
 
+        #region "Load api data tab"
+        public List<RES_CUSTOMER_DTL> mLoadCustomerLst;
+        public List<RES_CUSTOMER_DTL> LoadCustomerLst
+        {
+            get { return mLoadCustomerLst; }
+            set { mLoadCustomerLst = value; NotifyPropertyChanged("LoadCustomerLst"); }
+        }
+        public RES_CUSTOMER_DTL mLoadSelectedCustomer;
+        public RES_CUSTOMER_DTL LoadSelectedCustomer
+        {
+            get { return mLoadSelectedCustomer; }
+            set { mLoadSelectedCustomer = value; NotifyPropertyChanged("LoadSelectedCustomer"); }
+        }
+
+        public List<DAT_FILTER_RANGE> mLoadFilterRangeLst;
+        public List<DAT_FILTER_RANGE> LoadFilterRangeLst
+        {
+            get { return mLoadFilterRangeLst; }
+            set { mLoadFilterRangeLst = value; NotifyPropertyChanged("LoadFilterRangeLst"); }
+        }
+        public DAT_FILTER_RANGE mLoadSelectedFilterRange;
+        public DAT_FILTER_RANGE LoadSelectedFilterRange
+        {
+            get => mLoadSelectedFilterRange;
+            set
+            {
+               
+                mLoadSelectedFilterRange = value;
+                NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+
+                if (value == null)
+                    return;
+
+                DateRange range = Utility.OnFilterRangeChanged(value);
+
+                if (range == null)
+                    return;
+
+                StartDate = range.StartDate.Date;
+                StartTime = range.StartDate.TimeOfDay;
+
+                EndDate = range.EndDate.Date;
+                EndTime = range.EndDate.TimeOfDay;
+
+            }
+        }
+
+        public List<RES_STOCK> mLoadStockLst;
+        public List<RES_STOCK> LoadStockLst
+        {
+            get { return mLoadStockLst; }
+            set { mLoadStockLst = value; NotifyPropertyChanged("LoadStockLst"); }
+        }
+        public RES_STOCK mLoadSelectedStock;
+        public RES_STOCK LoadSelectedStock
+        {
+            get { return mLoadSelectedStock; }
+            set { mLoadSelectedStock = value; NotifyPropertyChanged("LoadSelectedStock"); }
+        }
+
+        public List<RES_USER_LST> mLoadUserLst;
+        public List<RES_USER_LST> LoadUserLst
+        {
+            get { return mLoadUserLst; }
+            set { mLoadUserLst = value; NotifyPropertyChanged("LoadUserLst"); }
+        }
+        public RES_USER_LST mLoadSelectedUser;
+        public RES_USER_LST LoadSelectedUser
+        {
+            get { return mLoadSelectedUser; }
+            set { mLoadSelectedUser = value; NotifyPropertyChanged("LoadSelectedUser"); }
+        }
+
+        public List<RES_SERVICE_STATUS> mLoadServiceStatusLst;
+        public List<RES_SERVICE_STATUS> LoadServiceStatusLst
+        {
+            get { return mLoadServiceStatusLst; }
+            set { mLoadServiceStatusLst = value; NotifyPropertyChanged("LoadServiceStatusLst"); }
+        }
+        public RES_SERVICE_STATUS mLoadSelectedServiceStatus;
+        public RES_SERVICE_STATUS LoadSelectedServiceStatus
+        {
+            get { return mLoadSelectedServiceStatus; }
+            set { mLoadSelectedServiceStatus = value; NotifyPropertyChanged("LoadSelectedServiceStatus"); }
+        }
+
+        #endregion
 
         #region "Method"
         private void switchDisplayView(DisplayView argDisplayView)
@@ -1106,42 +1168,37 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                 var popup = new FrmSsmSchedulePop(this);
                 await PopupNavigation.Instance.PushAsync(popup);
 
+                //DAT_FRONT_DESK requestedData = new DAT_FRONT_DESK(); 
+
                 var result = await popup.PopupClosedTask;
-
-                await getFrontDeskUser();
-                if (result is DAT_FRONT_DESK selectedData && !string.IsNullOrWhiteSpace(selectedData.CustomerAsk))
+                if (result is DAT_FRONT_DESK requestedData)
                 {
-                    mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
-                    if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-                    {
-                        FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)).ToList());
-                    }
+                    //update req data model according to selected data
+                    requestedData.StockAsk = LoadSelectedStock?.Ask ?? "0";
+                    requestedData.CustomerAsk = LoadSelectedCustomer?.Ask ?? "0";
+                    requestedData.UserAsk = LoadSelectedUser?.Ask ?? "0";
+                    requestedData.InOutStatusAsk = LoadSelectedServiceStatus?.Ask ?? "0";
+
+                    requestedData.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                    DateTime SD = StartDate.Date + StartTime;
+                    requestedData.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    DateTime ED = EndDate.Date + EndTime;
+                    requestedData.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    
+                    
+                    //call api
+                    await getFrontDeskUser_load(requestedData);
+
+                    // Close THIS popup
+                    await PopupNavigation.Instance.RemovePageAsync(popup);
                 }
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
-            }
-
-        }
-        public void bindCustomer(List<RES_USER_LST> argRES_USER_LST_LST)
-        {
-            try
-            {
-                if (argRES_USER_LST_LST != null && argRES_USER_LST_LST.Count > 0)
-                {
-                    CustomerDtlList = argRES_USER_LST_LST;
-                }
-                else
-                {
-                    CustomerDtlList = new List<RES_USER_LST>();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
+                Debug.WriteLine($"callSearchMorePopup ERROR: {ex}");
             }
         }
+        
 
         //order images
         public void LoadOrderReference(DAT_FRONT_DESK selectedFrontDesk)
@@ -1210,16 +1267,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     this.mJSN_RES_FRONT_DESK_USER = JsonConvert.DeserializeObject<JSN_RES_FRONT_DESK_USER>(mResponse);
                     if (this.mJSN_RES_FRONT_DESK_USER.Message.Code == "7")
                     {
-                            mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK  ?? new List<DAT_FRONT_DESK>();
-                            FilterRangeList = this.mJSN_RES_FRONT_DESK_USER.DAT_FILTER_RANGE;
-                        if (mSelectedFilterRange == null)
-                        {
-                            mSelectedFilterRange =
-                                Utility.GetUserSettingFilterRange(FilterRangeList);
-
-                            NotifyPropertyChanged(nameof(SelectedFilterRange));
-                        }
-                        bindCustomer(this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST);
+                        mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK  ?? new List<DAT_FRONT_DESK>();
                         bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
                         bindDataTabUser( this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST ?? new List<RES_USER_LST>());
                         BuildSchedulerAppointments();
@@ -1288,7 +1336,105 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        #endregion
+        //search more
+        public async Task loadBookNow()
+        {
+            try
+            {
+                Utility.openLoader();
+                mRequest = JsonConvert.SerializeObject(Common.mCommon.REQ_AUTHORIZATION);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadBookNow);
+                if (mResponse != null || mResponse != "")
+                {
+                    this.mJSN_RES_LOAD_BOOK_NOW = JsonConvert.DeserializeObject<JSN_RES_LOAD_BOOK_NOW>(mResponse);
+                    if (mJSN_RES_LOAD_BOOK_NOW.Message.Code == "7")
+                    {
+                        if (this.mJSN_RES_LOAD_BOOK_NOW.RES_BANK.Count > 0)
+                        {
+                            LoadFilterRangeLst = mJSN_RES_LOAD_BOOK_NOW.DAT_FILTER_RANGE;
+                            if (mLoadSelectedFilterRange == null)
+                            {
+                                LoadSelectedFilterRange = Utility.GetUserSettingFilterRange(LoadFilterRangeLst);
+                                NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+                            }
+                            else
+                            {
+                                LoadSelectedFilterRange = mLoadSelectedFilterRange;
+                                NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+                            }
+
+                            LoadStockLst = mJSN_RES_LOAD_BOOK_NOW.RES_STOCK;
+                            LoadCustomerLst = mJSN_RES_LOAD_BOOK_NOW.RES_CUSTOMER_DTL;
+                            LoadUserLst = mJSN_RES_LOAD_BOOK_NOW.RES_USER_LST;
+                            LoadServiceStatusLst = mJSN_RES_LOAD_BOOK_NOW.RES_SERVICE_STATUS;
+
+
+                            //bindDataTab(this.mJSN_LOAD_SALE_PAYMENT.RES_SALE_PAYMENT);
+                            WeakReferenceMessenger.Default.Send(this.mJSN_RES_LOAD_BOOK_NOW.Message.Message);
+                        }
+                        else
+                        {
+                            WeakReferenceMessenger.Default.Send(this.mJSN_RES_LOAD_BOOK_NOW.Message.Message);
+                        }
+                    }
+                    else
+                    {
+                        WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("DAT.ErrWebService"));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Utility.closeLoader();
+            }
+        }
+        
+        public async Task getFrontDeskUser_load(DAT_FRONT_DESK argDAT_FRONT_DESK)
+        {
+            try
+            {
+                Utility.openLoader();
+                mJSN_REQ_FRONT_DESK.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = argDAT_FRONT_DESK;
+
+                mRequest = JsonConvert.SerializeObject(mJSN_REQ_FRONT_DESK);
+                mResponse = await Hms_Service.ApiCall(mRequest, Hms_Name.wsgetFrontDeskUser);
+                if (mResponse != null && mResponse != "")
+                {
+                    this.mJSN_RES_FRONT_DESK_USER = JsonConvert.DeserializeObject<JSN_RES_FRONT_DESK_USER>(mResponse);
+                    if (this.mJSN_RES_FRONT_DESK_USER.Message.Code == "7")
+                    {
+                        mDAT_FRONT_DESK_LST = this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK  ?? new List<DAT_FRONT_DESK>();
+                        bindDataTab(this.mJSN_RES_FRONT_DESK_USER.DAT_FRONT_DESK);
+                        bindDataTabUser( this.mJSN_RES_FRONT_DESK_USER.RES_USER_LST ?? new List<RES_USER_LST>());
+                        BuildSchedulerAppointments();
+                        
+                        WeakReferenceMessenger.Default.Send(this.mJSN_RES_FRONT_DESK_USER.Message.Message);
+                        
+                    }
+                    else
+                    {
+                        WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("DAT.ErrWebService"));
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw;
+            }
+            finally
+            {
+                Utility.closeLoader();
+            }
+        }
+
+    #endregion
     }
 
 }

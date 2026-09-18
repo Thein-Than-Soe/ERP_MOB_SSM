@@ -1,4 +1,5 @@
 
+using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.HCM.DAT;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.HMS.RES;
@@ -78,94 +79,104 @@ namespace CS.ERP_MOB.Views.SSM
         {
             try
             {
-                if (string.IsNullOrEmpty(mCurrentAction))
-                    return;
-
-                btn_save.IsEnabled = false;
-                bool success = false;
-
-                switch (mCurrentAction)
+                if (Utility.checkButtonAccess("Edit"))
                 {
-                    case "Assign":
+                    if (string.IsNullOrEmpty(mCurrentAction))
+                        return;
 
-                        // go to book now
-                        vm.SelectedFrontDesk.InOutStatusAsk = "2";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Assign";
-                        break;
+                    btn_save.IsEnabled = false;
+                    bool success = false;
 
-                    case "Travelling":
+                    switch (mCurrentAction)
+                    {
+                        case "Assign":
 
-                        // go to book now
-                        vm.SelectedFrontDesk.InOutStatusAsk = "3";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Travelling";
-                        break;
+                            // go to book now
+                            vm.SelectedFrontDesk.InOutStatusAsk = "2";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Assign";
+                            break;
 
+                        case "Travelling":
 
-                    case "Check In":
-
-                        
-                        vm.SelectedFrontDesk.InOutStatusAsk = "4";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Check In";
-                        break;
-
-
-                    case "WIP":
-
-                        vm.SelectedFrontDesk.InOutStatusAsk = "5";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "WIP";
-                        break;
+                            // go to book now
+                            vm.SelectedFrontDesk.InOutStatusAsk = "3";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Travelling";
+                            break;
 
 
-                    case "Done":
-
-                        vm.SelectedFrontDesk.InOutStatusAsk = "6";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Done";
-                        break;
+                        case "Check In":
 
 
-                    case "Check Out":
-
-                        vm.SelectedFrontDesk.InOutStatusAsk = "7";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Check Out";
-                        break;
+                            vm.SelectedFrontDesk.InOutStatusAsk = "4";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Check In";
+                            break;
 
 
-                    case "Complete":
+                        case "WIP":
 
-                        vm.SelectedFrontDesk.InOutStatusAsk = "8";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Complete";
-                        break;
+                            vm.SelectedFrontDesk.InOutStatusAsk = "5";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "WIP";
+                            break;
 
 
-                    case "Closed":
+                        case "Done":
 
-                        vm.SelectedFrontDesk.InOutStatusAsk = "9";
-                        vm.SelectedFrontDesk.InOutStatusName_0_255 = "Closed";
-                        break;
+                            vm.SelectedFrontDesk.InOutStatusAsk = "6";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Done";
+                            break;
 
-                }
 
-                vm.SelectedFrontDesk.SD = GetUtcDateTimeString(pkr_SD.Date, pkr_ST.Time);
-                vm.SelectedFrontDesk.ED = GetUtcDateTimeString(pkr_ED.Date, pkr_ET.Time);
-                vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
-                vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
+                        case "Check Out":
 
-                success = await vm.updateServiceStatus();
+                            vm.SelectedFrontDesk.InOutStatusAsk = "7";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Check Out";
+                            break;
 
-                if (success)
-                {
-                    frontDesk.InOutStatusAsk = vm.SelectedFrontDesk.InOutStatusAsk;
-                    SetAvailableAction();
-                    UpdateStatusDisplay();
+
+                        case "Complete":
+
+                            vm.SelectedFrontDesk.InOutStatusAsk = "8";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Complete";
+                            break;
+
+
+                        case "Closed":
+
+                            vm.SelectedFrontDesk.InOutStatusAsk = "9";
+                            vm.SelectedFrontDesk.InOutStatusName_0_255 = "Closed";
+                            break;
+
+                    }
+
+                    vm.SelectedFrontDesk.SD = GetUtcDateTimeString(pkr_SD.Date, pkr_ST.Time);
+                    vm.SelectedFrontDesk.ED = GetUtcDateTimeString(pkr_ED.Date, pkr_ET.Time);
+                    vm.SelectedFrontDesk.ReferenceDocument = vm.ReferenceUploadFilePath;
+                    vm.SelectedFrontDesk.ServiceDescription_0_500 = Ent_Description.Text;
+                    vm.GetCurrentLocation();
+
+                    success = await vm.updateServiceStatus();
+
+                    if (success)
+                    {
+                        frontDesk.InOutStatusAsk = vm.SelectedFrontDesk.InOutStatusAsk;
+                        SetAvailableAction();
+                        UpdateStatusDisplay();
+                    }
+                    else
+                    {
+                        await DisplayAlert(
+                            "Error",
+                            "Failed to update status.",
+                            "OK");
+                    }
+
                 }
                 else
                 {
-                    await DisplayAlert(
-                        "Error",
-                        "Failed to update status.",
-                        "OK");
+                    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
                 }
 
+               
             }
             catch (Exception ex)
             {

@@ -122,42 +122,44 @@ public partial class FrmSsmBookNowLst : ContentView
     }
     private async void btn_addService(object sender, EventArgs e)
     {
-        if (!vm.IsServiceEditable)
-            return;
+        if (Utility.checkButtonAccess("New"))
+        {
+            await Navigation.PushAsync(new FrmSsmServiceSet(vm));
+            
+            vm.IsServiceAdded = true;
 
-        await Navigation.PushAsync(
-            new FrmSsmServiceSet(vm));
-
-        vm.IsServiceAdded = true;
-
-        ServiceButton.IsVisible = !vm.IsServiceAdded;
-        EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
-        ServiceCard.IsVisible = vm.IsServiceAdded;
-        InvoiceSection.IsVisible = vm.IsServiceAdded;
-        ServiceSection.IsVisible = vm.IsCustomerSelected;
+            ServiceButton.IsVisible = !vm.IsServiceAdded;
+            EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
+            ServiceCard.IsVisible = vm.IsServiceAdded;
+            InvoiceSection.IsVisible = vm.IsServiceAdded;
+            ServiceSection.IsVisible = vm.IsCustomerSelected;
+        }
+        else
+        {
+            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+        }
     }
 
-    private async void ServiceCard_Tapped(
-        object sender,
-        EventArgs e)
+    private async void ServiceCard_Tapped( object sender, EventArgs e)
     {
-        if (!vm.IsServiceEditable)
-            return;
+        if (Utility.checkButtonAccess("Edit"))
+        {
 
-        await Navigation.PushAsync(
-            new FrmSsmServiceSet(vm));
+            await Navigation.PushAsync( new FrmSsmServiceSet(vm));
 
-        vm.IsServiceAdded = true;
+            vm.IsServiceAdded = true;
 
-        ServiceButton.IsVisible = !vm.IsServiceAdded;
-        EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
-        ServiceCard.IsVisible = vm.IsServiceAdded;
-        InvoiceSection.IsVisible = vm.IsServiceAdded;
-        ServiceSection.IsVisible = vm.IsCustomerSelected;
+            ServiceButton.IsVisible = !vm.IsServiceAdded;
+            EmptyItemLabel.IsVisible = !vm.IsServiceAdded;
+            ServiceCard.IsVisible = vm.IsServiceAdded;
+            InvoiceSection.IsVisible = vm.IsServiceAdded;
+            ServiceSection.IsVisible = vm.IsCustomerSelected;
+        }
+        else
+        {
+            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+        }
     }
-
-
-
 
 
     //dis rate
@@ -254,19 +256,21 @@ public partial class FrmSsmBookNowLst : ContentView
 
     private async void btn_SaveBookNow_Tapped( object sender,EventArgs e)
     {
-        // call API to assign users
-        //assign UI data
-        bool isValid = ValidateBookNow();
+        if (Utility.checkButtonAccess("Save"))
+        {
+            // call API to assign users
+            //assign UI data
+            bool isValid = ValidateBookNow();
 
-        if (!isValid)
-            return;
+            if (!isValid)
+                return;
 
-        //save book now
+            //save book now
 
-        await vm.bindSaveBookNowData();
-        await vm.saveBookNow();
-        bool hasOtherPayment = false;
-        if (vm.mJSN_RES_BOOK_NOW.RES_SALE_PAYMENT != null)
+            await vm.bindSaveBookNowData();
+            await vm.saveBookNow();
+            bool hasOtherPayment = false;
+            if (vm.mJSN_RES_BOOK_NOW.RES_SALE_PAYMENT != null)
             {
                 foreach (var payment in vm.mJSN_RES_BOOK_NOW.RES_SALE_PAYMENT)
                 {
@@ -306,32 +310,44 @@ public partial class FrmSsmBookNowLst : ContentView
             //        new FrmSubscriptionPayment());
             //}
 
+
         }
+        else
+        {
+            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+        }
+    }
     private async void btn_Delete_Tapped(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(this.FrontDeskAsk))
+        if (Utility.checkButtonAccess("Delete"))
         {
-            WeakReferenceMessenger.Default.Send("Error: new order, can't delete");
-            return;
-        }
-
-        // Existing order → perform delete
-        
-        vm.mDAT_BOOK_NOW_HEADER.Ask = FrontDeskAsk;
-        vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
-        bool deleteSuccess = await vm.saveBookNow_delete();
-
-        if (deleteSuccess) //show new form
-        {
-            if (!Common.bindMenu("ssm-book-now-set"))
+            if (string.IsNullOrWhiteSpace(this.FrontDeskAsk))
             {
-                Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                WeakReferenceMessenger.Default.Send("Error: new order, can't delete");
+                return;
             }
-            Common.routeMenu(Common.mCommon.SelectedMenu);
-        
+
+            // Existing order → perform delete
+
+            vm.mDAT_BOOK_NOW_HEADER.Ask = FrontDeskAsk;
+            vm.mDAT_BOOK_NOW_HEADER.StatusAsk = "6";
+            bool deleteSuccess = await vm.saveBookNow_delete();
+
+            if (deleteSuccess) //show new form
+            {
+                if (!Common.bindMenu("ssm-book-now-set"))
+                {
+                    Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                    MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                }
+                Common.routeMenu(Common.mCommon.SelectedMenu);
+
+            }
         }
-        
+        else
+        {
+            WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+        }
 
     }
     private bool ValidateBookNow()
@@ -375,7 +391,15 @@ public partial class FrmSsmBookNowLst : ContentView
     {
         try
         {
-            await Navigation.PushAsync(new FrmSsmPaymentSet(vm));
+           if (Utility.checkButtonAccess("New"))
+            {
+                await Navigation.PushAsync(new FrmSsmPaymentSet(vm));
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+            }
+
         }
         catch (Exception ex)
         {
@@ -386,18 +410,23 @@ public partial class FrmSsmBookNowLst : ContentView
     {
         try
         {
-            //if (!Utility.checkButtonAccess("Edit"))
-            //{
-
-            var selectedItem = e.SelectedItem as RES_SALE_PAYMENT;
-            if (selectedItem != null)
+            if (Utility.checkButtonAccess("Edit"))
             {
-                vm.InitializePaymentAmount();
-                await Navigation.PushAsync(new FrmSsmPaymentSet(selectedItem, vm));
-            }
-            else { return; }
+
+                var selectedItem = e.SelectedItem as RES_SALE_PAYMENT;
+                if (selectedItem != null)
+                {
+                    vm.InitializePaymentAmount();
+                    await Navigation.PushAsync(new FrmSsmPaymentSet(selectedItem, vm));
+                }
+                else { return; }
                 ((ListView)sender).SelectedItem = null;
-         
+
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+            }
         }
         catch (Exception ex)
         {

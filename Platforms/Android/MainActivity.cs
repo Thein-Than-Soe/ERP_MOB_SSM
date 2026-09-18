@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using CS.ERP_MOB.General;
 
 namespace CS.ERP_MOB
@@ -14,7 +15,8 @@ namespace CS.ERP_MOB
                                ConfigChanges.UiMode |
                                ConfigChanges.ScreenLayout |
                                ConfigChanges.SmallestScreenSize |
-                               ConfigChanges.Density
+                               ConfigChanges.Density,
+        WindowSoftInputMode = SoftInput.AdjustResize
     )]
     // 🔥 Add this IntentFilter block
     [IntentFilter(

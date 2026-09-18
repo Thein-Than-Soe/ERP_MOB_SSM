@@ -380,6 +380,94 @@ namespace CS.ERP_MOB.General
             };
         }
 
+        //public static DateRange CalendarFormat(DAT_FILTER_RANGE filterRangeData)
+        //{
+        //    DateTime today = DateTime.Today;
+        //    double count = double.Parse(filterRangeData.Count);
+
+        //    DateTime startDate;
+        //    DateTime endDate;
+
+        //    switch (filterRangeData.PeriodTypeAsk)
+        //    {
+        //        // Day
+        //        case "3":
+        //            // Count 0 = today
+        //            // Count 1 = yesterday + today
+        //            startDate = today.AddDays(-count);
+        //            endDate = today.AddDays(1).AddTicks(-1);
+        //            break;
+
+        //        // Week (Monday - Sunday)
+        //        case "8":
+        //            int dayOfWeek = (int)today.DayOfWeek;
+        //            int diffToMonday = dayOfWeek == 0 ? -6 : 1 - dayOfWeek;
+
+        //            DateTime currentWeekStart =
+        //                today.AddDays(diffToMonday).Date;
+
+        //            // Count 0 = current week
+        //            // Count 1 = previous week + current week
+        //            startDate = currentWeekStart.AddDays(-(count * 7));
+        //            endDate = currentWeekStart.AddDays(7).AddTicks(-1);
+        //            break;
+
+        //        // Month
+        //        case "4":
+        //            DateTime currentMonthStart =
+        //                new DateTime(today.Year, today.Month, 1);
+
+        //            // Count 0 = current month
+        //            // Count 1 = previous month + current month
+        //            startDate = currentMonthStart.AddMonths(-count);
+        //            endDate = currentMonthStart.AddMonths(1).AddTicks(-1);
+        //            break;
+
+        //        // Quarter
+        //        case "7":
+        //            int currentQuarter =
+        //                (today.Month - 1) / 3;
+
+        //            int quarterStartMonth =
+        //                currentQuarter * 3 + 1;
+
+        //            DateTime currentQuarterStart =
+        //                new DateTime(today.Year, quarterStartMonth, 1);
+
+        //            // Count 0 = current quarter
+        //            // Count 1 = previous quarter + current quarter
+        //            startDate =
+        //                currentQuarterStart.AddMonths(-(count * 3));
+
+        //            endDate =
+        //                currentQuarterStart.AddMonths(3).AddTicks(-1);
+        //            break;
+
+        //        // Year
+        //        case "5":
+        //            DateTime currentYearStart =
+        //                new DateTime(today.Year, 1, 1);
+
+        //            // Count 0 = current year
+        //            // Count 1 = previous year + current year
+        //            startDate =
+        //                currentYearStart.AddYears(-count);
+
+        //            endDate =
+        //                currentYearStart.AddYears(1).AddTicks(-1);
+        //            break;
+
+        //        default:
+        //            return null;
+        //    }
+
+        //    return new DateRange
+        //    {
+        //        StartDate = startDate,
+        //        EndDate = endDate
+        //    };
+        //}
+
         public static DateRange CurrentFormat(DAT_FILTER_RANGE filterRangeData)
         {
             DateTime today = DateTime.Now;
@@ -457,7 +545,7 @@ namespace CS.ERP_MOB.General
         {
             DAT_FILTER_RANGE mDAT_FILTER_RANGE = new DAT_FILTER_RANGE();
 
-            string periodType = Common.mCommon.UserSetting.TLPeriodTypeAsk;
+            string periodType = Common.mCommon.UserSetting.LFPeriodTypeAsk;
             mDAT_FILTER_RANGE = RangeList.FirstOrDefault(x => x.PeriodTypeAsk == periodType);
             return mDAT_FILTER_RANGE;
         }

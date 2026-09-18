@@ -131,10 +131,10 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
                             Text="Service"
-                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                             VerticalOptions="Center" />
 
                         <!--  PLUS BUTTON  -->
@@ -628,17 +628,17 @@
 
                         <Label
                             FontAttributes="Bold"
-                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
                             Text="Grand Total"
-                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}" />
 
                         <Label
                             Grid.Column="1"
                             FontAttributes="Bold"
-                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
+                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}">
 
                             <Label.Text>
                                 <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">

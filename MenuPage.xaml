@@ -33,7 +33,7 @@
         <AbsoluteLayout
             Grid.Row="0"
             Grid.Column="1"
-            BackgroundColor="White"
+            BackgroundColor="{Binding ThemeSettingMenu.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
             VerticalOptions="Fill">
             <!--  Header Info  -->
             <StackLayout
@@ -41,7 +41,7 @@
                 AbsoluteLayout.LayoutFlags="All"
                 HorizontalOptions="Fill"
                 VerticalOptions="Start">
-                <Frame Padding="{StaticResource padding}">
+                <Frame Padding="{StaticResource padding}" BackgroundColor="{Binding ThemeSettingTaskBar.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Image
@@ -169,7 +169,7 @@
                 <Frame
                     Margin="0"
                     Padding="5"
-                    BackgroundColor="White"
+                    BackgroundColor="{Binding ThemeSettiingTaskBar.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                     CornerRadius="5"
                     HasShadow="True">
                     <ScrollView HeightRequest="350">
@@ -187,7 +187,7 @@
                                             <Frame
                                                 Margin="0"
                                                 Padding="0"
-                                                BackgroundColor="#F9F9F9"
+                                                BackgroundColor="{Binding ThemeSettiingTaskBar.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                                 CornerRadius="8"
                                                 HasShadow="False">
                                                 <StackLayout
@@ -250,7 +250,7 @@
             <StackLayout
                 AbsoluteLayout.LayoutBounds="0,1,1,0.1"
                 AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Gray"
+                BackgroundColor="{Binding ThemeSettiingTaskBar.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                 HeightRequest="30"
                 VerticalOptions="End">
                 <Grid

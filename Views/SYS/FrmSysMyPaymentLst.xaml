@@ -568,7 +568,7 @@
                     TouchEffect.PressedOpacity="0.4"
                     TouchEffect.PressedScale="0.9">
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MoreSearchCommand}" />
+                        <TapGestureRecognizer Command="{Binding MoreSearchCommand}" Tapped="OnOverlayTapped" />
                     </StackLayout.GestureRecognizers>
                     <Label
                         Margin="0,3"

@@ -87,14 +87,26 @@ namespace CS.ERP_MOB
             try
             {
                 MainPage.Loaded -= MainPage_Loaded;
-
-                // Give MAUI/RGPopup time to finish application initialization
-                await Task.Delay(100);
-
-                General.Common.mCommon.signInAuto();
+                await General.Common.mCommon.signInAuto();
+                // Login + ThemeSetting + required API initialization completed
+                if (MainPage is NavigationPage navigationPage)
+                {
+                    if (navigationPage.CurrentPage?.BindingContext is MainPageModel model)
+                    {
+                        model.IsAppReady = true;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                // If startup fails, allow the page to become visible
+                if (MainPage is NavigationPage navigationPage)
+                {
+                    if (navigationPage.CurrentPage?.BindingContext is MainPageModel model)
+                    {
+                        model.IsAppReady = true;
+                    }
+                }
                 System.Diagnostics.Debug.WriteLine($"Auto Sign In Error: {ex}");
             }
         }

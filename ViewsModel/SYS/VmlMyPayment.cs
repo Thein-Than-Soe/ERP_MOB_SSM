@@ -6,6 +6,7 @@ using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Services.POS;
+using CS.ERP_MOB.Views.SYS;
 using CS.ERP_MOB.ViewsModel.Frame;
 using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using RGPopup.Maui.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 using static CS.ERP_MOB.General.Utility;
@@ -41,7 +43,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             this.switchDisplayView(DisplayView.Card);
             OrderLoad = new JSN_LOAD_SALE_ORDER();
-            SaleOrderLst = new List<RES_SALE_PAYMENT>();
+            SaleOrderLst = new ObservableCollection<RES_SALE_PAYMENT>();
 
             LoadMoreCommand = new Command(async () => await LoadMoreItems());
             sortingList = new ObservableCollection<SortingItem>(labelTexts);
@@ -169,8 +171,8 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             set { rES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_PAYMENT"); }
         }
 
-        public List<RES_SALE_PAYMENT> mSaleOrderLst;
-        public List<RES_SALE_PAYMENT> SaleOrderLst
+        public ObservableCollection<RES_SALE_PAYMENT> mSaleOrderLst;
+        public ObservableCollection<RES_SALE_PAYMENT> SaleOrderLst
         {
             get { return mSaleOrderLst; }
             set { mSaleOrderLst = value; NotifyPropertyChanged("SaleOrderLst"); }
@@ -379,14 +381,21 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
+
         private void bindDataTab(List<RES_SALE_PAYMENT> argRES_SALE_PAYMENT_LST)
         {
             try
             {
-                if (argRES_SALE_PAYMENT_LST != null && argRES_SALE_PAYMENT_LST.Count > 0)
+                SaleOrderLst ??= new ObservableCollection<RES_SALE_PAYMENT>();
+                SaleOrderLst.Clear();
+                if (argRES_SALE_PAYMENT_LST == null)
+                    return;
+
+                foreach (RES_SALE_PAYMENT l_RES_SALE_PAYMENT in argRES_SALE_PAYMENT_LST)
                 {
-                    SaleOrderLst = argRES_SALE_PAYMENT_LST;
+                    SaleOrderLst.Add(l_RES_SALE_PAYMENT);
                 }
+
             }
             catch (Exception ex)
             {
@@ -408,34 +417,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 throw ex.InnerException;
             }
         }
-        private async void callSearchMorePopup()
-        {
-            try
-            {
-                //var popup = new FrmWishlistPop(this.SalesInvoiceLoad);
-                //await PopupNavigation.Instance.PushAsync(popup);
-
-                //var result = await popup.PopupClosedTask;
-                //if (result is RES_SALE_ORDER selectedData)
-                //{
-                //    mJSN_REQ_SALE_PAYMENT_LST.RES_SALE_ORDER = selectedData;
-                //    if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-                //    {
-                //        SaleOrderLst = new ObservableCollection<RES_SALE_ORDER>(mRES_SALE_ORDER_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
-                //                                                               || (data.OrderCode_0_50 == selectedData.OrderCode_0_50)).ToList());
-                //    }
-                //    else
-                //    {
-                //        getMyOrder();
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
-        public void searchData(string argKeyword)
+         public void searchData(string argKeyword)
         {
             try
             {
@@ -469,45 +451,54 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
-                loadSalePayHis();
+                callSearchMorePopup();
             }
             catch (Exception ex)
             {
                 throw ex.InnerException;
             }
         }
-        //private async void callSearchMorePopup()
-        //{
-        //    try
-        //    {
-        //        var popup = new FrmSsm(this.mJSN_RES_FRONT_DESK_USER);
-        //        await PopupNavigation.Instance.PushAsync(popup);
+        private async void callSearchMorePopup()
+        {
+            try
+            {
+                var popup = new FrmSysMyPaymentPop(this);
+                await PopupNavigation.Instance.PushAsync(popup);
 
-        //        var result = await popup.PopupClosedTask;
-        //        if (result is DAT_FRONT_DESK selectedData)
-        //        {
-        //            mJSN_REQ_FRONT_DESK.DAT_FRONT_DESK = selectedData;
-        //            if (Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-        //            {
-        //                FrontDeskList = new ObservableCollection<DAT_FRONT_DESK>(mDAT_FRONT_DESK_LST.Where(data => (data.CustomerAsk == selectedData.CustomerAsk)
-        //                                                                      || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
-        //            }
-        //            else
-        //            {
-        //                await getFrontDeskUser();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex.InnerException;
-        //    }
+                var result = await popup.PopupClosedTask;
+                if (result is RES_SALE_PAYMENT requestedData)
+                {
+                    //update req data model according to selected data
+                    //requestedData.StockAsk = LoadSelectedStock?.Ask ?? "0";
+                    //requestedData.CustomerAsk = LoadSelectedCustomer?.Ask ?? "0";
+                    //requestedData.UserAsk = LoadSelectedUser?.Ask ?? "0";
+                    //requestedData.InOutStatusAsk = LoadSelectedServiceStatus?.Ask ?? "0";
 
-        //}
+                    //requestedData.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                    //DateTime SD = StartDate.Date + StartTime;
+                    //requestedData.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    //DateTime ED = EndDate.Date + EndTime;
+                    //requestedData.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
+
+                    //call api
+                    //await getFrontDeskUser_load(requestedData);
+
+                    // Close THIS popup
+                    await PopupNavigation.Instance.RemovePageAsync(popup);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"callSearchMorePopup ERROR: {ex}");
+            }
+
+        }
+
         #endregion
 
         #region "Web Service Api"
-        public async void loadSalePayHis()
+        public async Task loadSalePayHis()
         {
             try
             {
@@ -528,7 +519,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                     {
                         if (this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT.Count > 0)
                         {
-                            SaleOrderLst = this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT;
+                            bindDataTab(this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT);
                             
                             //SaleOrderDetailLst = this.mJSN_SALE_PAYMENT_LST.RES_SALE_PAYMENT_DETAIL;
                             MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);

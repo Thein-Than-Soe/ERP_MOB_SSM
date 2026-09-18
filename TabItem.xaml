@@ -50,7 +50,7 @@
                         FontFamily="{StaticResource FontAwesomeSolid}"
                         FontSize="20"
                         Text=""
-                        TextColor="{StaticResource ToolbarItemTextColor}"
+                        TextColor="{Binding ThemeSettingTaskbar.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                         VerticalOptions="Center" />
 
                     <Frame
@@ -69,7 +69,7 @@
                             FontSize="10"
                             HorizontalOptions="Center"
                             Text="0"
-                            TextColor="White"
+                            TextColor="{Binding ThemeSettingTaskbar.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                             VerticalOptions="Center" />
                     </Frame>
                 </StackLayout>
@@ -79,7 +79,7 @@
                     HorizontalTextAlignment="Center"
                     LineBreakMode="TailTruncation"
                     Text="Home"
-                    TextColor="{StaticResource ToolbarItemTextColor}"
+                    TextColor="{Binding ThemeSettingTaskbar.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                     VerticalOptions="End" />
             </StackLayout>
 

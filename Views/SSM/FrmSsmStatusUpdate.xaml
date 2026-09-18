@@ -512,7 +512,6 @@
                         BorderWidth="1"
                         Command="{Binding PickReferenceFileCommand}"
                         CornerRadius="6"
-                        FontAttributes="Bold"
                         FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         Text="Add File"
@@ -593,10 +592,11 @@
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
                     <!--  Save button  -->
                     <Frame
-                        Padding="10,7"
+                        Padding="12,5"
                         BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                         CornerRadius="5"
                         HasShadow="True"
+                        HeightRequest="35"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
 
