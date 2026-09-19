@@ -78,7 +78,7 @@
                     <ScrollView Grid.Row="0" HeightRequest="500">
                         <StackLayout Padding="20" Spacing="10">
                             <!--  🔹 Start Date  -->
-                            <Label FontAttributes="Bold" Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Date}, Path=Value}" />
+                            <Label FontAttributes="Bold" Text="Date" />
                             <HorizontalStackLayout HorizontalOptions="StartAndExpand" Visual="Default">
                                 <HorizontalStackLayout.Effects>
                                     <TouchEffect />

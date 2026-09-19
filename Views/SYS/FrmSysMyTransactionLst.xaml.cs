@@ -106,7 +106,7 @@ namespace CS.ERP_MOB.Views.SYS
                     return;
             }
 
-            mVmlMyTransaction.SaleOrderLst = new List<RES_SALE_BROWSE>(sorted);
+            mVmlMyTransaction.SaleOrderLst = new ObservableCollection<RES_SALE_BROWSE>(sorted);
             if (mVmlMyTransaction.IsCardView)
             {
                 collectionView.ItemsSource = mVmlMyTransaction.SaleOrderLst;

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView
-    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmOrderBookLst"
+    x:Class="CS.ERP_MOB.Views.POS.FrmPosSaleEnquiryLst"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Effects="clr-namespace:RGPopup.Maui.Effects;assembly=RGPopup.Maui"
@@ -8,7 +8,7 @@
     xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
     xmlns:footer="clr-namespace:CS.ERP_MOB.Views.SYS"
     xmlns:general="clr-namespace:CS.ERP_MOB.General"
-    xmlns:local="clr-namespace:CS.ERP_MOB.Views.SYS"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.POS"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:touch="http://axemasta.com/schemas/2023/toucheffect">
@@ -26,7 +26,40 @@
                 Orientation="Horizontal"
                 VerticalOptions="Start">
 
+                <!--  Add Icon  -->
+                <Frame
+                    Margin="5"
+                    Padding="0"
+                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    CornerRadius="8"
+                    HasShadow="True"
+                    HeightRequest="35"
+                    HorizontalOptions="End"
+                    WidthRequest="35">
 
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <StackLayout
+                            HorizontalOptions="FillAndExpand"
+                            TouchEffect.PressedOpacity="0.4"
+                            TouchEffect.PressedScale="0.9"
+                            VerticalOptions="FillAndExpand">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TgrNew_Tapped" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                Padding="0"
+                                FontFamily="{StaticResource Key=FontAwesomeSolid}"
+                                HorizontalOptions="CenterAndExpand"
+                                Text="&#xf067;"
+                                TextColor="White"
+                                VerticalOptions="CenterAndExpand">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TgrNew_Tapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
                 <!--  Search Input Box  -->
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <Entry
@@ -85,7 +118,7 @@
                         <CollectionView
                             x:Name="collectionView"
                             BackgroundColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                            ItemsSource="{Binding SaleOrderLst}"
+                            ItemsSource="{Binding SalesEnquiryList}"
                             SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -103,7 +136,7 @@
                                             <SwipeItems>
                                                 <SwipeItem
                                                     BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyOrderLst}}}"
+                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmPosSaleEnquiryLst}}}"
                                                     CommandParameter="{Binding .}"
                                                     Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                             </SwipeItems>
@@ -111,8 +144,8 @@
 
                                         <StackLayout Padding="{StaticResource Key=paddingTop}">
                                             <footer:OvaListFormCartView
-                                                CodeLabel="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
-                                                HeaderLabel="{Binding Code_0_50}"
+                                                CodeLabel="{Binding EnquiryDate, Converter={StaticResource FriendlyDateConverter}}"
+                                                HeaderLabel="{Binding EnquiryCode_0_50}"
                                                 IsChecked="{Binding IsChecked}"
                                                 ItemAsk="{Binding Ask}"
                                                 ItemDoubleTapped="OnItemDoubleTapped"
@@ -161,7 +194,7 @@
                                 HorizontalOptions="FillAndExpand"
                                 IsPullToRefreshEnabled="True"
                                 IsRefreshing="{Binding IsRefreshing}"
-                                ItemsSource="{Binding SaleOrderLst}"
+                                ItemsSource="{Binding SalesEnquiryList}"
                                 RefreshCommand="{Binding RefreshCommand}"
                                 RowHeight="70"
                                 VerticalOptions="FillAndExpand">
@@ -182,7 +215,7 @@
                                                     <SwipeItems>
                                                         <SwipeItem
                                                             BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSysMyOrderLst}}}"
+                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmPosSaleEnquiryLst}}}"
                                                             CommandParameter="{Binding .}"
                                                             Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                                     </SwipeItems>
@@ -215,13 +248,7 @@
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Grid.Behaviors>
-                                                            <toolkit:TouchBehavior
-                                                                CommandParameter="{Binding .}"
-                                                                LongPressCompleted="OnListNGridLongPress"
-                                                                LongPressDuration="800"
-                                                                ShouldMakeChildrenInputTransparent="True" />
-                                                        </Grid.Behaviors>
+
                                                         <CheckBox
                                                             x:Name="chkListSelectItem"
                                                             Grid.Row="0"
@@ -229,7 +256,6 @@
                                                             CheckedChanged="chkSelectItem_CheckedChanged"
                                                             HeightRequest="20"
                                                             HorizontalOptions="Start"
-                                                            InputTransparent="False"
                                                             IsChecked="{Binding IsChecked, Mode=TwoWay, Converter={StaticResource StringToBoolConverter}}"
                                                             WidthRequest="20"
                                                             Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -240,7 +266,7 @@
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalOptions="Start"
                                                             LineBreakMode="TailTruncation"
-                                                            Text="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
+                                                            Text="{Binding EnquiryDate, Converter={StaticResource FriendlyDateConverter}}"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                         <Label
                                                             Grid.Row="2"
@@ -269,7 +295,7 @@
                                                             FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                             FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                             HorizontalTextAlignment="Start"
-                                                            Text="{Binding Code_0_50}"
+                                                            Text="{Binding EnquiryCode_0_50}"
                                                             TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
                                                         <Label
@@ -317,7 +343,7 @@
                                 BackgroundColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                 BorderColor="LightGray"
                                 BorderThickness="3"
-                                ItemsSource="{Binding SaleOrderLst}"
+                                ItemsSource="{Binding SalesEnquiryList}"
                                 SelectionEnabled="True"
                                 SelectionMode="Single"
                                 SortingEnabled="True"
@@ -350,19 +376,12 @@
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnGridSingleTap" />
                                                         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnGridDoubleTap" />
                                                     </Grid.GestureRecognizers>
-                                                    <Grid.Behaviors>
-                                                        <toolkit:TouchBehavior
-                                                            CommandParameter="{Binding .}"
-                                                            LongPressCompleted="OnListNGridLongPress"
-                                                            LongPressDuration="800"
-                                                            ShouldMakeChildrenInputTransparent="True" />
-                                                    </Grid.Behaviors>
 
                                                     <Label
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding Code_0_50}"
+                                                        Text="{Binding EnquiryCode_0_50}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                                         VerticalOptions="Center" />
                                                 </Grid>
@@ -381,20 +400,12 @@
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnGridSingleTap" />
                                                         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnGridDoubleTap" />
                                                     </Grid.GestureRecognizers>
-                                                    <Grid.Behaviors>
-                                                        <toolkit:TouchBehavior
-                                                            CommandParameter="{Binding .}"
-                                                            LongPressCompleted="OnListNGridLongPress"
-                                                            LongPressDuration="800"
-                                                            ShouldMakeChildrenInputTransparent="True" />
-                                                    </Grid.Behaviors>
-
 
                                                     <Label
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding Date, Converter={StaticResource FriendlyDateConverter}}"
+                                                        Text="{Binding EnquiryDate, Converter={StaticResource FriendlyDateConverter}}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                 </Grid>
                                             </DataTemplate>
@@ -402,7 +413,7 @@
                                     </dg:DataGridColumn>
                                     <dg:DataGridColumn
                                         x:Name="AcCustomer"
-                                        Title="Sales Person"
+                                        Title="Customer"
                                         Width="70"
                                         HorizontalContentAlignment="Start">
                                         <dg:DataGridColumn.CellTemplate>
@@ -412,20 +423,12 @@
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnGridSingleTap" />
                                                         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnGridDoubleTap" />
                                                     </Grid.GestureRecognizers>
-                                                    <Grid.Behaviors>
-                                                        <toolkit:TouchBehavior
-                                                            CommandParameter="{Binding .}"
-                                                            LongPressCompleted="OnListNGridLongPress"
-                                                            LongPressDuration="800"
-                                                            ShouldMakeChildrenInputTransparent="True" />
-                                                    </Grid.Behaviors>
-
 
                                                     <Label
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding SalePersonName_0_255}"
+                                                        Text="{Binding CustomerName_0_255}"
                                                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                                         VerticalOptions="Center" />
                                                 </Grid>
@@ -444,14 +447,6 @@
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnGridSingleTap" />
                                                         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnGridDoubleTap" />
                                                     </Grid.GestureRecognizers>
-                                                    <Grid.Behaviors>
-                                                        <toolkit:TouchBehavior
-                                                            CommandParameter="{Binding .}"
-                                                            LongPressCompleted="OnListNGridLongPress"
-                                                            LongPressDuration="800"
-                                                            ShouldMakeChildrenInputTransparent="True" />
-                                                    </Grid.Behaviors>
-
 
                                                     <Label
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
@@ -483,14 +478,6 @@
                                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnGridSingleTap" />
                                                         <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnGridDoubleTap" />
                                                     </Grid.GestureRecognizers>
-                                                    <Grid.Behaviors>
-                                                        <toolkit:TouchBehavior
-                                                            CommandParameter="{Binding .}"
-                                                            LongPressCompleted="OnListNGridLongPress"
-                                                            LongPressDuration="800"
-                                                            ShouldMakeChildrenInputTransparent="True" />
-                                                    </Grid.Behaviors>
-
                                                     <Label
                                                         FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                                         FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
@@ -550,7 +537,8 @@
                     <Label
                         Margin="3"
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.CheckAll}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
                 </StackLayout>
                 <StackLayout
                     Orientation="Horizontal"

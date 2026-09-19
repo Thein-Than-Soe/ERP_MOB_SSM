@@ -927,28 +927,37 @@ namespace CS.ERP_MOB.Views.SSM
 
         private async void Scheduler_Tapped(object sender,SchedulerTappedEventArgs e)
         {
-                // clicked an empty cell
-                //if (e.Appointments == null || e.Appointments.Count == 0)
-                //{
-                //    // e.Date gives the DateTime of the blank cell clicked
-                //    if (e.Date is DateTime clickedDate)
-                //    {
-                //        // Perform your action for a blank cell click here (e.g., open a new event dialog)
-                //        System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
+            //clicked an empty cell
+            if (e.Appointments == null || e.Appointments.Count == 0)
+            {
+                if (Utility.checkButtonAccess("New"))
+                {
+                    // e.Date gives the DateTime of the blank cell clicked
+                    if (e.Date is DateTime clickedDate)
+                    {
+                        // Perform your action for a blank cell click here (e.g., open a new event dialog)
+                        System.Diagnostics.Debug.WriteLine($"Blank cell tapped at: {clickedDate}");
 
-                //        var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-                //        // Open your book now with date
-                //        if (!Common.bindMenu("ssm-book-now-set"))
-                //        {
-                //            Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
-                //            MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
-                //        }
-                //        Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
-                //    }
-                //}
-                //else // An existing appointment was tapped
-                //{
-                    var appt = e.Appointments[0] as SchedulerAppointment;
+                        var utcDateString = clickedDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                        // Open your book now with date
+                        if (!Common.bindMenu("ssm-book-now-set"))
+                        {
+                            Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "24", Text = "Book", MenuUrl = "ssm-book-now-set", logoImg = "" };
+                            MessagingCenter.Send<Application, string>(Application.Current, "ToastMessage", ApplicationMessage.Message.MenuAccessRight);
+                        }
+                        Common.routeMenu(Common.mCommon.SelectedMenu, "DATE:" + utcDateString);
+                    }
+                }
+                else
+                {
+                    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+                }
+
+
+            }
+            else // An existing appointment was tapped
+            {
+                var appt = e.Appointments[0] as SchedulerAppointment;
 
                     if (appt == null) return;
                     // Convert SchedulerAppointment -> your DAT_FRONT_DESK
@@ -956,9 +965,7 @@ namespace CS.ERP_MOB.Views.SSM
 
                     if (item == null) return;
                     await Navigation.PushAsync(new FrmSsmStatusUpdate(item));
-                //}
-
-            
+            }
 
         }
 

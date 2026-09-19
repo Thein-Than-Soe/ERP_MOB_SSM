@@ -537,7 +537,8 @@
                     <Label
                         Margin="3"
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.CheckAll}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
                 </StackLayout>
                 <StackLayout
                     Orientation="Horizontal"

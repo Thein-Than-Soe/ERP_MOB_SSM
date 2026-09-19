@@ -249,12 +249,6 @@
 	  <Compile Update="Views\Frame\FrmSsmItemCard.xaml.cs">
 	    <DependentUpon>FrmSsmItemCard.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmOrderBookSet.xaml.cs">
-	    <DependentUpon>FrmSsmOrderBookSet.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmOrderBookPop.xaml.cs">
-	    <DependentUpon>FrmSsmOrderBookPop.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmStatusUpdate.xaml.cs">
 	    <DependentUpon>FrmSsmStatusUpdate.xaml</DependentUpon>
 	  </Compile>
@@ -275,12 +269,6 @@
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmDashboardLst.xaml.cs">
 	    <DependentUpon>FrmSsmDashboardLst.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmOrderBookLst.xaml.cs">
-	    <DependentUpon>FrmSsmOrderBookLst.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SYS\FrmSysMyPaymentPop.xaml.cs">
-	    <DependentUpon>FrmSysMyPaymentPop.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	
@@ -681,25 +669,10 @@
 	  <MauiXaml Update="Views\HCM\FrmHcmWorkingExperiencePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmApplicantAvailabilitySet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmApplicantSalarySet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobAdviceDtl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobAdvicePop.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobApplicantCertificateSet.xaml">
+	  <MauiXaml Update="Views\POS\FrmPosSaleEnquiryLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmCustomerContactSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmOrderBookPop.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmStatusUpdate.xaml">
@@ -708,46 +681,7 @@
 	  <MauiXaml Update="Views\SSM\FrmSsmServiceSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobApplicantEducationSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobApplicantExperienceSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobApplicantLanguageSkillSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobApplicantSkillSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCommunityLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCommunityPop.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCommunitySet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCompanyDtl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCompanyLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobCompanyPop.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmProfile.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobSearchDtl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobSearchLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\JOB\FrmJobSearchPop.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PAY\FrmPayDataLst.xaml">
@@ -873,9 +807,6 @@
 	  <MauiXaml Update="Views\SSM\FrmSsmDashboardLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmOrderBookLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmAccessLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -892,9 +823,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmCountrySet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SYS\FrmSysMyPaymentPop.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SYS\FrmSysApiConfigLst.xaml">

@@ -462,31 +462,31 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
-                var popup = new FrmSysMyPaymentPop(this);
-                await PopupNavigation.Instance.PushAsync(popup);
+                //var popup = new FrmSysMyPaymentPop(this);
+                //await PopupNavigation.Instance.PushAsync(popup);
 
-                var result = await popup.PopupClosedTask;
-                if (result is RES_SALE_PAYMENT requestedData)
-                {
-                    //update req data model according to selected data
-                    //requestedData.StockAsk = LoadSelectedStock?.Ask ?? "0";
-                    //requestedData.CustomerAsk = LoadSelectedCustomer?.Ask ?? "0";
-                    //requestedData.UserAsk = LoadSelectedUser?.Ask ?? "0";
-                    //requestedData.InOutStatusAsk = LoadSelectedServiceStatus?.Ask ?? "0";
+                //var result = await popup.PopupClosedTask;
+                //if (result is RES_SALE_PAYMENT requestedData)
+                //{
+                //    //update req data model according to selected data
+                //    //requestedData.StockAsk = LoadSelectedStock?.Ask ?? "0";
+                //    //requestedData.CustomerAsk = LoadSelectedCustomer?.Ask ?? "0";
+                //    //requestedData.UserAsk = LoadSelectedUser?.Ask ?? "0";
+                //    //requestedData.InOutStatusAsk = LoadSelectedServiceStatus?.Ask ?? "0";
 
-                    //requestedData.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
-                    //DateTime SD = StartDate.Date + StartTime;
-                    //requestedData.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
-                    //DateTime ED = EndDate.Date + EndTime;
-                    //requestedData.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                //    //requestedData.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                //    //DateTime SD = StartDate.Date + StartTime;
+                //    //requestedData.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                //    //DateTime ED = EndDate.Date + EndTime;
+                //    //requestedData.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
 
-                    //call api
-                    //await getFrontDeskUser_load(requestedData);
+                //    //call api
+                //    //await getFrontDeskUser_load(requestedData);
 
-                    // Close THIS popup
-                    await PopupNavigation.Instance.RemovePageAsync(popup);
-                }
+                //    // Close THIS popup
+                //    await PopupNavigation.Instance.RemovePageAsync(popup);
+                //}
             }
             catch (Exception ex)
             {

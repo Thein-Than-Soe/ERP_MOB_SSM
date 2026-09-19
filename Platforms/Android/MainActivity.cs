@@ -30,6 +30,6 @@ namespace CS.ERP_MOB
     )]
     public class MainActivity : MauiAppCompatActivity
     {
-
+        
     }
 }

@@ -640,18 +640,19 @@ namespace CS.ERP_MOB.ViewsModel.POS
                         WeakReferenceMessenger.Default.Send(this.mJSN_SALE_QUOTATION_JUN.Message.Message);
                     }
 
-                    Utility.closeLoader();
                 }
                 else
                 {
-                    Utility.closeLoader();
                     WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("ErrWebService"));
                 }
             }
             catch (Exception ex)
             {
-                Utility.closeLoader();
                 throw ex.InnerException;
+            }
+            finally
+            {
+                Utility.closeLoader();
             }
         }
 
@@ -697,7 +698,6 @@ namespace CS.ERP_MOB.ViewsModel.POS
                     this.mJSN_LOAD_SALE_QUOTATION = JsonConvert.DeserializeObject<JSN_LOAD_SALE_QUOTATION>(mResponse);
                     if (mJSN_LOAD_SALE_QUOTATION.Message.Code == "7")
                     {
-                        Utility.closeLoader();
                         this.SalesQuotationLoad = mJSN_LOAD_SALE_QUOTATION;
                         callSearchMorePopup();
                     }
@@ -708,13 +708,16 @@ namespace CS.ERP_MOB.ViewsModel.POS
                 }
                 else
                 {
-                    Utility.closeLoader();
                     WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("ErrWebService"));
                 }
             }
             catch (Exception ex)
             {
                 throw ex.InnerException;
+            }
+            finally
+            {
+                Utility.closeLoader();
             }
         }
 

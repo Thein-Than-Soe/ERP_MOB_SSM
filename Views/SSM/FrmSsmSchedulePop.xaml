@@ -85,6 +85,7 @@
                             Stroke="{StaticResource BorderColor}"
                             StrokeThickness="1">
                             <editors:SfComboBox
+                                x:Name="ComboBox1"
                                 Grid.Column="0"
                                 DisplayMemberPath="FilterRangeName_0_255"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
@@ -100,6 +101,7 @@
                                 SelectedItem="{Binding LoadSelectedFilterRange, Mode=TwoWay}"
                                 ShowBorder="True"
                                 TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
                                 VerticalOptions="Center" />
 
                             <Border.StrokeShape>
@@ -233,6 +235,7 @@
                                 </Border.StrokeShape>
 
                                 <editors:SfComboBox
+                                    x:Name="ComboBox21"
                                     DisplayMemberPath="StockCode_0_50"
                                     FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                     FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
@@ -248,6 +251,7 @@
                                     ShowBorder="True"
                                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                     TextSearchMode="Contains"
+                                    ValueChanged="ComboBox_ValueChanged"
                                     VerticalOptions="Center" />
 
                             </Border>
@@ -264,6 +268,7 @@
                                 </Border.StrokeShape>
 
                                 <editors:SfComboBox
+                                    x:Name="ComboBox22"
                                     DisplayMemberPath="StockName_0_255"
                                     FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                     FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
@@ -279,6 +284,7 @@
                                     ShowBorder="True"
                                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                     TextSearchMode="Contains"
+                                    ValueChanged="ComboBox_ValueChanged"
                                     VerticalOptions="Center" />
                             </Border>
 
@@ -294,6 +300,7 @@
                             </Border.StrokeShape>
 
                             <editors:SfComboBox
+                                x:Name="ComboBox3"
                                 DisplayMemberPath="ServiceStatusName_0_255"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                 FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
@@ -309,6 +316,7 @@
                                 ShowBorder="True"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
                                 VerticalOptions="Center" />
                         </Border>
 
@@ -321,8 +329,8 @@
                             </Border.StrokeShape>
 
                             <editors:SfComboBox
+                                x:Name="ComboBox4"
                                 DisplayMemberPath="UserName_0_255"
-                                DropDownPlacement="Top"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                 FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                 HeightRequest="50"
@@ -337,6 +345,7 @@
                                 ShowBorder="True"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
                                 VerticalOptions="Center" />
                         </Border>
 
@@ -348,6 +357,7 @@
                             </Border.StrokeShape>
 
                             <editors:SfComboBox
+                                x:Name="ComboBox5"
                                 DisplayMemberPath="CustomerName_0_255"
                                 DropDownPlacement="Top"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
@@ -364,6 +374,7 @@
                                 ShowBorder="True"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                 TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
                                 VerticalOptions="Center" />
                         </Border>
 
@@ -375,7 +386,6 @@
                 <!--  FIXED FOOTER  -->
                 <HorizontalStackLayout
                     Grid.Row="2"
-                    Margin="0,0,0,50"
                     Padding="15,10"
                     HorizontalOptions="Center"
                     Spacing="15">

@@ -37,6 +37,67 @@ namespace CS.ERP_MOB
 
         }
 
+        #region "System nav bar top, bottom padding"
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+#if ANDROID
+            ApplySystemInsets();
+
+            System.Diagnostics.Debug.WriteLine(
+                $"SYSTEM PADDING: " +
+                $"L={SystemPadding.Left}, " +
+                $"T={SystemPadding.Top}, " +
+                $"R={SystemPadding.Right}, " +
+                $"B={SystemPadding.Bottom}");
+
+            System.Diagnostics.Debug.WriteLine(
+                $"PAGE PADDING: " +
+                $"L={Padding.Left}, " +
+                $"T={Padding.Top}, " +
+                $"R={Padding.Right}, " +
+                $"B={Padding.Bottom}");
+#endif
+        }
+
+#if ANDROID
+        private void ApplySystemInsets()
+        {
+            var window = Platform.CurrentActivity?.Window;
+
+            if (window == null)
+                return;
+
+            AndroidX.Core.View.WindowInsetsCompat? insets =
+                AndroidX.Core.View.ViewCompat.GetRootWindowInsets(
+                    window.DecorView);
+
+            if (insets == null)
+                return;
+
+            var bars = insets.GetInsets(
+                AndroidX.Core.View.WindowInsetsCompat.Type.SystemBars());
+
+            var density = DeviceDisplay.MainDisplayInfo.Density;
+
+            MenuPageRootGrid.Padding = new Thickness(
+                bars.Left / density,
+                bars.Top / density,
+                bars.Right / density,
+                bars.Bottom / density);
+
+            System.Diagnostics.Debug.WriteLine(
+                $"POPUP APPLIED INSETS: " +
+                $"L={bars.Left}, " +
+                $"T={bars.Top}, " +
+                $"R={bars.Right}, " +
+                $"B={bars.Bottom}");
+        }
+#endif
+        #endregion
+
         private async void lstProduct_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             try

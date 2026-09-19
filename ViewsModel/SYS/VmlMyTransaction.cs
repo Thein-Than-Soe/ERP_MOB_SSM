@@ -41,7 +41,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             this.switchDisplayView(DisplayView.Card);
             OrderLoad = new JSN_LOAD_SALE_ORDER();
-            SaleOrderLst = new List<RES_SALE_BROWSE>();
+            SaleOrderLst = new ObservableCollection<RES_SALE_BROWSE>();
 
             LoadMoreCommand = new Command(async () => await LoadMoreItems());
             sortingList = new ObservableCollection<SortingItem>(labelTexts);
@@ -170,8 +170,8 @@ namespace CS.ERP_MOB.ViewsModel.SYS
             set { rES_SALE_BROWSE = value; NotifyPropertyChanged("RES_SALE_BROWSE"); }
         }
 
-        public List<RES_SALE_BROWSE> mSaleOrderLst;
-        public List<RES_SALE_BROWSE> SaleOrderLst
+        public ObservableCollection<RES_SALE_BROWSE> mSaleOrderLst;
+        public ObservableCollection<RES_SALE_BROWSE> SaleOrderLst
         {
             get { return mSaleOrderLst; }
             set { mSaleOrderLst = value; NotifyPropertyChanged("SaleOrderLst"); }
@@ -380,9 +380,14 @@ namespace CS.ERP_MOB.ViewsModel.SYS
         {
             try
             {
-                if (argRES_SALE_BROWSE_LST != null && argRES_SALE_BROWSE_LST.Count > 0)
+                SaleOrderLst ??= new ObservableCollection<RES_SALE_BROWSE>();
+                SaleOrderLst.Clear();
+                if (argRES_SALE_BROWSE_LST == null)
+                    return;
+
+                foreach (RES_SALE_BROWSE l_RES_SALE_PAYMENT in argRES_SALE_BROWSE_LST)
                 {
-                    SaleOrderLst = argRES_SALE_BROWSE_LST;
+                    SaleOrderLst.Add(l_RES_SALE_PAYMENT);
                 }
             }
             catch (Exception ex)
@@ -501,7 +506,7 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                     {
                         if (this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE.Count > 0)
                         {
-                            SaleOrderLst = this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE;
+                            bindDataTab(this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE);
                             SaleOrderDetailLst = this.mJSN_RES_MY_TRANSACTION.RES_SALE_BROWSE_DETAIL;
                             MessagingCenter.Send<Application, string>(Application.Current, ApplicationMessage.Message.Alert, ApplicationMessage.Message.LoadSuccess);
                         }
