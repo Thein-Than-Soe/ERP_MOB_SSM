@@ -32,11 +32,11 @@ namespace CS.ERP_MOB.ViewsModel.POS
         public ObservableCollection<RES_SALE_ENQUIRY> SalesEnquiryList { get; set; }
         public ObservableCollection<SortingItem> sortingList { get; set; }
         SortingItem[] labelTexts = [
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesEnquiryJunOva.lbl.EnquiryDate"), value = "EnquiryDate", ShowIcon = true },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesEnquiryJunOva.lbl.EnquiryNo"), value = "EnquiryCode_0_50", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesEnquiryJunOva.lbl.Customer"), value = "CustomerName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesEnquiryJunOva.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
-            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesEnquiryJunOva.lbl.Price"), value = "GrandTotal", ShowIcon = false}
+            new SortingItem{ label = "Enquiry Date", value = "EnquiryDate", ShowIcon = true },
+            new SortingItem{ label = "Enquiry Code", value = "EnquiryCode_0_50", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesQuotationJunOva.lbl.Customer"), value = "CustomerName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesQuotationJunOva.lbl.Status"), value = "StatusName_0_255", ShowIcon = false },
+            new SortingItem{ label = Common.mCommon.GetLanguageValueByKey("POS.SalesQuotationJunOva.lbl.Price"), value = "GrandTotal", ShowIcon = false}
             ];
 
         #endregion

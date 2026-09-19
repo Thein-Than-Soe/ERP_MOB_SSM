@@ -1,24 +1,26 @@
 using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.AMS.REQ;
 using CS.ERP.PL.AMS.RES;
 using CS.ERP.PL.HMS.DAT;
 using CS.ERP.PL.HMS.RES;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.SYS.DAT;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.ViewsModel.Frame;
-using CS.ERP_MOB.ViewsModel.POS;
+using CS.ERP_MOB.ViewsModel.SSM;
 using Microsoft.Maui.Devices;
 using RGPopup.Maui.Pages;
 using RGPopup.Maui.Services;
 using System.Diagnostics;
 
-namespace CS.ERP_MOB.Views.POS
+namespace CS.ERP_MOB.Views.SSM
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrmPosSaleInvoicePop : PopupPage
+    public partial class FrmSsmSaleInvoicePop : PopupPage
     {
         #region "Declaring"
         VmlSalesInvoice mVmlSalesInvoice;
-        DAT_FRONT_DESK selectedData = new DAT_FRONT_DESK();
+        RES_SALE_INVOICE selectedData = new RES_SALE_INVOICE();
         private TaskCompletionSource<object> _taskCompletionSource;
         public Task<object> PopupClosedTask => _taskCompletionSource.Task;
 
@@ -26,7 +28,7 @@ namespace CS.ERP_MOB.Views.POS
         #endregion
 
         #region "Constructor"
-        public FrmPosSaleInvoicePop()
+        public FrmSsmSaleInvoicePop()
         {
             try
             {
@@ -47,7 +49,7 @@ namespace CS.ERP_MOB.Views.POS
                 throw ex.InnerException;
             }
         }
-        public FrmPosSaleInvoicePop(VmlSalesInvoice mVmlSalesInvoice)
+        public FrmSsmSaleInvoicePop(VmlSalesInvoice mVmlSalesInvoice)
         {
             try
             {
@@ -80,7 +82,7 @@ namespace CS.ERP_MOB.Views.POS
         {
             try
             {
-                await mVmlSalesInvoice.loadBookNow();
+                await mVmlSalesInvoice.loadInvoice();
 
                 BindingContext = mVmlSalesInvoice;
             }

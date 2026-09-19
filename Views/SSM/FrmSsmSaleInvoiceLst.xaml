@@ -136,7 +136,7 @@
                                             <SwipeItems>
                                                 <SwipeItem
                                                     BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmPosSaleInvoiceLst}}}"
+                                                    Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSsmSaleInvoiceLst}}}"
                                                     CommandParameter="{Binding .}"
                                                     Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                             </SwipeItems>
@@ -215,7 +215,7 @@
                                                     <SwipeItems>
                                                         <SwipeItem
                                                             BackgroundColor="{Binding ThemeSettingSwipe.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmPosSaleInvoiceLst}}}"
+                                                            Command="{Binding BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={Type local:FrmSsmSaleInvoiceLst}}}"
                                                             CommandParameter="{Binding .}"
                                                             Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Delete}, Path=Value}" />
                                                     </SwipeItems>
@@ -537,7 +537,8 @@
                     <Label
                         Margin="3"
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.CheckAll}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
                 </StackLayout>
                 <StackLayout
                     Orientation="Horizontal"

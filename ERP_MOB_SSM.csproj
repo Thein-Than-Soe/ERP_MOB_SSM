@@ -249,6 +249,15 @@
 	  <Compile Update="Views\Frame\FrmSsmItemCard.xaml.cs">
 	    <DependentUpon>FrmSsmItemCard.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmSaleInvoiceLst.xaml.cs">
+	    <DependentUpon>FrmSsmSaleInvoiceLst.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmSaleInvoicePop.xaml.cs">
+	    <DependentUpon>FrmSsmSaleInvoicePop.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SSM\FrmSsmSaleInvoiceSet.xaml.cs">
+	    <DependentUpon>FrmSsmSaleInvoiceSet.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmStatusUpdate.xaml.cs">
 	    <DependentUpon>FrmSsmStatusUpdate.xaml</DependentUpon>
 	  </Compile>
@@ -748,21 +757,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\POS\FrmPosSaleBiilingLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSaleInvoiceLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSaleInvoicePop.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSaleInvoiceSet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSaleOrderLst.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\POS\FrmPosSalePaymentLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\POS\FrmPosSaleQuotationLst.xaml">

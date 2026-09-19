@@ -1,21 +1,22 @@
-﻿using CS.ERP.PL.POS.DAT;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CS.ERP.PL.HMS.DAT;
+using CS.ERP.PL.POS.DAT;
 using CS.ERP.PL.POS.REQ;
 using CS.ERP.PL.POS.RES;
 using CS.ERP.PL.SYS.DAT;
+using CS.ERP.PL.SYS.REQ;
 using CS.ERP_MOB.General;
 using CS.ERP_MOB.Services.POS;
-using CS.ERP_MOB.ViewsModel.Frame;
-using Newtonsoft.Json;
-
-using System.Windows.Input;
-using Microsoft.Maui.Controls;
-using static CS.ERP_MOB.General.Utility;
-using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP_MOB.Views.SSM;
-using System.Diagnostics;
+using CS.ERP_MOB.ViewsModel.Frame;
+using Microsoft.Maui.Controls;
+using Newtonsoft.Json;
 using RGPopup.Maui.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Input;
+using static CS.ERP_MOB.General.Utility;
 
 namespace CS.ERP_MOB.ViewsModel.SSM
 {
@@ -196,8 +197,136 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             get { return mCustomerDtlList; }
             set { mCustomerDtlList = value; NotifyPropertyChanged("CustomerDtlList"); }
         }
-        
+
         #endregion
+
+
+        #region "Load api date range display"
+        //initial with user setting range 
+        private static readonly DateRange mInitialScheduleRange = Utility.GetInitialScheduleDateRange();
+
+        private DateTime mStartDate = mInitialScheduleRange.StartDate.Date;
+        private TimeSpan mStartTime = mInitialScheduleRange.StartDate.TimeOfDay;
+        private DateTime mEndDate = mInitialScheduleRange.EndDate.Date;
+        private TimeSpan mEndTime = mInitialScheduleRange.EndDate.TimeOfDay;
+
+        public DateTime StartDate
+        {
+            get => mStartDate;
+            set
+            {
+                if (mStartDate == value)
+                    return;
+
+                mStartDate = value;
+
+                NotifyPropertyChanged(nameof(StartDate));
+
+            }
+        }
+        public TimeSpan StartTime
+        {
+            get => mStartTime;
+            set
+            {
+                if (mStartTime == value)
+                    return;
+
+                mStartTime = value;
+
+                NotifyPropertyChanged(nameof(StartTime));
+
+            }
+        }
+        public DateTime EndDate
+        {
+            get => mEndDate;
+            set
+            {
+                if (mEndDate == value)
+                    return;
+
+                mEndDate = value;
+                NotifyPropertyChanged(nameof(EndDate));
+            }
+        }
+        public TimeSpan EndTime
+        {
+            get => mEndTime;
+            set
+            {
+                if (mEndTime == value)
+                    return;
+
+                mEndTime = value;
+                NotifyPropertyChanged(nameof(EndTime));
+            }
+        }
+        #endregion
+        #region "Load api data tab"
+        public List<RES_CUSTOMER_DTL> mLoadCustomerLst;
+        public List<RES_CUSTOMER_DTL> LoadCustomerLst
+        {
+            get { return mLoadCustomerLst; }
+            set { mLoadCustomerLst = value; NotifyPropertyChanged("LoadCustomerLst"); }
+        }
+        public RES_CUSTOMER_DTL mLoadSelectedCustomer;
+        public RES_CUSTOMER_DTL LoadSelectedCustomer
+        {
+            get { return mLoadSelectedCustomer; }
+            set { mLoadSelectedCustomer = value; NotifyPropertyChanged("LoadSelectedCustomer"); }
+        }
+
+        public List<DAT_FILTER_RANGE> mLoadFilterRangeLst;
+        public List<DAT_FILTER_RANGE> LoadFilterRangeLst
+        {
+            get { return mLoadFilterRangeLst; }
+            set { mLoadFilterRangeLst = value; NotifyPropertyChanged("LoadFilterRangeLst"); }
+        }
+        public DAT_FILTER_RANGE mLoadSelectedFilterRange;
+        public DAT_FILTER_RANGE LoadSelectedFilterRange
+        {
+            get => mLoadSelectedFilterRange;
+            set
+            {
+
+                mLoadSelectedFilterRange = value;
+                NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+
+                if (value == null)
+                    return;
+
+                DateRange range = Utility.OnFilterRangeChanged(value);
+
+                if (range == null)
+                    return;
+
+                StartDate = range.StartDate.Date;
+                StartTime = range.StartDate.TimeOfDay;
+
+                EndDate = range.EndDate.Date;
+                EndTime = range.EndDate.TimeOfDay;
+
+            }
+        }
+
+        public List<RES_STOCK> mLoadStockLst;
+        public List<RES_STOCK> LoadStockLst
+        {
+            get { return mLoadStockLst; }
+            set { mLoadStockLst = value; NotifyPropertyChanged("LoadStockLst"); }
+        }
+        public RES_STOCK mLoadSelectedStock;
+        public RES_STOCK LoadSelectedStock
+        {
+            get { return mLoadSelectedStock; }
+            set { mLoadSelectedStock = value; NotifyPropertyChanged("LoadSelectedStock"); }
+        }
+
+
+
+        #endregion
+
 
         #region "Commands"
         private ICommand mCardViewCommand;
@@ -490,23 +619,13 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         }
         private void bindDataTab(List<RES_SALE_INVOICE> argRES_SALE_INVOICE_LST)
         {
-            try
+            SalesInvoiceList ??= new ObservableCollection<RES_SALE_INVOICE>();
+            SalesInvoiceList.Clear();
+            if (argRES_SALE_INVOICE_LST == null)
+                return;
+            foreach (RES_SALE_INVOICE l_RES_SALE_INVOICE in argRES_SALE_INVOICE_LST)
             {
-                if (argRES_SALE_INVOICE_LST != null && argRES_SALE_INVOICE_LST.Count > 0)
-                {
-                    foreach (RES_SALE_INVOICE l_RES_SALE_INVOICE in argRES_SALE_INVOICE_LST)
-                    {
-                        SalesInvoiceList.Add(l_RES_SALE_INVOICE);
-                    }
-                }
-                else
-                {
-                    SalesInvoiceList = new ObservableCollection<RES_SALE_INVOICE>();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
+                SalesInvoiceList.Add(l_RES_SALE_INVOICE);
             }
         }
         public void searchDataApi(string argKeyword)
@@ -557,41 +676,49 @@ namespace CS.ERP_MOB.ViewsModel.SSM
         {
             try
             {
-                loadInvoice();
+                //loadInvoice(); // if needed call load api for pickers
+                callSearchMorePopup();
             }
             catch (Exception ex)
             {
                 throw ex.InnerException;
             }
         }
-        //private async void callSearchMorePopup()
-        //{
-        //    try
-        //    {
-        //        var popup = new FrmPosSaleInvoicePop(this.SalesInvoiceLoad);
-        //        await PopupNavigation.Instance.PushAsync(popup);
+        private async void callSearchMorePopup()
+        {
+            try
+            {
+                var popup = new FrmSsmSaleInvoicePop(this);
+                await PopupNavigation.Instance.PushAsync(popup);
 
-        //        var result = await popup.PopupClosedTask;
-        //        if (result is RES_SALE_INVOICE selectedData)
-        //        {
-        //            mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = selectedData;
-        //            if(Common.mCommon.UserSetting.TLSearchTypeAsk == "1")//1 for local search
-        //            {
-        //                SalesInvoiceList = new ObservableCollection<RES_SALE_INVOICE>(mRES_SALE_INVOICE_LST.Where(data =>(data.CustomerAsk == selectedData.CustomerAsk)
-        //                                                                       || (data.InvoiceCode_0_50 == selectedData.InvoiceCode_0_50)).ToList());
-        //            }
-        //            else
-        //            {
-        //                getInvoice();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex.InnerException;
-        //    }
-        //}
-        
+                //DAT_FRONT_DESK requestedData = new DAT_FRONT_DESK(); 
+
+                var result = await popup.PopupClosedTask;
+                if (result is RES_SALE_INVOICE requestedData)
+                {
+                    //update req data model according to selected data
+                    requestedData.CustomerAsk = LoadSelectedCustomer?.Ask ?? "0";
+                    requestedData.CompanyAsk = Common.mCommon.CompanyUserData.CompanyAsk;
+                    DateTime SD = StartDate.Date + StartTime;
+                    requestedData.SD = SD.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                    DateTime ED = EndDate.Date + EndTime;
+                    requestedData.ED = ED.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
+                    //call api
+                    await getInvoice_load(requestedData);
+
+                    // Close THIS popup
+                    await PopupNavigation.Instance.RemovePageAsync(popup);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"callSearchMorePopup ERROR: {ex}");
+            }
+        }
+
+
         public void bindCustomer(List<RES_CUSTOMER_DTL> argRES_CUSTOMER_DTL_LST)
         {
             try
@@ -618,6 +745,10 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             try
             {
                 Utility.openLoader();
+                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE_DETAIL = new List<RES_SALE_INVOICE_DETAIL> { new RES_SALE_INVOICE_DETAIL() };
+                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_BROWSE = new List<RES_SALE_BROWSE> { new RES_SALE_BROWSE() };
+                mJSN_REQ_SALE_INVOICE_JUN.DAT_RECURRING_TRANSACTION = new List<DAT_RECURRING_TRANSACTION> { new DAT_RECURRING_TRANSACTION() };
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_INVOICE_JUN);
                 mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleInvoiceJun);
                 if (mResponse != null && mResponse != "")
@@ -686,7 +817,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
         }
 
-        public async void loadInvoice()
+        public async Task loadInvoice()
         {
             try
             {
@@ -698,14 +829,78 @@ namespace CS.ERP_MOB.ViewsModel.SSM
                     this.mJSN_LOAD_SALE_INVOICE = JsonConvert.DeserializeObject<JSN_LOAD_SALE_INVOICE>(mResponse);
                     if (mJSN_LOAD_SALE_INVOICE.Message.Code == "7")
                     {
-                        Utility.closeLoader();
+                        
                         this.SalesInvoiceLoad = mJSN_LOAD_SALE_INVOICE;
-                        //callSearchMorePopup();
+                        LoadFilterRangeLst = mJSN_LOAD_SALE_INVOICE.DAT_FILTER_RANGE;
+                        if (mLoadSelectedFilterRange == null)
+                        {
+                            LoadSelectedFilterRange = Utility.GetUserSettingFilterRange(LoadFilterRangeLst);
+                            NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+                        }
+                        else
+                        {
+                            LoadSelectedFilterRange = mLoadSelectedFilterRange;
+                            NotifyPropertyChanged(nameof(LoadSelectedFilterRange));
+                        }
+
+                        LoadStockLst = mJSN_LOAD_SALE_INVOICE.RES_STOCK;
+                        LoadCustomerLst = mJSN_LOAD_SALE_INVOICE.RES_CUSTOMER_DTL;
                     }
                     else
                     {
                         WeakReferenceMessenger.Default.Send(this.mJSN_LOAD_SALE_INVOICE.Message.Message);
                     }
+                }
+                else
+                {
+                    WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("ErrWebService"));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+            finally
+            {
+                Utility.closeLoader();
+            }
+        }
+
+        public async Task getInvoice_load(RES_SALE_INVOICE argRES_SALE_INVOICE)
+        {
+            try
+            {
+                Utility.openLoader();
+                mJSN_REQ_SALE_INVOICE_JUN.REQ_AUTHORIZATION = Common.mCommon.REQ_AUTHORIZATION;
+                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE = argRES_SALE_INVOICE;
+                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_INVOICE_DETAIL = new List<RES_SALE_INVOICE_DETAIL> { new RES_SALE_INVOICE_DETAIL() };
+                mJSN_REQ_SALE_INVOICE_JUN.RES_SALE_BROWSE = new List<RES_SALE_BROWSE> { new RES_SALE_BROWSE() };
+                mJSN_REQ_SALE_INVOICE_JUN.DAT_RECURRING_TRANSACTION = new List<DAT_RECURRING_TRANSACTION> { new DAT_RECURRING_TRANSACTION() };
+
+                mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_INVOICE_JUN);
+                mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsgetSaleInvoiceJun);
+                if (mResponse != null && mResponse != "")
+                {
+                    this.mJSN_SALE_INVOICE_JUN = JsonConvert.DeserializeObject<JSN_SALE_INVOICE_JUN>(mResponse);
+                    if (this.mJSN_SALE_INVOICE_JUN.Message.Code == "7")
+                    {
+                        if (this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE.Count > 0)
+                        {
+                            mRES_SALE_INVOICE_LST = this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE;
+                            bindDataTab(this.mJSN_SALE_INVOICE_JUN.RES_SALE_INVOICE);
+                            WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
+                        }
+                        else
+                        {
+                            WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
+                        }
+                    }
+                    else
+                    {
+                        WeakReferenceMessenger.Default.Send(this.mJSN_SALE_INVOICE_JUN.Message.Message);
+                    }
+
+                    Utility.closeLoader();
                 }
                 else
                 {
@@ -715,6 +910,7 @@ namespace CS.ERP_MOB.ViewsModel.SSM
             }
             catch (Exception ex)
             {
+                Utility.closeLoader();
                 throw ex.InnerException;
             }
         }

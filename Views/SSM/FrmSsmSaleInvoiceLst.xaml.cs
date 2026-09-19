@@ -150,7 +150,7 @@ namespace CS.ERP_MOB.Views.SSM
             if (answer)
             {
                 Common.mCommon.saveNoti(argRES_CONTROL);
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
             }
         }
         private async Task btnEdit_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
@@ -161,7 +161,7 @@ namespace CS.ERP_MOB.Views.SSM
             if (answer)
             {
                 Common.mCommon.saveNoti(argRES_CONTROL);
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_INVOICE)tappedItem));
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_INVOICE)tappedItem));
             }
         }
         private async Task btnDelete_onClick(object tappedItem, RES_CONTROL argRES_CONTROL)
@@ -356,7 +356,7 @@ namespace CS.ERP_MOB.Views.SSM
         {
             try
             {
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet());
             }
             catch (Exception ex)
             {
@@ -394,7 +394,7 @@ namespace CS.ERP_MOB.Views.SSM
         {
             if (sender is SwipeItem swipeItem && swipeItem.BindingContext is RES_SALE_INVOICE selectedItem)
             {
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet(selectedItem));
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(selectedItem));
             }
         }
         private void OnMenuTapped(object sender, TappedEventArgs e)
@@ -411,7 +411,7 @@ namespace CS.ERP_MOB.Views.SSM
         {
             if (Utility.checkButtonAccess("Edit"))
             {
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_INVOICE)tappedItem));
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet((RES_SALE_INVOICE)tappedItem));
             }
             else
             {
@@ -514,7 +514,7 @@ namespace CS.ERP_MOB.Views.SSM
             {
                 if (e.Parameter is RES_SALE_INVOICE tappedItem)
                 {
-                    await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
+                    //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
                 }
             }
             else
@@ -541,7 +541,7 @@ namespace CS.ERP_MOB.Views.SSM
 
             if (sender is VisualElement ve && ve.BindingContext is RES_SALE_INVOICE tappedItem)
             {
-                await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
+                //await Navigation.PushAsync(new FrmPosSaleInvoiceSet(tappedItem));
             }
         }
         private void OnGridDoubleTap(object sender, TappedEventArgs e)

@@ -523,6 +523,8 @@ namespace CS.ERP_MOB.ViewsModel.SYS
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.SD = Utility.getTLFormLoadSD();
                 mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE.ED = Utility.getTLFormLoadED();
 
+                mJSN_REQ_SALE_LOAD.RES_SALE_BROWSE_DETAIL = new List<RES_SALE_BROWSE_DETAIL> { new RES_SALE_BROWSE_DETAIL()};
+
                 mRequest = JsonConvert.SerializeObject(mJSN_REQ_SALE_LOAD);
                 mResponse = await Pos_Service.ApiCall(mRequest, Pos_Name.wsloadSaleTransHis);
                 if (mResponse != null || mResponse != "")
