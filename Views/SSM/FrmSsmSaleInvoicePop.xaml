@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="CS.ERP_MOB.Views.POS.FrmPosSaleInvoicePop"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animation="clr-namespace:RGPopup.Maui.Animations;assembly=RGPopup.Maui"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:ext="clr-namespace:CS.ERP_MOB.Extensions"
+    xmlns:general="clr-namespace:CS.ERP_MOB.General"
+    xmlns:local="clr-namespace:CS.ERP_MOB.Views.POS"
+    xmlns:rg="clr-namespace:RGPopup.Maui.Pages;assembly=RGPopup.Maui"
+    CloseWhenBackgroundIsClicked="True"
+    HasSystemPadding="True"
+    IsPopupWindowResizable="True"
+    SystemPaddingSides="Bottom">
+
+    <rg:PopupPage.Animation>
+        <animation:MoveAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="true"
+            PositionIn="Bottom"
+            PositionOut="Bottom" />
+    </rg:PopupPage.Animation>
+
+    <Grid
+        x:Name="SearchGrid"
+        HorizontalOptions="Fill"
+        VerticalOptions="End">
+
+        <Frame
+            x:Name="PopupFrame"
+            Padding="0"
+            CornerRadius="3"
+            HorizontalOptions="Fill"
+            VerticalOptions="End">
+
+            <Grid
+                BackgroundColor="White"
+                MaximumHeightRequest="650"
+                RowDefinitions="Auto,*,Auto">
+
+                <!--  Title  -->
+                <StackLayout
+                    Grid.Row="0"
+                    Padding="{StaticResource padding}"
+                    BackgroundColor="{Binding ThemeSettingTaskbar.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    HeightRequest="30"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start">
+
+                    <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Center">
+
+                        <Label
+                            AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.MoreSearch}, Path=Value}"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                            VerticalOptions="Center" />
+
+                    </AbsoluteLayout>
+                </StackLayout>
+
+
+                <!--  SCROLLABLE CONTENT  -->
+                <ScrollView
+                    Grid.Row="1"
+                    BackgroundColor="{Binding ThemeSettingContent.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    VerticalOptions="Fill"
+                    VerticalScrollBarVisibility="Default">
+
+                    <VerticalStackLayout
+                        Padding="20"
+                        Spacing="10"
+                        VerticalOptions="Start">
+
+
+                        <!--  Filter Range  -->
+                        <!--  Picker 1  -->
+                        <Border
+                            Grid.Column="0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
+                            <editors:SfComboBox
+                                x:Name="ComboBox1"
+                                Grid.Column="0"
+                                DisplayMemberPath="FilterRangeName_0_255"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HeightRequest="50"
+                                IsClearButtonVisible="False"
+                                IsDropdownButtonVisible="True"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                ItemsSource="{Binding LoadFilterRangeLst}"
+                                MaxDropDownHeight="250"
+                                Placeholder="{Binding Source={ext:LanguageExtension Key=POS.Dashboard.lbl.FilterRange}, Path=Value}"
+                                SelectedItem="{Binding LoadSelectedFilterRange, Mode=TwoWay}"
+                                ShowBorder="True"
+                                TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
+                                VerticalOptions="Center" />
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                        </Border>
+
+                        <!--  Start date, End date  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="5"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Center">
+
+                            <!--  Start Date + Start Time  -->
+                            <Border
+                                Grid.Column="0"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,*,*"
+                                    IsEnabled="False"
+                                    VerticalOptions="Center">
+
+                                    <!--  Icon  -->
+                                    <Label
+                                        Margin="10"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf251;"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+
+                                    <!--  Start Date - Display Only  -->
+                                    <DatePicker
+                                        Grid.Column="1"
+                                        Date="{Binding StartDate, Mode=OneWay}"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HeightRequest="40"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                    <!--  Start Time - Editable  -->
+                                    <TimePicker
+                                        Grid.Column="2"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        Format="HH:mm"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        Time="{Binding StartTime, Mode=OneWay}"
+                                        VerticalOptions="Center" />
+
+                                </Grid>
+                            </Border>
+
+                            <!--  End Date + End Time  -->
+                            <Border
+                                Grid.Column="1"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,*,Auto"
+                                    IsEnabled="False"
+                                    VerticalOptions="Center">
+
+                                    <!--  Icon  -->
+                                    <Label
+                                        Margin="10"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf253;"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+
+                                    <!--  End Date - Display Only  -->
+                                    <DatePicker
+                                        Grid.Column="1"
+                                        Date="{Binding EndDate, Mode=OneWay}"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HeightRequest="40"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                    <!--  End Time - Editable  -->
+                                    <TimePicker
+                                        Grid.Column="2"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        Format="HH:mm"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        Time="{Binding EndTime, Mode=OneWay}"
+                                        VerticalOptions="Center" />
+
+                                </Grid>
+                            </Border>
+
+
+                        </Grid>
+
+                        <!--  Stock picker  -->
+                        <!--  Picker 2  -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                            <!--  Stock Code  -->
+                            <!--  Picker 2.1  -->
+                            <Border
+                                Grid.Column="0"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <editors:SfComboBox
+                                    x:Name="ComboBox21"
+                                    DisplayMemberPath="StockCode_0_50"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    HeightRequest="50"
+                                    IsClearButtonVisible="False"
+                                    IsDropdownButtonVisible="True"
+                                    IsEditable="True"
+                                    IsFilteringEnabled="True"
+                                    ItemsSource="{Binding LoadStockLst}"
+                                    MaxDropDownHeight="250"
+                                    Placeholder="Select Stock Code"
+                                    SelectedItem="{Binding LoadSelectedStock, Mode=TwoWay}"
+                                    ShowBorder="True"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    TextSearchMode="Contains"
+                                    ValueChanged="ComboBox_ValueChanged"
+                                    VerticalOptions="Center" />
+
+                            </Border>
+
+                            <!--  Stock Name  -->
+                            <!--  Picker 2.2  -->
+                            <Border
+                                Grid.Column="1"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <editors:SfComboBox
+                                    x:Name="ComboBox22"
+                                    DisplayMemberPath="StockName_0_255"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    HeightRequest="50"
+                                    IsClearButtonVisible="False"
+                                    IsDropdownButtonVisible="True"
+                                    IsEditable="True"
+                                    IsFilteringEnabled="True"
+                                    ItemsSource="{Binding LoadStockLst}"
+                                    MaxDropDownHeight="250"
+                                    Placeholder="Select Stock Name"
+                                    SelectedItem="{Binding LoadSelectedStock, Mode=TwoWay}"
+                                    ShowBorder="True"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    TextSearchMode="Contains"
+                                    ValueChanged="ComboBox_ValueChanged"
+                                    VerticalOptions="Center" />
+                            </Border>
+
+                        </Grid>
+
+
+                        <!--  Service Status picker  -->
+                        <!--  Picker 3  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <editors:SfComboBox
+                                x:Name="ComboBox3"
+                                DisplayMemberPath="ServiceStatusName_0_255"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HeightRequest="50"
+                                IsClearButtonVisible="False"
+                                IsDropdownButtonVisible="True"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                ItemsSource="{Binding LoadServiceStatusLst}"
+                                MaxDropDownHeight="250"
+                                Placeholder="Select Service Status"
+                                SelectedItem="{Binding LoadSelectedServiceStatus, Mode=TwoWay}"
+                                ShowBorder="True"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <!--  User picker  -->
+                        <!--  Picker 4  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <editors:SfComboBox
+                                x:Name="ComboBox4"
+                                DisplayMemberPath="UserName_0_255"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HeightRequest="50"
+                                IsClearButtonVisible="False"
+                                IsDropdownButtonVisible="True"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                ItemsSource="{Binding LoadUserLst}"
+                                MaxDropDownHeight="250"
+                                Placeholder="Select User"
+                                SelectedItem="{Binding LoadSelectedUser, Mode=TwoWay}"
+                                ShowBorder="True"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <!--  Picker 5  -->
+                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                            <editors:SfComboBox
+                                x:Name="ComboBox5"
+                                DisplayMemberPath="CustomerName_0_255"
+                                DropDownPlacement="Top"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HeightRequest="50"
+                                IsClearButtonVisible="False"
+                                IsDropdownButtonVisible="True"
+                                IsEditable="True"
+                                IsFilteringEnabled="True"
+                                ItemsSource="{Binding LoadCustomerLst}"
+                                MaxDropDownHeight="250"
+                                Placeholder="Select Customer"
+                                SelectedItem="{Binding LoadSelectedCustomer, Mode=TwoWay}"
+                                ShowBorder="True"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                TextSearchMode="Contains"
+                                ValueChanged="ComboBox_ValueChanged"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
+
+
+                <!--  FIXED FOOTER  -->
+                <HorizontalStackLayout
+                    Grid.Row="2"
+                    Padding="15,10"
+                    HorizontalOptions="Center"
+                    Spacing="15">
+
+                    <Button
+                        Padding="12,5"
+                        BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                        Clicked="CancelButton_Clicked"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Cancel}, Path=Value}"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        WidthRequest="130" />
+
+                    <Button
+                        Padding="12,5"
+                        BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                        Clicked="OkButton_Clicked"
+                        CornerRadius="6"
+                        FontAttributes="Bold"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.OK}, Path=Value}"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        WidthRequest="130" />
+
+                </HorizontalStackLayout>
+
+            </Grid>
+
+        </Frame>
+
+    </Grid>
+
+</rg:PopupPage>

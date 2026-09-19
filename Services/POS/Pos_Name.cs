@@ -101,6 +101,7 @@ namespace CS.ERP_MOB.Services.POS
 
         public static string wsupdateServiceStatus = "updateServiceStatus";
         public static string wssaveBookNow = "saveBookNow";
+        public static string wssaveSaleInvoiceJunOva = "saveSaleInvoiceJunOva";
        
 
         #endregion

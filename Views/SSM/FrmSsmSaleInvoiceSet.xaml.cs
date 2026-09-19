@@ -24,5 +24,10 @@ namespace CS.ERP_MOB.Views.POS
             // Optionally bind to the UI
             BindingContext = invoice;
         }
+        private async void OnSwipeRight(object sender, SwipedEventArgs e)
+        {
+            await this.TranslateTo(100, 0, 150);
+            await Navigation.PopAsync(); // Go back to previous page
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace CS.ERP_MOB.Route
 
             DicRouteList.Add("ssm-quotation-lst", typeof(FrmPosSaleQuotationLst));
 
-            //DicRouteList.Add("ssm-book-lst", typeof(FrmSsmOrderBookLst));
+            DicRouteList.Add("ssm-book-lst", typeof(FrmSsmSaleInvoiceLst));
             //DicRouteList.Add("ssm-book-set", typeof(FrmSsmOrderBookSet));
             //DicRouteList.Add("ssm-book-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-book-import", typeof(FrmSsmProfile));
@@ -41,6 +41,7 @@ namespace CS.ERP_MOB.Route
             //DicRouteList.Add("ssm-service-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-service-import", typeof(FrmSsmProfile));
 
+            DicRouteList.Add("ssm-invoice-lst", typeof(FrmSsmSaleInvoiceLst));
             //DicRouteList.Add("ssm-invoice-set", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-invoice-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-invoice-import", typeof(FrmSsmProfile));
