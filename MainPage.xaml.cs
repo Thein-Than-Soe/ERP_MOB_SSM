@@ -18,7 +18,7 @@ namespace CS.ERP_MOB
         public MainPage()
         {
             InitializeComponent();
-            this.Padding = new Thickness(0, DeviceInfo.Platform == DevicePlatform.Android ? 30 : 0, 0, 20);
+            //this.Padding = new Thickness(0, DeviceInfo.Platform == DevicePlatform.Android ? 30 : 0, 0, 20);
         }
 
         protected override void OnAppearing()
