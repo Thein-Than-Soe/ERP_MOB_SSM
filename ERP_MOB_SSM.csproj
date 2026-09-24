@@ -4,6 +4,9 @@
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<TargetAndroidVersion>35</TargetAndroidVersion>
+
+		<ValidateXcodeVersion>false</ValidateXcodeVersion>
+
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -33,7 +36,7 @@
 		<ApplicationDisplayVersion>1.0.6</ApplicationDisplayVersion>
 		<ApplicationVersion>6</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -41,6 +44,21 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+
+	<PropertyGroup>
+		<CodesignConfigureDependsOn>
+			$(CodesignConfigureDependsOn);ConfigureSimulatorSigning
+		</CodesignConfigureDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="ConfigureSimulatorSigning" Condition="'$(SdkIsSimulator)' == 'true'">
+		<PropertyGroup>
+			<EnableCodeSigning>true</EnableCodeSigning>
+			<CodesignRequireProvisioningProfile>false</CodesignRequireProvisioningProfile>
+		</PropertyGroup>
+	</Target>
+
+	
 <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
   <AndroidPackageFormat>aab</AndroidPackageFormat>
   <DebugSymbols>True</DebugSymbols>
@@ -63,7 +81,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\Splash\splash.svg" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\ssmsplash.png" Color="#FFFFFF" BaseSize="128,128" />

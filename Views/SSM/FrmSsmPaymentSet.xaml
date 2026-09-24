@@ -133,7 +133,7 @@
 
                     </Border>
 
-                </VerticalStackLayout>                -->
+                </VerticalStackLayout>-->
 
                 <!--  =================================================  -->
                 <!--  TO BANK  -->
@@ -296,7 +296,7 @@
                 Margin="10,5,10,10"
                 BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
                 Clicked="AddToList_Clicked"
-                CornerRadius="10"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                 FontAttributes="Bold"
                 FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                 HeightRequest="40"
@@ -308,7 +308,7 @@
                 Margin="10,5,10,10"
                 BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
                 Clicked="Delete_Clicked"
-                CornerRadius="10"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                 FontAttributes="Bold"
                 FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                 HeightRequest="40"

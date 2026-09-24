@@ -39,7 +39,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Padding="{StaticResource padding}"
-            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
+            BackgroundColor="{Binding ThemeSettingBannerProfile.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}">
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                 <StackLayout.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Right" Swiped="OnSwipeRight" />
@@ -115,7 +115,8 @@
                                 Padding="{StaticResource padding}"
                                 BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                 Clicked="btnChangePassword_onClicked"
-                                CornerRadius="{Binding RegionSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
+                                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                 HorizontalOptions="StartAndExpand"
                                 Text="{Binding Source={ext:LanguageExtension Key=frame.Banner.btnName.ChangePassword}, Path=Value}"
                                 TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
@@ -127,7 +128,8 @@
                                 Padding="{StaticResource padding}"
                                 BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                                 Clicked="btnSignOut_onClicked"
-                                CornerRadius="{Binding RegionSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
+                                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                 HorizontalOptions="EndAndExpand"
                                 Text="{Binding Source={ext:LanguageExtension Key=frame.Banner.btnName.SignOut}, Path=Value}"
                                 TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
@@ -140,7 +142,7 @@
                 <!--  content area  -->
                 <StackLayout
                     x:Name="sltContent"
-                    BackgroundColor="{Binding ThemeSettingCardViewBody.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                    BackgroundColor="{Binding ThemeSettingBannerProfile.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
                     HorizontalOptions="FillAndExpand"
                     Orientation="Vertical"
                     VerticalOptions="StartAndExpand">
@@ -210,11 +212,11 @@
                                                             VerticalOptions="Center">
                                                             <Label
                                                                 FontAttributes="Bold"
-                                                                FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                                                FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                                FontFamily="{Binding ThemeSettingBannerProfile.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                                FontSize="{Binding ThemeSettingBannerProfile.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                                 LineBreakMode="TailTruncation"
                                                                 Text="{Binding UserDescription}"
-                                                                TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                                TextColor="{Binding ThemeSettingBannerProfile.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                             <Label />
                                                         </StackLayout>
                                                         <StackLayout
@@ -222,11 +224,11 @@
                                                             Orientation="Horizontal"
                                                             VerticalOptions="Center">
                                                             <Label
-                                                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                                                FontFamily="{Binding ThemeSettingBannerProfile.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                                FontSize="{Binding ThemeSettingBannerProfile.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                                                                 LineBreakMode="TailTruncation"
                                                                 Text="{Binding UserEmail}"
-                                                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                                                TextColor="{Binding ThemeSettingBannerProfile.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                                                             <Label />
                                                         </StackLayout>
                                                     </StackLayout>
@@ -248,8 +250,8 @@
                 <StackLayout VerticalOptions="StartAndExpand">
                     <Frame
                         Padding="5"
-                        BackgroundColor="{Binding ThemeSettingCardViewFooter.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                        CornerRadius="{Binding RegionSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
+                        BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand">
                         <Label
@@ -264,7 +266,7 @@
                     <Frame
                         Padding="5"
                         BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                        CornerRadius="3"
+                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand">
                         <Label

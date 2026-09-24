@@ -876,7 +876,7 @@
                     Grid.Column="1"
                     Padding="0"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="10"
+                    CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                     HeightRequest="40"
                     IsEnabled="{Binding IsServiceAdded}"
                     WidthRequest="120">
@@ -905,7 +905,7 @@
                     Grid.Column="1"
                     Padding="0"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="10"
+                    CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
                     HeightRequest="40"
                     IsEnabled="{Binding IsServiceAdded}"
                     WidthRequest="120">

@@ -357,10 +357,10 @@ namespace CS.ERP_MOB.ViewsModel.SSM
 
                 string response = await Ssm_Service.UploadImageToServer(
                     uploadFolderName,
-                    "reference",
+                    "photo",
                     result.FileName,
                     fileBytes);
-
+                //  Will record as /uploads/SSM/service/name.png
                 if (!string.IsNullOrWhiteSpace(response))
                 {
                     // Final path of the newly uploaded file
