@@ -21,11 +21,15 @@ public partial class FrmSsmBookNowLst : ContentView
 
     private bool _isLoaded;
 
+    #region "Constructor"
     public FrmSsmBookNowLst()
     {
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+            lblDeleteIcon.Text = Utility.GetSelectedMenuButtonIcon("Delete");
+
             _isFromFrontDesk = false;
 
             vm = new VmlSsmBookNow();
@@ -49,6 +53,8 @@ public partial class FrmSsmBookNowLst : ContentView
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+            lblDeleteIcon.Text = Utility.GetSelectedMenuButtonIcon("Delete");
 
             vm = new VmlSsmBookNow();
 
@@ -80,7 +86,9 @@ public partial class FrmSsmBookNowLst : ContentView
             throw;
         }
     }
+    #endregion
 
+    #region "Method"
     // =========================================================
     // Loaded
     // =========================================================
@@ -142,7 +150,7 @@ public partial class FrmSsmBookNowLst : ContentView
 
     private async void ServiceCard_Tapped( object sender, EventArgs e)
     {
-        if (Utility.checkButtonAccess("Edit"))
+        if (Utility.checkButtonAccess("Save"))
         {
 
             await Navigation.PushAsync( new FrmSsmServiceSet(vm));
@@ -216,7 +224,6 @@ public partial class FrmSsmBookNowLst : ContentView
         // Update ViewModel immediately
         vm.DiscountRate = value;
     }
-
 
     private void RestorePreviousText(Entry entry, string oldText)
     {
@@ -410,7 +417,7 @@ public partial class FrmSsmBookNowLst : ContentView
     {
         try
         {
-            if (Utility.checkButtonAccess("Edit"))
+            if (Utility.checkButtonAccess("Save"))
             {
 
                 var selectedItem = e.SelectedItem as RES_SALE_PAYMENT;
@@ -471,5 +478,5 @@ public partial class FrmSsmBookNowLst : ContentView
                 ? "\uf077"   // chevron-up
                 : "\uf078";  // chevron-down
     }
-
+#endregion
 }

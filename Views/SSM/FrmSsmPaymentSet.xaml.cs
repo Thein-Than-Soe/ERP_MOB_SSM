@@ -13,11 +13,14 @@ public partial class FrmSsmPaymentSet : ContentPage
     private bool _isLoaded;
     private RES_SALE_PAYMENT CurrentItem;
 
+    #region "Constructor"
     public FrmSsmPaymentSet()
     {
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+            lblDeleteIcon.Text = Utility.GetSelectedMenuButtonIcon("Delete");
 
             vm = new VmlSsmBookNow();
             BindingContext = vm;
@@ -35,6 +38,8 @@ public partial class FrmSsmPaymentSet : ContentPage
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+            lblDeleteIcon.Text = Utility.GetSelectedMenuButtonIcon("Delete");
             this.vm = vm;
             BindingContext = vm;
             CurrentItem = mRES_SALE_PAYMENT;
@@ -59,6 +64,9 @@ public partial class FrmSsmPaymentSet : ContentPage
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+            lblDeleteIcon.Text = Utility.GetSelectedMenuButtonIcon("Delete");
+
             this.vm = vm;
             BindingContext = vm;
             CurrentItem = new RES_SALE_PAYMENT();
@@ -72,6 +80,7 @@ public partial class FrmSsmPaymentSet : ContentPage
             throw;
         }
     }
+    #endregion
 
     #region "Private method"
 

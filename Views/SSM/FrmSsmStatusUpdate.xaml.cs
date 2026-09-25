@@ -31,6 +31,7 @@ namespace CS.ERP_MOB.Views.SSM
 
             BindingContext = vm;
 
+            lblUpdateIcon.Text = Utility.GetSelectedMenuButtonIcon("Edit");
             DateTime now = DateTime.Now;
 
             // Start
@@ -50,6 +51,7 @@ namespace CS.ERP_MOB.Views.SSM
             frontDesk = selectedFrontDesk;
             vm.SelectedFrontDesk = frontDesk;
 
+            lblUpdateIcon.Text = Utility.GetSelectedMenuButtonIcon("Edit");
             DateTime now = DateTime.Now;
 
             // Start
@@ -164,10 +166,7 @@ namespace CS.ERP_MOB.Views.SSM
                     }
                     else
                     {
-                        await DisplayAlert(
-                            "Error",
-                            "Failed to update status.",
-                            "OK");
+                        WeakReferenceMessenger.Default.Send("Failed to update status.");
                     }
 
                 }
@@ -180,10 +179,7 @@ namespace CS.ERP_MOB.Views.SSM
             }
             catch (Exception ex)
             {
-                await DisplayAlert(
-                    "Error",
-                    ex.Message,
-                    "OK");
+                await DisplayAlert( "Error", ex.Message,"OK");
             }
             finally
             {

@@ -30,6 +30,8 @@ namespace CS.ERP_MOB.Views.SSM
             try
             {
                 InitializeComponent();
+                lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+
                 mVmlSsmProfile = new VmlSsmProfile();
                 BindingContext = mVmlSsmProfile;
             }

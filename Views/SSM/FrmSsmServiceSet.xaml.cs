@@ -3,6 +3,7 @@ namespace CS.ERP_MOB.Views.SSM;
 using CommunityToolkit.Mvvm.Messaging;
 using CS.ERP.PL.ECO.DAT;
 using CS.ERP.PL.POS.DAT;
+using CS.ERP_MOB.General;
 using CS.ERP_MOB.ViewsModel.SSM;
 
 public partial class FrmSsmServiceSet : ContentPage
@@ -10,11 +11,13 @@ public partial class FrmSsmServiceSet : ContentPage
     private readonly VmlSsmBookNow vm;
     private bool _isLoaded;
 
+    #region "Constructor"
     public FrmSsmServiceSet()
     {
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
 
             vm = new VmlSsmBookNow();
             BindingContext = vm;
@@ -34,6 +37,8 @@ public partial class FrmSsmServiceSet : ContentPage
         try
         {
             InitializeComponent();
+            lblSaveIcon.Text = Utility.GetSelectedMenuButtonIcon("Save");
+
             this.vm = vm;
             BindingContext = vm;
 
@@ -45,6 +50,9 @@ public partial class FrmSsmServiceSet : ContentPage
             throw;
         }
     }
+    #endregion
+
+    #region "Method"
     private async void FrmSsmServiceSet_Loaded(object sender, EventArgs e)
     {
         if (_isLoaded)
@@ -117,5 +125,5 @@ public partial class FrmSsmServiceSet : ContentPage
 
     }
 
-
+    #endregion
 }

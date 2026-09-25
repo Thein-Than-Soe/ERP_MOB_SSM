@@ -24151,6 +24151,7 @@
         "EndDate": "End Date",
         "FilterRange": "Filter Range",
         "TaskSummary": "Task Summary",
+        "TodayTaskSummary": "Today Summary",
         "StaffOverview": "Staff Overview",
         "Revenue": "Revenue"
       },

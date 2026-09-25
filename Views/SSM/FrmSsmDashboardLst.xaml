@@ -32,16 +32,10 @@
                         <HorizontalStackLayout Grid.Column="0">
                             <Label
                                 FontAttributes="Bold"
-                                FontFamily="{Binding ThemeSettingContentHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
                                 Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.TaskSummary}, Path=Value}"
-                                TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                VerticalOptions="Center" />
-
-                            <Label
-                                FontSize="11"
-                                Text=" (Overview)"
-                                TextColor="#999"
+                                TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                                 VerticalOptions="Center" />
 
                         </HorizontalStackLayout>
@@ -177,25 +171,21 @@
             </Border>
 
             <VerticalStackLayout>
-                <HorizontalStackLayout Margin="10">
+                <HorizontalStackLayout>
                     <Label
                         FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingContentHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.TaskSummary}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                        Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.TodayTaskSummary}, Path=Value}"
+                        TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                         VerticalOptions="Center" />
 
-                    <Label
-                        FontSize="11"
-                        Text=" (Today)"
-                        TextColor="#999"
-                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
                 <!--  Today task Cards  -->
 
                 <Border
+                    Margin="0,10"
                     Padding="10"
                     BackgroundColor="White"
                     Stroke="#E5E7EB"
@@ -394,7 +384,7 @@
                             FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
                             HorizontalOptions="Center"
                             Text="&#xf155;"
-                            TextColor="{StaticResource OvaTextColor}"
+                            TextColor="White"
                             VerticalOptions="Center" />
                     </Border>
 
@@ -402,10 +392,10 @@
                     <Label
                         Grid.Column="1"
                         FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingContentHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
                         Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.Revenue}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                         VerticalOptions="Center" />
 
                     <!--  Revenue  -->
@@ -493,9 +483,10 @@
                 <HorizontalStackLayout Grid.Column="1">
                     <Label
                         FontAttributes="Bold"
-                        FontSize="{Binding ThemeSettingContentHeader.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                        FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
                         Text="{Binding Source={ext:LanguageExtension Key=SSM.Dashboard.lbl.StaffOverview}, Path=Value}"
-                        TextColor="{Binding ThemeSettingContentHeader.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                        TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                         VerticalOptions="Center" />
 
                     <Label

@@ -458,7 +458,15 @@ namespace CS.ERP_MOB
                 }
                 else if (HomeSelected)
                 {
-                    this.changeContentView(new HomePage(), "Home");
+                    Common.mCommon.SelectedMenu = Common.mCommon.JSN_RES_MOBILE_LOGIN.menu[0];
+                    if (Common.mCommon.JSN_RES_MOBILE_LOGIN.menu.Count > 0 && !Common.bindMenu(Common.mCommon.JSN_RES_MOBILE_LOGIN.menu[0].MenuUrl))
+                    {
+                        Common.mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "Home", MenuUrl = "home", logoImg = "" };
+                        //mCommon.SelectedMenu = new RES_MENU { ProductAsk = "1", Text = "Sign In", MenuUrl = "signin", logoImg = "" };
+                        WeakReferenceMessenger.Default.Send(Common.mCommon.GetMessageValueByKey("MsgAccess"));
+                    }
+                    Common.routeMenu(Common.mCommon.SelectedMenu);
+
                 }
                 else if (NotiSelected)
                 {

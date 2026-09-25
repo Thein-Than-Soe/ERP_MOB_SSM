@@ -290,32 +290,88 @@
 
         <HorizontalStackLayout
             Grid.Row="1"
+            Margin="0,10"
             HorizontalOptions="Center"
             Spacing="5">
-            <Button
-                Margin="10,5,10,10"
-                BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                Clicked="AddToList_Clicked"
-                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                FontAttributes="Bold"
-                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                HeightRequest="40"
-                HorizontalOptions="Center"
-                Text="Save"
-                TextColor="White"
-                WidthRequest="120" />
-            <Button
-                Margin="10,5,10,10"
-                BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                Clicked="Delete_Clicked"
-                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                FontAttributes="Bold"
-                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                HeightRequest="40"
-                HorizontalOptions="Center"
-                Text="Delete"
-                TextColor="White"
-                WidthRequest="120" />
+
+
+            <Frame
+                x:Name="SaveBookNowButton"
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        x:Name="lblSaveIcon"
+                        Grid.Column="0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="&#xf0c7;"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Text  -->
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        HorizontalOptions="Center"
+                        Text="Save"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="AddToList_Clicked" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <Frame
+                x:Name="DeleteButton"
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        x:Name="lblDeleteIcon"
+                        Grid.Column="0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="&#xf0c7;"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Text  -->
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        HorizontalOptions="Center"
+                        Text="Delete"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Delete_Clicked" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
 
         </HorizontalStackLayout>
 

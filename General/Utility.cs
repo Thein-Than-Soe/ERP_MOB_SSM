@@ -663,6 +663,8 @@ namespace CS.ERP_MOB.General
             }
         }
         #endregion
+
+        #region "MenuUrl Button"
         public static Boolean checkButtonAccess(string menuName)
         {
             try
@@ -687,6 +689,27 @@ namespace CS.ERP_MOB.General
                 throw ex.InnerException;
             }
         }
+        // For button icon with Text of button from login api
+        public static RES_CONTROL GetSelectedMenuButton(string text)
+        {
+            return Common.mCommon.SelectedMenu?.button?
+                .FirstOrDefault(x => x.text == text);
+        }
+
+        public static string GetSelectedMenuButtonIcon(string text)
+        {
+            var icon = GetSelectedMenuButton(text)?.btnicon;
+
+            if (string.IsNullOrEmpty(icon))
+                return "save";
+
+            if (icon.StartsWith("fa fa-", StringComparison.OrdinalIgnoreCase))
+                icon = icon.Substring(6);
+
+            return icon;
+        }
+        #endregion
+
         #region "DecimalFormat"
         //roundoffamount, usersetting decimal place, amount after dis
         public static string getDecimalFormatString(string argDecimal, string argDecimalPlace, string argDecimaRounding)

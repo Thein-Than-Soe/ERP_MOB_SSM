@@ -8,293 +8,322 @@
     xmlns:general="clr-namespace:CS.ERP_MOB.General"
     x:Name="BookNowView">
 
-    <ScrollView x:Name="MainScrollView">
-        <VerticalStackLayout Padding="15" Spacing="15">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView x:Name="MainScrollView" Grid.Row="0">
+            <VerticalStackLayout Padding="15" Spacing="15">
 
-            <!--  =====================================================  -->
-            <!--  SECTION 1 : CUSTOMER & DATE  -->
-            <!--  =====================================================  -->
+                <!--  =====================================================  -->
+                <!--  SECTION 1 : CUSTOMER & DATE  -->
+                <!--  =====================================================  -->
 
-            <Frame
-                Padding="15"
-                BorderColor="LightGray"
-                CornerRadius="10"
-                HasShadow="False">
+                <Frame
+                    Padding="15"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False">
 
-                <VerticalStackLayout Spacing="12">
+                    <VerticalStackLayout Spacing="12">
 
-                    <Grid
-                        ColumnDefinitions="*,*"
-                        ColumnSpacing="10"
-                        HorizontalOptions="Fill">
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="10"
+                            HorizontalOptions="Fill">
 
-                        <!--  Customer  -->
-                        <Picker
-                            x:Name="PickerCustomer"
-                            Title="Select Customer"
-                            Grid.Column="0"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            HorizontalOptions="Fill"
-                            IsEnabled="{Binding IsServiceEditable}"
-                            ItemDisplayBinding="{Binding CustomerName_0_255}"
-                            ItemsSource="{Binding CustomerList}"
-                            SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                            ToolTipProperties.Text="Please enter Customer" />
+                            <!--  Customer  -->
+                            <Picker
+                                x:Name="PickerCustomer"
+                                Title="Select Customer"
+                                Grid.Column="0"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="Fill"
+                                IsEnabled="{Binding IsServiceEditable}"
+                                ItemDisplayBinding="{Binding CustomerName_0_255}"
+                                ItemsSource="{Binding CustomerList}"
+                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                ToolTipProperties.Text="Please enter Customer" />
 
-                        <!--  Customer Contact  -->
-                        <Picker
-                            x:Name="PickerCustomerContact"
-                            Title="Select Contact"
-                            Grid.Column="1"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            HorizontalOptions="Fill"
-                            IsEnabled="{Binding IsServiceEditable}"
-                            ItemDisplayBinding="{Binding ContactName_0_255}"
-                            ItemsSource="{Binding CustomerContactList}"
-                            SelectedItem="{Binding SelectedCustomerContact, Mode=TwoWay}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                            ToolTipProperties.Text="Please enter CustomerContact" />
+                            <!--  Customer Contact  -->
+                            <Picker
+                                x:Name="PickerCustomerContact"
+                                Title="Select Contact"
+                                Grid.Column="1"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="Fill"
+                                IsEnabled="{Binding IsServiceEditable}"
+                                ItemDisplayBinding="{Binding ContactName_0_255}"
+                                ItemsSource="{Binding CustomerContactList}"
+                                SelectedItem="{Binding SelectedCustomerContact, Mode=TwoWay}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                ToolTipProperties.Text="Please enter CustomerContact" />
 
-                    </Grid>
-                    <!--  Order Date  -->
-                    <VerticalStackLayout HorizontalOptions="FillAndExpand" Spacing="5">
-                        <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+                        </Grid>
+                        <!--  Order Date  -->
+                        <VerticalStackLayout HorizontalOptions="FillAndExpand" Spacing="5">
+                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
 
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5" />
-                            </Border.StrokeShape>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
 
-                            <Grid
-                                Padding="5,0"
-                                ColumnDefinitions="Auto,*,*"
-                                VerticalOptions="Center">
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,*,*"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        Margin="10"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="15"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf073;"
+                                        TextColor="Black"
+                                        VerticalOptions="Center" />
+
+                                    <DatePicker
+                                        x:Name="OrderDatePicker"
+                                        Grid.Column="1"
+                                        Date="{Binding OrderDate, Mode=TwoWay}"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HeightRequest="40"
+                                        IsEnabled="{Binding IsServiceEditable}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                    <TimePicker
+                                        x:Name="OrderTimePicker"
+                                        Grid.Column="2"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HeightRequest="40"
+                                        IsEnabled="{Binding IsServiceEditable}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        Time="{Binding OrderTime, Mode=TwoWay}" />
+
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+
+
+                    </VerticalStackLayout>
+
+                </Frame>
+
+
+                <!--  =====================================================  -->
+                <!--  SECTION 2 : SERVICE BOOKING  -->
+                <!--  =====================================================  -->
+
+                <Frame
+                    x:Name="ServiceSection"
+                    Padding="15"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    IsVisible="{Binding IsCustomerSelected}">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <!--  Section Header  -->
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                                Text="Service"
+                                TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+
+                            <!--  PLUS BUTTON  -->
+                            <Frame
+                                x:Name="ServiceButton"
+                                Grid.Column="1"
+                                Padding="0"
+                                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                                CornerRadius="22"
+                                HeightRequest="44"
+                                IsEnabled="{Binding IsServiceEditable}"
+                                IsVisible="{Binding IsServiceNotAdded}"
+                                WidthRequest="44">
 
                                 <Label
-                                    Margin="10"
                                     FontFamily="{StaticResource FontAwesomeSolid}"
                                     FontSize="15"
                                     HorizontalOptions="Center"
-                                    Text="&#xf073;"
-                                    TextColor="Black"
-                                    VerticalOptions="Center" />
+                                    Text="&#xf067;"
+                                    TextColor="White"
+                                    VerticalOptions="Center">
 
-                                <DatePicker
-                                    x:Name="OrderDatePicker"
-                                    Grid.Column="1"
-                                    Date="{Binding OrderDate, Mode=TwoWay}"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    HeightRequest="40"
-                                    IsEnabled="{Binding IsServiceEditable}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="btn_addService" />
+                                    </Label.GestureRecognizers>
 
-                                <TimePicker
-                                    x:Name="OrderTimePicker"
-                                    Grid.Column="2"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    HeightRequest="40"
-                                    IsEnabled="{Binding IsServiceEditable}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    Time="{Binding OrderTime, Mode=TwoWay}" />
+                                </Label>
 
-                            </Grid>
-                        </Border>
-                    </VerticalStackLayout>
-
-
-                </VerticalStackLayout>
-
-            </Frame>
-
-
-            <!--  =====================================================  -->
-            <!--  SECTION 2 : SERVICE BOOKING  -->
-            <!--  =====================================================  -->
-
-            <Frame
-                x:Name="ServiceSection"
-                Padding="15"
-                BorderColor="LightGray"
-                CornerRadius="10"
-                HasShadow="False"
-                IsVisible="{Binding IsCustomerSelected}">
-
-                <VerticalStackLayout Spacing="12">
-
-                    <!--  Section Header  -->
-                    <Grid ColumnDefinitions="*,Auto">
-
-                        <Label
-                            Grid.Column="0"
-                            FontAttributes="Bold"
-                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
-                            Text="Service"
-                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
-                            VerticalOptions="Center" />
-
-                        <!--  PLUS BUTTON  -->
-                        <Frame
-                            x:Name="ServiceButton"
-                            Grid.Column="1"
-                            Padding="0"
-                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                            CornerRadius="22"
-                            HeightRequest="44"
-                            IsEnabled="{Binding IsServiceEditable}"
-                            IsVisible="{Binding IsServiceNotAdded}"
-                            WidthRequest="44">
-
-                            <Label
-                                FontFamily="{StaticResource FontAwesomeSolid}"
-                                FontSize="15"
-                                HorizontalOptions="Center"
-                                Text="&#xf067;"
-                                TextColor="White"
-                                VerticalOptions="Center">
-
-                                <Label.GestureRecognizers>
+                                <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="btn_addService" />
-                                </Label.GestureRecognizers>
+                                </Frame.GestureRecognizers>
 
-                            </Label>
+                            </Frame>
 
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="btn_addService" />
-                            </Frame.GestureRecognizers>
+                        </Grid>
 
-                        </Frame>
+                        <BoxView
+                            Margin="0,4"
+                            HeightRequest="1"
+                            Color="LightGray" />
 
-                    </Grid>
+                        <!--  Empty Message  -->
+                        <Label
+                            x:Name="EmptyItemLabel"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding IsServiceNotAdded}"
+                            Text="No service added yet."
+                            TextColor="Gray" />
 
-                    <BoxView
-                        Margin="0,4"
-                        HeightRequest="1"
-                        Color="LightGray" />
+                        <!--  Single Service Card  -->
+                        <!--  File: Views/SSM/FrmSsmBookNowLst.xaml  -->
 
-                    <!--  Empty Message  -->
-                    <Label
-                        x:Name="EmptyItemLabel"
-                        FontSize="14"
-                        HorizontalOptions="Center"
-                        IsVisible="{Binding IsServiceNotAdded}"
-                        Text="No service added yet."
-                        TextColor="Gray" />
+                        <!--  Single Service Card  -->
+                        <VerticalStackLayout
+                            x:Name="ServiceCard"
+                            IsVisible="{Binding IsServiceAdded}"
+                            Spacing="0">
 
-                    <!--  Single Service Card  -->
-                    <!--  File: Views/SSM/FrmSsmBookNowLst.xaml  -->
+                            <Border
+                                Margin="0,5"
+                                Padding="12"
+                                BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="1">
 
-                    <!--  Single Service Card  -->
-                    <VerticalStackLayout
-                        x:Name="ServiceCard"
-                        IsVisible="{Binding IsServiceAdded}"
-                        Spacing="0">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ServiceCard_Tapped" />
+                                </Border.GestureRecognizers>
 
-                        <Border
-                            Margin="0,5"
-                            Padding="12"
-                            BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                            Stroke="#E0E0E0"
-                            StrokeShape="RoundRectangle 10"
-                            StrokeThickness="1">
+                                <Grid
+                                    ColumnDefinitions="*,Auto"
+                                    RowDefinitions="Auto,Auto"
+                                    RowSpacing="8">
 
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="ServiceCard_Tapped" />
-                            </Border.GestureRecognizers>
+                                    <!--  ================================================  -->
+                                    <!--  Row 1 : Item Name / Number  -->
+                                    <!--  ================================================  -->
 
-                            <Grid
-                                ColumnDefinitions="*,Auto"
-                                RowDefinitions="Auto,Auto"
-                                RowSpacing="8">
-
-                                <!--  ================================================  -->
-                                <!--  Row 1 : Item Name / Number  -->
-                                <!--  ================================================  -->
-
-                                <HorizontalStackLayout
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    Spacing="5">
-
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                        LineBreakMode="TailTruncation"
-                                        Text="{Binding SelectedStock.StockName_0_255}"
-                                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
-
-                                    <Label
-                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                        LineBreakMode="TailTruncation"
-                                        Text="{Binding SelectedStock.StockCode_0_50}"
-                                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                        VerticalOptions="Center" />
-
-                                </HorizontalStackLayout>
-
-
-                                <!--  ================================================  -->
-                                <!--  Row 2 : Left Details  -->
-                                <!--  ================================================  -->
-
-                                <VerticalStackLayout
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Spacing="4">
-
-                                    <!--  Qty  -->
-                                    <HorizontalStackLayout Spacing="5">
+                                    <HorizontalStackLayout
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2"
+                                        Spacing="5">
 
                                         <Label
+                                            FontAttributes="Bold"
                                             FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                             FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="Qty:"
-                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                            WidthRequest="60" />
-
-                                        <Label
-                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding SelectedStock.StockName_0_255}"
                                             TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                        <Label
+                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding SelectedStock.StockCode_0_50}"
+                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                            VerticalOptions="Center" />
 
                                     </HorizontalStackLayout>
 
 
-                                    <!--  UOM  -->
-                                    <HorizontalStackLayout Spacing="5">
+                                    <!--  ================================================  -->
+                                    <!--  Row 2 : Left Details  -->
+                                    <!--  ================================================  -->
 
-                                        <Label
-                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="UOM:"
-                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                            WidthRequest="60" />
+                                    <VerticalStackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Spacing="4">
 
-                                        <Label
-                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="{Binding ItemUOM}"
-                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+                                        <!--  Qty  -->
+                                        <HorizontalStackLayout Spacing="5">
 
-                                    </HorizontalStackLayout>
+                                            <Label
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="Qty:"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                                WidthRequest="60" />
+
+                                            <Label
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                        </HorizontalStackLayout>
 
 
-                                    <!--  Price  -->
-                                    <HorizontalStackLayout Spacing="5">
+                                        <!--  UOM  -->
+                                        <HorizontalStackLayout Spacing="5">
 
-                                        <Label
-                                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                            Text="Price:"
-                                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                                            WidthRequest="60" />
+                                            <Label
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="UOM:"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                                WidthRequest="60" />
+
+                                            <Label
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="{Binding ItemUOM}"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}" />
+
+                                        </HorizontalStackLayout>
+
+
+                                        <!--  Price  -->
+                                        <HorizontalStackLayout Spacing="5">
+
+                                            <Label
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                Text="Price:"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
+                                                WidthRequest="60" />
+
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                                FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
+                                                TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
+                                                <Label.Text>
+                                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                                        <Binding Path="SelectedCurrency" />
+                                                        <Binding Path="SelectedPrice" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </HorizontalStackLayout>
+
+                                    </VerticalStackLayout>
+
+
+                                    <!--  ================================================  -->
+                                    <!--  Row 2 : Amount  -->
+                                    <!--  ================================================  -->
+
+                                    <VerticalStackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Spacing="2"
+                                        VerticalOptions="Center">
 
                                         <Label
                                             FontAttributes="Bold"
@@ -304,476 +333,423 @@
                                             <Label.Text>
                                                 <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
                                                     <Binding Path="SelectedCurrency" />
-                                                    <Binding Path="SelectedPrice" />
+                                                    <Binding Path="Subtotal" />
                                                 </MultiBinding>
                                             </Label.Text>
                                         </Label>
-                                    </HorizontalStackLayout>
+                                    </VerticalStackLayout>
 
-                                </VerticalStackLayout>
+                                </Grid>
 
-
-                                <!--  ================================================  -->
-                                <!--  Row 2 : Amount  -->
-                                <!--  ================================================  -->
-
-                                <VerticalStackLayout
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalOptions="End"
-                                    Spacing="2"
-                                    VerticalOptions="Center">
-
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                                        TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}">
-                                        <Label.Text>
-                                            <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                                <Binding Path="SelectedCurrency" />
-                                                <Binding Path="Subtotal" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                </VerticalStackLayout>
-
-                            </Grid>
-
-                        </Border>
+                            </Border>
 
 
-                        <!--  Assign Person  -->
-                        <HorizontalStackLayout
-                            Margin="10,0,10,8"
-                            HorizontalOptions="End"
-                            IsVisible="{Binding HasAssignedUser}"
-                            Spacing="5">
+                            <!--  Assign Person  -->
+                            <HorizontalStackLayout
+                                Margin="10,0,10,8"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding HasAssignedUser}"
+                                Spacing="5">
+
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="Assign to :"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="{Binding AssignedUser.UserName_0_255}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                            </HorizontalStackLayout>
+
+                            <!--  Recurring Person  -->
+                            <HorizontalStackLayout
+                                Margin="10,0,10,8"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding HasSelectedBeatType}"
+                                Spacing="5">
+
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="Recurring :"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="{Binding SelectedBeatType.BeatTypeName_0_255}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </Frame>
+
+                <!--  =====================================================  -->
+                <!--  SECTION 4 : INVOICE  -->
+                <!--  =====================================================  -->
+
+                <Frame
+                    x:Name="InvoiceSection"
+                    Padding="15"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    IsVisible="{Binding IsServiceAdded}">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <!--  Subtotal  -->
+                        <Grid ColumnDefinitions="*,Auto">
 
                             <Label
+                                Grid.Column="0"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                                 FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="Assign to :"
+                                Text="Subtotal"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                        <Binding Path="SelectedCurrency" />
+                                        <Binding Path="Subtotal" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+
+                        </Grid>
+
+
+                        <!--  Discount  -->
+                        <Grid Margin="0,5,0,0" ColumnDefinitions="*,Auto">
+
+                            <!--  Left : Discount - 9%  -->
+                            <HorizontalStackLayout
+                                Grid.Column="0"
+                                Spacing="3"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="Discount"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    VerticalOptions="Center" />
+
+                                <Picker
+                                    x:Name="PickerDiscount"
+                                    Title="Discount Type"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalTextAlignment="Center"
+                                    ItemDisplayBinding="{Binding DiscountTypeName_0_255}"
+                                    ItemsSource="{Binding DiscountTypeList}"
+                                    SelectedItem="{Binding SelectedDiscountType, Mode=TwoWay}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    ToolTipProperties.Text="Discount type"
+                                    VerticalOptions="Center"
+                                    WidthRequest="25" />
+                                <Entry
+                                    x:Name="EntRate"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Keyboard="Numeric"
+                                    Text="{Binding DiscountRateText, Mode=TwoWay}"
+                                    TextChanged="EntDisRate_TextChanged"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    ToolTipProperties.Text="Discount rate"
+                                    Unfocused="EntDisRate_Unfocused"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                        <Binding Path="SelectedCurrency" />
+                                        <Binding Path="DiscountAmount" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+
+                        </Grid>
+
+
+
+                        <!--  =====================================================  -->
+                        <!--  GST  -->
+                        <!--  =====================================================  -->
+
+                        <Grid
+                            Margin="0,5,0,0"
+                            ColumnDefinitions="*,*,Auto"
+                            ColumnSpacing="5">
+
+                            <!--  GST + Switch  -->
+                            <HorizontalStackLayout
+                                Grid.Column="0"
+                                Spacing="5"
+                                VerticalOptions="Center">
+
+
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="{Binding TaxInformation.GSTCode_0_50}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="{Binding TaxInformation.GSTRate, Converter={StaticResource NoDecimalConverter}, StringFormat='({0}%)'}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    VerticalOptions="Center" />
+
+
+                                <Switch IsToggled="{Binding IsGSTEnabled, Mode=TwoWay}" VerticalOptions="Center" />
+
+                            </HorizontalStackLayout>
+
+                            <!--  GST Method  -->
+                            <Picker
+                                Title="GST Method"
+                                Grid.Column="1"
+                                Margin="35,0,0,0"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HeightRequest="40"
+                                IsVisible="{Binding IsGSTEnabled}"
+                                ItemDisplayBinding="{Binding GSTMethodName}"
+                                ItemsSource="{Binding GSTMethodList}"
+                                SelectedItem="{Binding SelectedGSTMethod, Mode=TwoWay}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                            <!--  GST Amount  -->
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="End"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center">
+
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                        <Binding Path="SelectedCurrency" />
+                                        <Binding Path="TaxAmount" />
+                                    </MultiBinding>
+                                </Label.Text>
+
+                            </Label>
+
+
+
+
+                        </Grid>
+
+
+                        <!--  =====================================================  -->
+                        <!--  ROUND OFF  -->
+                        <!--  =====================================================  -->
+
+                        <Grid
+                            Margin="0,5,0,0"
+                            ColumnDefinitions="*,Auto"
+                            VerticalOptions="Center">
+
+                            <!--  Round Off + Switch  -->
+                            <HorizontalStackLayout
+                                Grid.Column="0"
+                                Spacing="5"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="Round Off"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    VerticalOptions="Center" />
+
+                                <Switch IsToggled="{Binding IsRoundOffEnabled, Mode=TwoWay}" VerticalOptions="Center" />
+
+                            </HorizontalStackLayout>
+
+
+                            <!--  Round Off Amount  -->
+                            <Label
+                                Grid.Column="1"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="End"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center">
+
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                        <Binding Path="SelectedCurrency" />
+                                        <Binding Path="RoundOffAmount" />
+                                    </MultiBinding>
+                                </Label.Text>
+
+                            </Label>
+
+                        </Grid>
+
+
+                        <!--  =====================================================  -->
+                        <!--  SEPARATOR  -->
+                        <!--  =====================================================  -->
+
+                        <BoxView
+                            Margin="0,5,0,0"
+                            HeightRequest="1"
+                            Color="LightGray" />
+
+
+                        <!--  =====================================================  -->
+                        <!--  GRAND TOTAL  -->
+                        <!--  =====================================================  -->
+
+                        <Grid Margin="0,5" ColumnDefinitions="*,Auto">
 
                             <Label
                                 FontAttributes="Bold"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="{Binding AssignedUser.UserName_0_255}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                        </HorizontalStackLayout>
-
-                        <!--  Recurring Person  -->
-                        <HorizontalStackLayout
-                            Margin="10,0,10,8"
-                            HorizontalOptions="End"
-                            IsVisible="{Binding HasSelectedBeatType}"
-                            Spacing="5">
+                                FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                                Text="Grand Total"
+                                TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}" />
 
                             <Label
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="Recurring :"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                            <Label
+                                Grid.Column="1"
                                 FontAttributes="Bold"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="{Binding SelectedBeatType.BeatTypeName_0_255}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                                TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}">
 
-                        </HorizontalStackLayout>
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                        <Binding Path="SelectedCurrency" />
+                                        <Binding Path="GrandTotal" />
+                                    </MultiBinding>
+                                </Label.Text>
+
+                            </Label>
+
+                        </Grid>
 
                     </VerticalStackLayout>
-                </VerticalStackLayout>
 
-            </Frame>
-
-            <!--  =====================================================  -->
-            <!--  SECTION 4 : INVOICE  -->
-            <!--  =====================================================  -->
-
-            <Frame
-                x:Name="InvoiceSection"
-                Padding="15"
-                BorderColor="LightGray"
-                CornerRadius="10"
-                HasShadow="False"
-                IsVisible="{Binding IsServiceAdded}">
-
-                <VerticalStackLayout Spacing="12">
-
-                    <!--  Subtotal  -->
-                    <Grid ColumnDefinitions="*,Auto">
-
-                        <Label
-                            Grid.Column="0"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            Text="Subtotal"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-                        <Label
-                            Grid.Column="1"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
-                            <Label.Text>
-                                <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                    <Binding Path="SelectedCurrency" />
-                                    <Binding Path="Subtotal" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-
-                    </Grid>
+                </Frame>
 
 
-                    <!--  Discount  -->
-                    <Grid Margin="0,5,0,0" ColumnDefinitions="*,Auto">
+                <!--  =====================================================  -->
+                <!--  SECTION 5 : PAYMENT METHODS  -->
+                <!--  =====================================================  -->
 
-                        <!--  Left : Discount - 9%  -->
-                        <HorizontalStackLayout
-                            Grid.Column="0"
-                            Spacing="3"
+                <VerticalStackLayout
+                    Margin="0"
+                    IsVisible="{Binding IsServiceAdded}"
+                    Spacing="8">
+
+                    <!--  Payment Header  -->
+                    <Frame
+                        Padding="10"
+                        BorderColor="LightGray"
+                        CornerRadius="10"
+                        HasShadow="False">
+
+                        <Grid
+                            ColumnDefinitions="*,Auto,Auto"
+                            ColumnSpacing="5"
                             VerticalOptions="Center">
 
+                            <!--  Payment Title  -->
                             <Label
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="Discount"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                Grid.Column="0"
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
+                                Text="Payment"
+                                TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}"
                                 VerticalOptions="Center" />
 
-                            <Picker
-                                x:Name="PickerDiscount"
-                                Title="Discount Type"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                HorizontalTextAlignment="Center"
-                                ItemDisplayBinding="{Binding DiscountTypeName_0_255}"
-                                ItemsSource="{Binding DiscountTypeList}"
-                                SelectedItem="{Binding SelectedDiscountType, Mode=TwoWay}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                ToolTipProperties.Text="Discount type"
+                            <!--  Add Payment  -->
+                            <Frame
+                                Grid.Column="1"
+                                Padding="0"
+                                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                HeightRequest="40"
+                                WidthRequest="40">
+
+                                <Label
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf067;"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="AddPayment_Clicked" />
+                                </Frame.GestureRecognizers>
+
+                            </Frame>
+
+                            <!--  Payment List Dropdown Toggle  -->
+                            <Frame
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                HeightRequest="40"
                                 VerticalOptions="Center"
-                                WidthRequest="25" />
-                            <Entry
-                                x:Name="EntRate"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Keyboard="Numeric"
-                                Text="{Binding DiscountRateText, Mode=TwoWay}"
-                                TextChanged="EntDisRate_TextChanged"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                ToolTipProperties.Text="Discount rate"
-                                Unfocused="EntDisRate_Unfocused"
-                                VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-                        <Label
-                            Grid.Column="1"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                            VerticalOptions="Center">
-                            <Label.Text>
-                                <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                    <Binding Path="SelectedCurrency" />
-                                    <Binding Path="DiscountAmount" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
+                                WidthRequest="40">
 
-                    </Grid>
+                                <Label
+                                    x:Name="Payment_DropdownToggleIcon"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="&#xf078;"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
 
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPaymentDropdownToggleTapped" />
+                                </Frame.GestureRecognizers>
 
+                            </Frame>
 
-                    <!--  =====================================================  -->
-                    <!--  GST  -->
-                    <!--  =====================================================  -->
+                        </Grid>
 
-                    <Grid
-                        Margin="0,5,0,0"
-                        ColumnDefinitions="*,*,Auto"
-                        ColumnSpacing="5">
+                    </Frame>
 
-                        <!--  GST + Switch  -->
-                        <HorizontalStackLayout
-                            Grid.Column="0"
-                            Spacing="5"
-                            VerticalOptions="Center">
 
+                    <!--  =================================================  -->
+                    <!--  PAYMENT LIST DROPDOWN  -->
+                    <!--  =================================================  -->
 
-                            <Label
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="{Binding TaxInformation.GSTCode_0_50}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                VerticalOptions="Center" />
-                            <Label
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="{Binding TaxInformation.GSTRate, Converter={StaticResource NoDecimalConverter}, StringFormat='({0}%)'}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                VerticalOptions="Center" />
+                    <Frame
+                        x:Name="Payment_DropdownContent"
+                        Margin="10,0"
+                        Padding="10"
+                        IsVisible="False">
 
-
-                            <Switch IsToggled="{Binding IsGSTEnabled, Mode=TwoWay}" VerticalOptions="Center" />
-
-                        </HorizontalStackLayout>
-
-                        <!--  GST Method  -->
-                        <Picker
-                            Title="GST Method"
-                            Grid.Column="1"
-                            Margin="35,0,0,0"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            HeightRequest="40"
-                            IsVisible="{Binding IsGSTEnabled}"
-                            ItemDisplayBinding="{Binding GSTMethodName}"
-                            ItemsSource="{Binding GSTMethodList}"
-                            SelectedItem="{Binding SelectedGSTMethod, Mode=TwoWay}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                        <!--  GST Amount  -->
-                        <Label
-                            Grid.Column="2"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            HorizontalOptions="End"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                            VerticalOptions="Center">
-
-                            <Label.Text>
-                                <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                    <Binding Path="SelectedCurrency" />
-                                    <Binding Path="TaxAmount" />
-                                </MultiBinding>
-                            </Label.Text>
-
-                        </Label>
-
-
-
-
-                    </Grid>
-
-
-                    <!--  =====================================================  -->
-                    <!--  ROUND OFF  -->
-                    <!--  =====================================================  -->
-
-                    <Grid
-                        Margin="0,5,0,0"
-                        ColumnDefinitions="*,Auto"
-                        VerticalOptions="Center">
-
-                        <!--  Round Off + Switch  -->
-                        <HorizontalStackLayout
-                            Grid.Column="0"
-                            Spacing="5"
-                            VerticalOptions="Center">
-
-                            <Label
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="Round Off"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                VerticalOptions="Center" />
-
-                            <Switch IsToggled="{Binding IsRoundOffEnabled, Mode=TwoWay}" VerticalOptions="Center" />
-
-                        </HorizontalStackLayout>
-
-
-                        <!--  Round Off Amount  -->
-                        <Label
-                            Grid.Column="1"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            HorizontalOptions="End"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                            VerticalOptions="Center">
-
-                            <Label.Text>
-                                <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                    <Binding Path="SelectedCurrency" />
-                                    <Binding Path="RoundOffAmount" />
-                                </MultiBinding>
-                            </Label.Text>
-
-                        </Label>
-
-                    </Grid>
-
-
-                    <!--  =====================================================  -->
-                    <!--  SEPARATOR  -->
-                    <!--  =====================================================  -->
-
-                    <BoxView
-                        Margin="0,5,0,0"
-                        HeightRequest="1"
-                        Color="LightGray" />
-
-
-                    <!--  =====================================================  -->
-                    <!--  GRAND TOTAL  -->
-                    <!--  =====================================================  -->
-
-                    <Grid Margin="0,5" ColumnDefinitions="*,Auto">
-
-                        <Label
-                            FontAttributes="Bold"
-                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
-                            Text="Grand Total"
-                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}" />
-
-                        <Label
-                            Grid.Column="1"
-                            FontAttributes="Bold"
-                            FontFamily="{Binding UserSetting.ContentHeaderFName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding UserSetting.ContentHeaderFSize, Source={x:Static general:Common.mCommon}}"
-                            TextColor="{Binding UserSetting.ContentHeaderFColor, Source={x:Static general:Common.mCommon}}">
-
-                            <Label.Text>
-                                <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                    <Binding Path="SelectedCurrency" />
-                                    <Binding Path="GrandTotal" />
-                                </MultiBinding>
-                            </Label.Text>
-
-                        </Label>
-
-                    </Grid>
-
-                </VerticalStackLayout>
-
-            </Frame>
-
-
-            <!--  =====================================================  -->
-            <!--  SECTION 5 : PAYMENT METHODS  -->
-            <!--  =====================================================  -->
-
-            <VerticalStackLayout
-                Margin="0"
-                IsVisible="{Binding IsServiceAdded}"
-                Spacing="8">
-
-                <!--  Payment Header  -->
-                <Border
-                    Padding="8"
-                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                    Stroke="{StaticResource BorderColor}"
-                    StrokeThickness="1">
-
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8" />
-                    </Border.StrokeShape>
-
-                    <Grid
-                        ColumnDefinitions="*,Auto,Auto"
-                        ColumnSpacing="5"
-                        VerticalOptions="Center">
-
-                        <!--  Payment Title  -->
-                        <Label
-                            Grid.Column="0"
-                            Margin="20,0,0,0"
-                            FontAttributes="Bold"
-                            FontFamily="{Binding ThemeSettingCardView.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingCardView.PropertiesFontSize, Source={x:Static general:Common.mCommon}}"
-                            Text="Payment"
-                            TextColor="{Binding ThemeSettingCardView.PropertiesFontColor, Source={x:Static general:Common.mCommon}}"
-                            VerticalOptions="Center" />
-
-                        <!--  Add Payment  -->
-                        <Frame
-                            Grid.Column="1"
-                            Padding="0"
-                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                            BorderColor="Gray"
-                            HeightRequest="40"
-                            WidthRequest="40">
-
-                            <Label
-                                FontFamily="{StaticResource FontAwesomeSolid}"
-                                FontSize="15"
-                                HorizontalOptions="Center"
-                                Text="&#xf067;"
-                                TextColor="White"
-                                VerticalOptions="Center" />
-
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="AddPayment_Clicked" />
-                            </Frame.GestureRecognizers>
-
-                        </Frame>
-
-                        <!--  Payment List Dropdown Toggle  -->
-                        <Frame
-                            Grid.Column="2"
-                            Padding="0"
-                            BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                            BorderColor="Gray"
-                            HeightRequest="40"
-                            VerticalOptions="Center"
-                            WidthRequest="40">
-
-                            <Label
-                                x:Name="Payment_DropdownToggleIcon"
-                                FontFamily="{StaticResource FontAwesomeSolid}"
-                                FontSize="15"
-                                HorizontalOptions="Center"
-                                Text="&#xf078;"
-                                TextColor="White"
-                                VerticalOptions="Center" />
-
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnPaymentDropdownToggleTapped" />
-                            </Frame.GestureRecognizers>
-
-                        </Frame>
-
-                    </Grid>
-
-                </Border>
-
-
-                <!--  =================================================  -->
-                <!--  PAYMENT LIST DROPDOWN  -->
-                <!--  =================================================  -->
-
-                <Border
-                    x:Name="Payment_DropdownContent"
-                    Margin="10,0"
-                    Padding="10"
-                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                    IsVisible="False"
-                    Stroke="#CCCCCC"
-                    StrokeThickness="1">
-
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8" />
-                    </Border.StrokeShape>
-
-
-                    <!--  Payment Content  -->
-                    <VerticalStackLayout Spacing="5">
-
-                        <!--  No Payment
-                        <Label
-                            Padding="5"
-                            HorizontalOptions="Center"
-                            IsVisible="{Binding IsPaymentListEmpty}"
-                            Text="No payment added."
-                            TextColor="Gray" />
-                        -->
 
                         <!--  Payment List  -->
                         <VerticalStackLayout BindableLayout.ItemsSource="{Binding PaymentList}" Spacing="5">
@@ -861,79 +837,105 @@
                             </BindableLayout.ItemTemplate>
 
                         </VerticalStackLayout>
-                    </VerticalStackLayout>
 
-                </Border>
+
+                    </Frame>
+
+                </VerticalStackLayout>
+
+
 
             </VerticalStackLayout>
 
-            <!--  =================================================  -->
-            <!--  COMPLETE BOOKING  -->
-            <!--  =================================================  -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                <Frame
-                    x:Name="SaveBookNowButton"
-                    Grid.Column="1"
-                    Padding="0"
-                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                    HeightRequest="40"
-                    IsEnabled="{Binding IsServiceAdded}"
-                    WidthRequest="120">
+        </ScrollView>
+
+
+        <!--  =================================================  -->
+        <!--  COMPLETE BOOKING  -->
+        <!--  =================================================  -->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Margin="0,10"
+            HorizontalOptions="Center"
+            Spacing="5">
+            <Frame
+                x:Name="SaveBookNowButton"
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
                     <Label
+                        x:Name="lblSaveIcon"
+                        Grid.Column="0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="&#xf0c7;"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Text  -->
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         HorizontalOptions="Center"
-                        Text="Book Now"
+                        Text="Save"
                         TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                        VerticalOptions="Center">
+                        VerticalOptions="Center" />
+                </Grid>
 
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
-                        </Label.GestureRecognizers>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
+                </Frame.GestureRecognizers>
 
-                    </Label>
+            </Frame>
 
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="btn_SaveBookNow_Tapped" />
-                    </Frame.GestureRecognizers>
+            <Frame
+                x:Name="DeleteButton"
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
 
-                </Frame>
-
-                <Frame
-                    x:Name="DeleteButton"
-                    Grid.Column="1"
-                    Padding="0"
-                    BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                    HeightRequest="40"
-                    IsEnabled="{Binding IsServiceAdded}"
-                    WidthRequest="120">
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
                     <Label
+                        x:Name="lblDeleteIcon"
+                        Grid.Column="0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="&#xf0c7;"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Text  -->
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
                         FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                         HorizontalOptions="Center"
                         Text="Delete"
                         TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                        VerticalOptions="Center">
+                        VerticalOptions="Center" />
+                </Grid>
 
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="btn_Delete_Tapped" />
-                        </Label.GestureRecognizers>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btn_Delete_Tapped" />
+                </Frame.GestureRecognizers>
 
-                    </Label>
+            </Frame>
+        </HorizontalStackLayout>
 
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="btn_Delete_Tapped" />
-                    </Frame.GestureRecognizers>
-
-                </Frame>
-            </HorizontalStackLayout>
-
-
-
-        </VerticalStackLayout>
-
-    </ScrollView>
-
+    </Grid>
 </ContentView>

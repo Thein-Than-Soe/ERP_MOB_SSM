@@ -6,480 +6,516 @@
     xmlns:general="clr-namespace:CS.ERP_MOB.General"
     Title="Service">
 
-    <ScrollView>
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
 
-        <VerticalStackLayout Padding="15" Spacing="15">
+            <VerticalStackLayout Padding="15" Spacing="15">
 
-            <!--  =====================================================  -->
-            <!--  ITEM CARD  -->
-            <!--  =====================================================  -->
+                <!--  =====================================================  -->
+                <!--  ITEM CARD  -->
+                <!--  =====================================================  -->
 
-            <Border
-                Padding="15"
-                BackgroundColor="White"
-                Stroke="#E0E0E0"
-                StrokeShape="RoundRectangle 12"
-                StrokeThickness="1">
+                <Border
+                    Padding="15"
+                    BackgroundColor="White"
+                    Stroke="#E0E0E0"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="1">
 
-                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="14">
 
-                    <!--  Item Name  -->
-                    <VerticalStackLayout Spacing="5">
+                        <!--  Item Name  -->
+                        <VerticalStackLayout Spacing="5">
 
-                        <Picker
-                            Title="Select item"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            ItemDisplayBinding="{Binding StockName_0_255}"
-                            ItemsSource="{Binding StockList}"
-                            SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                            <Picker
+                                Title="Select item"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                ItemDisplayBinding="{Binding StockName_0_255}"
+                                ItemsSource="{Binding StockList}"
+                                SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
-                    </VerticalStackLayout>
+                        </VerticalStackLayout>
 
-                    <!--  Item Number  -->
-                    <VerticalStackLayout Spacing="5">
-
-
-                        <Picker
-                            Title="Select item number"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            ItemDisplayBinding="{Binding StockCode_0_50}"
-                            ItemsSource="{Binding StockList}"
-                            SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <!--  Item Number  -->
+                        <VerticalStackLayout Spacing="5">
 
 
-                    </VerticalStackLayout>
-
-                    <!--  =================================================  -->
-                    <!--  ITEM INFORMATION  -->
-                    <!--  =================================================  -->
-
-                    <VerticalStackLayout Spacing="12">
-
-                        <!--  Start date, End date  -->
-                        <HorizontalStackLayout
-                            HorizontalOptions="Fill"
-                            Spacing="5"
-                            VerticalOptions="Center">
-
-                            <!--  Start Date + Start Time  -->
-
-                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
-
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="5" />
-                                </Border.StrokeShape>
-
-                                <Grid
-                                    Padding="5,0"
-                                    ColumnDefinitions="Auto,*,*"
-                                    VerticalOptions="Center">
-
-                                    <!--  Icon  -->
-                                    <Label
-                                        Margin="5"
-                                        FontFamily="{StaticResource FontAwesomeSolid}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        HorizontalOptions="Center"
-                                        Text="&#xf251;"
-                                        TextColor="Black"
-                                        VerticalOptions="Center" />
-
-                                    <!--  Start Date - Display Only  -->
-                                    <Label
-                                        Grid.Column="1"
-                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        HeightRequest="40"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                        VerticalTextAlignment="Center" />
-
-                                    <!--  Start Time - Editable  -->
-                                    <TimePicker
-                                        Grid.Column="2"
-                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        Format="HH:mm"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Fill"
-                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                        Time="{Binding StartTime, Mode=TwoWay}"
-                                        VerticalOptions="Center" />
-
-                                </Grid>
-                            </Border>
+                            <Picker
+                                Title="Select item number"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                ItemDisplayBinding="{Binding StockCode_0_50}"
+                                ItemsSource="{Binding StockList}"
+                                SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
 
-
-                            <!--  End Date + End Time  -->
-
-                            <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
-
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="5" />
-                                </Border.StrokeShape>
-
-                                <Grid
-                                    Padding="5,0"
-                                    ColumnDefinitions="Auto,*,*"
-                                    VerticalOptions="Center">
-
-                                    <!--  Icon  -->
-                                    <Label
-                                        Margin="5"
-                                        FontFamily="{StaticResource FontAwesomeSolid}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        HorizontalOptions="Center"
-                                        Text="&#xf253;"
-                                        TextColor="Black"
-                                        VerticalOptions="Center" />
-
-                                    <!--  End Date - Display Only  -->
-                                    <Label
-                                        Grid.Column="1"
-                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        HeightRequest="40"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
-                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                        VerticalTextAlignment="Center" />
-
-                                    <!--  End Time - Editable  -->
-                                    <TimePicker
-                                        Grid.Column="2"
-                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                        Format="HH:mm"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Fill"
-                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                        Time="{Binding EndTime, Mode=TwoWay}"
-                                        VerticalOptions="Center" />
-
-                                </Grid>
-                            </Border>
-
-
-                        </HorizontalStackLayout>
+                        </VerticalStackLayout>
 
                         <!--  =================================================  -->
-                        <!--  QUANTITY + USER UOM  -->
+                        <!--  ITEM INFORMATION  -->
                         <!--  =================================================  -->
 
-                        <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="5">
+                        <VerticalStackLayout Spacing="12">
 
-                            <!--  Quantity  -->
+                            <!--  Start date, End date  -->
                             <HorizontalStackLayout
-                                Grid.Column="0"
-                                Spacing="0"
-                                VerticalOptions="Center">
-
-                                <!--  Minus  -->
-                                <Button
-                                    Padding="0"
-                                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                                    Clicked="Minus_Clicked"
-                                    FontAttributes="Bold"
-                                    FontSize="18"
-                                    HeightRequest="35"
-                                    Text="-"
-                                    TextColor="White"
-                                    WidthRequest="35" />
-
-                                <!--  Quantity  -->
-                                <Entry
-                                    x:Name="QtyEntry"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    HorizontalTextAlignment="Center"
-                                    Keyboard="Numeric"
-                                    Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
-                                    TextChanged="QtyEntry_TextChanged"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    VerticalTextAlignment="Center"
-                                    WidthRequest="60" />
-
-                                <!--  Plus  -->
-                                <Button
-                                    Padding="0"
-                                    BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                                    Clicked="Plus_Clicked"
-                                    FontAttributes="Bold"
-                                    FontSize="18"
-                                    HeightRequest="35"
-                                    Text="+"
-                                    TextColor="White"
-                                    WidthRequest="35" />
-
-                            </HorizontalStackLayout>
-
-
-                            <!--  UOM Picker  -->
-                            <Border
-                                Grid.Column="1"
-                                Padding="5,0"
-                                HeightRequest="40"
-                                Stroke="LightGray"
-                                StrokeThickness="1"
-                                VerticalOptions="Center">
-
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="6" />
-                                </Border.StrokeShape>
-
-                                <Picker
-                                    Title="Select UOM"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    ItemDisplayBinding="{Binding UOMName_0_255}"
-                                    ItemsSource="{Binding UomList}"
-                                    SelectedItem="{Binding UserSelectedUOM, Mode=TwoWay}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                            </Border>
-                            <!--  Currency Picker  -->
-                            <Border
-                                Grid.Column="2"
-                                Padding="10,0"
-                                HeightRequest="40"
-                                Stroke="LightGray"
-                                StrokeThickness="1"
-                                VerticalOptions="Center">
-
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="6" />
-                                </Border.StrokeShape>
-
-                                <Picker
-                                    Title="Currency"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    ItemDisplayBinding="{Binding CurrencyCode_0_50}"
-                                    ItemsSource="{Binding CurrencyList}"
-                                    SelectedItem="{Binding UserSelectedCurrency, Mode=TwoWay}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                            </Border>
-
-                        </Grid>
-
-
-                        <!--  =================================================  -->
-                        <!--  TOTAL PRICE  -->
-                        <!--  =================================================  -->
-
-                        <Grid
-                            Margin="0,5,0,0"
-                            ColumnDefinitions="*,Auto"
-                            VerticalOptions="Center">
-
-                            <Label
-                                Grid.Column="0"
-                                FontAttributes="Bold"
-                                FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                Text="Total Amount"
-                                TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                VerticalOptions="Center" />
-
-                            <HorizontalStackLayout
-                                Grid.Column="1"
+                                HorizontalOptions="Fill"
                                 Spacing="5"
                                 VerticalOptions="Center">
 
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
-                                    <Label.Text>
-                                        <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
-                                            <Binding Path="SelectedCurrency" />
-                                            <Binding Path="Subtotal" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
+                                <!--  Start Date + Start Time  -->
+
+                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+
+                                    <Grid
+                                        Padding="5,0"
+                                        ColumnDefinitions="Auto,*,*"
+                                        VerticalOptions="Center">
+
+                                        <!--  Icon  -->
+                                        <Label
+                                            Margin="5"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf251;"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+
+                                        <!--  Start Date - Display Only  -->
+                                        <Label
+                                            Grid.Column="1"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            HeightRequest="40"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding StartDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Start Time - Editable  -->
+                                        <TimePicker
+                                            Grid.Column="2"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            Format="HH:mm"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Fill"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            Time="{Binding StartTime, Mode=TwoWay}"
+                                            VerticalOptions="Center" />
+
+                                    </Grid>
+                                </Border>
+
+
+
+                                <!--  End Date + End Time  -->
+
+                                <Border Stroke="{StaticResource BorderColor}" StrokeThickness="1">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+
+                                    <Grid
+                                        Padding="5,0"
+                                        ColumnDefinitions="Auto,*,*"
+                                        VerticalOptions="Center">
+
+                                        <!--  Icon  -->
+                                        <Label
+                                            Margin="5"
+                                            FontFamily="{StaticResource FontAwesomeSolid}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            HorizontalOptions="Center"
+                                            Text="&#xf253;"
+                                            TextColor="Black"
+                                            VerticalOptions="Center" />
+
+                                        <!--  End Date - Display Only  -->
+                                        <Label
+                                            Grid.Column="1"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            HeightRequest="40"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding EndDate, StringFormat='{0:dd/MM/yyyy}'}"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  End Time - Editable  -->
+                                        <TimePicker
+                                            Grid.Column="2"
+                                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                            Format="HH:mm"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Fill"
+                                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                            Time="{Binding EndTime, Mode=TwoWay}"
+                                            VerticalOptions="Center" />
+
+                                    </Grid>
+                                </Border>
+
+
                             </HorizontalStackLayout>
 
-                        </Grid>
+                            <!--  =================================================  -->
+                            <!--  QUANTITY + USER UOM  -->
+                            <!--  =================================================  -->
 
-                    </VerticalStackLayout>
+                            <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="5">
 
-                </VerticalStackLayout>
+                                <!--  Quantity  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="0"
+                                    Spacing="0"
+                                    VerticalOptions="Center">
 
-            </Border>
+                                    <!--  Minus  -->
+                                    <Button
+                                        Padding="0"
+                                        BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                        Clicked="Minus_Clicked"
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        HeightRequest="35"
+                                        Text="-"
+                                        TextColor="White"
+                                        WidthRequest="35" />
 
-            <!--  =====================================================  -->
-            <!--  Assign to  -->
-            <!--  =====================================================  -->
-            <Frame
-                Padding="15"
-                BackgroundColor="White"
-                BorderColor="LightGray"
-                CornerRadius="10"
-                HasShadow="False"
-                IsVisible="True">
+                                    <!--  Quantity  -->
+                                    <Entry
+                                        x:Name="QtyEntry"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        Text="{Binding Quantity, Converter={StaticResource NoDecimalConverter}}"
+                                        TextChanged="QtyEntry_TextChanged"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalTextAlignment="Center"
+                                        WidthRequest="60" />
 
-                <VerticalStackLayout Spacing="12">
+                                    <!--  Plus  -->
+                                    <Button
+                                        Padding="0"
+                                        BackgroundColor="{Binding ThemeSettingCardView.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
+                                        Clicked="Plus_Clicked"
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        HeightRequest="35"
+                                        Text="+"
+                                        TextColor="White"
+                                        WidthRequest="35" />
 
-                    <Label
-                        FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                        Text="Assign Person"
-                        TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-                    <!--  Person  -->
-
-                    <Picker
-                        Title="Assign Person"
-                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                        ItemDisplayBinding="{Binding UserName_0_255}"
-                        ItemsSource="{Binding AvailableUserList}"
-                        SelectedItem="{Binding AssignedUser}"
-                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                </VerticalStackLayout>
-
-            </Frame>
-
-            <Frame
-                Padding="15"
-                BackgroundColor="White"
-                BorderColor="LightGray"
-                CornerRadius="10"
-                HasShadow="False"
-                IsVisible="True">
-
-                <VerticalStackLayout Spacing="12">
-
-                    <Label
-                        FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                        Text="Recurring"
-                        TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-                    <!--  Recurring  -->
-                    <Grid
-                        ColumnDefinitions="*,*"
-                        ColumnSpacing="5"
-                        HorizontalOptions="Fill">
-
-                        <!--  Recurring Type - 50%  -->
-                        <Border
-                            Grid.Column="0"
-                            HeightRequest="40"
-                            Stroke="{StaticResource BorderColor}"
-                            StrokeThickness="1">
-
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5" />
-                            </Border.StrokeShape>
-
-                            <Picker
-                                x:Name="PickerBeatType"
-                                Title="Recurring Type"
-                                Margin="5,0"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                ItemDisplayBinding="{Binding BeatTypeName_0_255}"
-                                ItemsSource="{Binding BeatTypeList}"
-                                SelectedItem="{Binding SelectedBeatType, Mode=TwoWay}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                ToolTipProperties.Text="Please select BeatTypeName" />
-
-                        </Border>
+                                </HorizontalStackLayout>
 
 
-                        <!--  Date + Time - 50%  -->
-                        <Border
-                            Grid.Column="1"
-                            HeightRequest="40"
-                            Stroke="{StaticResource BorderColor}"
-                            StrokeThickness="1">
-
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5" />
-                            </Border.StrokeShape>
-
-                            <Grid
-                                Padding="5,0"
-                                ColumnDefinitions="Auto,Auto,Auto"
-                                VerticalOptions="Center">
-
-                                <!--  Calendar Icon  -->
-                                <Label
-                                    Margin="5,0"
-                                    FontFamily="{StaticResource FontAwesomeSolid}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    HorizontalOptions="Center"
-                                    Text="&#xf073;"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    VerticalOptions="Center" />
-
-                                <!--  Date  -->
-                                <DatePicker
-                                    x:Name="RecurringDatePicker"
+                                <!--  UOM Picker  -->
+                                <Border
                                     Grid.Column="1"
-                                    Date="{Binding RecurringDate, Mode=TwoWay, StringFormat='{0:dd/MM/yyyy}'}"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Padding="5,0"
                                     HeightRequest="40"
-                                    HorizontalOptions="Fill"
-                                    IsEnabled="{Binding IsServiceEditable}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                                    Stroke="LightGray"
+                                    StrokeThickness="1"
+                                    VerticalOptions="Center">
 
-                                <!--  Time  -->
-                                <TimePicker
-                                    x:Name="RecurringTimePicker"
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+
+                                    <Picker
+                                        Title="Select UOM"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        ItemDisplayBinding="{Binding UOMName_0_255}"
+                                        ItemsSource="{Binding UomList}"
+                                        SelectedItem="{Binding UserSelectedUOM, Mode=TwoWay}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                </Border>
+                                <!--  Currency Picker  -->
+                                <Border
                                     Grid.Column="2"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    Format="HH:mm"
+                                    Padding="10,0"
                                     HeightRequest="40"
-                                    HorizontalOptions="Fill"
-                                    IsEnabled="{Binding IsServiceEditable}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    Time="{Binding RecurringTime, Mode=TwoWay}" />
+                                    Stroke="LightGray"
+                                    StrokeThickness="1"
+                                    VerticalOptions="Center">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+
+                                    <Picker
+                                        Title="Currency"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        ItemDisplayBinding="{Binding CurrencyCode_0_50}"
+                                        ItemsSource="{Binding CurrencyList}"
+                                        SelectedItem="{Binding UserSelectedCurrency, Mode=TwoWay}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                </Border>
 
                             </Grid>
 
-                        </Border>
 
-                    </Grid>
+                            <!--  =================================================  -->
+                            <!--  TOTAL PRICE  -->
+                            <!--  =================================================  -->
+
+                            <Grid
+                                Margin="0,5,0,0"
+                                ColumnDefinitions="*,Auto"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    Text="Total Amount"
+                                    TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    VerticalOptions="Center" />
+
+                                <HorizontalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="5"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}">
+                                        <Label.Text>
+                                            <MultiBinding Converter="{StaticResource AmountCurrencyConverter}">
+                                                <Binding Path="SelectedCurrency" />
+                                                <Binding Path="Subtotal" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!--  =====================================================  -->
+                <!--  Assign to  -->
+                <!--  =====================================================  -->
+                <Frame
+                    Padding="15"
+                    BackgroundColor="White"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    IsVisible="True">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            Text="Assign Person"
+                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <!--  Person  -->
+
+                        <Picker
+                            Title="Assign Person"
+                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            ItemDisplayBinding="{Binding UserName_0_255}"
+                            ItemsSource="{Binding AvailableUserList}"
+                            SelectedItem="{Binding AssignedUser}"
+                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                    </VerticalStackLayout>
+
+                </Frame>
+
+                <Frame
+                    Padding="15"
+                    BackgroundColor="White"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False"
+                    IsVisible="True">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="{Binding ThemeSettingHeader.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                            FontSize="{Binding ThemeSettingHeader.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                            Text="Recurring"
+                            TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                        <!--  Recurring  -->
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="5"
+                            HorizontalOptions="Fill">
+
+                            <!--  Recurring Type - 50%  -->
+                            <Border
+                                Grid.Column="0"
+                                HeightRequest="40"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Picker
+                                    x:Name="PickerBeatType"
+                                    Title="Recurring Type"
+                                    Margin="5,0"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    ItemDisplayBinding="{Binding BeatTypeName_0_255}"
+                                    ItemsSource="{Binding BeatTypeList}"
+                                    SelectedItem="{Binding SelectedBeatType, Mode=TwoWay}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    ToolTipProperties.Text="Please select BeatTypeName" />
+
+                            </Border>
+
+
+                            <!--  Date + Time - 50%  -->
+                            <Border
+                                Grid.Column="1"
+                                HeightRequest="40"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Grid
+                                    Padding="5,0"
+                                    ColumnDefinitions="Auto,Auto,Auto"
+                                    VerticalOptions="Center">
+
+                                    <!--  Calendar Icon  -->
+                                    <Label
+                                        Margin="5,0"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HorizontalOptions="Center"
+                                        Text="&#xf073;"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        VerticalOptions="Center" />
+
+                                    <!--  Date  -->
+                                    <DatePicker
+                                        x:Name="RecurringDatePicker"
+                                        Grid.Column="1"
+                                        Date="{Binding RecurringDate, Mode=TwoWay, StringFormat='{0:dd/MM/yyyy}'}"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        IsEnabled="{Binding IsServiceEditable}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                                    <!--  Time  -->
+                                    <TimePicker
+                                        x:Name="RecurringTimePicker"
+                                        Grid.Column="2"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        Format="HH:mm"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Fill"
+                                        IsEnabled="{Binding IsServiceEditable}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        Time="{Binding RecurringTime, Mode=TwoWay}" />
+
+                                </Grid>
+
+                            </Border>
+
+                        </Grid>
 
 
 
-                </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </Frame>
+
+
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <!--  =================================================  -->
+        <!--  ADD TO LIST  -->
+        <!--  =================================================  -->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Margin="0,10"
+            HorizontalOptions="Center"
+            Spacing="5">
+            <Frame
+                x:Name="SaveBookNowButton"
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
+                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        x:Name="lblSaveIcon"
+                        Grid.Column="0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        Text="&#xf0c7;"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+
+                    <!--  Text  -->
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                        HorizontalOptions="Center"
+                        Text="Add Service"
+                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="AddToList_Clicked" />
+                </Frame.GestureRecognizers>
 
             </Frame>
 
+        </HorizontalStackLayout>
 
-            <!--  =================================================  -->
-            <!--  ADD TO LIST  -->
-            <!--  =================================================  -->
-
-            <Button
-                Margin="0,5,0,0"
-                BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={x:Static general:Common.mCommon}}"
-                Clicked="AddToList_Clicked"
-                CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                FontAttributes="Bold"
-                FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                HeightRequest="50"
-                Text="Add service"
-                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-
-        </VerticalStackLayout>
-
-    </ScrollView>
-
+    </Grid>
 </ContentPage>

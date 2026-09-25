@@ -169,9 +169,7 @@
                     x:Name="SaveBookNowButton"
                     Padding="10"
                     BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                    CornerRadius="10"
-                    HeightRequest="40"
-                    WidthRequest="100">
+                    CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
 
                     <!--  Tap Gesture  -->
                     <Frame.GestureRecognizers>
@@ -186,9 +184,10 @@
                         </Grid.ColumnDefinitions>
 
                         <Label
+                            x:Name="lblSaveIcon"
                             Grid.Column="0"
                             FontFamily="{StaticResource FontAwesomeSolid}"
-                            FontSize="18"
+                            FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
                             Text="&#xf0c7;"
                             TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                             VerticalOptions="Center" />
