@@ -30,34 +30,57 @@
                             HorizontalOptions="Fill">
 
                             <!--  Customer  -->
-                            <Picker
-                                x:Name="PickerCustomer"
-                                Title="Select Customer"
+                            <Border
                                 Grid.Column="0"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                HorizontalOptions="Fill"
-                                IsEnabled="{Binding IsServiceEditable}"
-                                ItemDisplayBinding="{Binding CustomerName_0_255}"
-                                ItemsSource="{Binding CustomerList}"
-                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                ToolTipProperties.Text="Please enter Customer" />
+                                Padding="5,0"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+                                <Picker
+                                    x:Name="PickerCustomer"
+                                    Title="Select Customer"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalOptions="Fill"
+                                    IsEnabled="{Binding IsServiceEditable}"
+                                    ItemDisplayBinding="{Binding CustomerName_0_255}"
+                                    ItemsSource="{Binding CustomerList}"
+                                    SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    ToolTipProperties.Text="Please enter Customer" />
+                            </Border>
+
 
                             <!--  Customer Contact  -->
-                            <Picker
-                                x:Name="PickerCustomerContact"
-                                Title="Select Contact"
+
+                            <Border
                                 Grid.Column="1"
-                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                HorizontalOptions="Fill"
-                                IsEnabled="{Binding IsServiceEditable}"
-                                ItemDisplayBinding="{Binding ContactName_0_255}"
-                                ItemsSource="{Binding CustomerContactList}"
-                                SelectedItem="{Binding SelectedCustomerContact, Mode=TwoWay}"
-                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                ToolTipProperties.Text="Please enter CustomerContact" />
+                                Padding="5,0"
+                                Stroke="{StaticResource BorderColor}"
+                                StrokeThickness="1">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5" />
+                                </Border.StrokeShape>
+
+
+                                <Picker
+                                    x:Name="PickerCustomerContact"
+                                    Title="Select Contact"
+                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                    HorizontalOptions="Fill"
+                                    IsEnabled="{Binding IsServiceEditable}"
+                                    ItemDisplayBinding="{Binding ContactName_0_255}"
+                                    ItemsSource="{Binding CustomerContactList}"
+                                    SelectedItem="{Binding SelectedCustomerContact, Mode=TwoWay}"
+                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                    ToolTipProperties.Text="Please enter CustomerContact" />
+                            </Border>
 
                         </Grid>
                         <!--  Order Date  -->
@@ -448,30 +471,49 @@
                                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
                                     VerticalOptions="Center" />
 
-                                <Picker
-                                    x:Name="PickerDiscount"
-                                    Title="Discount Type"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    HorizontalTextAlignment="Center"
-                                    ItemDisplayBinding="{Binding DiscountTypeName_0_255}"
-                                    ItemsSource="{Binding DiscountTypeList}"
-                                    SelectedItem="{Binding SelectedDiscountType, Mode=TwoWay}"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    ToolTipProperties.Text="Discount type"
-                                    VerticalOptions="Center"
-                                    WidthRequest="25" />
-                                <Entry
-                                    x:Name="EntRate"
-                                    FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                                    FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                                    Keyboard="Numeric"
-                                    Text="{Binding DiscountRateText, Mode=TwoWay}"
-                                    TextChanged="EntDisRate_TextChanged"
-                                    TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                                    ToolTipProperties.Text="Discount rate"
-                                    Unfocused="EntDisRate_Unfocused"
-                                    VerticalOptions="Center" />
+                                <Border
+                                    Padding="5,0"
+                                    Stroke="{StaticResource BorderColor}"
+                                    StrokeThickness="1">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+
+                                    <Picker
+                                        x:Name="PickerDiscount"
+                                        Title="Discount Type"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        HorizontalTextAlignment="Center"
+                                        ItemDisplayBinding="{Binding DiscountTypeName_0_255}"
+                                        ItemsSource="{Binding DiscountTypeList}"
+                                        SelectedItem="{Binding SelectedDiscountType, Mode=TwoWay}"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        ToolTipProperties.Text="Discount type"
+                                        VerticalOptions="Center"
+                                        WidthRequest="25" />
+                                </Border>
+                                <Border
+                                    Padding="5,0"
+                                    Stroke="{StaticResource BorderColor}"
+                                    StrokeThickness="1">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5" />
+                                    </Border.StrokeShape>
+                                    <Entry
+                                        x:Name="EntRate"
+                                        FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                        FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                        Keyboard="Numeric"
+                                        Text="{Binding DiscountRateText, Mode=TwoWay}"
+                                        TextChanged="EntDisRate_TextChanged"
+                                        TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                        ToolTipProperties.Text="Discount rate"
+                                        Unfocused="EntDisRate_Unfocused"
+                                        VerticalOptions="Center" />
+                                </Border>
                             </HorizontalStackLayout>
                             <Label
                                 Grid.Column="1"
@@ -857,7 +899,7 @@
             Grid.Row="1"
             Margin="0,10"
             HorizontalOptions="Center"
-            Spacing="5">
+            Spacing="8">
             <Frame
                 x:Name="SaveBookNowButton"
                 Grid.Column="1"

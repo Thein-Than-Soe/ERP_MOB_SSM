@@ -10,8 +10,7 @@
     xmlns:general="clr-namespace:CS.ERP_MOB.General"
     xmlns:local="clr-namespace:CS.ERP_MOB.Views.SYS"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:touch="http://axemasta.com/schemas/2023/toucheffect">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <AbsoluteLayout>
         <StackLayout
             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -48,11 +47,10 @@
                     HorizontalOptions="End"
                     WidthRequest="35">
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <StackLayout
-                            HorizontalOptions="FillAndExpand"
-                            TouchEffect.PressedOpacity="0.4"
-                            TouchEffect.PressedScale="0.9"
-                            VerticalOptions="FillAndExpand">
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <StackLayout.Behaviors>
+                                <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                            </StackLayout.Behaviors>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnMenuTapped" />
                             </StackLayout.GestureRecognizers>
@@ -552,10 +550,10 @@
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.CheckAll}, Path=Value}"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                 </StackLayout>
-                <StackLayout
-                    Orientation="Horizontal"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </StackLayout.Behaviors>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding MoreSearchCommand}" Tapped="OnOverlayTapped" />
                     </StackLayout.GestureRecognizers>
@@ -588,13 +586,16 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="15,*">
+                                <Grid.Behaviors>
+                                    <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                                </Grid.Behaviors>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="Sorting_Tapped" />
                                 </Grid.GestureRecognizers>
                                 <Label
                                     Grid.Column="0"
                                     Margin="0,3"
-                                    FontFamily="FontAwesomeSolid"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
                                     IsVisible="{Binding ShowIcon}"
                                     Text="&#xf00c;"
                                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -613,17 +614,17 @@
                     HeightRequest="1"
                     HorizontalOptions="FillAndExpand"
                     Color="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-                <Grid
-                    ColumnDefinitions="15,*"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <Grid ColumnDefinitions="15,*">
+                    <Grid.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </Grid.Behaviors>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Ascending_Tapped" />
                     </Grid.GestureRecognizers>
                     <Label
                         Grid.Column="0"
                         Margin="0,3"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsAscending}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -633,18 +634,17 @@
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Ascending}, Path=Value}"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                 </Grid>
-                <Grid
-                    Margin="0,2"
-                    ColumnDefinitions="15,*"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <Grid Margin="0,2" ColumnDefinitions="15,*">
+                    <Grid.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </Grid.Behaviors>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Descending_Tapped" />
                     </Grid.GestureRecognizers>
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsDescending}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -664,17 +664,17 @@
                     Margin="3"
                     Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.View}, Path=Value}"
                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
-                <Grid
-                    ColumnDefinitions="15,*"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <Grid ColumnDefinitions="15,*">
+                    <Grid.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </Grid.Behaviors>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding CardViewCommand}" />
                     </Grid.GestureRecognizers>
                     <Label
                         Grid.Column="0"
                         Margin="0,3"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsCardView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -684,18 +684,17 @@
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.Card}, Path=Value}"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                 </Grid>
-                <Grid
-                    Margin="0,2"
-                    ColumnDefinitions="15,*"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <Grid Margin="0,2" ColumnDefinitions="15,*">
+                    <Grid.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </Grid.Behaviors>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ListViewCommand}" />
                     </Grid.GestureRecognizers>
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsListView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -705,18 +704,17 @@
                         Text="{Binding Source={ext:LanguageExtension Key=POS.Common.lbl.List}, Path=Value}"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                 </Grid>
-                <Grid
-                    Margin="0,2"
-                    ColumnDefinitions="15,*"
-                    TouchEffect.PressedOpacity="0.4"
-                    TouchEffect.PressedScale="0.9">
+                <Grid Margin="0,2" ColumnDefinitions="15,*">
+                    <Grid.Behaviors>
+                        <toolkit:TouchBehavior PressedOpacity="0.4" PressedScale="0.9" />
+                    </Grid.Behaviors>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GridViewCommand}" />
                     </Grid.GestureRecognizers>
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsGridView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />

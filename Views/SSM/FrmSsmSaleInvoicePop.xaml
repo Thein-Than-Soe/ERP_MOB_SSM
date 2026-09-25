@@ -262,32 +262,82 @@
                     HorizontalOptions="Center"
                     Spacing="15">
 
-                    <Button
-                        Padding="12,5"
+                    <Frame
+                        x:Name="OKButton"
+                        Padding="10"
                         BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                        Clicked="CancelButton_Clicked"
-                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                        FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                        HorizontalOptions="FillAndExpand"
-                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Cancel}, Path=Value}"
-                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                        WidthRequest="130" />
+                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
 
-                    <Button
-                        Padding="12,5"
+                        <!--  Tap Gesture  -->
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OkButton_Clicked" />
+                        </Frame.GestureRecognizers>
+
+
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                Text="&#xf00c;"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+
+                            <!--  Text  -->
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="Center"
+                                Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.OK}, Path=Value}"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        x:Name="CancelButton"
+                        Padding="10"
                         BackgroundColor="{Binding ThemeSettingButton.PropertiesBgColor, Source={Static Member=general:Common.mCommon}}"
-                        Clicked="OkButton_Clicked"
-                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}"
-                        FontAttributes="Bold"
-                        FontFamily="{Binding ThemeSettingButton.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                        FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                        HorizontalOptions="FillAndExpand"
-                        Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.OK}, Path=Value}"
-                        TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
-                        WidthRequest="130" />
+                        CornerRadius="{Binding ThemeSettingButton.BorderRadius, Source={Static Member=general:Common.mCommon}}">
 
+                        <!--  Tap Gesture  -->
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="CancelButton_Clicked" />
+                        </Frame.GestureRecognizers>
+
+
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                Text="&#xf00c;"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+
+                            <!--  Text  -->
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingButton.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                HorizontalOptions="Center"
+                                Text="{Binding Source={ext:LanguageExtension Key=POS.Common.btnName.Cancel}, Path=Value}"
+                                TextColor="{Binding ThemeSettingButton.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Frame>
                 </HorizontalStackLayout>
 
             </Grid>

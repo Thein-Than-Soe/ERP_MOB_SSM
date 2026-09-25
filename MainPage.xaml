@@ -253,15 +253,27 @@
                                 VerticalOptions="Center" />
                         </Frame>
                         <StackLayout IsVisible="{Binding RegionSettingBannerProfile.RegionVisibilityAsk, Converter={StaticResource StringToBoolConverter}, Source={x:Static general:Common.mCommon}}" VerticalOptions="Center">
-                            <Frame Padding="0" CornerRadius="40">
+
+                            <Frame
+                                Padding="0"
+                                CornerRadius="15"
+                                HasShadow="False"
+                                HeightRequest="30"
+                                IsClippedToBounds="True"
+                                WidthRequest="30">
+
                                 <Image
+                                    Aspect="AspectFill"
                                     HeightRequest="30"
+                                    HorizontalOptions="Fill"
                                     Source="{Binding User.ProfilePicture, Source={x:Static general:Common.mCommon}}"
-                                    VerticalOptions="Center"
+                                    VerticalOptions="Fill"
                                     WidthRequest="30">
+
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding UserProfileCommand}" NumberOfTapsRequired="1" />
                                     </Image.GestureRecognizers>
+
                                 </Image>
                             </Frame>
                         </StackLayout>

@@ -45,6 +45,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Image
+                                Aspect="AspectFill"
                                 HeightRequest="40"
                                 HorizontalOptions="Start"
                                 Source="{Binding SelectedProduct.logoImg}"
@@ -197,6 +198,7 @@
                                                     VerticalOptions="Center">
                                                     <Image
                                                         Margin="0"
+                                                        Aspect="AspectFill"
                                                         HeightRequest="50"
                                                         HorizontalOptions="Start"
                                                         Source="{Binding logoImg}"

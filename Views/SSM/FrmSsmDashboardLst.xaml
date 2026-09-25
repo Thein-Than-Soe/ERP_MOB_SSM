@@ -185,7 +185,7 @@
                 <!--  Today task Cards  -->
 
                 <Border
-                    Margin="0,10"
+                    Margin="0,10,0,0"
                     Padding="10"
                     BackgroundColor="White"
                     Stroke="#E5E7EB"

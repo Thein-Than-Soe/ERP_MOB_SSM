@@ -582,7 +582,7 @@
                                 <Label
                                     Grid.Column="0"
                                     Margin="0,3"
-                                    FontFamily="FontAwesomeSolid"
+                                    FontFamily="{StaticResource FontAwesomeSolid}"
                                     IsVisible="{Binding ShowIcon}"
                                     Text="&#xf00c;"
                                     TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -611,7 +611,7 @@
                     <Label
                         Grid.Column="0"
                         Margin="0,3"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsAscending}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -632,7 +632,7 @@
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsDescending}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -662,7 +662,7 @@
                     <Label
                         Grid.Column="0"
                         Margin="0,3"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsCardView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -683,7 +683,7 @@
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsListView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
@@ -704,7 +704,7 @@
                     <Label
                         Grid.Column="0"
                         Margin="0"
-                        FontFamily="FontAwesomeSolid"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
                         IsVisible="{Binding IsGridView}"
                         Text="&#xf00c;"
                         TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />

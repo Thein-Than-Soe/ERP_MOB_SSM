@@ -7,6 +7,9 @@ using Maui.TouchEffect.Hosting;
 using Microsoft.Extensions.Logging;
 using RGPopup.Maui.Extensions;
 using UraniumUI;
+#if IOS
+using Microsoft.Maui.Handlers;
+#endif
 namespace CS.ERP_MOB
 {
     public static class MauiProgram
@@ -45,7 +48,26 @@ namespace CS.ERP_MOB
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            
+
+#if IOS
+EntryHandler.Mapper.AppendToMapping("RemoveiOSBorder", (handler, view) =>
+{
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+});
+DatePickerHandler.Mapper.AppendToMapping("RemoveiOSDatePickerBorder", (handler, view) =>
+{
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+});
+
+TimePickerHandler.Mapper.AppendToMapping("RemoveiOSTimePickerBorder", (handler, view) =>
+{
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+});
+PickerHandler.Mapper.AppendToMapping("RemoveiOSPickerBorder", (handler, view) =>
+{
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+});
+#endif           
             //return builder.Build();
             MauiApp mauiApp = builder.Build();
 

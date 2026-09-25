@@ -25,8 +25,14 @@
                     <VerticalStackLayout Spacing="14">
 
                         <!--  Item Name  -->
-                        <VerticalStackLayout Spacing="5">
+                        <Border
+                            Padding="5,0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
 
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
                             <Picker
                                 Title="Select item"
                                 FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
@@ -36,11 +42,17 @@
                                 SelectedItem="{Binding SelectedStock, Mode=TwoWay}"
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
-                        </VerticalStackLayout>
+                        </Border>
 
                         <!--  Item Number  -->
-                        <VerticalStackLayout Spacing="5">
+                        <Border
+                            Padding="5,0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
 
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
 
                             <Picker
                                 Title="Select item number"
@@ -52,7 +64,7 @@
                                 TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
 
 
-                        </VerticalStackLayout>
+                        </Border>
 
                         <!--  =================================================  -->
                         <!--  ITEM INFORMATION  -->
@@ -337,15 +349,24 @@
                             TextColor="{Binding ThemeSettingHeader.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
                         <!--  Person  -->
 
-                        <Picker
-                            Title="Assign Person"
-                            FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
-                            FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
-                            ItemDisplayBinding="{Binding UserName_0_255}"
-                            ItemsSource="{Binding AvailableUserList}"
-                            SelectedItem="{Binding AssignedUser}"
-                            TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+                        <Border
+                            Padding="5,0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="1">
 
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+                            <Picker
+                                Title="Assign Person"
+                                FontFamily="{Binding ThemeSettingContent.PropertiesFontName_0_255, Source={Static Member=general:Common.mCommon}}"
+                                FontSize="{Binding ThemeSettingContent.PropertiesFontSize, Source={Static Member=general:Common.mCommon}}"
+                                ItemDisplayBinding="{Binding UserName_0_255}"
+                                ItemsSource="{Binding AvailableUserList}"
+                                SelectedItem="{Binding AssignedUser}"
+                                TextColor="{Binding ThemeSettingContent.PropertiesFontColor, Source={Static Member=general:Common.mCommon}}" />
+
+                        </Border>
                     </VerticalStackLayout>
 
                 </Frame>
