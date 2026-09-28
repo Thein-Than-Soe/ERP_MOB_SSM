@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <ContentView
-    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmBookNowLst"
+    x:Class="CS.ERP_MOB.Views.SSM.FrmSsmBookNowSet"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:CS.ERP_MOB.Views.Frame"
@@ -210,7 +210,7 @@
                             TextColor="Gray" />
 
                         <!--  Single Service Card  -->
-                        <!--  File: Views/SSM/FrmSsmBookNowLst.xaml  -->
+                        <!--  File: Views/SSM/FrmSsmBookNowSet.xaml  -->
 
                         <!--  Single Service Card  -->
                         <VerticalStackLayout

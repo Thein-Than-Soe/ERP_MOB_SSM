@@ -11,7 +11,7 @@ using CS.ERP_MOB.ViewsModel.SSM;
 using RGPopup.Maui.Extensions;
 using System.Globalization;
 
-public partial class FrmSsmBookNowLst : ContentView
+public partial class FrmSsmBookNowSet : ContentView
 {
     private readonly VmlSsmBookNow vm;
     private bool _isFromFrontDesk;
@@ -22,7 +22,7 @@ public partial class FrmSsmBookNowLst : ContentView
     private bool _isLoaded;
 
     #region "Constructor"
-    public FrmSsmBookNowLst()
+    public FrmSsmBookNowSet()
     {
         try
         {
@@ -36,19 +36,19 @@ public partial class FrmSsmBookNowLst : ContentView
 
             BindingContext = vm;
 
-            Loaded += FrmSsmBookNowLst_Loaded;
+            Loaded += FrmSsmBookNowSet_Loaded;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(
-                $"FrmSsmBookNowLst ERROR: {ex}");
+                $"FrmSsmBookNowSet ERROR: {ex}");
 
             throw;
         }
     }
 
     // Constructor when coming from Front Desk
-    public FrmSsmBookNowLst(string arg)
+    public FrmSsmBookNowSet(string arg)
     {
         try
         {
@@ -76,12 +76,12 @@ public partial class FrmSsmBookNowLst : ContentView
 
             BindingContext = vm;
 
-            Loaded += FrmSsmBookNowLst_Loaded;
+            Loaded += FrmSsmBookNowSet_Loaded;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(
-                $"FrmSsmBookNowLst ERROR: {ex}");
+                $"FrmSsmBookNowSet ERROR: {ex}");
 
             throw;
         }
@@ -92,7 +92,7 @@ public partial class FrmSsmBookNowLst : ContentView
     // =========================================================
     // Loaded
     // =========================================================
-    private async void FrmSsmBookNowLst_Loaded(object sender, EventArgs e)
+    private async void FrmSsmBookNowSet_Loaded(object sender, EventArgs e)
     {
         if (_isLoaded)
             return;

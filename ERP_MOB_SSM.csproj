@@ -285,8 +285,8 @@
 	  <Compile Update="Views\SSM\FrmSsmProfile.xaml.cs">
 	    <DependentUpon>FrmSsmProfile.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\SSM\FrmSsmBookNowLst.xaml.cs">
-	    <DependentUpon>FrmSsmBookNowLst.xaml</DependentUpon>
+	  <Compile Update="Views\SSM\FrmSsmBookNowSet.xaml.cs">
+	    <DependentUpon>FrmSsmBookNowSet.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\SSM\FrmSsmScheduleLst.xaml.cs">
 	    <DependentUpon>FrmSsmScheduleLst.xaml</DependentUpon>
@@ -807,7 +807,7 @@
 	  <MauiXaml Update="Views\POS\FrmPosSupplierLst.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SSM\FrmSsmBookNowLst.xaml">
+	  <MauiXaml Update="Views\SSM\FrmSsmBookNowSet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SSM\FrmSsmScheduleLst.xaml">

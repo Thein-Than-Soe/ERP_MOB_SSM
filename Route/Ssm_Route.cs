@@ -47,7 +47,7 @@ namespace CS.ERP_MOB.Route
             //DicRouteList.Add("ssm-invoice-import", typeof(FrmSsmProfile));
 
             DicRouteList.Add("ssm-book-now-lst", typeof(FrmSsmScheduleLst));
-            DicRouteList.Add("ssm-book-now-set", typeof(FrmSsmBookNowLst));
+            DicRouteList.Add("ssm-book-now-set", typeof(FrmSsmBookNowSet));
             //DicRouteList.Add("ssm-book-now-dtl", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-book-now-import", typeof(FrmSsmProfile));
             //DicRouteList.Add("ssm-check-in-out-lst", typeof(FrmSsmProfile));
